@@ -6,7 +6,7 @@ import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.da
 void main() => runApp(
   DevicePreview(
     enabled: !kReleaseMode,
-    builder: (context) => MyApp(), 
+    builder: (context) => SmartCare(), 
   ),
 );
 
