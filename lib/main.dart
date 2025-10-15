@@ -2,7 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_theme.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+// import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
 void main() => runApp(
   DevicePreview(
     enabled: !kReleaseMode,
@@ -21,7 +22,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: LoginScreen(),
+      home: ProfileScreen(),
     );
   }
 }
