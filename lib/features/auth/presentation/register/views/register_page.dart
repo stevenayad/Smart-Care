@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/bottom_widget.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card_content.dart';
-import 'package:smartcare/features/auth/presentation/register/views/widgets/register_cart_painter';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/register_cart_painter.dart';
 import 'package:smartcare/features/auth/presentation/widgets/header.dart';
 
 class RegisterScreen extends StatelessWidget {

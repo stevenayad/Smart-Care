@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/auth/presentation/login/veiws/forgot_password_screen.dart';
 
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_validator.dart';
 import 'package:smartcare/features/auth/presentation/widgets/custom_elevated_button.dart';
@@ -87,7 +88,14 @@ class _LoginCardContentState extends State<LoginCardContent> {
           child: Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordScreen(),
+                  ),
+                );
+              },
               child: Text(
                 'Forgot Password?',
                 style: textTheme.bodyMedium?.copyWith(
