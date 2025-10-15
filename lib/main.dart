@@ -10,8 +10,9 @@ void main() => runApp(
   ),
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+class SmartCare extends StatelessWidget {
+  const SmartCare({super.key});
 
   @override
   Widget build(BuildContext context) {
