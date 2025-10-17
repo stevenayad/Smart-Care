@@ -34,7 +34,6 @@ class AppThemes {
     textTheme: appTextTheme.apply(
       bodyColor: AppColors.darkGrey,
       displayColor: AppColors.darkGrey,
-    
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.white,

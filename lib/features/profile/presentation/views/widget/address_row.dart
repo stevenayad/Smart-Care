@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 class AddressRow extends StatelessWidget {
   const AddressRow({super.key, required this.address});
- final Map<String, dynamic> address;
+  final Map<String, dynamic> address;
   @override
   Widget build(BuildContext context) {
     return Row(

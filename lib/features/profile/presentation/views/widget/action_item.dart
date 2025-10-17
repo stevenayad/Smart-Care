@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ActionItem extends StatelessWidget {
   const ActionItem({
     super.key,
@@ -9,7 +8,7 @@ class ActionItem extends StatelessWidget {
     required this.text,
   });
   final IconData icon;
-  final String number;
+  final int number;
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class ActionItem extends StatelessWidget {
             children: [
               Icon(icon, size: 16, color: Colors.grey),
               const SizedBox(height: 8),
-              Text(number, style: Theme.of(context).textTheme.bodyMedium),
+              Text(number.toString(), style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 8),
               Text(text, style: Theme.of(context).textTheme.bodySmall),
             ],

@@ -7,7 +7,7 @@ class Yourfavourite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CommonSection(
+    return CommonSection(
       isbestseller_favourotiteite: true,
       title: 'Your Favorites',
       items: const [
@@ -16,6 +16,7 @@ class Yourfavourite extends StatelessWidget {
         BestsellerFavouriteitem(),
         BestsellerFavouriteitem(),
       ],
-    );;
+    );
+    ;
   }
 }

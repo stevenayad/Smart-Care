@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
 
 void main() {
@@ -17,7 +16,7 @@ class SmartCare extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen(),
+      home: const ProfileScreen(),
     );
   }
 }

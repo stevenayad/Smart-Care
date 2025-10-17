@@ -26,7 +26,8 @@ class BestsellerFavouriteitem extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
               'https://images.pexels.com/photos/3683079/pexels-photo-3683079.jpeg',
-              height: 100, //need give height , because not take original height  of screen
+              height:
+                  100, //need give height , because not take original height  of screen
               width: double.infinity,
               fit: BoxFit.cover,
             ),
