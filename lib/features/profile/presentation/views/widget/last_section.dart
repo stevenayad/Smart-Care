@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 
 import 'package:smartcare/features/profile/presentation/views/widget/build_navagationtitle.dart';
 
@@ -26,7 +27,12 @@ class LastSection extends StatelessWidget {
             context,
             'Edit Profile',
             Icons.edit,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditProfileScreen()),
+              );
+            },
           ),
           Divider(thickness: 0.5),
           buildNavagationtitle(

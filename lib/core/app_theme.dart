@@ -5,7 +5,7 @@ import 'package:smartcare/core/app_color.dart';
 const TextTheme appTextTheme = TextTheme(
   headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
   titleLarge: TextStyle(
-    fontSize: 20,
+    fontSize: 32,
     fontWeight: FontWeight.w700,
     color: AppColors.darkBackground,
   ),
@@ -30,13 +30,14 @@ class AppThemes {
       error: Color(0xFFB00020),
       onError: AppColors.white,
       brightness: Brightness.light,
+      primaryContainer: AppColors.primaryLightColor,
     ),
     textTheme: appTextTheme.apply(
       bodyColor: AppColors.darkGrey,
       displayColor: AppColors.darkGrey,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.primaryblue,
       foregroundColor: AppColors.darkGrey,
       elevation: 0,
       titleTextStyle: TextStyle(
@@ -45,19 +46,30 @@ class AppThemes {
         fontWeight: FontWeight.bold,
       ),
     ),
+
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.white,
       selectedItemColor: AppColors.primaryblue,
       unselectedItemColor: AppColors.darkGrey,
     ),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        iconColor: WidgetStateProperty.all(AppColors.primaryLightColor),
+      ),
+    ),
+    iconTheme: IconThemeData(
+      color: AppColors.primaryLightColor,
+      size: 24, // optional
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryblue,
+        backgroundColor: AppColors.primaryLightColor,
         foregroundColor: AppColors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
+
     cardTheme: const CardThemeData(
       color: Color(0xFFDEF7E4),
       elevation: 2.0,
