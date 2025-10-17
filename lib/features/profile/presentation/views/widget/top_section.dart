@@ -13,7 +13,10 @@ class TopSection extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(color: AppColors.primaryLightColor),
         child: Column(
-          children: [customappbar(context, 'My Profile', null), UserInfo()],
+          children: [
+            customappbar(context, 'My Profile', null, null),
+            UserInfo(),
+          ],
         ),
       ),
     );

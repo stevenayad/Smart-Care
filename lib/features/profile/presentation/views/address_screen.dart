@@ -10,7 +10,7 @@ class AddressScreen extends StatelessWidget {
     return Scaffold(
       appBar: customappbar(context, 'My Addresses', () {
         Navigator.pop(context);
-      }),
+      }, null),
       body: AddressBody(),
     );
   }

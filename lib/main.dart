@@ -20,9 +20,11 @@ class SmartCare extends StatelessWidget {
     return MaterialApp(
       title: 'smart care',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: AppThemes.lightTheme,
-      home: ProfileScreen(),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const ProfileScreen(),
     );
   }
 }
