@@ -2,15 +2,10 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_theme.dart';
-// import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => SmartCare(), 
-  ),
-);
 
+void main() => runApp(SmartCare());
 
 class SmartCare extends StatelessWidget {
   const SmartCare({super.key});
@@ -20,12 +15,10 @@ class SmartCare extends StatelessWidget {
     return MaterialApp(
       title: 'smart care',
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const ProfileScreen(),
+      home: ProfileScreen(),
     );
   }
 }
-
