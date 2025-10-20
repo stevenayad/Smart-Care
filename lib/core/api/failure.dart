@@ -1,5 +1,3 @@
-
-
 import 'package:dio/dio.dart';
 
 abstract class Failure {
@@ -23,7 +21,9 @@ class servivefailure extends Failure {
         return servivefailure("lk");
       case DioExceptionType.badResponse:
         return servivefailure.badResponse(
-            dioerror.response!.statusCode!, dioerror.response!.data!);
+          dioerror.response!.statusCode!,
+          dioerror.response!.data!,
+        );
       case DioExceptionType.cancel:
         return servivefailure("Request with api server was cancled");
       case DioExceptionType.connectionError:
@@ -39,15 +39,32 @@ class servivefailure extends Failure {
     }
   }
 
-  factory servivefailure.badResponse(int statscode, dynamic Respone) {
+  factory servivefailure.badResponse(int? statscode, dynamic respone) {
+    String errorMessage = "An unknown error occurred.";
+
     if (statscode == 400 || statscode == 401 || statscode == 403) {
-      return servivefailure(Respone['error']['message']);
+      if (respone is Map<String, dynamic>) {
+        if (respone.containsKey('error') && respone['error'] is Map) {
+          if (respone['error'].containsKey('message')) {
+            errorMessage = respone['error']['message'];
+          }
+        } else if (respone.containsKey('message')) {
+          errorMessage = respone['message'];
+        } else if (respone.containsKey('errors')) {
+          if (respone['errors'] is Map) {
+            errorMessage = respone['errors'].values.first.first;
+          } else {
+            errorMessage = "Invalid data provided.";
+          }
+        }
+      }
+      return servivefailure(errorMessage);
     } else if (statscode == 404) {
-      return servivefailure("Your request Not found , please try again");
+      return servivefailure("Your request was not found, please try again.");
     } else if (statscode == 500) {
-      return servivefailure("Internal server error ,please try again");
+      return servivefailure("Internal server error, please try again later.");
     } else {
-      return servivefailure("Opps error");
+      return servivefailure("Oops, something went wrong!");
     }
   }
 }
