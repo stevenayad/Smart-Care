@@ -1,11 +1,7 @@
-// file: features/auth/data/repository/auth_repository.dart
-
-import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/auth/data/Model/auth_model.dart';
@@ -15,7 +11,6 @@ class AuthRepository {
 
   AuthRepository(this.api);
 
-  // MODIFIED: Return type changed to Either<Failure, LoginResponseModel> for robust error handling.
   Future<Either<Failure, LoginResponseModel>> login(
     String email,
     String password,
@@ -26,22 +21,18 @@ class AuthRepository {
         "password": password,
       }, false);
 
-      // Check if the API consumer returned a failure object
       if (data is Failure) {
         return Left(data);
       }
-      // final loginModel = LoginData.fromJson(data);
-      // final tokendecode = JwtDecoder.decode(loginModel.accessToken!);
-      // final id =
-      //     tokendecode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-      // print("-----------------------------------------$id");
+
       return Right(LoginResponseModel.fromJson(data));
+    } on DioError catch (e) {
+      return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure(e.toString()));
     }
   }
 
-  // MODIFIED: Return type changed to Either<Failure, RegisterResponseModel>
   Future<Either<Failure, RegisterResponseModel>> register({
     required String firstName,
     required String lastName,
@@ -100,6 +91,9 @@ class AuthRepository {
       }
 
       return Right(RegisterResponseModel.fromJson(data));
+    } on DioError catch (e) {
+      print("------------------------------------$e");
+      return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure(e.toString()));
     }

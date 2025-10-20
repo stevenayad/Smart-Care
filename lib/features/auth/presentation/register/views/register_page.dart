@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_theme.dart';
-import 'package:smartcare/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/bottom_widget.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card_content.dart';
@@ -20,7 +21,7 @@ class RegisterScreen extends StatelessWidget {
             if (state is RegisterSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Registration Successful!'),
+                  content: Text('Registration Successful! Please log in.'),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -29,7 +30,8 @@ class RegisterScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const LoginScreen()),
                 );
               });
-            } else if (state is AuthFailure) {
+            }
+            else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.errorMessage),
@@ -38,33 +40,37 @@ class RegisterScreen extends StatelessWidget {
               );
             }
           },
-          builder: (context, state) {
-            final isLoading = state is AuthLoading;
+          builder: (context, authState) {
+
+            final isLoading = authState is AuthLoading;
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                vertical: 40.0,
-                horizontal: 20.0,
-              ),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
               child: Column(
                 children: [
                   const Header(),
                   const SizedBox(height: 40),
+
                   LayoutBuilder(
                     builder: (context, constraints) {
+                      double cardWidth = constraints.maxWidth;
+                      double cardHeight = 600.0;
+
                       return SizedBox(
-                        width: constraints.maxWidth,
-                        height: 850.0,
+                        width: cardWidth,
+                        height: cardHeight,
                         child: CustomPaint(
                           painter: RegisterCardPainter(
                             AppThemes.lightTheme.primaryColor,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40.0,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 40.0),
+                            child: BlocProvider(
+                              create: (context) => StepsBloc(),
+                              child: RegisterCardContent(isLoading: isLoading),
                             ),
-
-                            child: RegisterCardContent(isLoading: isLoading),
                           ),
                         ),
                       );

@@ -8,7 +8,7 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
-import 'package:smartcare/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 

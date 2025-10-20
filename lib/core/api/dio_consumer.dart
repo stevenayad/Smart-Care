@@ -23,24 +23,15 @@ class DioConsumer implements ApiConsumer {
     try {
       final response = await dio.get(endpoint, queryParameters: query);
       return response.data;
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return servivefailure.fromDioError(e);
-      } else {
-        return servivefailure(e.toString());
-      }
+    } on DioError catch (e) {
+      throw e;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
   @override
   Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
-    // try {
-    //   final response = await dio.post(
-    //     endpoint,
-    //     data: isFormData ? FormData.fromMap(body!) : body,
-    //   );
-    //   return response.data;
-    // }
     try {
       if (isFormData) {
         dio.options.headers.remove('Content-Type');
@@ -50,12 +41,12 @@ class DioConsumer implements ApiConsumer {
 
       final response = await dio.post(endpoint, data: body);
       return response.data;
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return servivefailure.fromDioError(e);
-      } else {
-        return servivefailure(e.toString());
-      }
+    } on DioError catch (e) {
+      throw e;
+    } catch (e) {
+
+      throw Exception(e.toString());
+      
     }
   }
 
@@ -64,12 +55,10 @@ class DioConsumer implements ApiConsumer {
     try {
       final response = await dio.put(endpoint, data: body);
       return response.data;
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return servivefailure.fromDioError(e);
-      } else {
-        return servivefailure(e.toString());
-      }
+    }on DioError catch (e) {
+      throw e;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -78,12 +67,10 @@ class DioConsumer implements ApiConsumer {
     try {
       final response = await dio.delete(endpoint, data: body);
       return response.data;
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return servivefailure.fromDioError(e);
-      } else {
-        return servivefailure(e.toString());
-      }
+    } on DioError catch (e) {
+      throw e;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }
