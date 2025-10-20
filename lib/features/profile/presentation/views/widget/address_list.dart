@@ -43,7 +43,7 @@ class AddressList extends StatelessWidget {
     return ListView.builder(
       itemCount: addresses.length,
       itemBuilder: (context, index) {
-        return AddressItem(address:addresses[index] ,);
+        return AddressItem(address: addresses[index]);
       },
     );
   }

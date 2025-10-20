@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';
 
 class ImageUser extends StatelessWidget {
   const ImageUser({super.key});
@@ -22,11 +25,20 @@ class ImageUser extends StatelessWidget {
               BoxShadow(blurRadius: 4, spreadRadius: 1, color: Colors.black12),
             ],
           ),
-          child: CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage(
-              'https://randomuser.me/api/portraits/men/32.jpg',
-            ),
+          child: BlocBuilder<Profilecubit, Profilestate>(
+            builder: (context, state) {
+              if (state is ProfileSuccess) {
+                final profile = state.model;
+                return CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(
+                    profile.data?.profileImageUrl ?? '',
+                  ),
+                );
+              } else {
+                return Text('');
+              }
+            },
           ),
         ),
 

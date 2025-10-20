@@ -8,9 +8,9 @@ class AppColors {
   static const Color secondaryDarkColor = Color(0xff0F1419);
 
   static const Color appBarBottomNav = Color(0xFFFEFEFE);
-  static const Color secondaryLightColor  = Color(0xFFFEFEFE);
-  static const Color  primaryLightColor = Color(0xff145D9F);
-  static const Color  primaryDarkColor = Color(0xff1A202C);
+  static const Color secondaryLightColor = Color(0xFFFEFEFE);
+  static const Color primaryLightColor = Color(0xff145D9F);
+  static const Color primaryDarkColor = Color(0xff1A202C);
 
   // Greyscale/Neutral Colors for Light Mode
   static const Color white = Color(0xFFFFFFFF);

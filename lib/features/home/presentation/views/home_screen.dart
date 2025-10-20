@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:smartcare/features/home/presentation/views/widget/home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,8 +7,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: HomeBody(),
-    );
+    return Scaffold(body: HomeBody());
   }
 }

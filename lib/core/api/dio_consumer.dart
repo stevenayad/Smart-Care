@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:smartcare/core/api/failure.dart';
+import 'package:smartcare/core/faluire.dart';
 
 import 'api_consumer.dart';
 
@@ -9,17 +9,20 @@ class DioConsumer implements ApiConsumer {
 
   DioConsumer(this.dio) {
     dio.options
-      ..baseUrl = 'https://smartcarepharmacy.tryasp.net'
+      ..baseUrl = 'https://smartcarepharmacy.tryasp.net/api/'
       ..connectTimeout = const Duration(seconds: 15)
-      ..receiveTimeout = const Duration(seconds: 20)
+      ..receiveTimeout = const Duration(seconds: 15)
       ..headers = {
-        // 'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2YWVkMmMyLWFmNWMtNDBhZi1iYjlkLTdiZDM2NmY0ODA0MyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN0ZXZlbmF5YWQ5QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTb3N0YSIsImV4cCI6MTc2MDc1NzAzNCwiaXNzIjoiU21hcnRDYXJlIEFQSSBTZXJ2aWNlIiwiYXVkIjoiRmx1dHRlciBNb2JpbGUgQXBwbGljYXRpb24ifQ.hoDLexB18aaNN6uz3vPTyv7c248TWAV-yuPMMMRae7Y',
       };
   }
 
-  @override
-  Future<dynamic> get(String endpoint, Map<String, dynamic>? query) async {
+  Future<Either<Failure, dynamic>> get(
+    String endpoint,
+    Map<String, dynamic>? query,
+  ) async {
     try {
       final response = await dio.get(endpoint, queryParameters: query);
       return response.data;

@@ -19,6 +19,7 @@ class BestSeller extends StatelessWidget {
     );
   }
 }
+
 //items: bestSellers
-   // .map((medicine) => BestsellerFavouriteitem(medicine: medicine))
-   // .toList(),
+// .map((medicine) => BestsellerFavouriteitem(medicine: medicine))
+// .toList(),
