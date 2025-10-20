@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class GategoryBrandsitem extends StatelessWidget {
-  const GategoryBrandsitem({super.key, required this.image, required this.text});
+  const GategoryBrandsitem({
+    super.key,
+    required this.image,
+    required this.text,
+  });
   final String image;
   final String text;
   @override

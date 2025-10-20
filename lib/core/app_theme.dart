@@ -30,13 +30,14 @@ class AppThemes {
       error: Color(0xFFB00020),
       onError: AppColors.white,
       brightness: Brightness.light,
+      primaryContainer: AppColors.primaryLightColor,
     ),
     textTheme: appTextTheme.apply(
       bodyColor: AppColors.darkGrey,
       displayColor: AppColors.darkGrey,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.primaryblue,
       foregroundColor: AppColors.darkGrey,
       elevation: 0,
       titleTextStyle: TextStyle(
@@ -45,7 +46,7 @@ class AppThemes {
         fontWeight: FontWeight.bold,
       ),
     ),
-    
+
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.white,
       selectedItemColor: AppColors.primaryblue,
@@ -68,6 +69,7 @@ class AppThemes {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
+
     cardTheme: const CardThemeData(
       color: Color(0xFFDEF7E4),
       elevation: 2.0,
