@@ -9,14 +9,18 @@ class DioConsumer implements ApiConsumer {
 
   DioConsumer(this.dio) {
     dio.options
-      ..baseUrl = 'https://smartcarepharmacy.tryasp.net/api/'
+      ..baseUrl = 'https://smartcarepharmacy.tryasp.net'
       ..connectTimeout = const Duration(seconds: 15)
-      ..receiveTimeout = const Duration(seconds: 15)
-      ..headers = {
-        'Accept': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2YWVkMmMyLWFmNWMtNDBhZi1iYjlkLTdiZDM2NmY0ODA0MyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InN0ZXZlbmF5YWQ5QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTb3N0YSIsImV4cCI6MTc2MDc1NzAzNCwiaXNzIjoiU21hcnRDYXJlIEFQSSBTZXJ2aWNlIiwiYXVkIjoiRmx1dHRlciBNb2JpbGUgQXBwbGljYXRpb24ifQ.hoDLexB18aaNN6uz3vPTyv7c248TWAV-yuPMMMRae7Y',
-      };
+      ..receiveTimeout = const Duration(seconds: 60)
+      ..headers = {'Accept': 'application/json'};
+
+    dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        logPrint: (obj) => print(obj),
+      ),
+    );
   }
 
   Future<Either<Failure, dynamic>> get(
@@ -25,11 +29,11 @@ class DioConsumer implements ApiConsumer {
   ) async {
     try {
       final response = await dio.get(endpoint, queryParameters: query);
-      return Right(response.data);
-    } on DioException catch (e) {
-      return Left(servivefailure.fromDioError(e));
+      return response.data;
+    } on DioError catch (e) {
+      throw e;
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      throw Exception(e.toString());
     }
   }
 
@@ -45,7 +49,7 @@ class DioConsumer implements ApiConsumer {
       final response = await dio.post(endpoint, data: body);
       return response.data;
     } on DioError catch (e) {
-      throw e;
+      rethrow;
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -68,12 +72,10 @@ class DioConsumer implements ApiConsumer {
     try {
       final response = await dio.delete(endpoint, data: body);
       return response.data;
-    } on Exception catch (e) {
-      if (e is DioException) {
-        return servivefailure.fromDioError(e);
-      } else {
-        return servivefailure(e.toString());
-      }
+    } on DioError catch (e) {
+      throw e;
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

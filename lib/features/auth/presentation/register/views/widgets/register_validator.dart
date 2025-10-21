@@ -1,35 +1,70 @@
 class RegisterValidator {
-  static String? validateFields({
-    required String username,
-    required String phone,
+  static String? validateStep1({
+    required String firstName,
+    required String lastName,
     required String email,
+    required String userName,
+    required String phoneNumber,
+  }) {
+    if (firstName.trim().isEmpty) {
+      return 'Please enter your first name';
+    }
+    if (lastName.trim().isEmpty) {
+      return 'Please enter your last name';
+    }
+    if (userName.trim().isEmpty) {
+      return 'Please enter your username';
+    }
+    if (phoneNumber.trim().isEmpty) {
+      return 'Please enter your phone';
+    }
+    if (email.trim().isEmpty) {
+      return 'Please enter your email';
+    }
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  static String? validateStep2({
+    required String birthDate,
+    required int? gender,
     required String password,
     required String confirmPassword,
   }) {
-    username = username.trim();
-    phone = phone.trim();
-    email = email.trim();
-
-    if (username.isEmpty) {
-      return 'Please enter your username';
-    } else if (phone.isEmpty) {
-      return 'Please enter your phone number';
-    } else if (!RegExp(r'^[0-9]{10,15}$').hasMatch(phone)) {
-      return 'Enter a valid phone number';
-    } else if (email.isEmpty) {
-      return 'Please enter your email';
-    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-      return 'Enter a valid email address';
-    } else if (password.isEmpty) {
-      return 'Please enter your password';
-    } else if (password.length < 6) {
+    if (birthDate.isEmpty) {
+      return 'Please select your birth date';
+    }
+    if (gender == null) {
+      return 'Please select your gender';
+    }
+    if (password.isEmpty) {
+      return 'Please enter a password';
+    }
+    if (password.length < 6) {
       return 'Password must be at least 6 characters';
-    } else if (confirmPassword.isEmpty) {
-      return 'Please confirm your password';
-    } else if (password != confirmPassword) {
+    }
+    if (confirmPassword != password) {
       return 'Passwords do not match';
     }
+    return null;
+  }
 
+  static String? validateStep3({
+    required String address,
+    required String addressLabel,
+    required String addressadditionalLabel,
+  }) {
+    if (address.trim().isEmpty) {
+      return 'Please enter your address';
+    }
+    if (addressLabel.trim().isEmpty) {
+      return 'Please enter an address label (e.g., Home)';
+    }
+if (addressadditionalLabel.trim().isEmpty) {
+      return 'Please enter an additional address  near to ain shams usniversity';
+    }
     return null;
   }
 }

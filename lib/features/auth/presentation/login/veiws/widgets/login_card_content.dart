@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/forgot_password_screen.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_validator.dart';
 import 'package:smartcare/features/auth/presentation/widgets/custom_elevated_button.dart';
