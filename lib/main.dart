@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
@@ -17,6 +18,7 @@ void main() async {
 
   await CacheHelper.init();
   final Dio dio = Dio();
+  dio.interceptors.add(InterceptorsConsumer());
   final ApiConsumer apiConsumer = DioConsumer(dio);
 
   final AuthRepository authRepository = AuthRepository(apiConsumer);
@@ -39,7 +41,7 @@ class SmartCare extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
       // home:CacheHelper.getAccessToken() != null
-      //     ? const HomeScreen() 
+      //     ? const HomeScreen()
       //     : const LoginScreen(),
       home: const LoginScreen(),
     );

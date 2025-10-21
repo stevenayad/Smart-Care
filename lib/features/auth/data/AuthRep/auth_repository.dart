@@ -63,6 +63,7 @@ class AuthRepository {
         filename: profileImage.name,
       );
     }
+
     try {
       final formData = FormData.fromMap({
         "FirstName": firstName,
@@ -83,12 +84,15 @@ class AuthRepository {
         "Address.Longitude": addressLongitude,
         "Address.IsPrimary": addressIsPrimary,
       });
-
+      print('📦 Sending form data:');
+      for (var f in formData.fields) {
+        print('${f.key}: ${f.value}');
+      }
       final data = await api.post("/api/auth/sign-up", formData, true);
 
-      if (data is Failure) {
-        return Left(data);
-      }
+      // if (data is Failure) {
+      //   return Left(data);
+      // }
 
       return Right(RegisterResponseModel.fromJson(data));
     } on DioError catch (e) {

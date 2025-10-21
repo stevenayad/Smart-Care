@@ -1,9 +1,10 @@
-
 class RegisterValidator {
   static String? validateStep1({
     required String firstName,
     required String lastName,
     required String email,
+    required String userName,
+    required String phoneNumber,
   }) {
     if (firstName.trim().isEmpty) {
       return 'Please enter your first name';
@@ -11,13 +12,19 @@ class RegisterValidator {
     if (lastName.trim().isEmpty) {
       return 'Please enter your last name';
     }
+    if (userName.trim().isEmpty) {
+      return 'Please enter your username';
+    }
+    if (phoneNumber.trim().isEmpty) {
+      return 'Please enter your phone';
+    }
     if (email.trim().isEmpty) {
       return 'Please enter your email';
     }
     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
       return 'Enter a valid email address';
     }
-    return null; 
+    return null;
   }
 
   static String? validateStep2({
@@ -41,12 +48,13 @@ class RegisterValidator {
     if (confirmPassword != password) {
       return 'Passwords do not match';
     }
-    return null; 
+    return null;
   }
 
   static String? validateStep3({
     required String address,
     required String addressLabel,
+    required String addressadditionalLabel,
   }) {
     if (address.trim().isEmpty) {
       return 'Please enter your address';
@@ -54,6 +62,9 @@ class RegisterValidator {
     if (addressLabel.trim().isEmpty) {
       return 'Please enter an address label (e.g., Home)';
     }
-    return null; 
+if (addressadditionalLabel.trim().isEmpty) {
+      return 'Please enter an additional address  near to ain shams usniversity';
+    }
+    return null;
   }
 }

@@ -11,6 +11,8 @@ class NextStepRequested extends StepsEvent {
   
   final String firstName;
   final String lastName;
+  final String userName;
+  final String phoneNumber;
   final String email;
   final String birthDate;
   final int? gender;
@@ -28,6 +30,8 @@ class NextStepRequested extends StepsEvent {
     required this.password,
     required this.confirmPassword,
     required this.profileImage,
+    required this.userName,
+    required this.phoneNumber
   });
 }
 

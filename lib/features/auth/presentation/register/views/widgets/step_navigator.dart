@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/auth/presentation/widgets/custom_elevated_button.dart';
 
@@ -26,15 +25,19 @@ class StepNavigator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (currentStep > 0)
-          TextButton(onPressed: onBack, child: const Text('Back')),
-        
-        if (currentStep == 0)
-          const Spacer(),
+          // TextButton(onPressed: onBack, child: const Text('Back')),
+          CustomElevatedButton(
+            onPressed: onBack,
+            text: "Back",
+            isFullWidth: false,
+          ),
+
+        if (currentStep == 0) const Spacer(),
 
         isLoading
             ? const CircularProgressIndicator()
             : CustomElevatedButton(
-                isFullWidth: false, 
+                isFullWidth: false,
                 text: currentStep == totalSteps - 1 ? 'Register' : 'Next',
                 onPressed: currentStep == totalSteps - 1 ? onRegister : onNext,
               ),

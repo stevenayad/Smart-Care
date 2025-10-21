@@ -50,6 +50,16 @@ class Step1PersonalInfo extends StatelessWidget {
             validator: (v) => v!.isEmpty ? 'Last name is required' : null,
           ),
           const SizedBox(height: 20),
+
+          CustomTextFormField(
+            controller: usernameController,
+            icon: Icons.account_circle_outlined,
+            label: 'Username',
+            hint: 'Enter your username',
+            validator: (v) => v!.isEmpty ? 'Username is required' : null,
+          ),
+          const SizedBox(height: 20),
+
           CustomTextFormField(
             controller: emailController,
             icon: Icons.mail_outline,
@@ -57,6 +67,15 @@ class Step1PersonalInfo extends StatelessWidget {
             hint: 'Email Address',
             keyboardType: TextInputType.emailAddress,
             validator: (v) => v!.isEmpty ? 'Email is required' : null,
+          ),
+          const SizedBox(height: 20),
+          CustomTextFormField(
+            controller: phoneController,
+            icon: Icons.phone,
+            label: 'phone your phone',
+            hint: 'Enter your phone',
+            keyboardType: TextInputType.number,
+            validator: (v) => v!.isEmpty ? 'your phone is required' : null,
           ),
         ],
       ),

@@ -3,8 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_event.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_validator.dart';
 
-
-
 part 'steps_state.dart';
 
 class StepsBloc extends Bloc<StepsEvent, StepsState> {
@@ -22,6 +20,8 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
           firstName: event.firstName,
           lastName: event.lastName,
           email: event.email,
+          userName: event.userName,
+          phoneNumber: event.phoneNumber,
         );
         if (errorMessage == null && event.profileImage == null) {
           errorMessage = 'Please select a profile image.';
@@ -38,15 +38,16 @@ class StepsBloc extends Bloc<StepsEvent, StepsState> {
     }
 
     if (errorMessage == null) {
-      if (state.currentStep < 2) { 
+      if (state.currentStep < 2) {
         emit(state.copyWith(currentStep: state.currentStep + 1));
       }
-    } else {
-      
-    }
+    } else {}
   }
 
-  void _onPreviousStepRequested(PreviousStepRequested event, Emitter<StepsState> emit) {
+  void _onPreviousStepRequested(
+    PreviousStepRequested event,
+    Emitter<StepsState> emit,
+  ) {
     if (state.currentStep > 0) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
     }

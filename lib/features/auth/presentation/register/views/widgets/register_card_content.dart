@@ -12,6 +12,7 @@ import 'package:smartcare/features/auth/presentation/register/views/widgets/step
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_2_details.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_3_address.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_navigator.dart';
+
 class RegisterCardContent extends StatefulWidget {
   final bool isLoading;
 
@@ -22,7 +23,6 @@ class RegisterCardContent extends StatefulWidget {
 }
 
 class _RegisterCardContentState extends State<RegisterCardContent> {
-  
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -31,13 +31,15 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
   XFile? _profileImage;
 
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
   int? _gender;
 
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _addressLabelController = TextEditingController();
-  final TextEditingController _addressAdditionalInfoController = TextEditingController();
+  final TextEditingController _addressAdditionalInfoController =
+      TextEditingController();
   final TextEditingController _latitudeController = TextEditingController();
   final TextEditingController _longitudeController = TextEditingController();
   bool _isPrimaryAddress = true;
@@ -62,10 +64,11 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     super.dispose();
   }
 
-
   Future<void> _pickImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
     if (pickedFile != null) {
       setState(() {
         _profileImage = pickedFile;
@@ -73,7 +76,6 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     }
   }
 
- 
   void _onNextPressed(int currentStep) {
     String? errorMessage;
     switch (currentStep) {
@@ -82,6 +84,8 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           email: _emailController.text,
+          userName: _usernameController.text,
+          phoneNumber: _phoneController.text,
         );
         if (errorMessage == null && _profileImage == null) {
           errorMessage = 'Please select a profile image.';
@@ -98,23 +102,29 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     }
 
     if (errorMessage != null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(errorMessage),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
-          ));
+        ),
+      );
     } else {
-      context.read<StepsBloc>().add(NextStepRequested(
-            currentStep: currentStep,
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            email: _emailController.text,
-            birthDate: _birthDateController.text,
-            gender: _gender,
-            password: _passwordController.text,
-            confirmPassword: _confirmPasswordController.text,
-            profileImage: _profileImage,
-          ));
+      context.read<StepsBloc>().add(
+        NextStepRequested(
+          currentStep: currentStep,
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          email: _emailController.text,
+          birthDate: _birthDateController.text,
+          gender: _gender,
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+          profileImage: _profileImage,
+          userName: _usernameController.text,
+          phoneNumber: _phoneController.text,
+        ),
+      );
     }
   }
 
@@ -122,33 +132,38 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     final String? errorMessage = RegisterValidator.validateStep3(
       address: _addressController.text,
       addressLabel: _addressLabelController.text,
+      addressadditionalLabel: _addressAdditionalInfoController.text,
     );
 
     if (errorMessage != null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(errorMessage)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessage)));
       return;
     }
 
-    context.read<AuthBloc>().add(RegisterButtonPressed(
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          userName: _usernameController.text,
-          phoneNumber: _phoneController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-          birthDate: _birthDateController.text,
-          gender: _gender!,
-          profileImage: _profileImage!,
-          ///Todo i will be edit it later
-          accountType: 0,
-          address: _addressController.text,
-          addressLabel: _addressLabelController.text,
-          addressAdditionalInfo: _addressAdditionalInfoController.text,
-          addressLatitude: double.tryParse(_latitudeController.text) ?? 0.0,
-          addressLongitude: double.tryParse(_longitudeController.text) ?? 0.0,
-          addressIsPrimary: _isPrimaryAddress,
-        ));
+    context.read<AuthBloc>().add(
+      RegisterButtonPressed(
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        userName: _usernameController.text,
+        phoneNumber: _phoneController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        birthDate: _birthDateController.text,
+        gender: _gender!,
+        profileImage: _profileImage!,
+
+        ///Todo i will be edit it later
+        accountType: 0,
+        address: _addressController.text,
+        addressLabel: _addressLabelController.text,
+        addressAdditionalInfo: _addressAdditionalInfoController.text,
+        addressLatitude: double.tryParse(_latitudeController.text) ?? 30.30,
+        addressLongitude: double.tryParse(_longitudeController.text) ?? 30.30,
+        addressIsPrimary: _isPrimaryAddress,
+      ),
+    );
   }
 
   @override
@@ -170,7 +185,6 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
               margin: const EdgeInsets.only(top: 4, bottom: 20),
             ),
 
-            
             Expanded(
               child: SingleChildScrollView(
                 child: buildCurrentStep(state.currentStep),
@@ -183,18 +197,18 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
                 currentStep: state.currentStep,
                 totalSteps: 3,
                 onNext: () => _onNextPressed(state.currentStep),
-                onBack: () => context.read<StepsBloc>().add(PreviousStepRequested()),
+                onBack: () =>
+                    context.read<StepsBloc>().add(PreviousStepRequested()),
                 onRegister: _onRegister,
-                isLoading: widget.isLoading, 
+                isLoading: widget.isLoading,
               ),
             ),
-            const SizedBox(height: 20), 
+            const SizedBox(height: 20),
           ],
         );
       },
     );
   }
-
 
   Widget buildCurrentStep(int step) {
     switch (step) {
@@ -227,7 +241,9 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
           latitudeController: _latitudeController,
           longitudeController: _longitudeController,
           isPrimaryAddress: _isPrimaryAddress,
-          onPrimaryAddressChanged: (val) => setState(() => _isPrimaryAddress = val!),
+          addressAdditionalInfoController: _addressAdditionalInfoController,
+          onPrimaryAddressChanged: (val) =>
+              setState(() => _isPrimaryAddress = val!),
         );
     }
   }

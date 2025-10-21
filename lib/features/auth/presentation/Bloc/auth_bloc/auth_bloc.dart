@@ -43,7 +43,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final String userId =
             decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
         await CacheHelper.saveUserId(userId);
-        print(userId);
         emit(LoginSuccess(loginResponse));
       } else {
         emit(AuthFailure('Login failed: Token was not provided.'));
