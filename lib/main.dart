@@ -6,6 +6,7 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
+import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
@@ -42,7 +43,7 @@ class SmartCare extends StatelessWidget {
       // home:CacheHelper.getAccessToken() != null
       //     ? const HomeScreen()
       //     : const LoginScreen(),
-      home: const SettingScreen(),
+      home: const FavouritesScreen(),
     );
   }
 }
