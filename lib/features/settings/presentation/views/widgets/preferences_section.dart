@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/settings/presentation/views/widgets/drodown_list.dart';
 import 'package:smartcare/features/settings/presentation/views/widgets/settings_title.dart';
 import 'package:smartcare/features/settings/presentation/views/widgets/setting_section.dart';
 
@@ -46,31 +47,7 @@ class _PreferencesSectionState extends State<PreferencesSection> {
               ),
             ],
           ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedLanguage,
-              icon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: Colors.grey,
-              ),
-              alignment: Alignment.bottomCenter,
-              style: const TextStyle(
-                color: Colors.black87,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-              items: items
-                  .map(
-                    (lang) => DropdownMenuItem(value: lang, child: Text(lang)),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedLanguage = value!;
-                });
-              },
-            ),
-          ),
+          child: LanguageDropdown(),
         ),
       ),
     ]);
