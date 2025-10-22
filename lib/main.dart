@@ -9,6 +9,7 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 
 
 
@@ -42,7 +43,7 @@ class SmartCare extends StatelessWidget {
       // home:CacheHelper.getAccessToken() != null
       //     ? const HomeScreen()
       //     : const LoginScreen(),
-      home: const FavouritesScreen(),
+      home: const Onboardingview(),
     );
   }
 }
