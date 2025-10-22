@@ -1,4 +1,3 @@
-
 part of 'steps_bloc.dart';
 class StepsState extends Equatable {
   final int currentStep;
