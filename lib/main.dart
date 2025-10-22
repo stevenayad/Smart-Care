@@ -1,6 +1,4 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
@@ -11,7 +9,8 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
-import 'package:smartcare/features/home/presentation/views/home_screen.dart';
+import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +42,7 @@ class SmartCare extends StatelessWidget {
       // home:CacheHelper.getAccessToken() != null
       //     ? const HomeScreen()
       //     : const LoginScreen(),
-      home: const LoginScreen(),
+      home: const SettingScreen(),
     );
   }
 }
