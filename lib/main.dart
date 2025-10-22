@@ -9,8 +9,7 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
-import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
+
 
 
 void main() async {
