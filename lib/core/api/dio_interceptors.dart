@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:smartcare/core/api/services/cache_helper.dart';
 
 class InterceptorsConsumer extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Before the request is sent
     print('➡️ REQUEST[${options.method}] => PATH: ${options.path}');
-    
+    final token = CacheHelper.getAccessToken();
     // Example: add headers or tokens
-    options.headers['Authorization'] = 'Bearer your_token_here';
+    options.headers['Authorization'] = 'Bearer $token';
     
     super.onRequest(options, handler);
   }

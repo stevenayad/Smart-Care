@@ -23,7 +23,7 @@ class DioConsumer implements ApiConsumer {
     );
   }
 
-  Future<Either<Failure, dynamic>> get(
+  Future<dynamic> get(
     String endpoint,
     Map<String, dynamic>? query,
   ) async {
