@@ -17,7 +17,6 @@ class EditProfileRequest {
     this.accountType,
   });
 
-
   factory EditProfileRequest.fromJson(Map<String, dynamic> json) {
     return EditProfileRequest(
       firstName: json['firstName'],
@@ -30,7 +29,6 @@ class EditProfileRequest {
     );
   }
 
-  
   Map<String, dynamic> toJson() {
     return {
       'firstName': firstName,

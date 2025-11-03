@@ -40,7 +40,7 @@ class _CategoryButtonState extends State<CategoryButton> {
       text: "Category",
       icon: Icons.category,
       isFullWidth: false,
-      
+
       onPressed: _showCategoryBottomSheet,
     );
   }

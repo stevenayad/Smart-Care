@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 
@@ -20,8 +19,10 @@ class CustomGenderSelector extends StatelessWidget {
         Text(
           'Gender',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha:  0.7),
-              ),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.7),
+          ),
         ),
         const SizedBox(height: 8),
         Row(

@@ -41,9 +41,14 @@ class CategoryBottomSheet extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.blueGrey[300] : Colors.transparent,
+                    color: isSelected
+                        ? Colors.blueGrey[300]
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.grey[300]!),
                   ),
@@ -52,7 +57,9 @@ class CategoryBottomSheet extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       color: isSelected ? Colors.white : Colors.black87,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
                 ),

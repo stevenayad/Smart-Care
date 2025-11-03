@@ -6,28 +6,54 @@ class GategoryBrandsitem extends StatelessWidget {
     required this.image,
     required this.text,
   });
+
   final String image;
   final String text;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12),
-      width: 70,
-      height: 70,
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(width: 0.2),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.15),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min, // ✅ Prevent overflow
         children: [
-          Image.asset(image, fit: BoxFit.contain),
-          const SizedBox(height: 8),
+          Flexible(
+            // ✅ Makes sure image never overflows
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                image,
+                height: 50, // ✅ fixed height instead of stretching
+                width: 50,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error, color: Colors.red),
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
           Text(
             text,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelMedium,
+            maxLines: 3, // ✅ Prevent overflow
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
           ),
         ],
       ),

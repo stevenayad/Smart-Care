@@ -1,18 +1,12 @@
-
 part of 'steps_bloc.dart';
+
 class StepsState extends Equatable {
   final int currentStep;
 
-  const StepsState({
-    this.currentStep = 0,
-  });
+  const StepsState({this.currentStep = 0});
 
-  StepsState copyWith({
-    int? currentStep,
-  }) {
-    return StepsState(
-      currentStep: currentStep ?? this.currentStep,
-    );
+  StepsState copyWith({int? currentStep}) {
+    return StepsState(currentStep: currentStep ?? this.currentStep);
   }
 
   @override
