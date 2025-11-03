@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 
@@ -13,9 +12,9 @@ class FormSectionHeader extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryblue,
-            ),
+          fontWeight: FontWeight.bold,
+          color: AppColors.primaryblue,
+        ),
       ),
     );
   }

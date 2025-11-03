@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 
 class CustomBottomWidget extends StatelessWidget {
-  final String message; 
-  final String actionText; 
+  final String message;
+  final String actionText;
   final VoidCallback onActionTap;
 
   const CustomBottomWidget({
@@ -27,9 +27,7 @@ class CustomBottomWidget extends StatelessWidget {
           Text(
             message,
             style: textTheme.bodyMedium?.copyWith(
-              color: isDark
-                  ? AppColors.darkMediumGrey
-                  : AppColors.mediumGrey,
+              color: isDark ? AppColors.darkMediumGrey : AppColors.mediumGrey,
               fontSize: 15,
               fontWeight: FontWeight.w400,
             ),

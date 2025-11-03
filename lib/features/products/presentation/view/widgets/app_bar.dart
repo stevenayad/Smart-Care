@@ -11,7 +11,6 @@ class AppBarr extends StatelessWidget implements PreferredSizeWidget {
       badgeCount: 3,
       actionIcon: Icons.shopping_cart,
       onAction: () {},
-      
     );
   }
 

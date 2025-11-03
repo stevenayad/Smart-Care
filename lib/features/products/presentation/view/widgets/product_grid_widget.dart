@@ -6,7 +6,6 @@ class ProductGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dummy data (will be replaced by API later)
     final products = List.generate(
       8,
       (index) => {

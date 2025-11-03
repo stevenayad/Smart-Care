@@ -25,13 +25,11 @@ class RegisterScreen extends StatelessWidget {
                   backgroundColor: Colors.green,
                 ),
               );
-              Future.delayed(const Duration(seconds: 1), () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),
-                );
-              });
-            }
-            else if (state is AuthFailure) {
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
+            } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.errorMessage),
@@ -41,12 +39,13 @@ class RegisterScreen extends StatelessWidget {
             }
           },
           builder: (context, authState) {
-
             final isLoading = authState is AuthLoading;
 
             return SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 40.0,
+                horizontal: 20.0,
+              ),
               child: Column(
                 children: [
                   const Header(),
@@ -65,8 +64,9 @@ class RegisterScreen extends StatelessWidget {
                             AppThemes.lightTheme.primaryColor,
                           ),
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 40.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40.0,
+                            ),
                             child: BlocProvider(
                               create: (context) => StepsBloc(),
                               child: RegisterCardContent(isLoading: isLoading),

@@ -4,15 +4,16 @@ class RegisterResponseModel {
   int? statusCode;
   bool? succeeded;
   String? message;
-  Map<String, dynamic>? errorsBag; 
+  Map<String, dynamic>? errorsBag;
   bool? data;
 
-  RegisterResponseModel(
-      {this.statusCode,
-      this.succeeded,
-      this.message,
-      this.errorsBag,
-      this.data});
+  RegisterResponseModel({
+    this.statusCode,
+    this.succeeded,
+    this.message,
+    this.errorsBag,
+    this.data,
+  });
 
   RegisterResponseModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
@@ -31,12 +32,13 @@ class LoginResponseModel {
   Map<String, dynamic>? errorsBag;
   LoginData? data;
 
-  LoginResponseModel(
-      {this.statusCode,
-      this.succeeded,
-      this.message,
-      this.errorsBag,
-      this.data});
+  LoginResponseModel({
+    this.statusCode,
+    this.succeeded,
+    this.message,
+    this.errorsBag,
+    this.data,
+  });
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
@@ -56,18 +58,20 @@ class LoginData {
   String? accessTokenExpiresAt;
   String? refreshTokenExpiresAt;
 
-  LoginData(
-      {this.accessToken,
-      this.refreshToken,
-      this.tokenType,
-      this.accessTokenExpiresAt,
-      this.refreshTokenExpiresAt});
+  LoginData({
+    this.accessToken,
+    this.refreshToken,
+    this.tokenType,
+    this.accessTokenExpiresAt,
+    this.refreshTokenExpiresAt,
+  });
 
   LoginData.fromJson(Map<String, dynamic> json) {
     accessToken = json['accessToken'];
     refreshToken = json['refreshToken'];
     tokenType = json['tokenType'];
     accessTokenExpiresAt = json['accessTokenExpiresAt'];
-    refreshTokenExpiresAt = json['efreshTokenExpiresAt']; // Typo in API doc? Assuming 'refreshTokenExpiresAt'
+    refreshTokenExpiresAt =
+        json['efreshTokenExpiresAt']; // Typo in API doc? Assuming 'refreshTokenExpiresAt'
   }
 }
