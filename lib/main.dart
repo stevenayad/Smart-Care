@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
@@ -5,19 +6,13 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/app_theme.dart';
+import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
-import 'package:smartcare/features/home/data/Repo/home_repo.dart';
-import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
-import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
-import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
-import 'package:dio/io.dart';
-import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/all_company_screen.dart';
-import 'dart:io';
+import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 
-import 'package:smartcare/features/home/presentation/views/home_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +74,10 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: HomeScreen(),
+      // home:CacheHelper.getAccessToken() != null
+      //     ? const HomeScreen()
+      //     : const LoginScreen(),
+      home: const Onboardingview(),
     );
   }
 }
