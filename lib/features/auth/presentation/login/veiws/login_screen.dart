@@ -8,7 +8,8 @@ import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_c
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_card_painter.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/social_icon_button.dart';
 import 'package:smartcare/features/auth/presentation/widgets/header.dart';
-import 'package:smartcare/features/home/presentation/views/home_screen.dart'; 
+import 'package:smartcare/features/home/presentation/views/home_screen.dart';
+import 'package:smartcare/features/products/presentation/view/products_screen.dart'; 
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -27,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               );
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const HomeScreen()),
+                MaterialPageRoute(builder: (_) => const ProductsScreen()),
               );
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
