@@ -31,7 +31,7 @@ class _CategoryButtonState extends State<CategoryButton> {
             selectedCategory: selectedCategory,
             categories: categories,
             onCategorySelected: (categoryName, categoryId) {
-              setState(() => selectedCategory = categoryName);
+              setState(() => selectedCategory = categoryName);// ممكن الغيها كنت بجرب حاجة 
 
               if (categoryId == 'all') {
                 context.read<ProductsBloc>().add(const LoadProducts());
@@ -61,7 +61,8 @@ class _CategoryButtonState extends State<CategoryButton> {
         } else if (state is CategoryLoaded) {
           return ElevatedButton(
             onPressed: () => _openCategorySheet(context, state.categories),
-            child: Text(selectedCategory),
+            // child: Text(selectedCategory),
+            child: Text("Category"),
           );
         } else if (state is CategoryError) {
           return ElevatedButton(

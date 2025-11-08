@@ -31,7 +31,7 @@ class _CompanyButtonState extends State<CompanyButton> {
             selectedCompany: selectedCompany,
             companies: companies,
             onCompanySelected: (companyName, companyId) {
-              setState(() => selectedCompany = companyName);
+              setState(() => selectedCompany = companyName);// ممكن تتلغة كنت بجرب 
 
               if (companyId == 'all') {
                 context.read<ProductsBloc>().add(const LoadProducts());
@@ -61,7 +61,8 @@ class _CompanyButtonState extends State<CompanyButton> {
         } else if (state is CompaniesLoaded) {
           return ElevatedButton(
             onPressed: () => _openCompanySheet(context, state.companies),
-            child: Text(selectedCompany),
+            // child: Text(selectedCompany),
+            child: Text("Company"),
           );
         } else if (state is CompaniesError) {
           return ElevatedButton(
