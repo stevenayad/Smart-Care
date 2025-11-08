@@ -6,10 +6,6 @@ import 'package:smartcare/features/check%20availability/widgets/custom_app_bar.d
 
 class CheckAvailabilityScreen extends StatelessWidget {
    CheckAvailabilityScreen({super.key});
-
-  // Mock data representing the list of stores from the image
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -13,9 +13,20 @@ import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
-import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
-
-
+import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
+import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
+import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
+import 'package:smartcare/features/products/presentation/view/products_screen.dart';
+import 'package:smartcare/features/stores/data/data_sources/store_remote_data_source.dart';
+import 'package:smartcare/features/stores/data/repositories/store_repository_impl.dart';
+import 'package:smartcare/features/stores/domain/repositories/store_repository.dart';
+import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
+import 'package:smartcare/features/products/presentation/bloc/category/category_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/category/category_event.dart';
+import 'package:smartcare/features/products/presentation/bloc/companies/companies_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/companies/companies_event.dart';
+import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,38 +60,67 @@ void main() async {
   final ApiConsumer dioConsumer = DioConsumer(Dio());
 
   final AuthRepository authRepository = AuthRepository(apiConsumer);
+  final StoreRemoteDataSourceImpl storeRemoteDataSource =
+      StoreRemoteDataSourceImpl(apiConsumer);
+  final StoreRepository storeRepository = StoreRepositoryImpl(
+    storeRemoteDataSource,
+  );
   final HomeRepo gategoryrepo = HomeRepo(api: dioConsumer);
-
+      final productsRemote = ProductsRemoteDataSource(apiConsumer);
+  final companiesRemote = CompaniesRemoteDataSource(apiConsumer);
+  final categoryRemote = CategoriesRemoteDataSource(apiConsumer);
+  final repository = ProductsRepositoryImpl(productsRemote, companiesRemote,categoryRemote);
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (context) => AuthBloc(authRepository)),
+        BlocProvider(create: (context) => AuthBloc(authRepository)),
+        RepositoryProvider<StoreRepository>.value(value: storeRepository),
         BlocProvider<CatergoryCubit>(
           create: (context) => CatergoryCubit(gategoryrepo)..fetchGategory(),
         ),
         BlocProvider<CompanyCubit>(
           create: (context) => CompanyCubit(gategoryrepo)..fetchcomapy(),
         ),
+        
       ],
-      child: const SmartCare(),
+      child:  SmartCare(repository: repository,),
     ),
   );
 }
 
 class SmartCare extends StatelessWidget {
-  const SmartCare({super.key});
+  final ProductsRepositoryImpl repository;
+
+  const SmartCare({super.key, required this.repository,
+});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Smart Care',
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: AppThemes.lightTheme,
-      // home:CacheHelper.getAccessToken() != null
-      //     ? const HomeScreen()
-      //     : const LoginScreen(),
-      home: const Onboardingview(),
+    return MultiRepositoryProvider(
+      providers: [
+        BlocProvider(
+            create: (context) => ProductsBloc(repository)..add(const LoadProducts()),
+          ),
+          BlocProvider(
+            create: (context) => CompaniesBloc(repository)..add(LoadCompanies()),
+            
+          ),
+          BlocProvider(create: 
+          (context)=>CategoryBloc(repository)..add(LoadCategories())
+          )
+          
+        
+      ],
+      child: MaterialApp(
+        title: 'smart care',
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.system,
+        theme: AppThemes.lightTheme,
+        // home:CacheHelper.getAccessToken() != null
+        //     ? const HomeScreen()
+        //     : const LoginScreen(),
+        home: const ProductsScreen(),
+      ),
     );
   }
 }

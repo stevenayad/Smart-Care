@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/core/app_color.dart'; // Adjust path
-import 'package:smartcare/features/stores/models/store_model.dart'; // Adjust path
-import 'package:smartcare/features/stores/widgets/info_row.dart'; // Adjust path
-import 'package:smartcare/features/stores/widgets/call_button.dart'; // Import new widget
-import 'package:smartcare/features/stores/widgets/directions_button.dart'; // Import new widget
+import 'package:smartcare/core/app_color.dart';
+import 'package:smartcare/features/stores/presentation/widgets/info_row.dart';
+import 'package:smartcare/features/stores/presentation/widgets/call_button.dart';
+import 'package:smartcare/features/stores/presentation/widgets/directions_button.dart';
 
 class StoreCard extends StatelessWidget {
-  final Store store;
+  final dynamic store;
 
   const StoreCard({Key? key, required this.store}) : super(key: key);
 
@@ -31,7 +30,7 @@ class StoreCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
-                    store.icon,
+                    Icons.local_pharmacy,
                     color: AppColors.primaryblue,
                     size: 28,
                   ),
@@ -53,15 +52,22 @@ class StoreCard extends StatelessWidget {
 
             InfoRow(icon: Icons.location_on_outlined, text: store.address),
             InfoRow(icon: Icons.phone_outlined, text: store.phone),
-            InfoRow(icon: Icons.access_time_outlined, text: store.hours),
 
+            // InfoRow(icon: Icons.access_time_outlined, text: store.hours),
             const SizedBox(height: 8),
 
             Row(
               children: [
-                DirectionsButton(onPressed: () {}),
+                DirectionsButton(
+                  lat: store.latitude,
+                  long: store.longitude,
+                  // onPressed: () {},
+                ),
                 const SizedBox(width: 12),
-                CallButton(onPressed: () {}),
+                CallButton(
+                  phoneNumber: store.phone,
+                  // onPressed: () {}
+                ),
               ],
             ),
           ],
