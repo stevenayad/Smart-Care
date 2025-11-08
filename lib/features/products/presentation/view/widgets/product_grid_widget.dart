@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
-import 'product_item.dart'; // Import the widget above
+import 'package:smartcare/features/products/data/models/product_model.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
 
 class ProductGridWidget extends StatelessWidget {
-  const ProductGridWidget({super.key});
+  final List<ProductModel> products;
+  const ProductGridWidget({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    final products = List.generate(
-      8,
-      (index) => {
-        "image": "assets/image/OIP.webp",
-        "title": "Vitamin C 1000mg",
-        "brand": "HealthCo",
-        "rating": 4.8,
-        "price": 15.99,
-      },
-    );
-
+    if (products.isEmpty) {
+      return const Center(child: Text('No products found.'));
+    }
     return GridView.builder(
       itemCount: products.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.7,
         crossAxisSpacing: 6,
-        mainAxisSpacing: 0.4,
+        mainAxisSpacing: 6,
       ),
       itemBuilder: (context, index) {
         final p = products[index];
         return ProductItem(
-          imageUrl: p["image"] as String,
-          title: p["title"] as String,
-          brand: p["brand"] as String,
-          rating: p["rating"] as double,
-          price: p["price"] as double,
+          imageUrl: p.primaryImageUrl,
+          title: p.nameEn,
+          brand: p.activeIngredients,
+          rating: p.averageRating,
+          price: p.price,
           onAdd: () {},
           onFavorite: () {},
         );
