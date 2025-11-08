@@ -18,7 +18,7 @@ class HomeRepo {
     print('ASSSSSSS');
     try {
       print("FFFFFFFFFFFFffffffff");
-      final response = await api.get("api/categories");
+      final response = await api.get("api/categories",null);
       print("🌐 Response runtimeType: ${response.runtimeType}");
       print("🌐 Response content: $response");
 
@@ -38,7 +38,7 @@ class HomeRepo {
 
   Future<Either<Failure, CompanyModel>> getcomapny() async {
     try {
-      final response = await api.get("api/companies");
+      final response = await api.get("api/companies",null);
 
       final parsedModel = CompanyModel.fromJson(response);
 
@@ -54,7 +54,7 @@ class HomeRepo {
     required String name,
   }) async {
     try {
-      final response = await api.get("api/companies/search?name=${name}");
+      final response = await api.get("api/companies/search?name=${name}",null);
       final parsedModel = SearchModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
@@ -69,7 +69,7 @@ class HomeRepo {
   ) async {
     try {
       final response = await api.get(
-        "api/companies/paginated?pageNumber=$pageNumber&pageSize=100",
+        "api/companies/paginated?pageNumber=$pageNumber&pageSize=100",null
       );
       final parsedModel = PagintedModel.fromJson(response);
       return Right(parsedModel);
