@@ -14,7 +14,11 @@ class ProductsRepositoryImpl implements ProductsRepository {
   final ProductsRemoteDataSource remote;
   final CompaniesRemoteDataSource companiesRemote;
   final CategoriesRemoteDataSource categoriesRemote;
-  ProductsRepositoryImpl(this.remote, this.companiesRemote, this.categoriesRemote);
+  ProductsRepositoryImpl(
+    this.remote,
+    this.companiesRemote,
+    this.categoriesRemote,
+  );
 
   @override
   Future<Either<servivefailure, List<ProductModel>>> getProducts({
@@ -62,7 +66,6 @@ class ProductsRepositoryImpl implements ProductsRepository {
     }
   }
 
-  
   @override
   Future<Either<servivefailure, List<ProductModel>>> searchProductsByName({
     required String name,
@@ -215,35 +218,38 @@ class ProductsRepositoryImpl implements ProductsRepository {
       return Left(servivefailure(e.toString()));
     }
   }
+
   @override
-Future<Either<servivefailure, List<CategoryModel>>> getCategories() async {
-  try {
-    final list = await categoriesRemote.getCategories();
-    final categories = list
-        .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-    return Right(categories);
-  } on DioException catch (dioErr) {
-    return Left(servivefailure.fromDioError(dioErr));
-  } catch (e) {
-    return Left(servivefailure(e.toString()));
+  Future<Either<servivefailure, List<CategoryModel>>> getCategories() async {
+    try {
+      final list = await categoriesRemote.getCategories();
+      final categories = list
+          .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return Right(categories);
+    } on DioException catch (dioErr) {
+      return Left(servivefailure.fromDioError(dioErr));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
   }
-}
-@override
-Future<Either<servivefailure, List<ProductModel>>> getProductsByCategoryId(String categoryId) async {
-  try {
-    final list = await remote.getProductsByCategoryId(categoryId);
 
-    final products = list
-        .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+  @override
+  Future<Either<servivefailure, List<ProductModel>>> getProductsByCategoryId(
+    String categoryId,
+  ) async {
+    try {
+      final list = await remote.getProductsByCategoryId(categoryId);
 
-    return Right(products);
-  } on DioException catch (dioErr) {
-    return Left(servivefailure.fromDioError(dioErr));
-  } catch (e) {
-    return Left(servivefailure(e.toString()));
+      final products = list
+          .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      return Right(products);
+    } on DioException catch (dioErr) {
+      return Left(servivefailure.fromDioError(dioErr));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
   }
-}
-
 }

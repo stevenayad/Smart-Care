@@ -8,13 +8,16 @@ abstract class CompaniesState extends Equatable {
 }
 
 class CompaniesInitial extends CompaniesState {}
+
 class CompaniesLoading extends CompaniesState {}
+
 class CompaniesLoaded extends CompaniesState {
   final List<CompanyModel> companies;
   const CompaniesLoaded(this.companies);
   @override
   List<Object?> get props => [companies];
 }
+
 class CompaniesError extends CompaniesState {
   final String message;
   const CompaniesError(this.message);

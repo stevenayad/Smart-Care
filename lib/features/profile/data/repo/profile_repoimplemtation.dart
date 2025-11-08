@@ -18,7 +18,7 @@ class ProfileRepoimplemtation {
       final userId = rawId?.trim();
       print("✨ Trimmed ID: '$userId' (${userId?.length})");
 
-      final response = await api.get("api/Users/clients/$userId" , null);
+      final response = await api.get("api/Users/clients/$userId", null);
 
       print('Response Type: ${response.runtimeType}');
       print('Response Data: ${response}');

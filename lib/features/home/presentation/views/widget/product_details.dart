@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_price.dart';
 import 'package:smartcare/features/home/presentation/views/widget/rate&review.dart';
 
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+  final DetialsProductModel detialsProductModel;
+  const ProductDetails({super.key, required this.detialsProductModel});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,28 +17,27 @@ class ProductDetails extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Vitamin C 1000mg - 100 Tablets',
-                  style: TextStyle(
+                  detialsProductModel.data?.nameEn ?? " ",
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF333333),
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
             ],
           ),
           const SizedBox(height: 5),
-          const Text(
-            'HealthCo',
-            style: TextStyle(fontSize: 14, color: Color(0xFF78909C)),
+          Text(
+            detialsProductModel.data?.companyName ?? " ",
+            style: const TextStyle(fontSize: 14, color: Color(0xFF78909C)),
           ),
           const SizedBox(height: 10),
-          Ratereview(),
+          Ratereview(detialsProductModel: detialsProductModel),
           const SizedBox(height: 20),
-          ProductPrice(),
+          ProductPrice(detialsProductModel: detialsProductModel),
           const SizedBox(height: 30),
           const Text(
             'Description',
@@ -47,7 +49,7 @@ class ProductDetails extends StatelessWidget {
           ),
           const Divider(height: 20, thickness: 1, color: Color(0xFFE0E0E0)),
           Text(
-            'High-quality Vitamin C supplement to support your immune system and overall health. Each tablet contains 1000mg of pure ascorbic acid for maximum effectiveness.',
+            detialsProductModel.data?.description ?? " ",
             style: TextStyle(
               fontSize: 16,
               height: 1.5,

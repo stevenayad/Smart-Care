@@ -4,14 +4,11 @@ import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_bloc.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_event.dart';
 
-
 class CallButton extends StatelessWidget {
   // final VoidCallback onPressed;
   final String phoneNumber;
 
   const CallButton({Key? key, required this.phoneNumber}) : super(key: key);
-
- 
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class Category extends StatelessWidget {
     return BlocBuilder<CatergoryCubit, GatergoryState>(
       builder: (context, state) {
         if (state is GatergroyLoading) {
-          print("🌀 Loading categories...");
+        
           return CommonSection(
             isbestseller_favourotiteite: false,
             title: "Categories",
@@ -34,7 +34,7 @@ class Category extends StatelessWidget {
           print("❌ Category load failed: ${state.errMessage}");
           return Center(child: Text('Error: ${state.errMessage}'));
         } else if (state is GatergroySucess) {
-          final categories = state.catergoryModel.data ?? [];
+          final categories = state.catergoryModel.data?.items ?? [];
           print("✅ Categories loaded: ${categories.length}");
 
           if (categories.isEmpty) {

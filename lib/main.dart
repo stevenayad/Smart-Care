@@ -13,6 +13,9 @@ import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/home_screen.dart';
+import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
@@ -66,10 +69,14 @@ void main() async {
     storeRemoteDataSource,
   );
   final HomeRepo gategoryrepo = HomeRepo(api: dioConsumer);
-      final productsRemote = ProductsRemoteDataSource(apiConsumer);
+  final productsRemote = ProductsRemoteDataSource(apiConsumer);
   final companiesRemote = CompaniesRemoteDataSource(apiConsumer);
   final categoryRemote = CategoriesRemoteDataSource(apiConsumer);
-  final repository = ProductsRepositoryImpl(productsRemote, companiesRemote,categoryRemote);
+  final repository = ProductsRepositoryImpl(
+    productsRemote,
+    companiesRemote,
+    categoryRemote,
+  );
   runApp(
     MultiBlocProvider(
       providers: [
@@ -81,9 +88,8 @@ void main() async {
         BlocProvider<CompanyCubit>(
           create: (context) => CompanyCubit(gategoryrepo)..fetchcomapy(),
         ),
-        
       ],
-      child:  SmartCare(repository: repository,),
+      child: SmartCare(repository: repository),
     ),
   );
 }
@@ -91,25 +97,22 @@ void main() async {
 class SmartCare extends StatelessWidget {
   final ProductsRepositoryImpl repository;
 
-  const SmartCare({super.key, required this.repository,
-});
+  const SmartCare({super.key, required this.repository});
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         BlocProvider(
-            create: (context) => ProductsBloc(repository)..add(const LoadProducts()),
-          ),
-          BlocProvider(
-            create: (context) => CompaniesBloc(repository)..add(LoadCompanies()),
-            
-          ),
-          BlocProvider(create: 
-          (context)=>CategoryBloc(repository)..add(LoadCategories())
-          )
-          
-        
+          create: (context) =>
+              ProductsBloc(repository)..add(const LoadProducts()),
+        ),
+        BlocProvider(
+          create: (context) => CompaniesBloc(repository)..add(LoadCompanies()),
+        ),
+        BlocProvider(
+          create: (context) => CategoryBloc(repository)..add(LoadCategories()),
+        ),
       ],
       child: MaterialApp(
         title: 'smart care',
@@ -119,7 +122,7 @@ class SmartCare extends StatelessWidget {
         // home:CacheHelper.getAccessToken() != null
         //     ? const HomeScreen()
         //     : const LoginScreen(),
-        home: const ProductsScreen(),
+        home: const Mainscreenview(),
       ),
     );
   }

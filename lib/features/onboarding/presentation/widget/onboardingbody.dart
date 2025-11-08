@@ -21,22 +21,19 @@ class _OnboardingBodyState extends State<OnboardingBody> {
     // 🩺 Updated onboarding data for a medical/healthcare app
     List<Onboardingitem> items = [
       Onboardingitem(
-        image:
-            'https://cdn-icons-png.flaticon.com/512/2950/2950665.png',
+        image: 'https://cdn-icons-png.flaticon.com/512/2950/2950665.png',
         title: 'Personal Health Assistant',
         descrption:
             'Track your vital signs, manage appointments, and stay informed about your health.',
       ),
       Onboardingitem(
-        image:
-            'https://cdn-icons-png.flaticon.com/512/4320/4320342.png', 
+        image: 'https://cdn-icons-png.flaticon.com/512/4320/4320342.png',
         title: 'Consult with Experts',
         descrption:
             'Chat with certified doctors and get instant advice anytime, anywhere.',
       ),
       Onboardingitem(
-        image:
-            'https://cdn-icons-png.flaticon.com/512/2966/2966485.png', 
+        image: 'https://cdn-icons-png.flaticon.com/512/2966/2966485.png',
         title: 'Stay Healthy Every Day',
         descrption:
             'Receive personalized health tips and reminders to maintain a balanced lifestyle.',
@@ -57,7 +54,7 @@ class _OnboardingBodyState extends State<OnboardingBody> {
             return Column(
               children: [
                 const SizedBox(height: 60),
-              
+
                 Image.network(
                   items[index].image,
                   height: MediaQuery.of(context).size.height * 0.4,
@@ -73,9 +70,9 @@ class _OnboardingBodyState extends State<OnboardingBody> {
                   items[index].title,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? Colors.white : Colors.black87,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Padding(
@@ -84,9 +81,8 @@ class _OnboardingBodyState extends State<OnboardingBody> {
                     items[index].descrption,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color:
-                              isDark ? Colors.white70 : Colors.grey.shade700,
-                        ),
+                      color: isDark ? Colors.white70 : Colors.grey.shade700,
+                    ),
                   ),
                 ),
               ],
@@ -94,7 +90,6 @@ class _OnboardingBodyState extends State<OnboardingBody> {
           },
         ),
 
-    
         Positioned(
           left: 0,
           right: 0,
@@ -106,13 +101,12 @@ class _OnboardingBodyState extends State<OnboardingBody> {
           ),
         ),
 
-      
         Rowbutton(
           isDark: isDark,
           currentIndex: currentIndex,
           itemsLength: items.length,
           pageController: pageController,
-          onGetStarted: null, 
+      
         ),
       ],
     );

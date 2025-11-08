@@ -23,6 +23,7 @@ class SearchProducts extends ProductsEvent {
   final String query;
   const SearchProducts(this.query);
 }
+
 class SearchProductsByCompanyName extends ProductsEvent {
   final String companyName;
   const SearchProductsByCompanyName(this.companyName);
@@ -37,6 +38,7 @@ class SearchProductsByDescription extends ProductsEvent {
   final String description;
   const SearchProductsByDescription(this.description);
 }
+
 class LoadProductsByCategoryId extends ProductsEvent {
   final String categoryId;
   const LoadProductsByCategoryId(this.categoryId);
@@ -44,4 +46,3 @@ class LoadProductsByCategoryId extends ProductsEvent {
   @override
   List<Object?> get props => [categoryId];
 }
-

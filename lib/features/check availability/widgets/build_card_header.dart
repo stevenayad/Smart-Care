@@ -19,10 +19,9 @@ class buildCardHeader extends StatelessWidget {
       children: [
         Text(
           store.name,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         Chip(
           label: Text(

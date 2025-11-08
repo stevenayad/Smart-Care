@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
 import 'companies_event.dart';
@@ -10,7 +9,10 @@ class CompaniesBloc extends Bloc<CompaniesEvent, CompaniesState> {
     on<LoadCompanies>(_onLoad);
   }
 
-  Future<void> _onLoad(LoadCompanies event, Emitter<CompaniesState> emit) async {
+  Future<void> _onLoad(
+    LoadCompanies event,
+    Emitter<CompaniesState> emit,
+  ) async {
     emit(CompaniesLoading());
     final res = await repository.getCompanies();
     res.fold(

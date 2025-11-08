@@ -13,6 +13,7 @@ class GategoryBrandsitem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 80,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -27,26 +28,23 @@ class GategoryBrandsitem extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min, // ✅ Prevent overflow
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            // ✅ Makes sure image never overflows
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                image,
-                height: 50, // ✅ fixed height instead of stretching
-                width: 50,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.error, color: Colors.red),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              image,
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.error, color: Colors.red),
             ),
           ),
           const SizedBox(height: 6),
           Text(
             text,
-            maxLines: 3, // ✅ Prevent overflow
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: const TextStyle(

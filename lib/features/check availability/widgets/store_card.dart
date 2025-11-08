@@ -5,7 +5,6 @@ import 'package:smartcare/features/check%20availability/widgets/build_card_heade
 import 'package:smartcare/features/check%20availability/widgets/build_stock_status.dart';
 import 'package:smartcare/features/check%20availability/widgets/info_line.dart';
 
-
 class StoreCard extends StatelessWidget {
   final Store store;
 
@@ -38,5 +37,4 @@ class StoreCard extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/details_screen.dart';
 import 'package:smartcare/features/products/data/models/product_model.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
 
@@ -23,14 +25,24 @@ class ProductGridWidget extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final p = products[index];
-        return ProductItem(
-          imageUrl: p.primaryImageUrl,
-          title: p.nameEn,
-          brand: p.activeIngredients,
-          rating: p.averageRating,
-          price: p.price,
-          onAdd: () {},
-          onFavorite: () {},
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DetailsScreen(Productid: p.productId),
+              ),
+            );
+          },
+          child: ProductItem(
+            imageUrl: p.primaryImageUrl,
+            title: p.nameEn,
+            brand: p.activeIngredients,
+            rating: p.averageRating,
+            price: p.price,
+            onAdd: () {},
+            onFavorite: () {},
+          ),
         );
       },
     );
