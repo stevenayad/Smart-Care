@@ -5,11 +5,7 @@ class InfoLine extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const InfoLine({
-    super.key,
-    required this.icon,
-    required this.text,
-  });
+  const InfoLine({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +18,9 @@ class InfoLine extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.darkGrey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.darkGrey),
             ),
           ),
         ],

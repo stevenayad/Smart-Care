@@ -1,12 +1,12 @@
-class SearchDatum {
+class Item {
   String? id;
   String? name;
   int? productsCount;
   String? logoUrl;
 
-  SearchDatum({this.id, this.name, this.productsCount, this.logoUrl});
+  Item({this.id, this.name, this.productsCount, this.logoUrl});
 
-  factory SearchDatum.fromJson(Map<String, dynamic> json) => SearchDatum(
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json['id'] as String?,
     name: json['name'] as String?,
     productsCount: json['productsCount'] as int?,

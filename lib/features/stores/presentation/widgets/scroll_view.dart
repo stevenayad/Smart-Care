@@ -9,7 +9,7 @@ class scroll_view extends StatelessWidget {
   const scroll_view({super.key, required this.textTheme, required this.stores});
 
   final TextTheme textTheme;
-final List<StoreEntity> stores;
+  final List<StoreEntity> stores;
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(

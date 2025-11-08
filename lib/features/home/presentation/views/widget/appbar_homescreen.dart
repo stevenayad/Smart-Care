@@ -17,20 +17,26 @@ class AppbarHomescreen extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/image/medical-report.png',
-                  width: 20,
-                  height: 20,
+                  width: 40,
+                  height: 40,
                 ),
                 const SizedBox(width: 4),
                 Text(
                   'Smart Care',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(fontSize: 24),
                 ),
               ],
             ),
             Stack(
               children: [
                 IconButton(
-                  icon: Icon(Icons.shopping_cart, size: 25),
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.black,
+                    size: 25,
+                  ),
                   onPressed: () {},
                 ),
                 Positioned(

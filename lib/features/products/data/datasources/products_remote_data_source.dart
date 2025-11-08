@@ -62,7 +62,11 @@ class ProductsRemoteDataSource {
     int pageNumber = 1,
     int pageSize = 10,
   }) async {
-    final query = {'NameEn': name, 'pageNumber': pageNumber, 'pageSize': pageSize};
+    final query = {
+      'NameEn': name,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
     final res = await consumer.get('/api/Products/Name', query);
     return _safeMap(res);
   }

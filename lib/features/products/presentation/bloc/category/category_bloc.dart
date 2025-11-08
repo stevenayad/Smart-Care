@@ -10,7 +10,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _onLoadCategories(
-      LoadCategories event, Emitter<CategoryState> emit) async {
+    LoadCategories event,
+    Emitter<CategoryState> emit,
+  ) async {
     emit(CategoryLoading());
     final res = await repository.getCategories();
     res.fold(

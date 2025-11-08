@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
+import 'package:smartcare/features/home/data/Model/category_paginted_model/category_paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/catergory_model/catergory_model.dart';
 import 'package:smartcare/features/home/data/Model/company_model/company_model.dart';
 import 'package:smartcare/features/home/data/Model/paginted_model/paginted_model.dart';
@@ -14,16 +15,18 @@ class HomeRepo {
 
   HomeRepo({required this.api});
 
-  Future<Either<Failure, CatergoryModel>> getGategory() async {
+  Future<Either<Failure, CategoryPagintedModel>> getGategory() async {
     print('ASSSSSSS');
     try {
       print("FFFFFFFFFFFFffffffff");
-      final response = await api.get("api/categories",null);
+      final response = await api.get(
+        "api/categories/paginated?pageNumber=1&pageSize=10",
+        null,
+      );
       print("🌐 Response runtimeType: ${response.runtimeType}");
       print("🌐 Response content: $response");
 
-      // ✅ Fix: parse the actual response data
-      final parsedModel = CatergoryModel.fromJson(response);
+      final parsedModel = CategoryPagintedModel.fromJson(response);
 
       print("✅ Parsed model successfully!");
       return Right(parsedModel);
@@ -36,11 +39,14 @@ class HomeRepo {
     }
   }
 
-  Future<Either<Failure, CompanyModel>> getcomapny() async {
+  Future<Either<Failure, PagintedModel>> getcomapny() async {
     try {
-      final response = await api.get("api/companies",null);
+      final response = await api.get(
+        "api/companies/paginated?pageNumber=1&pageSize=10",
+        null,
+      );
 
-      final parsedModel = CompanyModel.fromJson(response);
+      final parsedModel = PagintedModel.fromJson(response);
 
       return Right(parsedModel);
     } on DioException catch (e) {
@@ -54,7 +60,7 @@ class HomeRepo {
     required String name,
   }) async {
     try {
-      final response = await api.get("api/companies/search?name=${name}",null);
+      final response = await api.get("api/companies/search?name=${name}", null);
       final parsedModel = SearchModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
@@ -69,7 +75,8 @@ class HomeRepo {
   ) async {
     try {
       final response = await api.get(
-        "api/companies/paginated?pageNumber=$pageNumber&pageSize=100",null
+        "api/companies/paginated?pageNumber=$pageNumber&pageSize=100",
+        null,
       );
       final parsedModel = PagintedModel.fromJson(response);
       return Right(parsedModel);

@@ -10,7 +10,7 @@ sealed class CompanyState extends Equatable {
 class CompanyInitial extends CompanyState {}
 
 class CompanySuccess extends CompanyState {
-  final CompanyModel companyModel;
+  final PagintedModel companyModel;
   CompanySuccess({required this.companyModel});
 }
 

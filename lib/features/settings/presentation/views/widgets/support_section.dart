@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/settings/presentation/views/widgets/setting_section.dart';
 import 'package:smartcare/features/settings/presentation/views/widgets/settings_title.dart';
@@ -15,7 +14,6 @@ class SupportSection extends StatelessWidget {
         subtitle: '',
         trailing: const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
       ),
-  
     ]);
   }
 }

@@ -4,9 +4,7 @@ import 'package:smartcare/features/check%20availability/model/store.dart';
 import 'package:smartcare/features/check%20availability/widgets/store_card.dart';
 
 class BodyCheckAvailablity extends StatelessWidget {
-  const BodyCheckAvailablity({
-    super.key,
-  });
+  const BodyCheckAvailablity({super.key});
 
   @override
   Widget build(BuildContext context) {

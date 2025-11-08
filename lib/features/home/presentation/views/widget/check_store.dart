@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
+import 'package:smartcare/features/check%20availability/check_availability_screen.dart';
 
 class CheckStore extends StatelessWidget {
   const CheckStore({super.key});
@@ -16,7 +17,14 @@ class CheckStore extends StatelessWidget {
             foregroundColor: Colors.black,
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CheckAvailabilityScreen(),
+              ),
+            );
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
