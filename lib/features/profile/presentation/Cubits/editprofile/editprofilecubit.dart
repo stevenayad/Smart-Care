@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/profile/data/Model/input_model/edit_profile_request.dart';
-import 'package:smartcare/features/profile/data/Model/profile_model/profile_model.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilestate.dart';
-import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
 
 class Editprofilecubit extends Cubit<EditProfilestate> {
   Editprofilecubit(this.repo) : super(EditProfileIntial());
@@ -14,9 +12,10 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
   late TextEditingController firstNameController = TextEditingController();
   late TextEditingController lastNameController = TextEditingController();
   late TextEditingController usernameController = TextEditingController();
-  late TextEditingController emailController = TextEditingController();
   late TextEditingController phoneController = TextEditingController();
   late TextEditingController dobController = TextEditingController();
+  int? gender;
+  int? accountType;
 
   Future<void> editprofile(EditProfileRequest editprofrile) async {
     emit(EditProfilloading());
@@ -39,12 +38,11 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
         userName: usernameController.text,
         phoneNumber: phoneController.text,
         birthDate: dobController.text,
-        gender: 0,
-        accountType: 1,
+        gender: gender,
+        accountType: accountType,
       );
 
       editprofile(request);
-  
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -62,7 +60,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
   Future<void> close() {
     firstNameController.dispose();
     lastNameController.dispose();
-    emailController.dispose();
     phoneController.dispose();
     dobController.dispose();
     return super.close();

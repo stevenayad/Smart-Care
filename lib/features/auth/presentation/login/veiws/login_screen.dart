@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_theme.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart'; 
+import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/bottom_widget.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/line_with_or.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_card_content.dart';
@@ -10,6 +10,7 @@ import 'package:smartcare/features/auth/presentation/login/veiws/widgets/social_
 import 'package:smartcare/features/auth/presentation/widgets/header.dart';
 import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 import 'package:smartcare/features/stores/presentation/screens/store_screen.dart'; 
+import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               );
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const StoreScreen()),
+                MaterialPageRoute(builder: (_) => HomeScreen()),
               );
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -43,8 +44,10 @@ class LoginScreen extends StatelessWidget {
             final isLoading = state is AuthLoading;
 
             return SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 40.0,
+                horizontal: 20.0,
+              ),
               child: Column(
                 children: [
                   const Header(),
@@ -62,8 +65,9 @@ class LoginScreen extends StatelessWidget {
                             AppThemes.lightTheme.primaryColor,
                           ),
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 40.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40.0,
+                            ),
                             child: LoginCardContent(isLoading: isLoading),
                           ),
                         ),

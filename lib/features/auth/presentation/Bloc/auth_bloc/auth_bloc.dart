@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:meta/meta.dart';
+import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';

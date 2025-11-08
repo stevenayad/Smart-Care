@@ -12,27 +12,41 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: AppColors.primaryLightColor,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(children: [AppbarHomescreen(), SearchBarWidget()]),
-          ),
-        ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: AppColors.primaryLightColor,
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: const Column(
+                children: [AppbarHomescreen(), SearchBarWidget()],
+              ),
+            ),
 
-        Expanded(
-          child: ListView(
-            children: [
-              Category(),
-              PopularBrand(),
-              BestSeller(),
-              Yourfavourite(),
-            ],
-          ),
+            const SizedBox(height: 10),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 1.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Category(),
+                  SizedBox(height: 20),
+                  PopularBrand(),
+                  SizedBox(height: 10),
+                  BestSeller(),
+                  SizedBox(height: 10),
+                  Yourfavourite(),
+                  SizedBox(height: 30),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

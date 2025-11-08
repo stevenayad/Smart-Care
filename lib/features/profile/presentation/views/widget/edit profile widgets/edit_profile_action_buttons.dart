@@ -30,7 +30,7 @@ class EditProfileActionButtons extends StatelessWidget {
             ),
           );
 
-          // context.read<Profilecubit>().fetchProfiledata();
+          context.read<Profilecubit>().fetchProfiledata();
 
           Navigator.of(
             context,
