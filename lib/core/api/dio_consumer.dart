@@ -138,7 +138,6 @@ class DioConsumer implements ApiConsumer {
         } else {
           dio.options.headers['Content-Type'] = 'application/json';
         }
-
         final response = await dio.post(endpoint, data: body);
         return response.data;
       } on DioError catch (e) {

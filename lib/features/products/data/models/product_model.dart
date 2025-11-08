@@ -35,6 +35,8 @@ class ProductModel extends Equatable {
   final String activeIngredients;
   final DateTime? expirationDate;
   final double discountPercentage;
+  final String companyName;
+  final String mainImageUrl;
 
   const ProductModel({
     required this.productId,
@@ -48,15 +50,21 @@ class ProductModel extends Equatable {
     required this.activeIngredients,
     required this.expirationDate,
     required this.discountPercentage,
+    required this.companyName,
+    required this.mainImageUrl,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    // Parse image list
     var imagesJson = <ProductImageModel>[];
     if (json['images'] is List) {
       imagesJson = (json['images'] as List)
-          .map((e) => ProductImageModel.fromJson(e as Map<String, dynamic>))
+          .where((e) => e != null)
+          .map((e) => ProductImageModel.fromJson(Map<String, dynamic>.from(e)))
           .toList();
     }
+
+    // Parse expiration date safely
     DateTime? exp;
     if (json['expirationDate'] != null) {
       try {
@@ -65,23 +73,44 @@ class ProductModel extends Equatable {
         exp = null;
       }
     }
+
     return ProductModel(
       productId: json['productId']?.toString() ?? '',
       images: imagesJson,
       nameEn: json['nameEn']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
-      averageRating: (json['averageRating']?.toDouble() ?? 0.0),
-      totalRatings: (json['totalRatings']?.toInt() ?? 0),
-      price: (json['price']?.toDouble() ?? 0.0),
+      averageRating: (json['averageRating'] is num)
+          ? (json['averageRating'] as num).toDouble()
+          : 0.0,
+      totalRatings: (json['totalRatings'] is num)
+          ? (json['totalRatings'] as num).toInt()
+          : 0,
+      price: (json['price'] is num) ? (json['price'] as num).toDouble() : 0.0,
       isAvailable: json['isAvailable'] == true,
       activeIngredients: json['activeIngredients']?.toString() ?? '',
       expirationDate: exp,
-      discountPercentage: (json['discountPercentage']?.toDouble() ?? 0.0),
+      discountPercentage: (json['discountPercentage'] is num)
+          ? (json['discountPercentage'] as num).toDouble()
+          : 0.0,
+      companyName: json['companyName']?.toString() ?? '',
+      mainImageUrl: json['mainImageUrl']?.toString() ?? '',
     );
   }
 
-  String get primaryImageUrl => images.isNotEmpty ? images.first.url : '';
+  /// ✅ Returns a valid image URL (prefers primary image, then mainImageUrl)
+  String get primaryImageUrl {
+    if (images.isNotEmpty && images.first.url.isNotEmpty) {
+      return images.first.url;
+    }
+    return mainImageUrl;
+  }
 
   @override
-  List<Object?> get props => [productId];
+  List<Object?> get props => [
+        productId,
+        nameEn,
+        description,
+        price,
+        mainImageUrl,
+      ];
 }
