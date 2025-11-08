@@ -62,7 +62,7 @@ class RegisterValidator {
     if (addressLabel.trim().isEmpty) {
       return 'Please enter an address label (e.g., Home)';
     }
-if (addressadditionalLabel.trim().isEmpty) {
+    if (addressadditionalLabel.trim().isEmpty) {
       return 'Please enter an additional address  near to ain shams usniversity';
     }
     return null;

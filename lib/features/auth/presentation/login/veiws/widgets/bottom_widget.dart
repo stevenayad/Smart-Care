@@ -8,16 +8,14 @@ class BottomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomBottomWidget(
-                message: "Don't have an account?",
-                actionText: "Sign Up",
-                onActionTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterScreen(),
-                    ),
-                  );
-                },
-              );
+      message: "Don't have an account?",
+      actionText: "Sign Up",
+      onActionTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RegisterScreen()),
+        );
+      },
+    );
   }
 }

@@ -1,5 +1,3 @@
-
-
 part of 'auth_bloc.dart';
 
 @immutable
@@ -25,7 +23,6 @@ class RegisterSuccess extends AuthState {
   final RegisterResponseModel registerData;
   RegisterSuccess(this.registerData);
 }
-
 
 class AuthFailure extends AuthState {
   final String errorMessage;

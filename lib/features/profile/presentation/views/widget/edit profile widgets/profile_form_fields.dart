@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';
+import 'package:smartcare/features/profile/presentation/views/widget/edit%20profile%20widgets/edit_profile_account_type.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/edit%20profile%20widgets/edit_profile_text_field.dart';
+import 'package:smartcare/features/profile/presentation/views/widget/edit%20profile%20widgets/edit_profile_shimmer_loader.dart';
+import 'package:smartcare/features/profile/presentation/views/widget/edit_profile_gender_selection.dart';
 
 class ProfileFormFields extends StatelessWidget {
   const ProfileFormFields({super.key});
@@ -11,109 +14,153 @@ class ProfileFormFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final editprofilecubit = BlocProvider.of<Editprofilecubit>(context);
+
     return BlocBuilder<Profilecubit, Profilestate>(
       builder: (context, state) {
         if (state is ProfileSuccess) {
           final profile = state.model;
+          int? genderValue;
+          int? accountType;
+
+          switch (profile.data?.gender) {
+            case 'NotPreferToSay':
+              genderValue = 0;
+              break;
+            case 'Male':
+              genderValue = 1;
+              break;
+            case 'Female':
+              genderValue = 2;
+              break;
+            default:
+              genderValue = 0;
+          }
+
+          switch (profile.data?.accountType) {
+            case 'SelfUse':
+              accountType = 0;
+              break;
+            case 'FamilyUse':
+              accountType = 1;
+              break;
+            default:
+              accountType = 0;
+          }
+
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            editprofilecubit.firstNameController.text = 'Steven';
-            editprofilecubit.lastNameController.text = 'Ayad';
+            editprofilecubit.firstNameController.text =
+                profile.data?.firstName ?? '';
+            editprofilecubit.lastNameController.text =
+                profile.data?.lastName ?? '';
             editprofilecubit.usernameController.text =
                 profile.data?.userName ?? '';
-            editprofilecubit.emailController.text =
-                profile.data?.email ?? 'No Email';
-            editprofilecubit.phoneController.text = '01204615216';
+            editprofilecubit.phoneController.text =
+                profile.data?.phoneNumber ?? '0';
             editprofilecubit.dobController.text = profile.data?.birthDate ?? '';
+            editprofilecubit.gender = genderValue;
+            editprofilecubit.accountType = accountType;
           });
 
-          return Column(
-            children: [
-              EditProfileTextField(
-                label: 'First Name',
-                controller: editprofilecubit.firstNameController,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'First name required'
-                    : null,
+          return Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            margin: const EdgeInsets.all(16),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Edit Profile",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  EditProfileTextField(
+                    label: 'First Name',
+                    controller: editprofilecubit.firstNameController,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'First name required'
+                        : null,
+                  ),
+                  const SizedBox(height: 15),
+                  EditProfileTextField(
+                    label: 'Last Name',
+                    controller: editprofilecubit.lastNameController,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Last name required'
+                        : null,
+                  ),
+                  const SizedBox(height: 15),
+                  EditProfileTextField(
+                    label: 'User Name',
+                    controller: editprofilecubit.usernameController,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'User name required'
+                        : null,
+                  ),
+                  const SizedBox(height: 15),
+                  EditProfileTextField(
+                    label: 'Phone Number',
+                    controller: editprofilecubit.phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty)
+                        return 'Phone number required';
+                      final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
+                      return phoneRegex.hasMatch(value)
+                          ? null
+                          : 'Enter a valid phone number';
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  EditProfileTextField(
+                    label: 'Date of Birth',
+                    controller: editprofilecubit.dobController,
+                    readOnly: true,
+                    suffixIcon: const Icon(Icons.calendar_today),
+                    onTap: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime(1990, 1, 1),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+                      if (picked != null) {
+                        editprofilecubit.dobController.text =
+                            '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                      }
+                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Date of birth required'
+                        : null,
+                  ),
+                  const SizedBox(height: 10),
+                  const EditProfileGenderSelection(),
+                  const SizedBox(height: 10),
+                  const EditProfileAccountType(),
+                ],
               ),
-              const SizedBox(height: 15),
-              EditProfileTextField(
-                label: 'Last Name',
-                controller: editprofilecubit.lastNameController,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Last name required'
-                    : null,
-              ),
-              const SizedBox(height: 15),
-              EditProfileTextField(
-                label: 'User Name',
-                controller: editprofilecubit.usernameController,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'User name required'
-                    : null,
-              ),
-              const SizedBox(height: 15),
-              EditProfileTextField(
-                label: 'Email Address',
-                controller: editprofilecubit.emailController,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Email required';
-                  final emailRegex = RegExp(
-                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                  );
-                  return emailRegex.hasMatch(value)
-                      ? null
-                      : 'Enter a valid email address';
-                },
-              ),
-              const SizedBox(height: 15),
-              EditProfileTextField(
-                label: 'Phone Number',
-                controller: editprofilecubit.phoneController,
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty)
-                    return 'Phone number required';
-                  final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
-                  return phoneRegex.hasMatch(value)
-                      ? null
-                      : 'Enter a valid phone number';
-                },
-              ),
-              const SizedBox(height: 15),
-              EditProfileTextField(
-                label: 'Date of Birth',
-                controller: editprofilecubit.dobController,
-                readOnly: true,
-                suffixIcon: const Icon(Icons.calendar_today),
-                onTap: () async {
-                  final picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime(1990, 1, 1),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (picked != null) {
-                    editprofilecubit.dobController.text =
-                        '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-                  }
-                },
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Date of birth required'
-                    : null,
-              ),
-            ],
+            ),
           );
         }
+
         if (state is Profilloading) {
-          return const Center(child: CircularProgressIndicator());
+          return const EditProfileShimmerLoader();
         }
 
         if (state is ProfileFailure) {
-          return Center(child: Text('Failed to load Edit profile'));
+          return const Center(
+            child: Text('❌ Failed to load profile. Please try again.'),
+          );
         }
 
-        return const Center(child: CircularProgressIndicator());
+        return const EditProfileShimmerLoader();
       },
     );
   }
