@@ -23,6 +23,7 @@ URL: ${options.uri}
 HEADERS: ${options.headers}
 DATA: ${options.data}
 QUERY: ${options.queryParameters}
+PATH: ${options.path}
 --------------------------------------------
 ''');
 

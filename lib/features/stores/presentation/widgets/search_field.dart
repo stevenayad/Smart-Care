@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_color.dart';
+import 'package:smartcare/features/stores/presentation/bloc/store_bloc.dart';
+import 'package:smartcare/features/stores/presentation/bloc/store_event.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({Key? key}) : super(key: key);
@@ -14,7 +17,11 @@ class SearchField extends StatelessWidget {
           prefixIcon: Icon(Icons.search),
           fillColor: AppColors.white,
           filled: true,
+          
         ),
+         onChanged: (query) {
+          context.read<StoreBloc>().add(SearchStores(query));
+        },
       ),
     );
   }

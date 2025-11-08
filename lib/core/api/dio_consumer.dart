@@ -55,6 +55,10 @@ class DioConsumer implements ApiConsumer {
   Future<dynamic> get(String endpoint) async {
     print("innnnnnnnnnnnnnn");
 
+  Future<dynamic> get(
+    String endpoint,
+    Map<String, dynamic>? query,
+  ) async {
     try {
       print('outttttttttttttttttttttt');
       print("Cache halper ==>>>${CacheHelper.getAccessToken()}");
