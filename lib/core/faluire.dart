@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 abstract class Failure {
@@ -21,7 +23,9 @@ class servivefailure extends Failure {
         return servivefailure("lk");
       case DioExceptionType.badResponse:
         return servivefailure.badResponse(
-            dioerror.response!.statusCode!, dioerror.response!.data!);
+          dioerror.response!.statusCode!,
+          dioerror.response!.data!,
+        );
       case DioExceptionType.cancel:
         return servivefailure("Request with api server was cancled");
       case DioExceptionType.connectionError:
@@ -38,14 +42,36 @@ class servivefailure extends Failure {
   }
 
   factory servivefailure.badResponse(int statscode, dynamic Respone) {
-    if (statscode == 400 || statscode == 401 || statscode == 403) {
-      return servivefailure(Respone['error']['message']);
-    } else if (statscode == 404) {
-      return servivefailure("Your request Not found , please try again");
-    } else if (statscode == 500) {
-      return servivefailure("Internal server error ,please try again");
-    } else {
-      return servivefailure("Opps error");
+    // 1. Check if the response is a raw string
+
+    if (statscode == 401) {
+      if (Respone == null || (Respone is String && Respone.trim().isEmpty)) {
+        // Return a specific message for 401 with an empty body
+        return servivefailure(
+          'Unauthorized: Access Token is invalid or missing. Please log in again.',
+        );
+      }
     }
+
+    if (Respone is String) {
+      try {
+        // Decode the JSON string into a Map
+        Respone = jsonDecode(Respone);
+      } catch (e) {
+        // Return a generic error if the string can't be decoded
+        return servivefailure('Error: Failed to parse server error response.');
+      }
+    }
+
+    // 2. Now, safely access the 'message' key as a Map
+    if (Respone is Map && Respone.containsKey('message')) {
+      // Safely cast the message to String before returning
+      return servivefailure(Respone['message'] as String);
+    }
+
+    // 3. Fallback for any unexpected structure
+    return servivefailure(
+      'Server error with status $statscode and unknown message format.',
+    );
   }
 }

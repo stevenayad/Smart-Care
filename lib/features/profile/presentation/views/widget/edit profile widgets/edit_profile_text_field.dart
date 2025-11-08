@@ -17,7 +17,7 @@ class EditProfileTextField extends StatelessWidget {
     this.readOnly = false,
     this.suffixIcon,
     this.onTap,
-    this.validator, 
+    this.validator,
   });
 
   @override

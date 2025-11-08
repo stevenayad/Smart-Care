@@ -33,7 +33,10 @@ class ActionItem extends StatelessWidget {
             children: [
               Icon(icon, size: 16, color: Colors.grey),
               const SizedBox(height: 8),
-              Text(number.toString(), style: Theme.of(context).textTheme.bodyMedium),
+              Text(
+                number.toString(),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               const SizedBox(height: 8),
               Text(text, style: Theme.of(context).textTheme.bodySmall),
             ],

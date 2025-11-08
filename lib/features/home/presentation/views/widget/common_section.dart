@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/all_company_screen.dart';
 
 class CommonSection extends StatelessWidget {
   final String title;
@@ -36,7 +39,12 @@ class CommonSection extends StatelessWidget {
             children: [
               Text(title, style: titlestyle),
               GestureDetector(
-                onTap: onViewAllTap,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AllCompanyScreen()),
+                  );
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

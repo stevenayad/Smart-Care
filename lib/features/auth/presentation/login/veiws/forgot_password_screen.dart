@@ -41,7 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
 
-    Navigator.pop(context); 
+    Navigator.pop(context);
   }
 
   @override

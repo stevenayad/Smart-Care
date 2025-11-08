@@ -1,14 +1,10 @@
-
-
 import 'package:image_picker/image_picker.dart';
-
 
 abstract class StepsEvent {}
 
-
 class NextStepRequested extends StepsEvent {
   final int currentStep;
-  
+
   final String firstName;
   final String lastName;
   final String userName;
@@ -31,7 +27,7 @@ class NextStepRequested extends StepsEvent {
     required this.confirmPassword,
     required this.profileImage,
     required this.userName,
-    required this.phoneNumber
+    required this.phoneNumber,
   });
 }
 

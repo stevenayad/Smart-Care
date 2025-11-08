@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 
@@ -25,10 +24,7 @@ class CustomCheckboxField extends StatelessWidget {
               onChanged: onChanged,
               activeColor: AppColors.primaryblue,
             ),
-            GestureDetector(
-              onTap: () => onChanged(!value),
-              child: Text(label),
-            ),
+            GestureDetector(onTap: () => onChanged(!value), child: Text(label)),
           ],
         );
       },

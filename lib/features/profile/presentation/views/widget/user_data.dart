@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:smartcare/core/widget/shimer_box.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';
 
@@ -18,8 +20,18 @@ class UserData extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is Profilloading) {
-          return Center(child: CircularProgressIndicator());
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              shimmerBox(height: 16, width: 140),
+              const SizedBox(height: 8),
+              shimmerBox(height: 14, width: 200),
+              const SizedBox(height: 10),
+              shimmerBox(height: 28, width: 100, radius: 20),
+            ],
+          );
         }
+
         if (state is ProfileSuccess) {
           final profile = state.model;
           return Column(
@@ -29,7 +41,6 @@ class UserData extends StatelessWidget {
                 profile.data?.userName ?? 'No Name',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-
               Text(
                 profile.data?.email ?? 'No Email',
                 style: Theme.of(context).textTheme.bodyMedium,
@@ -52,7 +63,7 @@ class UserData extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      profile.data?.accountType ?? 'No Email',
+                      profile.data?.accountType ?? 'No Account Type',
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     const SizedBox(width: 6),
@@ -66,9 +77,9 @@ class UserData extends StatelessWidget {
               ),
             ],
           );
-        } else {
-          return Text('No thing');
         }
+
+        return const Text('No thing');
       },
     );
   }
