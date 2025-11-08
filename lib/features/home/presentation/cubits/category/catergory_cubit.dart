@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:smartcare/features/home/data/Model/category_paginted_model/category_paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/catergory_model/catergory_model.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 
@@ -24,7 +25,7 @@ class CatergoryCubit extends Cubit<GatergoryState> {
           emit(GatergroyFaliure(errMessage: failure.errMessage));
         },
         (model) {
-          print("✅ Success: ${model.data?.length ?? 0} categories");
+          
           emit(GatergroySucess(catergoryModel: model));
         },
       );

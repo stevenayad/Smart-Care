@@ -23,16 +23,18 @@ class ProductsRemoteDataSource {
     final query = {
       'CompanyId': companyId,
       'pageNumber': pageNumber,
-      'pageSize': pageSize
+      'pageSize': pageSize,
     };
     final res = await consumer.get('/api/Products/CompanyId', query);
     return res as Map<String, dynamic>;
   }
-    Future<List<dynamic>> getProductsByCategoryId(String categoryId) async {
-    final response = await consumer.get(
-      '/api/Products/CategoryId',
-      {'CategoryId': categoryId, 'pageNumber': 1, 'pageSize': 10},
-    );
+
+  Future<List<dynamic>> getProductsByCategoryId(String categoryId) async {
+    final response = await consumer.get('/api/Products/CategoryId', {
+      'CategoryId': categoryId,
+      'pageNumber': 1,
+      'pageSize': 10,
+    });
 
     if (response is Map && response.containsKey('data')) {
       final items = response['data']['items'];
@@ -58,40 +60,55 @@ class ProductsRemoteDataSource {
     int pageNumber = 1,
     int pageSize = 10,
   }) async {
-    final query = {'NameEn': name, 'pageNumber': pageNumber, 'pageSize': pageSize};
+    final query = {
+      'NameEn': name,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
     final res = await consumer.get('/api/Products/Name', query);
     return res as Map<String, dynamic>;
   }
 
   // you can add other endpoints similarly: CompanyName, CategoryId, CategoryName, Description ...
   Future<Map<String, dynamic>> getProductsByCompanyName({
-  required String companyName,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  final query = {'CompanyName': companyName, 'pageNumber': pageNumber, 'pageSize': pageSize};
-  final res = await consumer.get('/api/Products/CompanyName', query);
-  return res as Map<String, dynamic>;
-}
+    required String companyName,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    final query = {
+      'CompanyName': companyName,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
+    final res = await consumer.get('/api/Products/CompanyName', query);
+    return res as Map<String, dynamic>;
+  }
 
-Future<Map<String, dynamic>> getProductsByCategoryName({
-  required String categoryName,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  final query = {'CategoryName': categoryName, 'pageNumber': pageNumber, 'pageSize': pageSize};
-  final res = await consumer.get('/api/Products/CategoryName', query);
-  return res as Map<String, dynamic>;
-}
+  Future<Map<String, dynamic>> getProductsByCategoryName({
+    required String categoryName,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    final query = {
+      'CategoryName': categoryName,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
+    final res = await consumer.get('/api/Products/CategoryName', query);
+    return res as Map<String, dynamic>;
+  }
 
-Future<Map<String, dynamic>> getProductsByDescription({
-  required String description,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  final query = {'Description': description, 'pageNumber': pageNumber, 'pageSize': pageSize};
-  final res = await consumer.get('/api/Products/Description', query);
-  return res as Map<String, dynamic>;
-}
-
+  Future<Map<String, dynamic>> getProductsByDescription({
+    required String description,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    final query = {
+      'Description': description,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
+    final res = await consumer.get('/api/Products/Description', query);
+    return res as Map<String, dynamic>;
+  }
 }

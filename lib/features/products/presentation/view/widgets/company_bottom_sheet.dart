@@ -55,7 +55,9 @@ class CompanyBottomSheet extends StatelessWidget {
                     onTap: () => onCompanySelected(c.name, c.id),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
+                        vertical: 12,
+                        horizontal: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? Colors.blueGrey[300]
@@ -74,8 +76,10 @@ class CompanyBottomSheet extends StatelessWidget {
                             const CircleAvatar(
                               radius: 16,
                               backgroundColor: Colors.grey,
-                              child: Icon(Icons.all_inclusive,
-                                  color: Colors.white),
+                              child: Icon(
+                                Icons.all_inclusive,
+                                color: Colors.white,
+                              ),
                             ),
                           const SizedBox(width: 12),
                           Expanded(

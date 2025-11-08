@@ -15,7 +15,8 @@ class StoreScreen extends StatelessWidget {
 
     return Scaffold(
       body: BlocProvider(
-        create: (context) => StoreBloc(context.read<StoreRepository>())..add(FetchStoresEvent()),
+        create: (context) =>
+            StoreBloc(context.read<StoreRepository>())..add(FetchStoresEvent()),
         child: BlocBuilder<StoreBloc, StoreState>(
           builder: (context, state) {
             if (state is StoreLoading) {

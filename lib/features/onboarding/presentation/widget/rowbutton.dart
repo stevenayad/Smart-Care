@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/auth/presentation/register/views/register_page.dart'
+    show RegisterScreen;
 
 class Rowbutton extends StatelessWidget {
   final bool isDark;
   final int currentIndex;
   final int itemsLength;
   final PageController pageController;
-  final VoidCallback? onGetStarted;
+
 
   const Rowbutton({
     super.key,
@@ -13,7 +15,7 @@ class Rowbutton extends StatelessWidget {
     required this.currentIndex,
     required this.itemsLength,
     required this.pageController,
-    this.onGetStarted,
+   
   });
 
   @override
@@ -26,7 +28,12 @@ class Rowbutton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-            onPressed: onGetStarted,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => RegisterScreen()),
+              );
+            },
             child: Text(
               'Skip',
               style: TextStyle(
@@ -45,15 +52,17 @@ class Rowbutton extends StatelessWidget {
                   curve: Curves.easeIn,
                 );
               } else {
-                if (onGetStarted != null) {
-                  onGetStarted!();
+               
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => RegisterScreen()),
+                  );
                 }
-              }
+              
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

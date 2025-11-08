@@ -18,7 +18,7 @@ class AnimationDots extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(itemsLength, (index) {
         return AnimatedContainer(
-          duration: const Duration(milliseconds:700),
+          duration: const Duration(milliseconds: 700),
           margin: const EdgeInsets.symmetric(horizontal: 4),
           height: 8,
           width: currentIndex == index ? 24 : 8,

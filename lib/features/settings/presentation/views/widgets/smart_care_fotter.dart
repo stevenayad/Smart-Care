@@ -17,7 +17,7 @@ class SmartCareFooter extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 3,
-                offset: const Offset(0, 2), 
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -47,13 +47,9 @@ class SmartCareFooter extends StatelessWidget {
         const SizedBox(height: 16.0),
         const Text(
           '© 2025 SmartCare. All rights reserved.',
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.grey,
-          ),
+          style: TextStyle(fontSize: 14.0, color: Colors.grey),
         ),
       ],
     );
   }
 }
-

@@ -15,15 +15,26 @@ class CompanyModel {
     this.data,
   });
 
-  factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(
-    statusCode: json['statusCode'] as int?,
-    succeeded: json['succeeded'] as bool?,
-    message: json['message'] as String?,
-    errorsBag: json['errorsBag'] as dynamic,
-    data: (json['data'] as List<dynamic>?)
-        ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
+  factory CompanyModel.fromJson(Map<String, dynamic> json) {
+    final rawData = json['data'];
+    List<Datum>? datumList;
+
+    if (rawData is List) {
+      datumList = rawData
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } else if (rawData is Map<String, dynamic>) {
+      datumList = [Datum.fromJson(rawData)];
+    }
+
+    return CompanyModel(
+      statusCode: json['statusCode'] as int?,
+      succeeded: json['succeeded'] as bool?,
+      message: json['message'] as String?,
+      errorsBag: json['errorsBag'],
+      data: datumList,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     'statusCode': statusCode,

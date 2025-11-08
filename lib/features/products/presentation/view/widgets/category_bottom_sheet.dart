@@ -4,7 +4,8 @@ import 'package:smartcare/features/products/data/models/category_model.dart';
 class CategoryBottomSheet extends StatelessWidget {
   final String selectedCategory;
   final List<dynamic> categories;
-  final void Function(String categoryName, String categoryId) onCategorySelected;
+  final void Function(String categoryName, String categoryId)
+  onCategorySelected;
 
   const CategoryBottomSheet({
     super.key,
@@ -55,7 +56,9 @@ class CategoryBottomSheet extends StatelessWidget {
                     onTap: () => onCategorySelected(c.name, c.id),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
+                        vertical: 12,
+                        horizontal: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? Colors.blueGrey[300]

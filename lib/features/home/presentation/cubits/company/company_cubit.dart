@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/home/data/Model/company_model/company_model.dart';
+import 'package:smartcare/features/home/data/Model/paginted_model/paginted_model.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 
 part 'company_state.dart';
@@ -25,7 +26,7 @@ class CompanyCubit extends Cubit<CompanyState> {
           emit(Companyfaliure(errMessage: failure.errMessage));
         },
         (model) {
-          print("✅ Success: ${model.data?.length ?? 0} categories");
+          // print("✅ Success: ${model.data?.length ?? 0} categories");
           print(
             '---------------------------------------------------------------------------------------------------------------------------------------------',
           );
@@ -40,6 +41,4 @@ class CompanyCubit extends Cubit<CompanyState> {
       emit(Companyfaliure(errMessage: e.toString()));
     }
   }
-
-  
 }

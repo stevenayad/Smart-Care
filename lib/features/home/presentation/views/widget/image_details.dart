@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
 
 class ImageDetails extends StatelessWidget {
-  const ImageDetails({super.key});
+  final DetialsProductModel detialsProductModel;
+  const ImageDetails({super.key, required this.detialsProductModel});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,8 @@ class ImageDetails extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
         child: Image.network(
-          'https://images.pexels.com/photos/3683079/pexels-photo-3683079.jpeg',
+          detialsProductModel.data?.mainImageUrl ??
+              'https://tse2.mm.bing.net/th/id/OIP.G37tgeQqSNt7v2oPfj9ltQHaE7?cb=ucfimgc2&rs=1&pid=ImgDetMain&o=7&rm=3',
           fit: BoxFit.fill,
         ),
       ),

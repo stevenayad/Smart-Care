@@ -51,14 +51,9 @@ class DioConsumer implements ApiConsumer {
   ),
 );*/
   }
-  @override
-  Future<dynamic> get(String endpoint) async {
-    print("innnnnnnnnnnnnnn");
 
-  Future<dynamic> get(
-    String endpoint,
-    Map<String, dynamic>? query,
-  ) async {
+  @override
+  Future<dynamic> get(String endpoint, Map<String, dynamic>? query) async {
     try {
       print('outttttttttttttttttttttt');
       print("Cache halper ==>>>${CacheHelper.getAccessToken()}");
@@ -94,7 +89,19 @@ class DioConsumer implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
+  Future delete(String endpoint, Map<String, dynamic>? body) async {
+    try {
+      final response = await dio.delete(endpoint, data: body);
+      return response.data;
+    } on DioError catch (e) {
+      throw e;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future post(String endpoint, body, bool isFormData) async {
     try {
       if (isFormData) {
         dio.options.headers.remove('Content-Type');
@@ -112,7 +119,7 @@ class DioConsumer implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
+  Future put(String endpoint, Map<String, dynamic>? body) async {
     try {
       final response = await dio.put(endpoint, data: body);
       return response.data;
@@ -123,15 +130,46 @@ class DioConsumer implements ApiConsumer {
     }
   }
 
-  @override
-  Future<dynamic> delete(String endpoint, Map<String, dynamic>? body) async {
-    try {
-      final response = await dio.delete(endpoint, data: body);
-      return response.data;
-    } on DioError catch (e) {
-      throw e;
-    } catch (e) {
-      throw Exception(e.toString());
+  /* @override
+    Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
+      try {
+        if (isFormData) {
+          dio.options.headers.remove('Content-Type');
+        } else {
+          dio.options.headers['Content-Type'] = 'application/json';
+        }
+
+        final response = await dio.post(endpoint, data: body);
+        return response.data;
+      } on DioError catch (e) {
+        rethrow;
+      } catch (e) {
+        throw Exception(e.toString());
+      }
     }
-  }
+
+    @override
+    Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
+      try {
+        final response = await dio.put(endpoint, data: body);
+        return response.data;
+      } on DioError catch (e) {
+        throw e;
+      } catch (e) {
+        throw Exception(e.toString());
+      }
+    }
+
+    @override
+    Future<dynamic> delete(String endpoint, Map<String, dynamic>? body) async {
+      try {
+        final response = await dio.delete(endpoint, data: body);
+        return response.data;
+      } on DioError catch (e) {
+        throw e;
+      } catch (e) {
+        throw Exception(e.toString());
+      }
+    }
+  }*/
 }

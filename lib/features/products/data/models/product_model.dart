@@ -80,8 +80,7 @@ class ProductModel extends Equatable {
     );
   }
 
-  String get primaryImageUrl =>
-      images.isNotEmpty ? images.first.url : '';
+  String get primaryImageUrl => images.isNotEmpty ? images.first.url : '';
 
   @override
   List<Object?> get props => [productId];

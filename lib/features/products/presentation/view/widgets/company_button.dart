@@ -31,7 +31,9 @@ class _CompanyButtonState extends State<CompanyButton> {
             selectedCompany: selectedCompany,
             companies: companies,
             onCompanySelected: (companyName, companyId) {
-              setState(() => selectedCompany = companyName);// ممكن تتلغة كنت بجرب 
+              setState(
+                () => selectedCompany = companyName,
+              ); // ممكن تتلغة كنت بجرب
 
               if (companyId == 'all') {
                 context.read<ProductsBloc>().add(const LoadProducts());

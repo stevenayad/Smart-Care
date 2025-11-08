@@ -1,4 +1,4 @@
-class SearchDatum  {
+class SearchDatum {
   String? id;
   String? name;
   int? productsCount;

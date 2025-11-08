@@ -12,7 +12,7 @@ class SearchBarWidget extends StatefulWidget {
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   final TextEditingController _ctrl = TextEditingController();
-  String _searchType = 'Name'; 
+  String _searchType = 'Name';
 
   void _onSearch() {
     final q = _ctrl.text.trim();
@@ -35,7 +35,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         bloc.add(SearchProductsByDescription(q));
         break;
       default:
-        bloc.add(SearchProducts(q)); 
+        bloc.add(SearchProducts(q));
     }
   }
 
@@ -54,7 +54,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               DropdownMenuItem(value: 'Name', child: Text('Name')),
               DropdownMenuItem(value: 'Company', child: Text('Company')),
               DropdownMenuItem(value: 'Category', child: Text('Category')),
-              DropdownMenuItem(value: 'Description', child: Text('Description')),
+              DropdownMenuItem(
+                value: 'Description',
+                child: Text('Description'),
+              ),
             ],
             onChanged: (val) => setState(() => _searchType = val!),
           ),

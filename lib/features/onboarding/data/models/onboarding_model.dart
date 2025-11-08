@@ -1,4 +1,3 @@
-
 class Onboardingitem {
   final String image;
   final String title;
