@@ -40,10 +40,8 @@ class PopularBrand extends StatelessWidget {
             ),
           );
         } else if (state is CompanySuccess) {
-          final companies = state.companyModel.data ?? [];
-          if (companies.isEmpty) {
-            return const Center(child: Text("No companies found"));
-          }
+          final companies = state.companyModel.data?.items ?? [];
+
           return CommonSection(
             isbestseller_favourotiteite: false,
             title: "Company",

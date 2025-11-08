@@ -8,6 +8,7 @@ abstract class StoreEvent extends Equatable {
 }
 
 class FetchStoresEvent extends StoreEvent {}
+
 class SearchStores extends StoreEvent {
   final String query;
   SearchStores(this.query);
@@ -15,6 +16,7 @@ class SearchStores extends StoreEvent {
   @override
   List<Object?> get props => [query];
 }
+
 class CallStore extends StoreEvent {
   final String phoneNumber;
   CallStore(this.phoneNumber);

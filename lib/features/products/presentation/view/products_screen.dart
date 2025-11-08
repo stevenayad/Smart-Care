@@ -19,12 +19,13 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  
   int _currentPage = 1;
   final int _pageSize = 10;
 
   void _loadPage(int page) {
-    context.read<ProductsBloc>().add(LoadProducts(pageNumber: page, pageSize: _pageSize));
+    context.read<ProductsBloc>().add(
+      LoadProducts(pageNumber: page, pageSize: _pageSize),
+    );
   }
 
   @override
@@ -32,7 +33,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     super.initState();
     _loadPage(_currentPage);
     context.read<CompaniesBloc>().add(LoadCompanies());
-    
   }
 
   @override
@@ -47,12 +47,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchBarWidget(),
-                const SizedBox(height: 20),
+                // SearchBarWidget(),
+                // const SizedBox(height: 20),
                 ChiocesRow(),
                 const SizedBox(height: 20),
 
@@ -82,7 +85,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               ),
                               Text(
                                 'Page $_currentPage',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               IconButton(
                                 onPressed: state.products.length == _pageSize

@@ -5,7 +5,7 @@ abstract class GatergoryState {}
 final class GatergoryInitial extends GatergoryState {}
 
 class GatergroySucess extends GatergoryState {
-  final CatergoryModel catergoryModel;
+  final CategoryPagintedModel catergoryModel;
 
   GatergroySucess({required this.catergoryModel});
   @override

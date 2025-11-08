@@ -31,7 +31,9 @@ class _CategoryButtonState extends State<CategoryButton> {
             selectedCategory: selectedCategory,
             categories: categories,
             onCategorySelected: (categoryName, categoryId) {
-              setState(() => selectedCategory = categoryName);// ممكن الغيها كنت بجرب حاجة 
+              setState(
+                () => selectedCategory = categoryName,
+              ); // ممكن الغيها كنت بجرب حاجة
 
               if (categoryId == 'all') {
                 context.read<ProductsBloc>().add(const LoadProducts());

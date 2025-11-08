@@ -92,7 +92,7 @@ class _PaginatedCompanyGridState extends State<PaginatedCompanyGrid> {
                   padding: const EdgeInsets.all(12),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    childAspectRatio: 1.1,
+                    childAspectRatio: 0.8,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),

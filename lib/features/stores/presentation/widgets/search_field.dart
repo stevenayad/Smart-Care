@@ -17,9 +17,8 @@ class SearchField extends StatelessWidget {
           prefixIcon: Icon(Icons.search),
           fillColor: AppColors.white,
           filled: true,
-          
         ),
-         onChanged: (query) {
+        onChanged: (query) {
           context.read<StoreBloc>().add(SearchStores(query));
         },
       ),

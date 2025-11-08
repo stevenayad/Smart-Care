@@ -24,25 +24,28 @@ abstract class ProductsRepository {
 
   Future<Either<servivefailure, List<CompanyModel>>> getCompanies();
   Future<Either<servivefailure, List<CategoryModel>>> getCategories();
-  Future<Either<servivefailure, List<ProductModel>>> getProductsByCategoryId(String categoryId);
+  Future<Either<servivefailure, List<ProductModel>>> getProductsByCategoryId(
+    String categoryId,
+  );
 
+  Future<Either<servivefailure, List<ProductModel>>>
+  searchProductsByCompanyName({
+    required String companyName,
+    int pageNumber = 1,
+    int pageSize = 10,
+  });
 
-  Future<Either<servivefailure, List<ProductModel>>> searchProductsByCompanyName({
-  required String companyName,
-  int pageNumber = 1,
-  int pageSize = 10,
-});
+  Future<Either<servivefailure, List<ProductModel>>>
+  searchProductsByCategoryName({
+    required String categoryName,
+    int pageNumber = 1,
+    int pageSize = 10,
+  });
 
-Future<Either<servivefailure, List<ProductModel>>> searchProductsByCategoryName({
-  required String categoryName,
-  int pageNumber = 1,
-  int pageSize = 10,
-});
-
-Future<Either<servivefailure, List<ProductModel>>> searchProductsByDescription({
-  required String description,
-  int pageNumber = 1,
-  int pageSize = 10,
-});
-
+  Future<Either<servivefailure, List<ProductModel>>>
+  searchProductsByDescription({
+    required String description,
+    int pageNumber = 1,
+    int pageSize = 10,
+  });
 }

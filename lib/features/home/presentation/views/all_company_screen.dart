@@ -21,9 +21,7 @@ class AllCompanyScreen extends StatelessWidget {
             create: (context) =>
                 PaginatedCompanyCubit(homeRepo)..fetchPaginatedCompany(),
           ),
-          BlocProvider(
-            create: (context) => SearchCubit(homeRepo),
-          ),
+          BlocProvider(create: (context) => SearchCubit(homeRepo)),
         ],
         child: const AllCompanyBody(),
       ),
