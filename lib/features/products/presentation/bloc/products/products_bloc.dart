@@ -44,7 +44,7 @@ on<LoadProductsByCategoryId>(_onLoadProductsByCategoryId);
   Future<void> _onSearchProducts(
       SearchProducts event, Emitter<ProductsState> emit) async {
     emit(ProductsLoading());
-    final res = await repository.searchProductsByName(name: event.query);
+    final res = await repository.getProductsByName(name: event.query);
     res.fold(
       (failure) => emit(ProductsError(failure.errMessage)),
       (products) => emit(ProductsLoaded(products)),
@@ -53,7 +53,7 @@ on<LoadProductsByCategoryId>(_onLoadProductsByCategoryId);
   Future<void> _onSearchByCompanyName(
     SearchProductsByCompanyName event, Emitter<ProductsState> emit) async {
   emit(ProductsLoading());
-  final res = await repository.searchProductsByCompanyName(companyName: event.companyName);
+  final res = await repository.getProductsByCompanyName(companyName: event.companyName);
   res.fold(
     (failure) => emit(ProductsError(failure.errMessage)),
     (products) => emit(ProductsLoaded(products)),
@@ -63,7 +63,7 @@ on<LoadProductsByCategoryId>(_onLoadProductsByCategoryId);
 Future<void> _onSearchByCategoryName(
     SearchProductsByCategoryName event, Emitter<ProductsState> emit) async {
   emit(ProductsLoading());
-  final res = await repository.searchProductsByCategoryName(categoryName: event.categoryName);
+  final res = await repository.getProductsByCategoryName(categoryName: event.categoryName);
   res.fold(
     (failure) => emit(ProductsError(failure.errMessage)),
     (products) => emit(ProductsLoaded(products)),
@@ -73,7 +73,7 @@ Future<void> _onSearchByCategoryName(
 Future<void> _onSearchByDescription(
     SearchProductsByDescription event, Emitter<ProductsState> emit) async {
   emit(ProductsLoading());
-  final res = await repository.searchProductsByDescription(description: event.description);
+  final res = await repository.getProductsByDescription(description: event.description);
   res.fold(
     (failure) => emit(ProductsError(failure.errMessage)),
     (products) => emit(ProductsLoaded(products)),

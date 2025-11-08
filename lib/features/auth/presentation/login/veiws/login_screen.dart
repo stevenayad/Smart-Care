@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               );
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const ProductsScreen()),
+                MaterialPageRoute(builder: (_) => ProductsScreen()),
               );
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
