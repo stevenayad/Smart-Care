@@ -124,7 +124,7 @@ class SmartCare extends StatelessWidget {
         // home:CacheHelper.getAccessToken() != null
         //     ? const HomeScreen()
         //     : const LoginScreen(),
-        home: const Mainscreenview(),
+        home: const Onboardingview(),
       ),
     );
   }

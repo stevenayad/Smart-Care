@@ -86,19 +86,7 @@ Future<void> _onSearchByDescription(
   );
 }
 
-  Future<void> _onSearchByDescription(
-    SearchProductsByDescription event,
-    Emitter<ProductsState> emit,
-  ) async {
-    emit(ProductsLoading());
-    final res = await repository.searchProductsByDescription(
-      description: event.description,
-    );
-    res.fold(
-      (failure) => emit(ProductsError(failure.errMessage)),
-      (products) => emit(ProductsLoaded(products)),
-    );
-  }
+
 
   Future<void> _onLoadProductsByCategoryId(
     LoadProductsByCategoryId event,
