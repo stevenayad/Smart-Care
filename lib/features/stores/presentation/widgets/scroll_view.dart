@@ -53,7 +53,7 @@ class scroll_view extends StatelessWidget {
             background: Container(color: AppColors.primaryblue),
           ),
           bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(70.0),
+            preferredSize: Size.fromHeight(80.0),
             child: Padding(
               padding: EdgeInsets.only(bottom: 12.0),
               child: SearchField(),
