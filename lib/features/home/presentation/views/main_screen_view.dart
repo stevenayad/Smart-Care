@@ -24,7 +24,6 @@ class Mainscreenview extends StatelessWidget {
                 HomeScreen(),
                 ProductsScreen(),
                 StoreScreen(),
-
                 ProfileScreen(),
               ],
             ),
