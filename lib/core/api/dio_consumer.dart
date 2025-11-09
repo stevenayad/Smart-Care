@@ -1,85 +1,82 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/faluire.dart';
-
 import 'api_consumer.dart';
 
 class DioConsumer implements ApiConsumer {
   final Dio dio;
 
   DioConsumer(this.dio) {
-    dio
-      ..options = BaseOptions(
-        baseUrl: 'https://smartcarepharmacy.tryasp.net/',
-        connectTimeout: const Duration(seconds: 60),
-      );
+    dio.options = BaseOptions(
+      baseUrl: 'https://smartcarepharmacy.tryasp.net/',
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+      sendTimeout: const Duration(seconds: 60),
+    );
 
+    // ✅ Add custom interceptors (for token or refresh logic)
+    dio.interceptors.add(InterceptorsConsumer());
+
+    // ✅ Logging interceptor for debugging
     dio.interceptors.add(
       LogInterceptor(
         request: true,
         requestHeader: true,
         requestBody: true,
-        responseHeader: true,
+        responseHeader: false,
         responseBody: true,
         error: true,
-        logPrint: (obj) => print('🪵 DioLog: $obj'),
+        logPrint: (obj) {
+          final log = obj.toString();
+          if (log.length > 1000) {
+            print('🪵 DioLog (truncated): ${log.substring(0, 1000)}...');
+          } else {
+            print('🪵 DioLog: $log');
+          }
+        },
       ),
     );
 
-    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-        (client) {
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
-          return client;
-        };
-    /*dio.interceptors.add(
-  InterceptorsWrapper(
-    onRequest: (options, handler) async {
-      print("🧩 Interceptor triggered...");
-      final token =  CacheHelper.getAccessToken();
-      print("🧩 Token retrieved: $token");
-      if (token != null && token.isNotEmpty) {
-        options.headers['Authorization'] = 'Bearer $token';
-      }
-      return handler.next(options);
-    },
-  ),
-);*/
+    // ✅ Accept invalid SSL certificates (development only)
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
   }
 
+  // ---------------------------------------------------------------------------
+  // GET
+  // ---------------------------------------------------------------------------
   @override
   Future<dynamic> get(String endpoint, Map<String, dynamic>? query) async {
     try {
-      print('outttttttttttttttttttttt');
-      print("Cache halper ==>>>${CacheHelper.getAccessToken()}");
-      print('📡 GET URL => ${dio.options.baseUrl}$endpoint');
+      final token = CacheHelper.getAccessToken();
+      final headers = {'Accept': 'application/json'};
+      if (token != null && token.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+
+      print('📡 GET => ${dio.options.baseUrl}$endpoint');
+      print('🔵 Query Params: $query');
+      print('🔑 Token: $token');
 
       final response = await dio.get(
         endpoint,
-        options: Options(
-          receiveTimeout: const Duration(seconds: 60),
-          sendTimeout: const Duration(seconds: 60),
-          headers: {
-            'Authorization': 'Bearer ${CacheHelper.getAccessToken()}',
-            'Accept': 'application/json',
-          },
-        ),
+        queryParameters: query,
+        options: Options(headers: headers),
       );
 
       print("✅ Dio Success: ${response.statusCode}");
-      print("🔵 RAW RESPONSE: ${response.data}");
-      print("✅ Dio Data Type: ${response.data.runtimeType}");
+      print("🔵 Response Data: ${response.data}");
       return response.data;
     } on DioException catch (e) {
       print("❌ DioException: ${e.message}");
-      if (e.response != null) {
-        print("❌ Response data: ${e.response?.data}");
-      }
+      print("❌ Response: ${e.response?.data}");
       rethrow;
     } catch (e, s) {
       print("🔥 Non-Dio Error: $e");
@@ -88,87 +85,123 @@ class DioConsumer implements ApiConsumer {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // POST
+  // ---------------------------------------------------------------------------
   @override
-  Future delete(String endpoint, Map<String, dynamic>? body) async {
+  Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
     try {
-      final response = await dio.delete(endpoint, data: body);
-      return response.data;
-    } on DioError catch (e) {
-      throw e;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
+      final token = CacheHelper.getAccessToken();
+      final headers = <String, String>{
+        'Accept': 'application/json',
+      };
 
-  @override
-  Future post(String endpoint, body, bool isFormData) async {
-    try {
+      if (token != null && token.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+
       if (isFormData) {
-        dio.options.headers.remove('Content-Type');
+        headers.remove('Content-Type');
       } else {
-        dio.options.headers['Content-Type'] = 'application/json';
+        headers['Content-Type'] = 'application/json';
       }
 
-      final response = await dio.post(endpoint, data: body);
+      print('📤 POST => ${dio.options.baseUrl}$endpoint');
+      print('📦 Body: $body');
+
+      final response = await dio.post(
+        endpoint,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      print("✅ Dio POST Success: ${response.statusCode}");
+      print("🔵 Response: ${response.data}");
       return response.data;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
+      print("❌ DioException: ${e.message}");
+      print("❌ Response: ${e.response?.data}");
       rethrow;
-    } catch (e) {
-      throw Exception(e.toString());
+    } catch (e, s) {
+      print("🔥 Non-Dio Error: $e");
+      print(s);
+      return {'error': e.toString()};
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // PUT
+  // ---------------------------------------------------------------------------
   @override
-  Future put(String endpoint, Map<String, dynamic>? body) async {
+  Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
     try {
-      final response = await dio.put(endpoint, data: body);
+      final token = CacheHelper.getAccessToken();
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      if (token != null && token.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+
+      print('📝 PUT => ${dio.options.baseUrl}$endpoint');
+      print('📦 Body: $body');
+
+      final response = await dio.put(
+        endpoint,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      print("✅ Dio PUT Success: ${response.statusCode}");
+      print("🔵 Response: ${response.data}");
       return response.data;
-    } on DioError catch (e) {
-      throw e;
-    } catch (e) {
-      throw Exception(e.toString());
+    } on DioException catch (e) {
+      print("❌ DioException: ${e.message}");
+      print("❌ Response: ${e.response?.data}");
+      rethrow;
+    } catch (e, s) {
+      print("🔥 Non-Dio Error: $e");
+      print(s);
+      return {'error': e.toString()};
     }
   }
 
-  /* @override
-    Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
-      try {
-        if (isFormData) {
-          dio.options.headers.remove('Content-Type');
-        } else {
-          dio.options.headers['Content-Type'] = 'application/json';
-        }
-        final response = await dio.post(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        rethrow;
-      } catch (e) {
-        throw Exception(e.toString());
+  // ---------------------------------------------------------------------------
+  // DELETE
+  // ---------------------------------------------------------------------------
+  @override
+  Future<dynamic> delete(String endpoint, Map<String, dynamic>? body) async {
+    try {
+      final token = CacheHelper.getAccessToken();
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      if (token != null && token.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $token';
       }
-    }
 
-    @override
-    Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
-      try {
-        final response = await dio.put(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        throw e;
-      } catch (e) {
-        throw Exception(e.toString());
-      }
-    }
+      print('🗑️ DELETE => ${dio.options.baseUrl}$endpoint');
+      print('📦 Body: $body');
 
-    @override
-    Future<dynamic> delete(String endpoint, Map<String, dynamic>? body) async {
-      try {
-        final response = await dio.delete(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        throw e;
-      } catch (e) {
-        throw Exception(e.toString());
-      }
+      final response = await dio.delete(
+        endpoint,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      print("✅ Dio DELETE Success: ${response.statusCode}");
+      print("🔵 Response: ${response.data}");
+      return response.data;
+    } on DioException catch (e) {
+      print("❌ DioException: ${e.message}");
+      print("❌ Response: ${e.response?.data}");
+      rethrow;
+    } catch (e, s) {
+      print("🔥 Non-Dio Error: $e");
+      print(s);
+      return {'error': e.toString()};
     }
-  }*/
+  }
 }
