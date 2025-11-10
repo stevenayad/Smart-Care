@@ -7,9 +7,13 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Icon(Icons.whatshot, size: 70),
+        Image.asset(
+          'assets/image/smartcare_logo.png',
+          height: 150,
+          width: 200,
+          fit: BoxFit.cover,
+        ),
         const SizedBox(height: 5),
-        Text('Smart care', style: Theme.of(context).textTheme.headlineLarge),
       ],
     );
   }

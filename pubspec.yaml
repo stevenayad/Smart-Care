@@ -48,6 +48,8 @@ dependencies:
   url_launcher: ^6.3.2
   shimmer_animation: ^2.2.2
   shimmer: ^3.0.0
+  im_stepper: ^1.0.1+1
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:

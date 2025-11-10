@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/core/app_theme.dart';
+import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/bottom_widget.dart';
-import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card_content.dart';
-import 'package:smartcare/features/auth/presentation/register/views/widgets/register_cart_painter.dart';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card.dart';
 import 'package:smartcare/features/auth/presentation/widgets/header.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -41,44 +40,42 @@ class RegisterScreen extends StatelessWidget {
           builder: (context, authState) {
             final isLoading = authState is AuthLoading;
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                vertical: 40.0,
-                horizontal: 20.0,
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.accentGreen, AppColors.lightGrey],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.0, 0.5], // Blend nicely
+                ),
               ),
-              child: Column(
-                children: [
-                  const Header(),
-                  const SizedBox(height: 40),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 40.0,
+                  horizontal: 20.0,
+                ),
+                child: Column(
+                  children: [
+                    const Header()
+                        .animate()
+                        .fadeIn(duration: 900.ms, delay: 200.ms)
+                        .slideY(begin: -0.2, end: 0),
+                    const SizedBox(height: 10),
 
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      double cardWidth = constraints.maxWidth;
-                      double cardHeight = 600.0;
+                    register_card(isLoading: isLoading)
+                        .animate()
+                        .fadeIn(duration: 900.ms, delay: 400.ms)
+                        .slideY(begin: 0.2, end: 0),
 
-                      return SizedBox(
-                        width: cardWidth,
-                        height: cardHeight,
-                        child: CustomPaint(
-                          painter: RegisterCardPainter(
-                            AppThemes.lightTheme.primaryColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40.0,
-                            ),
-                            child: BlocProvider(
-                              create: (context) => StepsBloc(),
-                              child: RegisterCardContent(isLoading: isLoading),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  const BottomWidget(),
-                ],
+                    const SizedBox(height: 30),
+                    const BottomWidget()
+                        .animate()
+                        .fadeIn(duration: 900.ms, delay: 600.ms)
+                        .slideY(begin: 0.2, end: 0),
+                  ],
+                ),
               ),
             );
           },
