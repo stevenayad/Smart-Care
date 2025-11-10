@@ -54,8 +54,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // SearchBarWidget(),
-                // const SizedBox(height: 20),
+                SearchBarWidget(),
+                const SizedBox(height: 20),
                 ChiocesRow(),
                 const SizedBox(height: 20),
 
