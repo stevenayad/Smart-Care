@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
 
-class Ratereview extends StatelessWidget {
-  const Ratereview({super.key, required this.detialsProductModel});
+class Rate extends StatelessWidget {
+  const Rate({super.key, required this.detialsProductModel});
   final DetialsProductModel detialsProductModel;
   @override
   Widget build(BuildContext context) {
