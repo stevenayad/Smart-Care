@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/Favourite/data/Models/favourite_item_model.dart';
+import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/datum.dart';
 
 class ImageFavourite extends StatelessWidget {
-  const ImageFavourite({super.key, required this.favouriteItemModel});
-  final FavouriteItemModel favouriteItemModel;
+  const ImageFavourite({super.key, required this.favouriteItem});
+  final FavDatum favouriteItem;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -11,7 +11,8 @@ class ImageFavourite extends StatelessWidget {
         ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           child: Image.network(
-            favouriteItemModel.image,
+            favouriteItem.mainImageUrl ??
+                'https://th.bing.com/th/id/R.9069ae2c83237354d556ac82e37c8066?rik=wVvlGFIhBYX5bg&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f06%2fHD-images-of-nature-download.jpg&ehk=J7hY3CfwcsW7lTkuGbE3nQPUYPdt1OTluYfKHRW62qs%3d&risl=&pid=ImgRaw&r=0',
             height: 140,
             width: double.infinity,
             fit: BoxFit.cover,

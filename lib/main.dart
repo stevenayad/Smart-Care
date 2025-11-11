@@ -8,16 +8,23 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/home_screen.dart';
+import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/home/presentation/views/widget/product_details.dart';
 import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
+import 'package:smartcare/features/products/presentation/view/products_screen.dart';
 import 'package:smartcare/features/stores/data/data_sources/store_remote_data_source.dart';
 import 'package:smartcare/features/stores/data/repositories/store_repository_impl.dart';
 import 'package:smartcare/features/stores/domain/repositories/store_repository.dart';
@@ -58,7 +65,6 @@ void main() async {
         return client;
       };
   final ApiConsumer apiConsumer = DioConsumer(dio);
-  final ApiConsumer dioConsumer = DioConsumer(Dio());
 
   final AuthRepository authRepository = AuthRepository(apiConsumer);
   final StoreRemoteDataSourceImpl storeRemoteDataSource =
@@ -66,7 +72,7 @@ void main() async {
   final StoreRepository storeRepository = StoreRepositoryImpl(
     storeRemoteDataSource,
   );
-  final HomeRepo gategoryrepo = HomeRepo(api: dioConsumer);
+
   final productsRemote = ProductsRemoteDataSource(apiConsumer);
   final companiesRemote = CompaniesRemoteDataSource(apiConsumer);
   final categoryRemote = CategoriesRemoteDataSource(apiConsumer);
@@ -80,11 +86,10 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => AuthBloc(authRepository)),
         RepositoryProvider<StoreRepository>.value(value: storeRepository),
-        BlocProvider<CatergoryCubit>(
-          create: (context) => CatergoryCubit(gategoryrepo)..fetchGategory(),
-        ),
-        BlocProvider<CompanyCubit>(
-          create: (context) => CompanyCubit(gategoryrepo)..fetchcomapy(),
+        BlocProvider(
+          create: (context) =>
+              FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+                ..loadFavouriteItems(),
         ),
       ],
       child: SmartCare(repository: repository),
@@ -120,7 +125,7 @@ class SmartCare extends StatelessWidget {
         // home:CacheHelper.getAccessToken() != null
         //     ? const HomeScreen()
         //     : const LoginScreen(),
-        home: const LoginScreen(),
+        home: const Mainscreenview(),
       ),
     );
   }

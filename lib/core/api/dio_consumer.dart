@@ -91,7 +91,18 @@ class DioConsumer implements ApiConsumer {
   @override
   Future delete(String endpoint, Map<String, dynamic>? body) async {
     try {
-      final response = await dio.delete(endpoint, data: body);
+      final response = await dio.delete(
+        endpoint,
+        data: body,
+        options: Options(
+          receiveTimeout: const Duration(seconds: 60),
+          sendTimeout: const Duration(seconds: 60),
+          headers: {
+            'Authorization': 'Bearer ${CacheHelper.getAccessToken()}',
+            'Accept': 'application/json',
+          },
+        ),
+      );
       return response.data;
     } on DioError catch (e) {
       throw e;
@@ -109,7 +120,18 @@ class DioConsumer implements ApiConsumer {
         dio.options.headers['Content-Type'] = 'application/json';
       }
 
-      final response = await dio.post(endpoint, data: body);
+      final response = await dio.post(
+        endpoint,
+        data: body,
+        options: Options(
+          receiveTimeout: const Duration(seconds: 60),
+          sendTimeout: const Duration(seconds: 60),
+          headers: {
+            'Authorization': 'Bearer ${CacheHelper.getAccessToken()}',
+            'Accept': 'application/json',
+          },
+        ),
+      );
       return response.data;
     } on DioError catch (e) {
       rethrow;
@@ -121,7 +143,18 @@ class DioConsumer implements ApiConsumer {
   @override
   Future put(String endpoint, Map<String, dynamic>? body) async {
     try {
-      final response = await dio.put(endpoint, data: body);
+      final response = await dio.put(
+        endpoint,
+        data: body,
+        options: Options(
+          receiveTimeout: const Duration(seconds: 60),
+          sendTimeout: const Duration(seconds: 60),
+          headers: {
+            'Authorization': 'Bearer ${CacheHelper.getAccessToken()}',
+            'Accept': 'application/json',
+          },
+        ),
+      );
       return response.data;
     } on DioError catch (e) {
       throw e;
@@ -129,46 +162,4 @@ class DioConsumer implements ApiConsumer {
       throw Exception(e.toString());
     }
   }
-
-  /* @override
-    Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
-      try {
-        if (isFormData) {
-          dio.options.headers.remove('Content-Type');
-        } else {
-          dio.options.headers['Content-Type'] = 'application/json';
-        }
-        final response = await dio.post(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        rethrow;
-      } catch (e) {
-        throw Exception(e.toString());
-      }
-    }
-
-    @override
-    Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
-      try {
-        final response = await dio.put(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        throw e;
-      } catch (e) {
-        throw Exception(e.toString());
-      }
-    }
-
-    @override
-    Future<dynamic> delete(String endpoint, Map<String, dynamic>? body) async {
-      try {
-        final response = await dio.delete(endpoint, data: body);
-        return response.data;
-      } on DioError catch (e) {
-        throw e;
-      } catch (e) {
-        throw Exception(e.toString());
-      }
-    }
-  }*/
 }

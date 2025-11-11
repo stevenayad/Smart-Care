@@ -17,7 +17,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: Icon(Icons.home_outlined),
               label: 'Home',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.production_quantity_limits),
               label: 'Products',
