@@ -4,6 +4,7 @@ import 'package:smartcare/features/home/presentation/views/widget/product_price.
 import 'package:smartcare/features/home/presentation/views/widget/rate&review.dart';
 import 'package:smartcare/features/home/presentation/views/widget/rate_view.dart';
 
+
 class ProductDetails extends StatelessWidget {
   final DetialsProductModel detialsProductModel;
   const ProductDetails({super.key, required this.detialsProductModel});
