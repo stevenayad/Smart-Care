@@ -106,7 +106,6 @@ class _OnboardingBodyState extends State<OnboardingBody> {
           currentIndex: currentIndex,
           itemsLength: items.length,
           pageController: pageController,
-      
         ),
       ],
     );

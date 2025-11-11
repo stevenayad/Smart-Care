@@ -25,7 +25,6 @@ class CatergoryCubit extends Cubit<GatergoryState> {
           emit(GatergroyFaliure(errMessage: failure.errMessage));
         },
         (model) {
-          
           emit(GatergroySucess(catergoryModel: model));
         },
       );

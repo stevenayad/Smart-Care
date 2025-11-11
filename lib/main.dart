@@ -15,13 +15,9 @@ import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/home_screen.dart';
-import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
-import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
-import 'package:smartcare/features/products/presentation/view/products_screen.dart';
 import 'package:smartcare/features/stores/data/data_sources/store_remote_data_source.dart';
 import 'package:smartcare/features/stores/data/repositories/store_repository_impl.dart';
 import 'package:smartcare/features/stores/domain/repositories/store_repository.dart';
@@ -91,7 +87,7 @@ void main() async {
           create: (context) => CompanyCubit(gategoryrepo)..fetchcomapy(),
         ),
       ],
-      child:  SmartCare(repository: repository,),
+      child: SmartCare(repository: repository),
     ),
   );
 }
@@ -124,7 +120,7 @@ class SmartCare extends StatelessWidget {
         // home:CacheHelper.getAccessToken() != null
         //     ? const HomeScreen()
         //     : const LoginScreen(),
-        home: const Onboardingview(),
+        home: const LoginScreen(),
       ),
     );
   }

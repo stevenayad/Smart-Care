@@ -13,7 +13,6 @@ class Category extends StatelessWidget {
     return BlocBuilder<CatergoryCubit, GatergoryState>(
       builder: (context, state) {
         if (state is GatergroyLoading) {
-        
           return CommonSection(
             isbestseller_favourotiteite: false,
             title: "Categories",

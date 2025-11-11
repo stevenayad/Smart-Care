@@ -35,10 +35,11 @@ class ProductsRemoteDataSource {
   }
 
   Future<List<dynamic>> getProductsByCategoryId(String categoryId) async {
-    final response = await consumer.get(
-      '/api/Products/CategoryId',
-      {'CategoryId': categoryId, 'pageNumber': 1, 'pageSize': 10},
-    );
+    final response = await consumer.get('/api/Products/CategoryId', {
+      'CategoryId': categoryId,
+      'pageNumber': 1,
+      'pageSize': 10,
+    });
 
     if (response is Map && response.containsKey('data')) {
       final items = response['data']['items'];
