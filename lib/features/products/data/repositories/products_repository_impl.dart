@@ -112,10 +112,12 @@ class ProductsRepositoryImpl {
   }
 
   Future<Either<Failure, List<ProductModel>>> getProductsByCategoryId(
-      String categoryId) async {
+    String categoryId,
+  ) async {
     try {
-      final res =
-          await productsRemoteDataSource.getProductsByCategoryId(categoryId);
+      final res = await productsRemoteDataSource.getProductsByCategoryId(
+        categoryId,
+      );
       final products = _parseProducts(res); // ✅ uses unified parser
       return Right(products);
     } catch (e) {

@@ -8,14 +8,12 @@ class Rowbutton extends StatelessWidget {
   final int itemsLength;
   final PageController pageController;
 
-
   const Rowbutton({
     super.key,
     required this.isDark,
     required this.currentIndex,
     required this.itemsLength,
     required this.pageController,
-   
   });
 
   @override
@@ -52,13 +50,11 @@ class Rowbutton extends StatelessWidget {
                   curve: Curves.easeIn,
                 );
               } else {
-               
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => RegisterScreen()),
-                  );
-                }
-              
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => RegisterScreen()),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,

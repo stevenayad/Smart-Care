@@ -27,4 +27,24 @@ class DetaisProductRepo {
       return Left(servivefailure("Unexpected error, please try again"));
     }
   }
+
+  Future<Either<Failure, DetialsProductModel>> addfavourite(String id) async {
+    try {
+      final response = await api.get(
+        "api/favourites/add-to-my-favourites/${id}",
+        null,
+      );
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final parsedModel = DetialsProductModel.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
 }
