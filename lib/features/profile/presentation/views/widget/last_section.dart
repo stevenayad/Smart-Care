@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 
@@ -73,7 +74,12 @@ class LastSection extends StatelessWidget {
             context,
             'Favorites',
             Icons.favorite_border,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavouritesScreen()),
+              );
+            },
           ),
           Divider(thickness: 0.5),
           buildNavagationtitle(

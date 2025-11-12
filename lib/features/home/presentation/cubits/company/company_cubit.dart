@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/home/data/Model/company_model/company_model.dart';
 import 'package:smartcare/features/home/data/Model/paginted_model/paginted_model.dart';
+import 'package:smartcare/features/home/data/Model/productforcompany/item.dart';
+import 'package:smartcare/features/home/data/Model/productforcompany/productforcompany.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
 
 part 'company_state.dart';
 
@@ -26,10 +29,6 @@ class CompanyCubit extends Cubit<CompanyState> {
           emit(Companyfaliure(errMessage: failure.errMessage));
         },
         (model) {
-          // print("✅ Success: ${model.data?.length ?? 0} categories");
-          print(
-            '---------------------------------------------------------------------------------------------------------------------------------------------',
-          );
           emit(CompanySuccess(companyModel: model));
         },
       );
@@ -40,5 +39,38 @@ class CompanyCubit extends Cubit<CompanyState> {
       print(s);
       emit(Companyfaliure(errMessage: e.toString()));
     }
+  }
+
+  List<ProductItemModel> allCompanies = [];
+  int page = 0;
+  bool isLoading = false;
+  Future<void> getProductForCompany(
+    String idCompany, {
+    int pageNumber = 1,
+  }) async {
+    if (isLoading) return;
+    isLoading = true;
+    emit(Companyloading());
+
+    final result = await homeRepo.loadproductforcompany(pageNumber, idCompany);
+
+    result.fold(
+      (failure) {
+        emit(Companyfaliure(errMessage: failure.errMessage));
+      },
+      (model) {
+        page = pageNumber;
+
+        emit(ProductCompanySuccess(productforcompany: model));
+      },
+    );
+
+    isLoading = false;
+  }
+
+  void resetProducts() {
+    allCompanies.clear();
+    page = 0;
+    emit(CompanyInitial());
   }
 }

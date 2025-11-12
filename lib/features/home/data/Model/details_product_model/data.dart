@@ -1,16 +1,16 @@
 class Data {
   String? productId;
-  dynamic mainImageUrl;
+  String? mainImageUrl;
   List<dynamic>? images;
   String? nameEn;
-  dynamic companyName;
+  String? companyName;
   String? description;
   int? averageRating;
   int? totalRatings;
   int? price;
   bool? isAvailable;
   String? activeIngredients;
-  DateTime? expirationDate;
+  dynamic expirationDate;
   double? discountPercentage;
 
   Data({
@@ -31,19 +31,17 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     productId: json['productId'] as String?,
-    mainImageUrl: json['mainImageUrl'],
+    mainImageUrl: json['mainImageUrl'] as String?,
     images: json['images'] as List<dynamic>?,
     nameEn: json['nameEn'] as String?,
-    companyName: json['companyName'],
+    companyName: json['companyName'] as String?,
     description: json['description'] as String?,
     averageRating: (json['averageRating'] as num?)?.toInt(),
     totalRatings: (json['totalRatings'] as num?)?.toInt(),
     price: (json['price'] as num?)?.toInt(),
     isAvailable: json['isAvailable'] as bool?,
     activeIngredients: json['activeIngredients'] as String?,
-    expirationDate: json['expirationDate'] == null
-        ? null
-        : DateTime.parse(json['expirationDate'] as String),
+    expirationDate: json['expirationDate'],
     discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
   );
 
@@ -59,7 +57,7 @@ class Data {
     'price': price,
     'isAvailable': isAvailable,
     'activeIngredients': activeIngredients,
-    'expirationDate': expirationDate?.toIso8601String(),
+    'expirationDate': expirationDate,
     'discountPercentage': discountPercentage,
   };
 }
