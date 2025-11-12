@@ -39,7 +39,7 @@ class _CategoryButtonState extends State<CategoryButton> {
                 context.read<ProductsBloc>().add(const LoadProducts());
               } else {
                 context.read<ProductsBloc>().add(
-                  LoadProductsByCategoryId(categoryId),
+                  LoadProductsByCategoryId(categoryId, 1, 10),
                 );
               }
 

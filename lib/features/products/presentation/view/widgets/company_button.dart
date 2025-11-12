@@ -39,7 +39,7 @@ class _CompanyButtonState extends State<CompanyButton> {
                 context.read<ProductsBloc>().add(const LoadProducts());
               } else {
                 context.read<ProductsBloc>().add(
-                  LoadProductsByCompany(companyId),
+                  LoadProductsByCompany(companyId, 1, 10),
                 );
               }
 
