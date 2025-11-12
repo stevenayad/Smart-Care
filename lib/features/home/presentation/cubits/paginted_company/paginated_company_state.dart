@@ -1,4 +1,5 @@
-part of 'paginated_company_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:smartcare/features/home/data/Model/paginted_model/item.dart';
 
 abstract class PaginatedCompanyState extends Equatable {
   const PaginatedCompanyState();
@@ -9,7 +10,18 @@ abstract class PaginatedCompanyState extends Equatable {
 
 class PaginatedCompanyInitial extends PaginatedCompanyState {}
 
-class PaginatedCompanyLoading extends PaginatedCompanyState {}
+class PaginatedCompanyLoading extends PaginatedCompanyState {
+  final List<Item> oldCompanies;
+  final bool isFirstFetch;
+
+  const PaginatedCompanyLoading({
+    required this.oldCompanies,
+    required this.isFirstFetch,
+  });
+
+  @override
+  List<Object?> get props => [oldCompanies, isFirstFetch];
+}
 
 class PaginatedCompanySuccess extends PaginatedCompanyState {
   final List<Item> company;
@@ -20,10 +32,10 @@ class PaginatedCompanySuccess extends PaginatedCompanyState {
   List<Object?> get props => [company];
 }
 
-class PaginatedCompanyFailure extends PaginatedCompanyState {
+class PaginatedCompanyError extends PaginatedCompanyState {
   final String errMessage;
 
-  const PaginatedCompanyFailure({required this.errMessage});
+  const PaginatedCompanyError({required this.errMessage});
 
   @override
   List<Object?> get props => [errMessage];

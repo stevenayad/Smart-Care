@@ -1,4 +1,4 @@
-class RateInputRequestUpdate{
+class RateInputRequestUpdate {
   final String? id;
   final String productId;
   final int value;
@@ -12,9 +12,9 @@ class RateInputRequestUpdate{
   });
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "productId": productId,
-        "value": value,
-        "createdAt": createdAt,
-      };
+    "id": id,
+    "productId": productId,
+    "value": value,
+    "createdAt": createdAt,
+  };
 }

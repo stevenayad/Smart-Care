@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
+import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
+
 
 class ImageDetails extends StatelessWidget {
-  final DetialsProductModel detialsProductModel;
+  final DetailsProductModel detialsProductModel;
   const ImageDetails({super.key, required this.detialsProductModel});
 
   @override

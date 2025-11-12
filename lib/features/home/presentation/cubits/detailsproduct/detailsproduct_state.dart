@@ -10,7 +10,7 @@ sealed class DetailsproductState extends Equatable {
 final class DetailsproductInitial extends DetailsproductState {}
 
 class DetailsproductSuccess extends DetailsproductState {
-  final DetialsProductModel detialsProductModel;
+  final DetailsProductModel detialsProductModel;
 
   DetailsproductSuccess({required this.detialsProductModel});
 }

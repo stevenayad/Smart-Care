@@ -42,11 +42,12 @@ class DioConsumer implements ApiConsumer {
     );
 
     // ✅ Accept invalid SSL certificates (development only)
-    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+        (client) {
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+          return client;
+        };
   }
 
   // ---------------------------------------------------------------------------
@@ -92,9 +93,7 @@ class DioConsumer implements ApiConsumer {
   Future<dynamic> post(String endpoint, dynamic body, bool isFormData) async {
     try {
       final token = CacheHelper.getAccessToken();
-      final headers = <String, String>{
-        'Accept': 'application/json',
-      };
+      final headers = <String, String>{'Accept': 'application/json'};
 
       if (token != null && token.isNotEmpty) {
         headers['Authorization'] = 'Bearer $token';

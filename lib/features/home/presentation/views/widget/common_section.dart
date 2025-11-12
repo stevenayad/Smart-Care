@@ -42,7 +42,9 @@ class CommonSection extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => AllCompanyScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => CompanyWithProductsScreen(),
+                    ),
                   );
                 },
                 child: Row(

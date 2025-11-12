@@ -14,6 +14,11 @@ class CompanySuccess extends CompanyState {
   CompanySuccess({required this.companyModel});
 }
 
+class ProductCompanySuccess extends CompanyState {
+  final Productforcompany productforcompany;
+  ProductCompanySuccess({required this.productforcompany});
+}
+
 class Companyfaliure extends CompanyState {
   final String errMessage;
 

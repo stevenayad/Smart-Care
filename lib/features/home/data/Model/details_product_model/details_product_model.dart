@@ -1,13 +1,13 @@
 import 'data.dart';
 
-class DetialsProductModel {
+class DetailsProductModel {
   int? statusCode;
   bool? succeeded;
   String? message;
   dynamic errorsBag;
   Data? data;
 
-  DetialsProductModel({
+  DetailsProductModel({
     this.statusCode,
     this.succeeded,
     this.message,
@@ -15,8 +15,8 @@ class DetialsProductModel {
     this.data,
   });
 
-  factory DetialsProductModel.fromJson(Map<String, dynamic> json) {
-    return DetialsProductModel(
+  factory DetailsProductModel.fromJson(Map<String, dynamic> json) {
+    return DetailsProductModel(
       statusCode: json['statusCode'] as int?,
       succeeded: json['succeeded'] as bool?,
       message: json['message'] as String?,
