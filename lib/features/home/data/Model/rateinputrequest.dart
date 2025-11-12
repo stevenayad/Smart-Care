@@ -10,12 +10,6 @@ class RateInputRequest {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-  
-        'productId': productId,
-        'value': value,
-        'createdAt': createdAt,
-      
-    };
+    return {'productId': productId, 'value': value, 'createdAt': createdAt};
   }
 }

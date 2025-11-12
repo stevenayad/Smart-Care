@@ -42,26 +42,26 @@ class ProductsRepositoryImpl {
     }
     final data = res['data'];
 
-  // Case : Paginated response (data -> items -> list)
-  if (data is Map && data['items'] is List) {
-    final items = data['items'] as List;
-    return _mapToProducts(items);
-  }
+    // Case : Paginated response (data -> items -> list)
+    if (data is Map && data['items'] is List) {
+      final items = data['items'] as List;
+      return _mapToProducts(items);
+    }
 
-  // Case : Direct list in "data"
-  if (data is List) {
-    return _mapToProducts(data);
-  }
+    // Case : Direct list in "data"
+    if (data is List) {
+      return _mapToProducts(data);
+    }
 
-  // ✅ Case : Single product object
-  if (data is Map) {
-    return [ProductModel.fromJson(Map<String, dynamic>.from(data))];
-  }
+    // ✅ Case : Single product object
+    if (data is Map) {
+      return [ProductModel.fromJson(Map<String, dynamic>.from(data))];
+    }
 
-  // Case : Direct list at root (fallback)
-  if (res is List) {
-    return _mapToProducts(res);
-  }
+    // Case : Direct list at root (fallback)
+    if (res is List) {
+      return _mapToProducts(res);
+    }
     // Case : Anything else
     return [];
   }

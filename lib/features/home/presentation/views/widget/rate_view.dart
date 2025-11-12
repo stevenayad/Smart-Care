@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
+import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
+
 import 'package:smartcare/features/home/data/Model/rateinputrequest.dart';
 import 'package:smartcare/features/home/presentation/cubits/rate/rate_cubit.dart';
 
 class Ratereview extends StatefulWidget {
-  final DetialsProductModel detialsProductModel;
+  final DetailsProductModel detialsProductModel;
 
   const Ratereview({super.key, required this.detialsProductModel});
 

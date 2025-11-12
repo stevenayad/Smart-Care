@@ -62,13 +62,11 @@ class DetailsScreen extends StatelessWidget {
                 DetailsproductCubit(DetaisProductRepo(api: DioConsumer(Dio())))
                   ..getproductdetails(Productid),
           ),
-           BlocProvider(
+          BlocProvider(
             create: (context) =>
-                RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))..loadUserRate(Productid),
-                
-                 
+                RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+                  ..loadUserRate(Productid),
           ),
-          
         ],
         child: DetailsBody(),
       ),

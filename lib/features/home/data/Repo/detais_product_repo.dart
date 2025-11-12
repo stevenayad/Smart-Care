@@ -3,7 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/favorite_item_model.dart';
-import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
+import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
+
 import 'package:smartcare/features/home/data/Model/favourite_model.dart';
 import 'package:smartcare/features/home/data/Model/rate_input_request_update.dart';
 import 'package:smartcare/features/home/data/Model/rate_model.dart';
@@ -14,15 +15,24 @@ class DetaisProductRepo {
 
   DetaisProductRepo({required this.api});
 
-  Future<Either<Failure, DetialsProductModel>> getdetailsproduct(
+  Future<Either<Failure, DetailsProductModel>> getdetailsproduct(
     String id,
   ) async {
     try {
-      final response = await api.get("api/user/Products?id=${id}", null);
+      final response = await api.get("api/Products/${id}", null);
+      print(
+        '--------------------------------Details--------------------------------------------',
+      );
+      print(response);
+
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
-      final parsedModel = DetialsProductModel.fromJson(response);
+      final parsedModel = DetailsProductModel.fromJson(response);
+      print(
+        '-------------------- Parser Details-----------------------------------------',
+      );
+      print(parsedModel.data?.companyName);
       return Right(parsedModel);
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
@@ -155,7 +165,6 @@ class DetaisProductRepo {
         }
       }
 
-      
       return null;
     } on DioException catch (e) {
       print('❌ Dio error while checking existing rate: ${e.message}');
@@ -166,21 +175,18 @@ class DetaisProductRepo {
     }
   }
 
- Future<Either<Failure, RateModel>> getUserRates() async {
-  try {
-    final response = await api.get('api/me/rates', null);
-    if (response == null || response is! Map<String, dynamic>) {
-      return Left(servivefailure("Invalid server response"));
+  Future<Either<Failure, RateModel>> getUserRates() async {
+    try {
+      final response = await api.get('api/me/rates', null);
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final model = RateModel.fromJson(response);
+      return Right(model);
+    } on DioException catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure("Unexpected error"));
     }
-    final model = RateModel.fromJson(response);
-    return Right(model);
-
-  } on DioException catch (e) {
-    return Left(servivefailure.fromDioError(e));
-  } catch (e) {
-    return Left(servivefailure("Unexpected error"));
   }
-}
-
-
 }

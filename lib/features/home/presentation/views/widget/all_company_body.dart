@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:smartcare/features/home/presentation/views/widget/Company_grid.dart';
 import 'package:smartcare/features/home/presentation/views/widget/all_company_headers.dart';
 
@@ -10,8 +10,8 @@ class AllCompanyBody extends StatelessWidget {
     return Column(
       children: [
         AllCompanyHeader(),
-        Expanded(child: PaginatedCompanyGrid()),
+        Expanded(child: ProductCompanyView(selectedCompanyId: '',)),
       ],
     );
   }
-}
+}*/

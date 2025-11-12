@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/home/data/Model/detials_product_model/detials_product_model.dart';
+import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_price.dart';
 import 'package:smartcare/features/home/presentation/views/widget/rate&review.dart';
 import 'package:smartcare/features/home/presentation/views/widget/rate_view.dart';
 
-
 class ProductDetails extends StatelessWidget {
-  final DetialsProductModel detialsProductModel;
+  final DetailsProductModel detialsProductModel;
   const ProductDetails({super.key, required this.detialsProductModel});
 
   @override
   Widget build(BuildContext context) {
+    print('(((((((((((((((((((((9(((((9999))))))))))))))))))))))))))');
+    print(detialsProductModel.data?.nameEn);
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
