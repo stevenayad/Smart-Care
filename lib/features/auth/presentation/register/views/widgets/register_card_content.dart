@@ -1,17 +1,15 @@
-// FILE: features/auth/presentation/register/views/widgets/register_card_content.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_event.dart';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/register_form_layout.dart'; 
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_validator.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_1_personal_info.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_2_details.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_3_address.dart';
-import 'package:smartcare/features/auth/presentation/register/views/widgets/step_navigator.dart';
 
 class RegisterCardContent extends StatefulWidget {
   final bool isLoading;
@@ -29,13 +27,11 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   XFile? _profileImage;
-
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
   int? _gender;
-
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _addressLabelController = TextEditingController();
   final TextEditingController _addressAdditionalInfoController =
@@ -43,7 +39,6 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
   final TextEditingController _latitudeController = TextEditingController();
   final TextEditingController _longitudeController = TextEditingController();
   bool _isPrimaryAddress = true;
-
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -111,20 +106,20 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
       );
     } else {
       context.read<StepsBloc>().add(
-        NextStepRequested(
-          currentStep: currentStep,
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          email: _emailController.text,
-          birthDate: _birthDateController.text,
-          gender: _gender,
-          password: _passwordController.text,
-          confirmPassword: _confirmPasswordController.text,
-          profileImage: _profileImage,
-          userName: _usernameController.text,
-          phoneNumber: _phoneController.text,
-        ),
-      );
+            NextStepRequested(
+              currentStep: currentStep,
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              email: _emailController.text,
+              birthDate: _birthDateController.text,
+              gender: _gender,
+              password: _passwordController.text,
+              confirmPassword: _confirmPasswordController.text,
+              profileImage: _profileImage,
+              userName: _usernameController.text,
+              phoneNumber: _phoneController.text,
+            ),
+          );
     }
   }
 
@@ -143,72 +138,45 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     }
 
     context.read<AuthBloc>().add(
-      RegisterButtonPressed(
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        userName: _usernameController.text,
-        phoneNumber: _phoneController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-        birthDate: _birthDateController.text,
-        gender: _gender!,
-        profileImage: _profileImage!,
-
-        ///Todo i will be edit it later
-        accountType: 0,
-        address: _addressController.text,
-        addressLabel: _addressLabelController.text,
-        addressAdditionalInfo: _addressAdditionalInfoController.text,
-        addressLatitude: double.tryParse(_latitudeController.text) ?? 30.30,
-        addressLongitude: double.tryParse(_longitudeController.text) ?? 30.30,
-        addressIsPrimary: _isPrimaryAddress,
-      ),
-    );
+          RegisterButtonPressed(
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            userName: _usernameController.text,
+            phoneNumber: _phoneController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            birthDate: _birthDateController.text,
+            gender: _gender!,
+            profileImage: _profileImage!,
+            accountType: 0,
+            address: _addressController.text,
+            addressLabel: _addressLabelController.text,
+            addressAdditionalInfo: _addressAdditionalInfoController.text,
+            addressLatitude:
+                double.tryParse(_latitudeController.text) ?? 30.30,
+            addressLongitude:
+                double.tryParse(_longitudeController.text) ?? 30.30,
+            addressIsPrimary: _isPrimaryAddress,
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StepsBloc, StepsState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            Text(
-              'Register \n Step ${state.currentStep + 1} of 3',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Container(
-              height: 2,
-              width: 220,
-              color: AppThemes.lightTheme.colorScheme.surface,
-              margin: const EdgeInsets.only(top: 4, bottom: 20),
-            ),
-
-            Expanded(
-              child: SingleChildScrollView(
-                child: buildCurrentStep(state.currentStep),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: StepNavigator(
-                currentStep: state.currentStep,
-                totalSteps: 3,
-                onNext: () => _onNextPressed(state.currentStep),
-                onBack: () =>
-                    context.read<StepsBloc>().add(PreviousStepRequested()),
-                onRegister: _onRegister,
-                isLoading: widget.isLoading,
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
+        return RegisterFormLayout(
+          state: state,
+          isLoading: widget.isLoading,
+          onNext: () => _onNextPressed(state.currentStep),
+          onBack: () => context.read<StepsBloc>().add(PreviousStepRequested()),
+          onRegister: _onRegister,
+          stepContent: buildCurrentStep(state.currentStep), 
         );
       },
     );
   }
+
 
   Widget buildCurrentStep(int step) {
     switch (step) {

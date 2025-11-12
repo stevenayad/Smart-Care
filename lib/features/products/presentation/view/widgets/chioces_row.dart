@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/FilterButton/filter_button.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/category_button.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/company_button.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/dropdown_list_widget.dart';
@@ -17,7 +18,8 @@ class ChiocesRow extends StatelessWidget {
           SizedBox(width: 10),
           CompanyButton(),
           SizedBox(width: 10),
-          DropdownListWidget(),
+          // DropdownListWidget(),
+          FilterButton()
         ],
       ),
     );
