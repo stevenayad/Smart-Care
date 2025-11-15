@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/check%20availability/check_availability_screen.dart';
 
-class CheckStore extends StatelessWidget {
-  const CheckStore({super.key});
+class ActionButton extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color backgroundColor;
+  final Color textColor;
+  final VoidCallback onPressed;
+
+  const ActionButton({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.onPressed,
+    this.backgroundColor = Colors.grey,
+    this.textColor = Colors.black,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.secondaryLightColor,
-            foregroundColor: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            backgroundColor: backgroundColor,
+            foregroundColor: textColor,
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CheckAvailabilityScreen(),
-              ),
-            );
-          },
+          onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.location_on_sharp, size: 12),
+              Icon(icon, size: 16),
+              const SizedBox(width: 6),
               Text(
-                'Check Availabliity in Store',
-                style: Theme.of(context).textTheme.labelMedium,
+                title,
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

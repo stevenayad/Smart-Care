@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/all_company_screen.dart';
+import 'package:smartcare/features/home/presentation/views/company_with_product_screen.dart';
 
-class CommonSection extends StatelessWidget {
+class BestSellerSection extends StatelessWidget {
   final String title;
   final List<Widget> items;
   final VoidCallback? onViewAllTap;
-  final isbestseller_favourotiteite;
-  const CommonSection({
+  final bool isbestseller_favourotiteite;
+
+  const BestSellerSection({
     super.key,
     required this.title,
     required this.items,
@@ -24,6 +25,7 @@ class CommonSection extends StatelessWidget {
     final titlestyle = Theme.of(
       context,
     ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, fontSize: 20);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,14 +41,7 @@ class CommonSection extends StatelessWidget {
             children: [
               Text(title, style: titlestyle),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => CompanyWithProductsScreen(),
-                    ),
-                  );
-                },
+                onTap: () {},
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -63,16 +58,19 @@ class CommonSection extends StatelessWidget {
           ),
         ),
 
-        SizedBox(
-          height: isbestseller_favourotiteite ? 210 : 120,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
-            itemBuilder: (context, index) {
-              return items[index];
-            },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: isbestseller_favourotiteite ? 0.7 : 1.5,
+            ),
+            itemBuilder: (context, index) => items[index],
           ),
         ),
       ],

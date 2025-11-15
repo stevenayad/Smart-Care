@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 
+
 class ProductGridView extends StatefulWidget {
   final String companyId;
 
@@ -56,46 +57,63 @@ class _ProductGridViewState extends State<ProductGridView> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.75,
                   ),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
                         boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.network(
-                            product.mainImageUrl ??
-                                "https://via.placeholder.com/100",
-                            height: 80,
-                            fit: BoxFit.contain,
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            product.nameEn ?? "Unnamed",
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                            textAlign: TextAlign.center,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.network(
+                                product.mainImageUrl ??
+                                    "https://via.placeholder.com/100",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              product.nameEn ?? "Unnamed",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
                           Text(
                             "${product.price ?? 0} EGP",
-                            style: const TextStyle(
-                              color: Colors.blueGrey,
+                            style: TextStyle(
+                              color: Colors.blueGrey.shade700,
                               fontSize: 12,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -150,7 +168,12 @@ class _ProductGridViewState extends State<ProductGridView> {
             ],
           );
         } else {
-          return const Center(child: Text("Select a company to view products"));
+          return const Center(
+            child: Text(
+              "Select a company to view products",
+              style: TextStyle(fontSize: 16),
+            ),
+          );
         }
       },
     );

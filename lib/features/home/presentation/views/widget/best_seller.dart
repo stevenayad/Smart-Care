@@ -7,7 +7,7 @@ class BestSeller extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonSection(
+    return BestSellerSection(
       isbestseller_favourotiteite: true,
       title: 'Best Sellers',
       items: const [
