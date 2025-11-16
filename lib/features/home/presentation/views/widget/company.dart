@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
+import 'package:smartcare/core/widget/shimer_box.dart';
+import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/company_with_product_screen.dart';
 
-class Category extends StatelessWidget {
-  const Category({super.key});
+class Company extends StatelessWidget {
+  const Company({super.key});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final itemWidth = screenWidth * 0.20;
+    final itemWidth = screenWidth * 0.18;
     final itemHeight = itemWidth;
 
-    return BlocBuilder<CatergoryCubit, GatergoryState>(
+    return BlocBuilder<CompanyCubit, CompanyState>(
       builder: (context, state) {
-        if (state is GatergroyLoading) {
+        if (state is Companyloading) {
           return SizedBox(
             height: itemHeight + 40,
             child: ListView.separated(
@@ -23,53 +25,62 @@ class Category extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(width: 16),
               itemBuilder: (context, index) => Column(
                 children: [
-                  Container(
-                    height: itemHeight,
-                    width: itemWidth,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
+                  shimmerBox(height: itemHeight, width: itemWidth, radius: 16),
                   const SizedBox(height: 8),
-                  Container(
-                    width: itemWidth * 0.8,
-                    height: 12,
-                    color: Colors.grey[300],
-                  ),
+                  shimmerBox(height: 12, width: itemWidth * 0.8, radius: 6),
                 ],
               ),
             ),
           );
         }
 
-        if (state is GatergroyFaliure) {
-          return Center(child: Text('Error: ${state.errMessage}'));
+        if (state is Companyfaliure) {
+          return Center(child: Text("Error: ${state.errMessage}"));
         }
 
-        if (state is GatergroySucess) {
-          final categories = state.catergoryModel.data?.items ?? [];
+        if (state is CompanySuccess) {
+          final companies = state.companyModel.data?.items ?? [];
+
+          if (companies.isEmpty) {
+            return const Center(child: Text("No companies found"));
+          }
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.05,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF083F2D),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    child: Text(
+                      'Company',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF083F2D),
+                      ),
+                    ),
                   ),
-                ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CompanyWithProductsScreen(),
+                        ),
+                      );
+                    },
+                    child: Text('See All'),
+                  ),
+                ],
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
 
                 child: Container(
                   height: 3,
@@ -82,14 +93,14 @@ class Category extends StatelessWidget {
               ),
 
               SizedBox(
-                height: itemHeight + 40,
+                height: itemHeight + 60,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  itemCount: categories.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 18),
+                  itemCount: companies.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 16),
                   itemBuilder: (context, index) {
-                    final category = categories[index];
+                    final company = companies[index];
 
                     return Column(
                       children: [
@@ -101,9 +112,9 @@ class Category extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.green.withOpacity(0.15),
-                                spreadRadius: 2,
+                                color: Colors.green.withOpacity(0.12),
                                 blurRadius: 6,
+                                spreadRadius: 2,
                                 offset: const Offset(0, 3),
                               ),
                             ],
@@ -111,15 +122,14 @@ class Category extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child:
-                                category.logoUrl != null &&
-                                    category.logoUrl!.isNotEmpty
+                                (company.logoUrl != null &&
+                                    company.logoUrl!.isNotEmpty)
                                 ? Image.network(
-                                    category.logoUrl!,
+                                    company.logoUrl!,
                                     fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) => const Icon(
-                                      Icons.local_pharmacy,
-                                      size: 35,
-                                      color: Colors.green,
+                                      Icons.error,
+                                      color: Colors.red,
                                     ),
                                   )
                                 : const Icon(
@@ -135,7 +145,7 @@ class Category extends StatelessWidget {
                         SizedBox(
                           width: itemWidth,
                           child: Text(
-                            category.name ?? "Unknown",
+                            company.name ?? "Unknown",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
