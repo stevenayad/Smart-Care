@@ -35,6 +35,7 @@ class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
         appBar: AppBar(
           title: const Text("Companies & Products"),
           centerTitle: true,
+          backgroundColor: Colors.blue.shade900,
         ),
         body: CustomScrollView(
           slivers: [
@@ -55,7 +56,12 @@ class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
               )
             else
               const SliverFillRemaining(
-                child: Center(child: Text("Select a company to view products")),
+                child: Center(
+                  child: Text(
+                    "Select a company to view products",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
               ),
           ],
         ),

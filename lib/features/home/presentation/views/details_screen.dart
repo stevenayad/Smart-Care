@@ -17,44 +17,6 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(
-        context,
-        'Product Details',
-        () {
-          Navigator.pop(context);
-        },
-        [
-          BlocBuilder<FavouriteCubit, FavouriteState>(
-            builder: (context, state) {
-              final cubit = BlocProvider.of<FavouriteCubit>(context);
-              final isFav = cubit.isFavourite(Productid);
-              return IconButton(
-                onPressed: () {
-                  cubit.toggleFavItem(Productid);
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        isFav
-                            ? 'Removed from favourites'
-                            : 'Added to favourites',
-                      ),
-                      backgroundColor: isFav ? Colors.red : Colors.green,
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  isFav ? Icons.favorite : Icons.favorite_border,
-                  color: isFav ? Colors.red : Colors.black,
-                ),
-              );
-            },
-          ),
-
-          IconButton(onPressed: () {}, icon: Icon(Icons.share)),
-        ],
-      ),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -70,7 +32,7 @@ class DetailsScreen extends StatelessWidget {
         ],
         child: DetailsBody(),
       ),
-      bottomNavigationBar: DetailsNavagationbar(),
+    
     );
   }
 }

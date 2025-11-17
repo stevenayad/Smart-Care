@@ -8,32 +8,63 @@ class FavouriteBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CustomScrollView(
-        slivers: [
-          BlocBuilder<DisplayFavoutieCubit, DisplayFavoutieState>(
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: BlocBuilder<DisplayFavoutieCubit, DisplayFavoutieState>(
             builder: (context, state) {
               if (state is FavoutieSuceesss) {
-                final lengthsitems = state.favoriteItemModel.data?.length ?? 0;
-                return SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '$lengthsitems Item Saved',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontSize: 24,
-                        color: Colors.blueAccent.shade200,
-                      ),
+                final itemCount = state.favoriteItemModel.data?.length ?? 0;
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.shade100.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.indigo,
+
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 16,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'My Favourites',
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                        ),
+                        Text(
+                          '$itemCount Items',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontSize: 16,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                 );
               } else if (state is FavoutieLoading) {
-                return const SliverToBoxAdapter(
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 40),
                   child: Center(child: CircularProgressIndicator()),
                 );
               } else if (state is FavoutieFaliuree) {
-                return SliverToBoxAdapter(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Center(
                     child: Text(
                       'Error: ${state.errmessage}',
@@ -46,10 +77,10 @@ class FavouriteBody extends StatelessWidget {
               }
             },
           ),
+        ),
 
-          const FavouriteItemList(),
-        ],
-      ),
+        const FavouriteItemList(),
+      ],
     );
   }
 }

@@ -13,7 +13,9 @@ import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.da
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
 import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
@@ -65,6 +67,7 @@ void main() async {
     storeRemoteDataSource,
   );
 
+
   final productsRemote = ProductsRemoteDataSource(apiConsumer);
   final companiesRemote = CompaniesRemoteDataSource(apiConsumer);
   final categoryRemote = CategoriesRemoteDataSource(apiConsumer);
@@ -98,6 +101,7 @@ class SmartCare extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+       
         BlocProvider(
           create: (context) =>
               ProductsBloc(repository)..add(const LoadProducts()),
@@ -117,7 +121,7 @@ class SmartCare extends StatelessWidget {
         // home:CacheHelper.getAccessToken() != null
         //     ? const HomeScreen()
         //     : const LoginScreen(),
-        home: const Mainscreenview(),
+        home: const Onboardingview(),
       ),
     );
   }
