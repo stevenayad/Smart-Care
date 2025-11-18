@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/favorite_item_model.dart';
 import 'package:smartcare/features/Favourite/presentation/cubits/favourite/favoutie_cubit.dart';
-import 'package:smartcare/features/Favourite/presentation/views/widgets/favourite_item.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'favourite_item.dart';
 
 class FavouriteItemList extends StatelessWidget {
   const FavouriteItemList({super.key});
@@ -28,16 +27,20 @@ class FavouriteItemList extends StatelessWidget {
               child: Center(child: Text('No Favourite Yet')),
             );
           }
-          return SliverGrid(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              final fav = items[index];
-              return FavouriteItem(favouriteItem: fav);
-            }, childCount: items.length),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.75,
+
+          return SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => FavouriteItem(favouriteItem: items[index]),
+                childCount: items.length,
+              ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.65, 
+              ),
             ),
           );
         } else {

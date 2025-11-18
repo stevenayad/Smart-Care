@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.da
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 
 

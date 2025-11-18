@@ -21,12 +21,6 @@ class _OnboardingBodyState extends State<OnboardingBody> {
     // 🩺 Updated onboarding data for a medical/healthcare app
     List<Onboardingitem> items = [
       Onboardingitem(
-        image: 'https://cdn-icons-png.flaticon.com/512/2950/2950665.png',
-        title: 'Personal Health Assistant',
-        descrption:
-            'Track your vital signs, manage appointments, and stay informed about your health.',
-      ),
-      Onboardingitem(
         image: 'https://cdn-icons-png.flaticon.com/512/4320/4320342.png',
         title: 'Consult with Experts',
         descrption:
