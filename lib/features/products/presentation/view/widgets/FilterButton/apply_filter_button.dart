@@ -56,6 +56,7 @@ class ApplyFilterButton extends StatelessWidget {
             toPrice: double.tryParse(toPrice.text),
             fromRate: double.tryParse(fromRate.text),
             toRate: double.tryParse(toRate.text),
+            
           ),
         );
 
@@ -69,18 +70,23 @@ class ApplyFilterButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () => _apply(context),
-        icon: const Icon(Icons.check),
-        label: const Text('Apply Filter'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 12),
-        ),
-      ),
+  onPressed: () => _apply(context),
+  icon: const Icon(Icons.check_rounded, size: 22),
+  label: const Text(
+    'Apply Filter',
+    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+  ),
+  style: ElevatedButton.styleFrom(
+    elevation: 4,
+    backgroundColor: colorScheme.primary,
+    foregroundColor: colorScheme.onPrimary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+    padding: const EdgeInsets.symmetric(vertical: 16),
+  ),
+)
+
     );
   }
 }
