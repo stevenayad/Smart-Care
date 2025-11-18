@@ -20,29 +20,48 @@ class PriceRangeSection extends StatelessWidget {
         Text(
           "Price Range",
           style: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Flexible(
-              child: TextField(
-                controller: fromPrice,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'From'),
+        const SizedBox(height: 10),
+
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: colorScheme.surfaceVariant.withValues(alpha: 0.4),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Row(
+            children: [
+              Flexible(
+                child: TextField(
+                  controller: fromPrice,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'From',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Flexible(
-              child: TextField(
-                controller: toPrice,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'To'),
+              const SizedBox(width: 12),
+              Flexible(
+                child: TextField(
+                  controller: toPrice,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'To',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

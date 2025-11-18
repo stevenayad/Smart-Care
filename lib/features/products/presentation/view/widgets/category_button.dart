@@ -8,7 +8,8 @@ import 'package:smartcare/features/products/presentation/bloc/products/products_
 import 'category_bottom_sheet.dart';
 
 class CategoryButton extends StatefulWidget {
-  const CategoryButton({super.key});
+  final VoidCallback onResetPage;
+  const CategoryButton({super.key, required this.onResetPage});
 
   @override
   State<CategoryButton> createState() => _CategoryButtonState();
@@ -36,6 +37,7 @@ class _CategoryButtonState extends State<CategoryButton> {
               ); // ممكن الغيها كنت بجرب حاجة
 
               if (categoryId == 'all') {
+                widget.onResetPage();
                 context.read<ProductsBloc>().add(const LoadProducts());
               } else {
                 context.read<ProductsBloc>().add(

@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/products/presentation/bloc/companies/companies_bloc.dart';
-import 'package:smartcare/features/products/presentation/bloc/companies/companies_event.dart';
+import 'package:dio/dio.dart';
+
+import 'package:smartcare/core/app_color.dart';
+
+import 'package:smartcare/core/api/dio_consumer.dart';
+
+import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
+import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
+import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
+
+import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
+
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_state.dart';
 
-import 'widgets/search_bar.dart';
-import 'widgets/product_grid_widget.dart';
-import 'widgets/chioces_row.dart';
-import 'widgets/app_bar.dart';
+import 'package:smartcare/features/products/presentation/bloc/category/category_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/category/category_event.dart';
+
+import 'package:smartcare/features/products/presentation/bloc/companies/companies_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/companies/companies_event.dart';
+
+import 'package:smartcare/features/products/presentation/view/widgets/products_body.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -23,7 +36,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final int _pageSize = 10;
   Type? _lastEventType;
 
-  void _loadPage(int page) {
+  @override
+  void initState() {
+    super.initState();
+    _lastEventType = LoadProducts;
+  }
+
+  void _loadPage(BuildContext context, int page) {
     final bloc = context.read<ProductsBloc>();
     final lastEvent = bloc.lastEvent;
 
@@ -69,91 +88,84 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _lastEventType = LoadProducts; // initial event type
-    _loadPage(_currentPage);
-    context.read<CompaniesBloc>().add(LoadCompanies());
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarr(),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          _loadPage(_currentPage);
-          context.read<CompaniesBloc>().add(LoadCompanies());
-        },
-        child: BlocListener<ProductsBloc, ProductsState>(
-          listenWhen: (previous, current) => current is ProductsLoaded,
-          listener: (context, state) {
-            final bloc = context.read<ProductsBloc>();
-            final lastEvent = bloc.lastEvent;
+    return RepositoryProvider<ProductsRepositoryImpl>(
+      create: (_) {
+        final dio = DioConsumer(Dio());
 
-            if (_lastEventType != lastEvent.runtimeType) {
-              setState(() {
-                _currentPage = 1;
-                _lastEventType = lastEvent.runtimeType;
-              });
-            }
-          },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 16.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SearchBarWidget(),
-                  const SizedBox(height: 20),
-                  ChiocesRow(),
-                  const SizedBox(height: 20),
-                  BlocBuilder<ProductsBloc, ProductsState>(
-                    builder: (context, state) {
-                      if (state is ProductsLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is ProductsLoaded) {
-                        return Column(
-                          children: [
-                            ProductGridWidget(products: state.products),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: _currentPage > 1
-                                      ? () => _loadPage(_currentPage - 1)
-                                      : null,
-                                  icon: const Icon(Icons.arrow_left),
-                                ),
-                                Text(
-                                  'Page $_currentPage',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: state.products.length == _pageSize
-                                      ? () => _loadPage(_currentPage + 1)
-                                      : null,
-                                  icon: const Icon(Icons.arrow_right),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      } else if (state is ProductsError) {
-                        return Center(child: Text(state.message));
-                      } else {
-                        return const SizedBox.shrink();
-                      }
-                    },
-                  ),
-                ],
+        final productsRemote = ProductsRemoteDataSource(dio);
+        final companiesRemote = CompaniesRemoteDataSource(dio);
+        final categoriesRemote = CategoriesRemoteDataSource(dio);
+
+        return ProductsRepositoryImpl(
+          productsRemote,
+          companiesRemote,
+          categoriesRemote,
+        );
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ProductsBloc(
+              RepositoryProvider.of<ProductsRepositoryImpl>(context),
+            )..add(const LoadProducts()),
+          ),
+          BlocProvider(
+            create: (context) => CompaniesBloc(
+              RepositoryProvider.of<ProductsRepositoryImpl>(context),
+            )..add(LoadCompanies()),
+          ),
+          BlocProvider(
+            create: (context) => CategoryBloc(
+              RepositoryProvider.of<ProductsRepositoryImpl>(context),
+            )..add(LoadCategories()),
+          ),
+        ],
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+                AppColors.primaryblue.withValues(alpha: 0.7),
+                AppColors.accentGreen.withValues(alpha: 0.7),
+              ],
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                _loadPage(context, _currentPage);
+                context.read<CompaniesBloc>().add(LoadCompanies());
+                context.read<CategoryBloc>().add(LoadCategories());
+              },
+              child: BlocListener<ProductsBloc, ProductsState>(
+                listenWhen: (prev, curr) => curr is ProductsLoaded,
+                listener: (context, state) {
+                  final lastEvent = context.read<ProductsBloc>().lastEvent;
+
+                  if (_lastEventType != lastEvent.runtimeType) {
+                    setState(() {
+                      _currentPage = 1;
+                      _lastEventType = lastEvent.runtimeType;
+                    });
+                  }
+                },
+                child: Builder(
+                  builder: (innerContext) {
+                    return ProductsBody(
+                      currentPage: _currentPage,
+                      pageSize: _pageSize,
+                      onLoadPage: (ctx, page) => _loadPage(ctx, page),
+                      onResetPage: () {
+                        setState(() {
+                          _currentPage = 1;
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),

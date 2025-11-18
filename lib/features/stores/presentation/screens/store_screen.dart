@@ -1,10 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/stores/domain/repositories/store_repository.dart';
+import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/features/stores/data/data_sources/store_remote_data_source.dart';
+import 'package:smartcare/features/stores/data/repositories/store_repository_impl.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_bloc.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_event.dart';
-import 'package:smartcare/features/stores/presentation/bloc/store_state.dart';
-import 'package:smartcare/features/stores/presentation/widgets/scroll_view.dart';
+import 'package:smartcare/features/stores/presentation/widgets/store_body.dart';
 
 class StoreScreen extends StatelessWidget {
   const StoreScreen({Key? key}) : super(key: key);
@@ -16,20 +18,12 @@ class StoreScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) =>
-            StoreBloc(context.read<StoreRepository>())..add(FetchStoresEvent()),
-        child: BlocBuilder<StoreBloc, StoreState>(
-          builder: (context, state) {
-            if (state is StoreLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is StoreLoaded) {
-              return scroll_view(textTheme: textTheme, stores: state.stores);
-            } else if (state is StoreError) {
-              return Center(child: Text(state.message));
-            } else {
-              return const Center(child: Text('Something went wrong'));
-            }
-          },
-        ),
+            StoreBloc(
+              StoreRepositoryImpl(StoreRemoteDataSourceImpl(
+                DioConsumer(Dio())
+              )),
+            )..add(FetchStoresEvent()),
+        child: storeBody(textTheme: textTheme),
       ),
     );
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/details_screen.dart';
 import 'package:smartcare/features/products/data/models/product_model.dart';
-import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
+import 'animated_product_item.dart'; 
 
 class ProductGridWidget extends StatelessWidget {
   final List<ProductModel> products;
@@ -13,37 +11,21 @@ class ProductGridWidget extends StatelessWidget {
     if (products.isEmpty) {
       return const Center(child: Text('No products found.'));
     }
+
     return GridView.builder(
       itemCount: products.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.7,
-        crossAxisSpacing: 6,
-        mainAxisSpacing: 6,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.6,
       ),
       itemBuilder: (context, index) {
-        final p = products[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => DetailsScreen(Productid: p.productId),
-              ),
-            );
-          },
-          child: ProductItem(
-            imageUrl: p.primaryImageUrl,
-            title: p.nameEn,
-            brand: p.activeIngredients,
-            rating: p.averageRating,
-            price: p.price,
-            onAdd: () {},
-            onFavorite: () {},
-          ),
-        );
+        final product = products[index];
+        
+        return AnimatedProductItem(product: product);
       },
     );
   }

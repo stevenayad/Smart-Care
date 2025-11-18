@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
 import 'filter_sheet.dart';
 
 class FilterButton extends StatelessWidget {
   const FilterButton({super.key});
 
   void _openFilterSheet(BuildContext context) {
+    final productsBloc = context.read<ProductsBloc>();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) {
-        return FractionallySizedBox(
-          heightFactor: 0.7, 
-          child: const FilterSheet(),
+      builder: (context) {
+        return BlocProvider.value(
+          value: productsBloc,
+          child: FractionallySizedBox(
+            heightFactor: 0.7,
+            child: const FilterSheet(),
+          ),
         );
       },
     );
@@ -22,11 +28,15 @@ class FilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () => _openFilterSheet(context),
-      icon: const Icon(Icons.filter_alt_rounded),
-      label: const Text('Filter'),
+      icon: const Icon(Icons.filter_alt_rounded, size: 22),
+      label: const Text(
+        'Filter',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       ),
     );
   }

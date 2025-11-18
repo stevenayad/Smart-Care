@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:smartcare/core/faluire.dart';
 import '../../data/models/product_model.dart';
 import '../../data/models/company_model.dart';
@@ -17,6 +18,41 @@ class ProductsRepositoryImpl {
     this.companiesRemoteDataSource,
     this.categoriesRemoteDataSource,
   );
+
+  // -----------------------------
+  //  Extract backend error message
+  // -----------------------------
+  String _backendMessageFrom(DioException dioError) {
+    try {
+      final data = dioError.response?.data;
+
+      // Expected backend format:
+      // { statusCode: 424, succeeded: false, message: "...", errorsBag: null, data: null }
+      if (data is Map &&
+          data["message"] is String &&
+          data["message"].trim().isNotEmpty) {
+        return data["message"];
+      }
+
+      return "Server returned an unknown error.";
+    } catch (_) {
+      return "Failed to read server message.";
+    }
+  }
+
+  // -----------------------------
+  //  Map any error into safe text
+  // -----------------------------
+  String _mapError(Object e) {
+    if (e is DioException) {
+      if (e.response != null) {
+        return _backendMessageFrom(e);
+      }
+      return "Network error. Please try again.";
+    }
+
+    return "Unexpected internal error.";
+  }
 
   // ---------------------------------------------------------------------------
   // 🧩 Helper: Safe universal parser for all product responses
@@ -89,7 +125,7 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -107,22 +143,25 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
-  Future<Either<Failure, List<ProductModel>>> getProductsByCategoryId( {
-      required String categoryId,
-      int pageNumber = 1,
+  Future<Either<Failure, List<ProductModel>>> getProductsByCategoryId({
+    required String categoryId,
+    int pageNumber = 1,
     int pageSize = 10,
-      }) async {
+  }) async {
     try {
-      final res =
-          await productsRemoteDataSource.getProductsByCategoryId(categoryId: categoryId, pageNumber: pageNumber, pageSize: pageSize);
+      final res = await productsRemoteDataSource.getProductsByCategoryId(
+        categoryId: categoryId,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      );
       final products = _parseProducts(res); // ✅ uses unified parser
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -140,7 +179,7 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -158,7 +197,7 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -176,7 +215,7 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -194,40 +233,39 @@ class ProductsRepositoryImpl {
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
   Future<Either<Failure, List<ProductModel>>> filterProducts({
-  bool? orderByName,
-  bool? orderByPrice,
-  bool? orderByRate,
-  double? fromRate,
-  double? toRate,
-  double? fromPrice,
-  double? toPrice,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  try {
-    final res = await productsRemoteDataSource.filterProducts(
-      orderByName: orderByName,
-      orderByPrice: orderByPrice,
-      orderByRate: orderByRate,
-      fromRate: fromRate,
-      toRate: toRate,
-      fromPrice: fromPrice,
-      toPrice: toPrice,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-    );
-    final products = _parseProducts(res);
-    return Right(products);
-  } catch (e) {
-    return Left(servivefailure(e.toString()));
+    bool? orderByName,
+    bool? orderByPrice,
+    bool? orderByRate,
+    double? fromRate,
+    double? toRate,
+    double? fromPrice,
+    double? toPrice,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    try {
+      final res = await productsRemoteDataSource.filterProducts(
+        orderByName: orderByName,
+        orderByPrice: orderByPrice,
+        orderByRate: orderByRate,
+        fromRate: fromRate,
+        toRate: toRate,
+        fromPrice: fromPrice,
+        toPrice: toPrice,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      );
+      final products = _parseProducts(res);
+      return Right(products);
+    } catch (e) {
+      return Left(servivefailure(_mapError(e)));
+    }
   }
-}
-
 
   // ---------------------------------------------------------------------------
   // 🏢 COMPANIES
@@ -242,7 +280,7 @@ class ProductsRepositoryImpl {
           .toList();
       return Right(companies);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 
@@ -259,7 +297,7 @@ class ProductsRepositoryImpl {
           .toList();
       return Right(categories);
     } catch (e) {
-      return Left(servivefailure(e.toString()));
+      return Left(servivefailure(_mapError(e)));
     }
   }
 }
