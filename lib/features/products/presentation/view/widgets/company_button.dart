@@ -8,7 +8,8 @@ import '../../bloc/products/products_bloc.dart';
 import 'company_bottom_sheet.dart';
 
 class CompanyButton extends StatefulWidget {
-  const CompanyButton({super.key});
+  final VoidCallback onResetPage;
+  const CompanyButton({super.key, required this.onResetPage});
 
   @override
   State<CompanyButton> createState() => _CompanyButtonState();
@@ -36,6 +37,7 @@ class _CompanyButtonState extends State<CompanyButton> {
               ); // ممكن تتلغة كنت بجرب
 
               if (companyId == 'all') {
+                widget.onResetPage();
                 context.read<ProductsBloc>().add(const LoadProducts());
               } else {
                 context.read<ProductsBloc>().add(

@@ -28,28 +28,34 @@ class SortSection extends StatelessWidget {
         Text(
           "Sort by",
           style: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 8),
-        DecoratedBox(
+        const SizedBox(height: 10),
+
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(12),
+            color: colorScheme.surfaceVariant.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: selectedValue,
-              icon: const Icon(Icons.arrow_drop_down),
-              borderRadius: BorderRadius.circular(12),
+              icon: const Icon(Icons.arrow_drop_down_rounded, size: 28),
+              borderRadius: BorderRadius.circular(16),
               isExpanded: true,
-              items: options.map((String item) {
+              style: TextStyle(
+                color: colorScheme.onSurface,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+              items: options.map((item) {
                 return DropdownMenuItem<String>(value: item, child: Text(item));
               }).toList(),
-              onChanged: (newValue) {
-                if (newValue != null) onChanged(newValue);
-              },
+              onChanged: (value) => value != null ? onChanged(value) : null,
             ),
           ),
         ),

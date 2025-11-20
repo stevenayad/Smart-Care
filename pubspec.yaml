@@ -51,6 +51,7 @@ dependencies:
   im_stepper: ^1.0.1+1
   flutter_animate: ^4.5.2
   flutter_rating_bar: ^4.0.1
+  visibility_detector: ^0.4.0+2
   carousel_slider: ^5.1.1
   stylish_bottom_bar: ^1.1.1
   line_icons: ^2.0.3

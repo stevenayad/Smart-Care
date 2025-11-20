@@ -28,18 +28,18 @@ class _FilterSheetState extends State<FilterSheet> {
       maxChildSize: 0.95,
       builder: (_, scrollController) {
         return Container(
-          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            color: colorScheme.surface.withValues(alpha: 0.92),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: const Offset(0, -3),
+                color: Colors.black.withValues(alpha: 0.15),
+                blurRadius: 20,
+                offset: const Offset(0, -5),
               ),
             ],
           ),
+          padding: const EdgeInsets.all(24),
           child: SingleChildScrollView(
             controller: scrollController,
             child: Column(
@@ -47,12 +47,12 @@ class _FilterSheetState extends State<FilterSheet> {
               children: [
                 Center(
                   child: Container(
-                    width: 50,
-                    height: 5,
-                    margin: const EdgeInsets.only(bottom: 16),
+                    width: 55,
+                    height: 6,
+                    margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
                       color: colorScheme.outlineVariant,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
@@ -61,30 +61,32 @@ class _FilterSheetState extends State<FilterSheet> {
                   "Filter Products",
                   style: TextStyle(
                     color: colorScheme.onSurface,
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
+                const SizedBox(height: 26),
                 SortSection(
                   selectedValue: selectedSort,
                   onChanged: (value) => setState(() => selectedSort = value),
                 ),
-                const SizedBox(height: 16),
-                PriceRangeSection(fromPrice: fromPrice, toPrice: toPrice),
-                const SizedBox(height: 16),
-                RateRangeSection(fromRate: fromRate, toRate: toRate),
-                const SizedBox(height: 24),
 
+                const SizedBox(height: 20),
+                PriceRangeSection(fromPrice: fromPrice, toPrice: toPrice),
+
+                const SizedBox(height: 20),
+                RateRangeSection(fromRate: fromRate, toRate: toRate),
+                const SizedBox(height: 30),
                 ApplyFilterButton(
                   selectedSort: selectedSort,
                   fromPrice: fromPrice,
                   toPrice: toPrice,
                   fromRate: fromRate,
                   toRate: toRate,
-                  onClose: () => Navigator.pop(context),
+                  onClose: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
                 ),
               ],
             ),

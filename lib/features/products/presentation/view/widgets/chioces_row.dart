@@ -5,7 +5,8 @@ import 'package:smartcare/features/products/presentation/view/widgets/company_bu
 import 'package:smartcare/features/products/presentation/view/widgets/dropdown_list_widget.dart';
 
 class ChiocesRow extends StatelessWidget {
-  const ChiocesRow({super.key});
+  final VoidCallback onResetPage;
+  const ChiocesRow({super.key, required this.onResetPage});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,9 @@ class ChiocesRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CategoryButton(),
+          CategoryButton(onResetPage: onResetPage),
           SizedBox(width: 10),
-          CompanyButton(),
+          CompanyButton(onResetPage: onResetPage),
           SizedBox(width: 10),
           // DropdownListWidget(),
           FilterButton(),
