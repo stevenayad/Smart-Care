@@ -23,7 +23,7 @@ class OrderStatusFilter extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         ),
-        value: null, // null = All orders
+        value: null, 
         items: [
           const DropdownMenuItem<int?>(
             value: null,

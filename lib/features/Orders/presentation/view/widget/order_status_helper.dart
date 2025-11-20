@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:smartcare/core/app_color.dart'; // Commented out as AppColors are no longer used for status colors
 
 class OrderStatusHelper {
   static String getStatusText(int? status) {
@@ -57,12 +56,10 @@ class OrderStatusHelper {
   }
 
   static Color getStatusTextColor(int? status) {
-    // Keeping logic that might be tied to background luminance.
-    // Amber (0) and Indigo (2) backgrounds will need light text to stand out,
-    // so I'm updating the logic here.
+
     if (status == 0 || status == 2)
-      return Colors.black; // Use black for Amber and Indigo backgrounds
-    return Colors.white; // Use white for other darker backgrounds
+      return Colors.black; 
+    return Colors.white; 
   }
 
   static IconData getStatusIcon(int? status) {

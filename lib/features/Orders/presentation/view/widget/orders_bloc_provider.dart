@@ -13,14 +13,12 @@ import 'package:smartcare/features/Orders/presentation/bloc/orders_event.dart';
 import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 
 
-/// Returns a BlocProvider wrapping OrdersScreen
 BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
   final dio = Dio();
   final apiConsumer = DioConsumer(dio);
   final remoteDataSource = OrderRemoteDataSourceImpl(apiConsumer: apiConsumer);
   final repository = OrderRepositoryImpl(remoteDataSource: remoteDataSource);
 
-  // Usecases
   final getOrderById = GetOrderById(repository);
   final getOrderDetails = GetOrderDetails(repository);
   final getOrdersByCustomer = GetOrdersByCustomer(repository);

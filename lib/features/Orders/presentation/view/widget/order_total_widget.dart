@@ -13,9 +13,9 @@ class OrderTotalWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.primaryblue.withOpacity(0.05),
+        color: AppColors.primaryblue.withValues(alpha:  0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.primaryblue.withOpacity(0.1)),
+        border: Border.all(color: AppColors.primaryblue.withValues(alpha:  0.1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
