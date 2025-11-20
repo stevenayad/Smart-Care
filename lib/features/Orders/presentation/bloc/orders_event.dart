@@ -38,20 +38,4 @@ class FetchOrdersByCustomerAndStatus extends OrdersEvent {
   List<Object?> get props => [clientId, status];
 }
 
-class CreateOnlineOrderEvent extends OrdersEvent {
-  final String cartId;
-  final String deliveryAddressId;
-  CreateOnlineOrderEvent({required this.cartId, required this.deliveryAddressId});
 
-  @override
-  List<Object?> get props => [cartId, deliveryAddressId];
-}
-
-class CreatePickupOrderEvent extends OrdersEvent {
-  final String cartId;
-  final String storeId;
-  CreatePickupOrderEvent({required this.cartId, required this.storeId});
-
-  @override
-  List<Object?> get props => [cartId, storeId];
-}

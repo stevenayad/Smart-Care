@@ -94,41 +94,4 @@ class OrderRepositoryImpl implements OrderRepository {
     }
   }
 
-  // --------------------------------------------------------------------------
-  // CREATE ONLINE ORDER
-  // --------------------------------------------------------------------------
-  @override
-  Future<Either<Failure, Orderr>> createOnlineOrder({
-    required String cartId,
-    required String deliveryAddressId,
-  }) async {
-    try {
-      final model = await remoteDataSource.createOnlineOrder(
-        cartId: cartId,
-        deliveryAddressId: deliveryAddressId,
-      );
-      return Right(_fromModel(model));
-    } catch (e) {
-      return Left(_handleError(e));
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // CREATE PICKUP ORDER
-  // --------------------------------------------------------------------------
-  @override
-  Future<Either<Failure, Orderr>> createPickupOrder({
-    required String cartId,
-    required String storeId,
-  }) async {
-    try {
-      final model = await remoteDataSource.createPickupOrder(
-        cartId: cartId,
-        storeId: storeId,
-      );
-      return Right(_fromModel(model));
-    } catch (e) {
-      return Left(_handleError(e));
-    }
-  }
 }

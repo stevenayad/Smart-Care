@@ -35,25 +35,4 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     return list.map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 
-  @override
-  Future<OrderModel> createOnlineOrder({required String cartId, required String deliveryAddressId}) async {
-    final body = {
-      'cartId': cartId,
-      'deliveryAddressId': deliveryAddressId,
-    };
-    final response = await apiConsumer.post('/api/orders/create-online-order', body, false);
-    final data = response['data'] as Map<String, dynamic>;
-    return OrderModel.fromJson(Map<String, dynamic>.from(data));
-  }
-
-  @override
-  Future<OrderModel> createPickupOrder({required String cartId, required String storeId}) async {
-    final body = {
-      'cartId': cartId,
-      'storeId': storeId,
-    };
-    final response = await apiConsumer.post('/api/orders/create-pickup-order', body, false);
-    final data = response['data'] as Map<String, dynamic>;
-    return OrderModel.fromJson(Map<String, dynamic>.from(data));
-  }
 }

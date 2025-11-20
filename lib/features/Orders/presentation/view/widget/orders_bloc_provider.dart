@@ -2,11 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
-import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/Orders/data/datasources/order_remote_data_source_impl.dart';
 import 'package:smartcare/features/Orders/domain/repositories/order_repository_impl.dart';
-import 'package:smartcare/features/Orders/domain/usecases/create_online_order.dart';
-import 'package:smartcare/features/Orders/domain/usecases/create_pickup_order.dart';
 import 'package:smartcare/features/Orders/domain/usecases/get_order_by_id.dart';
 import 'package:smartcare/features/Orders/domain/usecases/get_order_details.dart';
 import 'package:smartcare/features/Orders/domain/usecases/get_orders_by_customer.dart';
@@ -28,8 +25,6 @@ BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
   final getOrderDetails = GetOrderDetails(repository);
   final getOrdersByCustomer = GetOrdersByCustomer(repository);
   final getOrdersByCustomerAndStatus = GetOrdersByCustomerAndStatus(repository);
-  final createOnlineOrder = CreateOnlineOrder(repository);
-  final createPickupOrder = CreatePickupOrder(repository);
 
   return BlocProvider(
     create: (_) => OrdersBloc(
@@ -37,8 +32,6 @@ BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
       getOrderDetails: getOrderDetails,
       getOrdersByCustomer: getOrdersByCustomer,
       getOrdersByCustomerAndStatus: getOrdersByCustomerAndStatus,
-      createOnlineOrder: createOnlineOrder,
-      createPickupOrder: createPickupOrder,
     )..add(FetchOrdersByCustomer()),
     child: const OrdersScreen(),
   );
