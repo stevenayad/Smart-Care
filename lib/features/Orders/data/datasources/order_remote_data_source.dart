@@ -8,7 +8,7 @@ abstract class OrderRemoteDataSource {
   Future<OrderModel> getOrderDetails(String id);
 
   /// GET /api/orders/by-customer?clientId=...
-  Future<List<OrderModel>> getOrdersByCustomer(String clientId);
+  Future<List<OrderModel>> getOrdersByCustomer();
 
   /// GET /api/orders/by-customer-and-status?clientId=...&status=...
   Future<List<OrderModel>> getOrdersByCustomerAndStatus(String clientId, int status);

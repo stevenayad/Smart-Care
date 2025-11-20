@@ -44,7 +44,7 @@ class OrderStatusFilter extends StatelessWidget {
         ],
         onChanged: (value) {
           if (value == null) {
-            ordersBloc.add(FetchOrdersByCustomer(clientId));
+            ordersBloc.add(FetchOrdersByCustomer());
           } else {
             ordersBloc.add(FetchOrdersByCustomerAndStatus(clientId, value));
           }

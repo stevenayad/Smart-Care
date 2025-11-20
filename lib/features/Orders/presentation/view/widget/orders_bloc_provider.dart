@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
-import 'package:smartcare/features/Order/data/datasources/order_remote_data_source_impl.dart';
-import 'package:smartcare/features/Order/domain/repositories/order_repository_impl.dart';
-import 'package:smartcare/features/Order/domain/usecases/create_online_order.dart';
-import 'package:smartcare/features/Order/domain/usecases/create_pickup_order.dart';
-import 'package:smartcare/features/Order/domain/usecases/get_order_by_id.dart';
-import 'package:smartcare/features/Order/domain/usecases/get_order_details.dart';
-import 'package:smartcare/features/Order/domain/usecases/get_orders_by_customer.dart';
-import 'package:smartcare/features/Order/domain/usecases/get_orders_by_customer_and_status.dart';
-import 'package:smartcare/features/Order/presentation/bloc/orders_bloc.dart';
-import 'package:smartcare/features/Order/presentation/bloc/orders_event.dart';
-import 'package:smartcare/features/Order/presentation/view/screen/orders_screen.dart';
+import 'package:smartcare/features/Orders/data/datasources/order_remote_data_source_impl.dart';
+import 'package:smartcare/features/Orders/domain/repositories/order_repository_impl.dart';
+import 'package:smartcare/features/Orders/domain/usecases/create_online_order.dart';
+import 'package:smartcare/features/Orders/domain/usecases/create_pickup_order.dart';
+import 'package:smartcare/features/Orders/domain/usecases/get_order_by_id.dart';
+import 'package:smartcare/features/Orders/domain/usecases/get_order_details.dart';
+import 'package:smartcare/features/Orders/domain/usecases/get_orders_by_customer.dart';
+import 'package:smartcare/features/Orders/domain/usecases/get_orders_by_customer_and_status.dart';
+import 'package:smartcare/features/Orders/presentation/bloc/orders_bloc.dart';
+import 'package:smartcare/features/Orders/presentation/bloc/orders_event.dart';
+import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 
 
 /// Returns a BlocProvider wrapping OrdersScreen
@@ -39,7 +39,7 @@ BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
       getOrdersByCustomerAndStatus: getOrdersByCustomerAndStatus,
       createOnlineOrder: createOnlineOrder,
       createPickupOrder: createPickupOrder,
-    )..add(FetchOrdersByCustomer(CacheHelper.getUserId().toString())),
+    )..add(FetchOrdersByCustomer()),
     child: const OrdersScreen(),
   );
 }

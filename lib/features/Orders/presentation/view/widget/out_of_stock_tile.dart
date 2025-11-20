@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/Order/data/models/out_of_stock_model.dart';
+import 'package:smartcare/features/Orders/data/models/out_of_stock_model.dart';
 
 class OutOfStockWidget extends StatelessWidget {
   final OutOfStockModel oos;

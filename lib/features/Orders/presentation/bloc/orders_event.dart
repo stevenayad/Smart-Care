@@ -22,11 +22,11 @@ class FetchOrderDetails extends OrdersEvent {
 }
 
 class FetchOrdersByCustomer extends OrdersEvent {
-  final String clientId;
-  FetchOrdersByCustomer(this.clientId);
+  
+  FetchOrdersByCustomer();
 
   @override
-  List<Object?> get props => [clientId];
+  List<Object?> get props => [];
 }
 
 class FetchOrdersByCustomerAndStatus extends OrdersEvent {

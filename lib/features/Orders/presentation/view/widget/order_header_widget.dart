@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/Order/domain/entities/order.dart';
+import 'package:smartcare/features/Orders/domain/entities/order.dart';
 import 'order_status_badge.dart';
 
 class OrderHeaderWidget extends StatelessWidget {

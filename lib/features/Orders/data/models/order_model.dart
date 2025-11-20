@@ -1,5 +1,5 @@
 
-import 'package:smartcare/features/Order/data/models/store_model.dart';
+import 'package:smartcare/features/Orders/data/models/store_model.dart';
 
 import 'address_model.dart';
 import 'order_item_model.dart';

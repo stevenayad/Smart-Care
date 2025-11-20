@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/Order/data/models/order_item_model.dart';
+import 'package:smartcare/features/Orders/data/models/order_item_model.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final OrderItemModel item;

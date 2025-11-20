@@ -1,5 +1,5 @@
 import 'package:smartcare/core/api/api_consumer.dart';
-import 'package:smartcare/features/Order/data/models/order_model.dart';
+import 'package:smartcare/features/Orders/data/models/order_model.dart';
 import 'order_remote_data_source.dart';
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -22,8 +22,8 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getOrdersByCustomer(String clientId) async {
-    final response = await apiConsumer.get('/api/admin/orders/by-customer', {'clientId': clientId});
+  Future<List<OrderModel>> getOrdersByCustomer() async {
+    final response = await apiConsumer.get('/api/me/orders',null);
     final list = response['data'] as List<dynamic>;
     return list.map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e))).toList();
   }

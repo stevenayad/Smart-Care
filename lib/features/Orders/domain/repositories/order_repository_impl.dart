@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import 'package:smartcare/core/faluire.dart';
-import 'package:smartcare/features/Order/data/datasources/order_remote_data_source.dart';
-import 'package:smartcare/features/Order/data/models/order_model.dart';
-import 'package:smartcare/features/Order/domain/entities/order.dart';
-import 'package:smartcare/features/Order/domain/repositories/order_repository.dart';
+import 'package:smartcare/features/Orders/data/datasources/order_remote_data_source.dart';
+import 'package:smartcare/features/Orders/data/models/order_model.dart';
+import 'package:smartcare/features/Orders/domain/entities/order.dart';
+import 'package:smartcare/features/Orders/domain/repositories/order_repository.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource remoteDataSource;
@@ -68,9 +68,9 @@ class OrderRepositoryImpl implements OrderRepository {
   // GET ALL ORDERS FOR CUSTOMER
   // --------------------------------------------------------------------------
   @override
-  Future<Either<Failure, List<Orderr>>> getOrdersByCustomer(String clientId) async {
+  Future<Either<Failure, List<Orderr>>> getOrdersByCustomer() async {
     try {
-      final models = await remoteDataSource.getOrdersByCustomer(clientId);
+      final models = await remoteDataSource.getOrdersByCustomer();
       return Right(models.map(_fromModel).toList());
     } catch (e) {
       return Left(_handleError(e));

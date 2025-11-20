@@ -55,7 +55,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
   Future<void> _onFetchOrdersByCustomer(FetchOrdersByCustomer event, Emitter<OrdersState> emit) async {
     emit(OrdersLoading());
-    final Either<Failure, List<Orderr>> result = await getOrdersByCustomer(event.clientId);
+    final Either<Failure, List<Orderr>> result = await getOrdersByCustomer();
     result.fold(
       (failure) => emit(OrdersError(failure.errMessage)),
       (orders) => emit(OrdersListLoaded(orders)),
