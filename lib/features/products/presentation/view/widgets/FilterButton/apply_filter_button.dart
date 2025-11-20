@@ -60,7 +60,7 @@ class ApplyFilterButton extends StatelessWidget {
           ),
         );
 
-    onClose(); 
+    onClose();
   }
 
   @override

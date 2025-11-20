@@ -36,18 +36,15 @@ class ProductsRemoteDataSource {
 
   Future<List<dynamic>> getProductsByCategoryId({
     required String categoryId,
-     int pageNumber = 1,
+    int pageNumber = 1,
     int pageSize = 10,
-    }) async {
-      final query = {
+  }) async {
+    final query = {
       'CategoryId': categoryId,
       'pageNumber': pageNumber,
       'pageSize': pageSize,
     };
-    final response = await consumer.get(
-      '/api/Products/CategoryId',
-      query,
-    );
+    final response = await consumer.get('/api/Products/CategoryId', query);
 
     if (response is Map && response.containsKey('data')) {
       final items = response['data']['items'];
@@ -57,32 +54,31 @@ class ProductsRemoteDataSource {
   }
 
   Future<Map<String, dynamic>> filterProducts({
-  bool? orderByName,
-  bool? orderByPrice,
-  bool? orderByRate,
-  double? fromRate,
-  double? toRate,
-  double? fromPrice,
-  double? toPrice,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  final query = {
-    if (orderByName != null) 'OrderByName': orderByName,
-    if (orderByPrice != null) 'OrderByPrice': orderByPrice,
-    if (orderByRate != null) 'OrderByRate': orderByRate,
-    if (fromRate != null) 'FromRate': fromRate,
-    if (toRate != null) 'ToRate': toRate,
-    if (fromPrice != null) 'FromPrice': fromPrice,
-    if (toPrice != null) 'ToPrice': toPrice,
-    'pageNumber': pageNumber,
-    'pageSize': pageSize,
-  };
+    bool? orderByName,
+    bool? orderByPrice,
+    bool? orderByRate,
+    double? fromRate,
+    double? toRate,
+    double? fromPrice,
+    double? toPrice,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    final query = {
+      if (orderByName != null) 'OrderByName': orderByName,
+      if (orderByPrice != null) 'OrderByPrice': orderByPrice,
+      if (orderByRate != null) 'OrderByRate': orderByRate,
+      if (fromRate != null) 'FromRate': fromRate,
+      if (toRate != null) 'ToRate': toRate,
+      if (fromPrice != null) 'FromPrice': fromPrice,
+      if (toPrice != null) 'ToPrice': toPrice,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize,
+    };
 
-  final res = await consumer.get('/api/Products/Filter', query);
-  return _safeMap(res);
-}
-
+    final res = await consumer.get('/api/Products/Filter', query);
+    return _safeMap(res);
+  }
 
   Future<Map<String, dynamic>> getProductsByName({
     required String name,

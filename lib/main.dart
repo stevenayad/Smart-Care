@@ -10,16 +10,21 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/cart/data/cart_signalr.dart';
+import 'package:smartcare/features/cart/data/cartrepo.dart';
+import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
+import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
-import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  final signalRService = CartSignalRService(CacheHelper.getAccessToken() ?? "");
+  await signalRService.init();
   Bloc.observer = SimpleBlocObserver();
   // ✅ Show Flutter errors instead of white screen
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -51,6 +56,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+      
         BlocProvider(create: (context) => AuthBloc(authRepository)),
         BlocProvider(
           create: (context) =>

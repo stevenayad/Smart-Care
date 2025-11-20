@@ -1,4 +1,9 @@
+import 'package:dartz/dartz.dart' as product show id;
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/cart/data/model/request_add_item_model.dart';
+import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/check%20availability/check_availability_screen.dart'
     show CheckAvailabilityScreen;
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
@@ -44,21 +49,17 @@ class ProductDetails extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Company Info & Rating
               buildInfoSection(detialsProductModel),
               const SizedBox(height: 12),
 
-              // Rate Review
               RateReview(detailsProductModel: detialsProductModel),
               const SizedBox(height: 12),
 
-              // Price & Description
               ProductPrice_Descrption_Section(
                 detailsProductModel: detialsProductModel,
               ),
               const SizedBox(height: 20),
 
-              // Check Availability Button
               ActionButton(
                 title: "Check Availability in Store",
                 icon: Icons.location_on,
@@ -75,14 +76,46 @@ class ProductDetails extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // Add to Cart Button
-              ActionButton(
-                title: "Add to Cart",
-                icon: Icons.shopping_cart,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                onPressed: () {},
+              BlocListener<CartCubit, CartState>(
+                listener: (context, state) {
+                  if (state is CartFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.errmessage),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+
+                  if (state is AddItemSucces) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Product added to cart"),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                },
+                child: ActionButton(
+                  title: "Add to Cart",
+                  icon: Icons.shopping_cart,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    final cubit = context.read<CartCubit>();
+                    final cartId = cubit.cartId ?? '';
+
+                    cubit.PutItem(
+                      RequestAddItemModel(
+                        cartId: cartId,
+                        productId: detialsProductModel.data?.productId,
+                        quantity: 1,
+                      ),
+                    );
+                  },
+                ),
               ),
+
               const SizedBox(height: 16),
             ],
           ),

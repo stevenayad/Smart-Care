@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 
-
 class ProductGridView extends StatefulWidget {
   final String companyId;
 

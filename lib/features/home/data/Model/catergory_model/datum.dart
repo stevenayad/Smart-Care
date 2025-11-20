@@ -1,11 +1,11 @@
-class Datum {
+class CategoryDatum {
   String? id;
   String? name;
   String? logoUrl;
 
-  Datum({this.id, this.name, this.logoUrl});
+  CategoryDatum({this.id, this.name, this.logoUrl});
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory CategoryDatum.fromJson(Map<String, dynamic> json) => CategoryDatum(
     id: json['id'] as String?,
     name: json['name'] as String?,
     logoUrl: json['logoUrl'] as String?,

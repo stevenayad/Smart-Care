@@ -46,24 +46,21 @@ class _RateReviewState extends State<RateReview> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
-             
               Row(
                 children: [
-                  const Icon(Icons.star_rate_rounded,
-                      color: Colors.amber, size: 24),
+                  const Icon(
+                    Icons.star_rate_rounded,
+                    color: Colors.amber,
+                    size: 24,
+                  ),
                   const SizedBox(width: 6),
                   const Text(
                     "Rate this Product",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Spacer(),
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.amber.withOpacity(.2),
                       borderRadius: BorderRadius.circular(8),
@@ -75,7 +72,7 @@ class _RateReviewState extends State<RateReview> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
 

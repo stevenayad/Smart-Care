@@ -25,7 +25,7 @@ class AddScreenBody extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const AdrressType(), // fixed typo here
+            const AdrressType(),
             const SizedBox(height: 20),
             CustomTextFormField(
               label: 'Address Label',
