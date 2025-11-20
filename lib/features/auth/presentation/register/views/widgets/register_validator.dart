@@ -55,6 +55,8 @@ class RegisterValidator {
     required String address,
     required String addressLabel,
     required String addressadditionalLabel,
+    required String latitude,
+    required String longitude,
   }) {
     if (address.trim().isEmpty) {
       return 'Please enter your address';
@@ -64,6 +66,9 @@ class RegisterValidator {
     }
     if (addressadditionalLabel.trim().isEmpty) {
       return 'Please enter an additional address  near to ain shams usniversity';
+    }
+    if (latitude.trim().isEmpty || longitude.trim().isEmpty) {
+      return 'Please select a location (either current or from map)';
     }
     return null;
   }

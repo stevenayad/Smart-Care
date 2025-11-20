@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/core/api/services/location_service.dart';
+import 'package:smartcare/features/auth/presentation/register/views/map_picker_screen.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/custom_checkbox_field.dart';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/location_picker_radio.dart';
 import 'package:smartcare/features/auth/presentation/widgets/custom_text_feild.dart';
 
 class Step3Address extends StatelessWidget {
@@ -61,6 +64,11 @@ class Step3Address extends StatelessWidget {
             hint: 'e.g., near to ainshams unversity',
             validator: (v) =>
                 v!.isEmpty ? 'address Additional is required' : null,
+          ),
+          const SizedBox(height: 20),
+          LocationPickerRadio(
+            latitudeController: latitudeController,
+            longitudeController: longitudeController,
           ),
         ],
       ),

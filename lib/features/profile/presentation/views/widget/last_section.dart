@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
+import 'package:smartcare/features/Order/presentation/view/widget/orders_bloc_provider.dart';
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 
@@ -47,7 +48,9 @@ class LastSection extends StatelessWidget {
             context,
             'My Orders',
             Icons.shopping_bag_outlined,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute( builder: (context) =>  buildOrdersBlocScreen(),) ) ;
+            },
           ),
           Divider(thickness: 0.5),
           buildNavagationtitle(
