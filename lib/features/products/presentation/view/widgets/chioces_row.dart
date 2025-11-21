@@ -19,7 +19,7 @@ class ChiocesRow extends StatelessWidget {
           CompanyButton(),
           SizedBox(width: 10),
           // DropdownListWidget(),
-          FilterButton()
+          FilterButton(),
         ],
       ),
     );

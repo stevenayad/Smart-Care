@@ -48,18 +48,18 @@ class ApplyFilterButton extends StatelessWidget {
     }
 
     context.read<ProductsBloc>().add(
-          FilterProducts(
-            orderByName: orderByName,
-            orderByPrice: orderByPrice,
-            orderByRate: orderByRate,
-            fromPrice: double.tryParse(fromPrice.text),
-            toPrice: double.tryParse(toPrice.text),
-            fromRate: double.tryParse(fromRate.text),
-            toRate: double.tryParse(toRate.text),
-          ),
-        );
+      FilterProducts(
+        orderByName: orderByName,
+        orderByPrice: orderByPrice,
+        orderByRate: orderByRate,
+        fromPrice: double.tryParse(fromPrice.text),
+        toPrice: double.tryParse(toPrice.text),
+        fromRate: double.tryParse(fromRate.text),
+        toRate: double.tryParse(toRate.text),
+      ),
+    );
 
-    onClose(); 
+    onClose();
   }
 
   @override

@@ -111,14 +111,17 @@ class ProductsRepositoryImpl {
     }
   }
 
-  Future<Either<Failure, List<ProductModel>>> getProductsByCategoryId( {
-      required String categoryId,
-      int pageNumber = 1,
+  Future<Either<Failure, List<ProductModel>>> getProductsByCategoryId({
+    required String categoryId,
+    int pageNumber = 1,
     int pageSize = 10,
-      }) async {
+  }) async {
     try {
-      final res =
-          await productsRemoteDataSource.getProductsByCategoryId(categoryId: categoryId, pageNumber: pageNumber, pageSize: pageSize);
+      final res = await productsRemoteDataSource.getProductsByCategoryId(
+        categoryId: categoryId,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      );
       final products = _parseProducts(res); // ✅ uses unified parser
       return Right(products);
     } catch (e) {
@@ -199,35 +202,34 @@ class ProductsRepositoryImpl {
   }
 
   Future<Either<Failure, List<ProductModel>>> filterProducts({
-  bool? orderByName,
-  bool? orderByPrice,
-  bool? orderByRate,
-  double? fromRate,
-  double? toRate,
-  double? fromPrice,
-  double? toPrice,
-  int pageNumber = 1,
-  int pageSize = 10,
-}) async {
-  try {
-    final res = await productsRemoteDataSource.filterProducts(
-      orderByName: orderByName,
-      orderByPrice: orderByPrice,
-      orderByRate: orderByRate,
-      fromRate: fromRate,
-      toRate: toRate,
-      fromPrice: fromPrice,
-      toPrice: toPrice,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-    );
-    final products = _parseProducts(res);
-    return Right(products);
-  } catch (e) {
-    return Left(servivefailure(e.toString()));
+    bool? orderByName,
+    bool? orderByPrice,
+    bool? orderByRate,
+    double? fromRate,
+    double? toRate,
+    double? fromPrice,
+    double? toPrice,
+    int pageNumber = 1,
+    int pageSize = 10,
+  }) async {
+    try {
+      final res = await productsRemoteDataSource.filterProducts(
+        orderByName: orderByName,
+        orderByPrice: orderByPrice,
+        orderByRate: orderByRate,
+        fromRate: fromRate,
+        toRate: toRate,
+        fromPrice: fromPrice,
+        toPrice: toPrice,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      );
+      final products = _parseProducts(res);
+      return Right(products);
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
   }
-}
-
 
   // ---------------------------------------------------------------------------
   // 🏢 COMPANIES

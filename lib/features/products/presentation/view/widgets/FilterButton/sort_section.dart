@@ -45,10 +45,7 @@ class SortSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               isExpanded: true,
               items: options.map((String item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
+                return DropdownMenuItem<String>(value: item, child: Text(item));
               }).toList(),
               onChanged: (newValue) {
                 if (newValue != null) onChanged(newValue);

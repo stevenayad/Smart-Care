@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
 
-
 class Rate extends StatelessWidget {
   const Rate({super.key, required this.detialsProductModel});
   final DetailsProductModel detialsProductModel;

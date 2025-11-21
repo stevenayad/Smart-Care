@@ -11,7 +11,7 @@ class FilterButton extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (_) {
         return FractionallySizedBox(
-          heightFactor: 0.7, 
+          heightFactor: 0.7,
           child: const FilterSheet(),
         );
       },

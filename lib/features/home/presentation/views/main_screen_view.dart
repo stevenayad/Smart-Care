@@ -76,7 +76,9 @@ class MainScreenView extends StatelessWidget {
                           width: 20,
                           margin: const EdgeInsets.only(bottom: 6),
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.blue : Colors.transparent,
+                            color: isSelected
+                                ? Colors.blue
+                                : Colors.transparent,
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
