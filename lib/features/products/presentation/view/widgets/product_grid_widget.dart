@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/features/products/data/models/product_model.dart';
-import 'animated_product_item.dart'; 
+import 'animated_product_item.dart';
 
 class ProductGridWidget extends StatelessWidget {
   final List<ProductModel> products;
@@ -24,7 +24,7 @@ class ProductGridWidget extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final product = products[index];
-        
+
         return AnimatedProductItem(product: product);
       },
     );

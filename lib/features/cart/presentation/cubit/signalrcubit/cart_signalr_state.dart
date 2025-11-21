@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/cart/data/model/items_cart/datum.dart';
 
-
 class CartSignalRState extends Equatable {
   final String? lastMessage;
   final List<DatumCart> items;

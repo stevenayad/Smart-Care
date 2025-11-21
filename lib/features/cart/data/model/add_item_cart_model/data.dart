@@ -50,10 +50,9 @@ class AddDataModel {
     'reservationId': reservationId,
     'reservedUntil': reservedUntil?.toIso8601String(),
   };
-
 }
 
-  DatumCart mapAddDataToDatumCart(AddDataModel d) {
+DatumCart mapAddDataToDatumCart(AddDataModel d) {
   return DatumCart(
     id: d.id,
     productId: d.productId,

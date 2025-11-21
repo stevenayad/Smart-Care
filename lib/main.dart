@@ -11,14 +11,12 @@ import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
-import 'package:smartcare/features/cart/data/cartrepo.dart';
-import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
-import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
+import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
-
+import 'package:smartcare/features/order/presentation/views/delviery_screen.dart';
+import 'package:smartcare/features/order/presentation/views/orderscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +54,6 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-      
         BlocProvider(create: (context) => AuthBloc(authRepository)),
         BlocProvider(
           create: (context) =>
@@ -70,8 +67,7 @@ void main() async {
 }
 
 class SmartCare extends StatelessWidget {
-
-  const SmartCare({super.key, });
+  const SmartCare({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +79,7 @@ class SmartCare extends StatelessWidget {
       // home:CacheHelper.getAccessToken() != null
       //     ? const HomeScreen()
       //     : const LoginScreen(),
-      home: const LoginScreen(),
+      home: const DelvieryScreen(),
     );
   }
 }

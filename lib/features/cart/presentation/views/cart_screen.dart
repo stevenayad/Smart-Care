@@ -15,7 +15,6 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final signalRService = CartSignalRService(CacheHelper.getAccessToken()!);
 
     return MultiBlocProvider(
@@ -42,10 +41,7 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ],
-      child: const Scaffold(
-        appBar: CartAppBar(),
-        body: CartBody(),
-      ),
+      child: const Scaffold(appBar: CartAppBar(), body: CartBody()),
     );
   }
 }

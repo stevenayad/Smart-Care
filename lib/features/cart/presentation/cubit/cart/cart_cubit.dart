@@ -21,7 +21,7 @@ class CartCubit extends Cubit<CartState> {
   final CartSignalRService signalRService;
 
   CartCubit({required this.cartrepo, required this.signalRService})
-      : super(CartInitial()) {
+    : super(CartInitial()) {
     makecart();
   }
 
@@ -72,7 +72,9 @@ class CartCubit extends Cubit<CartState> {
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
       (model) {
-        _cartItems = _cartItems.where((e) => e.id != request.cartItemId).toList();
+        _cartItems = _cartItems
+            .where((e) => e.id != request.cartItemId)
+            .toList();
         emit(RemoveItemSucces(removeItemCartModel: model));
       },
     );

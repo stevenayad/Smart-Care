@@ -23,8 +23,6 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
-
     return Scaffold(
       body: MultiBlocProvider(
         providers: [
@@ -40,16 +38,12 @@ class DetailsScreen extends StatelessWidget {
           ),
 
           BlocProvider<CartCubit>(
-          lazy: false,
-          create: (context) =>
-           CartCubit(
+            lazy: false,
+            create: (context) => CartCubit(
               cartrepo: Cartrepo(apiConsumer: DioConsumer(Dio())),
               signalRService: CartSignalRService(CacheHelper.getAccessToken()!),
-            )
-
-           
-          ,
-        ),
+            ),
+          ),
         ],
         child: DetailsBody(),
       ),

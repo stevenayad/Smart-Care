@@ -54,7 +54,7 @@ class CartSignalRService {
       }
     }
   }
-  
+
   Future<void> joinUserGroup(String cartId) async {
     lastCartId = cartId;
     await connect();
@@ -79,7 +79,9 @@ class CartSignalRService {
     }
   }
 
-  void listenReservationExpired(void Function(ReservationExpiredModel) handler) {
+  void listenReservationExpired(
+    void Function(ReservationExpiredModel) handler,
+  ) {
     _handler = handler;
 
     if (_listenerRegistered) return;
@@ -94,7 +96,9 @@ class CartSignalRService {
         final first = data.first;
         if (first is! Map<String, dynamic>) return;
         final model = ReservationExpiredModel.fromJson(first);
-        log("🔔 ReservationExpired => productId=${model.productId}, qty=${model.quantity}, msg=${model.message}");
+        log(
+          "🔔 ReservationExpired => productId=${model.productId}, qty=${model.quantity}, msg=${model.message}",
+        );
         _handler?.call(model);
       } catch (e, s) {
         log("❌ Error processing ReservationExpired: $e");

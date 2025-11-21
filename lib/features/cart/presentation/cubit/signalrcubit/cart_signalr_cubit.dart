@@ -12,10 +12,8 @@ class CartSignalRCubit extends Cubit<CartSignalRState> {
 
   StreamSubscription? _cartStream;
 
-  CartSignalRCubit({
-    required this.signalRService,
-    required this.cartCubit,
-  }) : super(CartSignalRState()) {
+  CartSignalRCubit({required this.signalRService, required this.cartCubit})
+    : super(CartSignalRState()) {
     _init();
   }
 
@@ -32,10 +30,7 @@ class CartSignalRCubit extends Cubit<CartSignalRState> {
         await cartCubit.GetITem(cartCubit.cartId!);
       }
 
-      emit(state.copyWith(
-        lastMessage: msg,
-        items: [...cartCubit.cartItems],
-      ));
+      emit(state.copyWith(lastMessage: msg, items: [...cartCubit.cartItems]));
 
       onReservationMessage?.call(msg);
     });

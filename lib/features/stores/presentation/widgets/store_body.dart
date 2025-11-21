@@ -5,10 +5,7 @@ import 'package:smartcare/features/stores/presentation/bloc/store_state.dart';
 import 'package:smartcare/features/stores/presentation/widgets/scroll_view.dart';
 
 class storeBody extends StatelessWidget {
-  const storeBody({
-    super.key,
-    required this.textTheme,
-  });
+  const storeBody({super.key, required this.textTheme});
 
   final TextTheme textTheme;
 

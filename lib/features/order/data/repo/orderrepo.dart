@@ -2,28 +2,26 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
-import 'package:smartcare/features/cart/data/model/add_item_cart_model/add_item_cart_model.dart';
-import 'package:smartcare/features/cart/data/model/create_cart_model.dart';
-import 'package:smartcare/features/cart/data/model/items_cart/items_cart.dart';
-import 'package:smartcare/features/cart/data/model/remove_item_cart_model.dart';
-import 'package:smartcare/features/cart/data/model/request_add_item_model.dart';
-import 'package:smartcare/features/cart/data/model/request_remove_item.dart';
-import 'package:smartcare/features/cart/data/model/request_update_item_model.dart';
-import 'package:smartcare/features/cart/data/model/update_cart_item_model/update_cart_item_model.dart';
+import 'package:smartcare/features/order/data/model/address_model/address_model.dart';
+import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
+import 'package:smartcare/features/order/data/model/order_details/order_details..dart';
+import 'package:smartcare/features/order/data/model/pickup_order_model/pickup_order_model.dart';
+import 'package:smartcare/features/order/data/model/request_createoreder.dart';
+import 'package:smartcare/features/order/data/model/request_pickup.dart';
+import 'package:smartcare/features/order/data/model/store_model/store_model.dart';
 
-class Cartrepo {
+class Orderrepo {
   final ApiConsumer apiConsumer;
 
-  Cartrepo({required this.apiConsumer});
+  Orderrepo({required this.apiConsumer});
 
-  Future<Either<Failure, CreateCartModel>> createcart() async {
+  Future<Either<Failure, StoreOrderModel>> getstore() async {
     try {
-      final response = await apiConsumer.post("api/cart/create", {}, false);
-      print("🟡 cart/create RAW => $response");
+      final response = await apiConsumer.get("api/stores", null);
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
-      final parsedModel = CreateCartModel.fromJson(response);
+      final parsedModel = StoreOrderModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
@@ -34,43 +32,36 @@ class Cartrepo {
     }
   }
 
-  Future<Either<Failure, AddItemCartModel>> AddItem(
-    RequestAddItemModel requestadd,
+  Future<Either<Failure, AddressModel>> getaddress() async {
+    try {
+      final response = await apiConsumer.get("api/Client/addresses", null);
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final parsedModel = AddressModel.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
+
+  Future<Either<Failure, PickupOrderModel>> pickuporder(
+    RequestPickup request,
   ) async {
     try {
       final response = await apiConsumer.post(
-        "api/cart/add-item",
-        requestadd.toJson(),
+        "api/orders/create-pickup-order",
+        request.toJson(),
         false,
       );
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
-      final parsedModel = AddItemCartModel.fromJson(response);
-      return Right(parsedModel);
-    } on DioException catch (e) {
-      final serverMessage =
-          e.response?.data?['message'] ?? "Something went wrong";
-      print('❌ Dio error: ${e.message}');
-      return Left(servivefailure.fromDioError(e));
-    } catch (e) {
-      print("❌ Unexpected Error: $e");
-      return Left(servivefailure("Unexpected error, please try again"));
-    }
-  }
-
-  Future<Either<Failure, RemoveItemCartModel>> RemoveItem(
-    RequestRemoveItem requestremove,
-  ) async {
-    try {
-      final response = await apiConsumer.delete(
-        "api/cart/remove-item",
-        requestremove.toJson(),
-      );
-      if (response == null || response is! Map<String, dynamic>) {
-        return Left(servivefailure("Invalid server response"));
-      }
-      final parsedModel = RemoveItemCartModel.fromJson(response);
+      final parsedModel = PickupOrderModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
@@ -81,18 +72,19 @@ class Cartrepo {
     }
   }
 
-  Future<Either<Failure, UpdateCartItemModel>> UpdateItemCart(
-    RequestUpdateItemModel request,
+  Future<Either<Failure, CreateOrderModel>> createorder(
+    RequestCreateoreder request,
   ) async {
     try {
-      final response = await apiConsumer.put(
-        "api/cart/update-item",
+      final response = await apiConsumer.post(
+        "api/orders/create-online-order",
         request.toJson(),
+        false,
       );
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
-      final parsedModel = UpdateCartItemModel.fromJson(response);
+      final parsedModel = CreateOrderModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
@@ -103,13 +95,18 @@ class Cartrepo {
     }
   }
 
-  Future<Either<Failure, ItemsCart>> GetItemCart(String Cartid) async {
+    Future<Either<Failure, OrderDetails>> fetchOrderDetails(
+    String id,
+  ) async {
     try {
-      final response = await apiConsumer.get("api/cart/${Cartid}/items", null);
+      final response = await apiConsumer.get(
+        "api/orders/details/${id}",
+        null
+      );
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
-      final parsedModel = ItemsCart.fromJson(response);
+      final parsedModel = OrderDetails.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
