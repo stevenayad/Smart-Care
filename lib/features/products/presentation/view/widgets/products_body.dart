@@ -13,7 +13,6 @@ class ProductsBody extends StatelessWidget {
   final void Function(BuildContext, int) onLoadPage;
   final VoidCallback onResetPage;
 
-
   const ProductsBody({
     super.key,
     required this.currentPage,

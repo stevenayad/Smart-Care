@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/widget/evluted_button.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
+import 'package:smartcare/features/order/presentation/views/orderscreen.dart';
+import 'package:smartcare/features/order/presentation/views/widget/delivery_selection.dart';
 import 'orderinforow.dart';
-import 'checkout_button.dart';
 
 class OrderInfoSection extends StatelessWidget {
   const OrderInfoSection({super.key});
@@ -14,7 +16,6 @@ class OrderInfoSection extends StatelessWidget {
         final cartCubit = BlocProvider.of<CartCubit>(context);
         final items = cartCubit.cartItems;
 
-       
         double subtotal = 0;
         for (var item in items) {
           subtotal += (item.totalPrice ?? 0);
@@ -46,7 +47,6 @@ class OrderInfoSection extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-             
               Orderinforow(
                 text: 'Subtotal',
                 value: '\$${subtotal.toStringAsFixed(2)}',
@@ -54,7 +54,6 @@ class OrderInfoSection extends StatelessWidget {
 
               const Divider(thickness: 1.5),
 
-          
               Orderinforow(
                 text: 'Total',
                 value: '\$${total.toStringAsFixed(2)}',
@@ -62,7 +61,17 @@ class OrderInfoSection extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-              const CheckoutButton(),
+              EvlutedButton(
+                text: 'CHECKOUT',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeliverySelection(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         );

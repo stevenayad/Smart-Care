@@ -17,12 +17,9 @@ class StoreScreen extends StatelessWidget {
 
     return Scaffold(
       body: BlocProvider(
-        create: (context) =>
-            StoreBloc(
-              StoreRepositoryImpl(StoreRemoteDataSourceImpl(
-                DioConsumer(Dio())
-              )),
-            )..add(FetchStoresEvent()),
+        create: (context) => StoreBloc(
+          StoreRepositoryImpl(StoreRemoteDataSourceImpl(DioConsumer(Dio()))),
+        )..add(FetchStoresEvent()),
         child: storeBody(textTheme: textTheme),
       ),
     );
