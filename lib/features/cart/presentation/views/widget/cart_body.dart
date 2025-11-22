@@ -21,7 +21,7 @@ class CartBody extends StatelessWidget {
 
         if (state is GetItemSucces) {
           final items = state.itemsCart.data ?? [];
-          return Expanded(child: CartListWithSummary(items: items));
+          return CartListWithSummary(items: items);
         }
 
         return const SizedBox();

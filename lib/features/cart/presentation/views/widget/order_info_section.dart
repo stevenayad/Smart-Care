@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/widget/evluted_button.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
+import 'package:smartcare/features/order/presentation/views/delviery_screen.dart';
 import 'package:smartcare/features/order/presentation/views/orderscreen.dart';
 import 'package:smartcare/features/order/presentation/views/widget/delivery_selection.dart';
 import 'orderinforow.dart';
@@ -67,7 +68,7 @@ class OrderInfoSection extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DeliverySelection(),
+                      builder: (context) => DelvieryScreen(),
                     ),
                   );
                 },

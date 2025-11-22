@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/widget/show_dailog_cancel_order.dart';
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import '../cart/cart_cubit.dart';
 import 'cart_signalr_state.dart';
@@ -21,6 +22,9 @@ class CartSignalRCubit extends Cubit<CartSignalRState> {
     await signalRService.connect();
 
     signalRService.listenReservationExpired((data) async {
+    
+        showGlobalOrderCancelledDialog(data.message! );
+
       final id = data.productId;
       final msg = data.message ?? "";
 

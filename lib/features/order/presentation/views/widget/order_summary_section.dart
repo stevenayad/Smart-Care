@@ -4,7 +4,6 @@ import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.d
 import 'package:smartcare/features/order/presentation/views/widget/order_summary_header.dart';
 import 'package:smartcare/features/order/presentation/views/widget/order_summary_listview.dart';
 
-
 class OrderSummarySection extends StatelessWidget {
   const OrderSummarySection({super.key});
 
@@ -48,7 +47,9 @@ class OrderSummarySection extends StatelessWidget {
                 OrderSummaryHeader(
                   totalItems: orderItems.length,
                   totalPrice: orderItems.fold<double>(
-                      0, (sum, item) => sum + (item.subTotal ?? 0)),
+                    0,
+                    (sum, item) => sum + (item.subTotal ?? 0),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 OrderSummaryList(orderItems: orderItems),
