@@ -96,7 +96,18 @@ class AuthRepository {
 
       return Right(RegisterResponseModel.fromJson(data));
     } on DioError catch (e) {
-      print("------------------------------------$e");
+      if (e.response?.data != null && e.response!.data is Map) {
+        final data = e.response!.data;
+
+        if (data["errorsBag"] != null && data["errorsBag"] is Map) {
+          final bag = data["errorsBag"] as Map;
+          final firstKey = bag.keys.first;
+          final firstError = (bag[firstKey] as List).first;
+
+          return Left(servivefailure(firstError));
+        }
+      }
+
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure(e.toString()));

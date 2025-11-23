@@ -82,7 +82,7 @@ class Category extends StatelessWidget {
               ),
 
               SizedBox(
-                height: itemHeight + 40,
+                height: itemHeight + 45,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
