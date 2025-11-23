@@ -10,33 +10,34 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
-import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/order/data/repo/orderrepo.dart';
+import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
+import 'package:smartcare/features/order/presentation/views/delviery_screen.dart';
+import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await CacheHelper.init();
+
+  final cartSignalRService = CartSignalRService(
+    CacheHelper.getAccessToken() ?? "",
+  );
+  await cartSignalRService.init();
+
+  final paymentSignalRService = PaymentSignalr(
+    CacheHelper.getAccessToken() ?? "",
+  );
+  await paymentSignalRService.init();
+
   Bloc.observer = SimpleBlocObserver();
-  // ✅ Show Flutter errors instead of white screen
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-  };
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    return Material(
-      color: Colors.white,
-      child: Center(
-        child: Text(
-          "⚠️ UI Error:\n${details.exceptionAsString()}",
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.red, fontSize: 16),
-        ),
-      ),
-    );
-  };
 
   final dio = Dio();
   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -48,9 +49,16 @@ void main() async {
   final ApiConsumer apiConsumer = DioConsumer(dio);
 
   final AuthRepository authRepository = AuthRepository(apiConsumer);
+
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) =>
+              AddressStoreCubit(Orderrepo(apiConsumer: DioConsumer(Dio())))
+                ..getaddress()
+                ..getstore(),
+        ),
         BlocProvider(create: (context) => AuthBloc(authRepository)),
         BlocProvider(
           create: (context) =>
@@ -58,26 +66,23 @@ void main() async {
                 ..loadFavouriteItems(),
         ),
       ],
-      child: SmartCare(),
+      child: const SmartCare(),
     ),
   );
 }
 
 class SmartCare extends StatelessWidget {
-
-  const SmartCare({super.key, });
+  const SmartCare({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'smart care',
+      navigatorKey: navigatorKey,
+      title: 'Smart Care',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      // home:CacheHelper.getAccessToken() != null
-      //     ? const HomeScreen()
-      //     : const LoginScreen(),
-      home: const LoginScreen(),
+      home: MainScreenView(),
     );
   }
 }

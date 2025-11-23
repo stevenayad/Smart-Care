@@ -26,16 +26,16 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
     switch (_searchType) {
       case 'Company':
-        bloc.add(SearchProductsByCompanyName(q,1,10));
+        bloc.add(SearchProductsByCompanyName(q, 1, 10));
         break;
       case 'Category':
-        bloc.add(SearchProductsByCategoryName(q,1,10));
+        bloc.add(SearchProductsByCategoryName(q, 1, 10));
         break;
       case 'Description':
-        bloc.add(SearchProductsByDescription(q,1,10));
+        bloc.add(SearchProductsByDescription(q, 1, 10));
         break;
       default:
-        bloc.add(SearchProducts(q,1,10));
+        bloc.add(SearchProducts(q, 1, 10));
     }
   }
 

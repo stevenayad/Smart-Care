@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_event.dart';
-import 'package:smartcare/features/auth/presentation/register/views/widgets/register_form_layout.dart'; 
+import 'package:smartcare/features/auth/presentation/register/views/widgets/register_form_layout.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_validator.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_1_personal_info.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_2_details.dart';
@@ -106,20 +105,20 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
       );
     } else {
       context.read<StepsBloc>().add(
-            NextStepRequested(
-              currentStep: currentStep,
-              firstName: _firstNameController.text,
-              lastName: _lastNameController.text,
-              email: _emailController.text,
-              birthDate: _birthDateController.text,
-              gender: _gender,
-              password: _passwordController.text,
-              confirmPassword: _confirmPasswordController.text,
-              profileImage: _profileImage,
-              userName: _usernameController.text,
-              phoneNumber: _phoneController.text,
-            ),
-          );
+        NextStepRequested(
+          currentStep: currentStep,
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          email: _emailController.text,
+          birthDate: _birthDateController.text,
+          gender: _gender,
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+          profileImage: _profileImage,
+          userName: _usernameController.text,
+          phoneNumber: _phoneController.text,
+        ),
+      );
     }
   }
 
@@ -140,27 +139,25 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
     }
 
     context.read<AuthBloc>().add(
-          RegisterButtonPressed(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            userName: _usernameController.text,
-            phoneNumber: _phoneController.text,
-            email: _emailController.text,
-            password: _passwordController.text,
-            birthDate: _birthDateController.text,
-            gender: _gender!,
-            profileImage: _profileImage!,
-            accountType: 0,
-            address: _addressController.text,
-            addressLabel: _addressLabelController.text,
-            addressAdditionalInfo: _addressAdditionalInfoController.text,
-            addressLatitude:
-                double.tryParse(_latitudeController.text) ?? 30.30,
-            addressLongitude:
-                double.tryParse(_longitudeController.text) ?? 30.30,
-            addressIsPrimary: _isPrimaryAddress,
-          ),
-        );
+      RegisterButtonPressed(
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        userName: _usernameController.text,
+        phoneNumber: _phoneController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        birthDate: _birthDateController.text,
+        gender: _gender!,
+        profileImage: _profileImage!,
+        accountType: 0,
+        address: _addressController.text,
+        addressLabel: _addressLabelController.text,
+        addressAdditionalInfo: _addressAdditionalInfoController.text,
+        addressLatitude: double.tryParse(_latitudeController.text) ?? 30.30,
+        addressLongitude: double.tryParse(_longitudeController.text) ?? 30.30,
+        addressIsPrimary: _isPrimaryAddress,
+      ),
+    );
   }
 
   @override
@@ -173,12 +170,11 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
           onNext: () => _onNextPressed(state.currentStep),
           onBack: () => context.read<StepsBloc>().add(PreviousStepRequested()),
           onRegister: _onRegister,
-          stepContent: buildCurrentStep(state.currentStep), 
+          stepContent: buildCurrentStep(state.currentStep),
         );
       },
     );
   }
-
 
   Widget buildCurrentStep(int step) {
     switch (step) {

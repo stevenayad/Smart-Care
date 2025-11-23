@@ -5,7 +5,7 @@ class CatergoryModel {
   bool? succeeded;
   String? message;
   dynamic errorsBag;
-  List<Datum>? data;
+  List<CategoryDatum>? data;
 
   CatergoryModel({
     this.statusCode,
@@ -22,7 +22,7 @@ class CatergoryModel {
       message: json['message'] as String?,
       errorsBag: json['errorsBag'] as dynamic,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => CategoryDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
