@@ -10,7 +10,9 @@ class customAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: AppColors.white),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,12 +23,6 @@ class customAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: AppColors.white,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          Text(
-            'Vitamin C 1000mg - 100 Tablets',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.white),
           ),
         ],
       ),
