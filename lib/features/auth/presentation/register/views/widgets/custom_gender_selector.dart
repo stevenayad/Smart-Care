@@ -27,9 +27,9 @@ class CustomGenderSelector extends StatelessWidget {
         const SizedBox(height: 8),
         Row(
           children: [
-            _buildRadio(context, 'Male', 0),
+            _buildRadio(context, 'Male', 1),
             const SizedBox(width: 16),
-            _buildRadio(context, 'Female', 1),
+            _buildRadio(context, 'Female', 2),
           ],
         ),
       ],

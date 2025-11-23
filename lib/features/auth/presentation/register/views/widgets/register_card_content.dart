@@ -127,6 +127,8 @@ class _RegisterCardContentState extends State<RegisterCardContent> {
       address: _addressController.text,
       addressLabel: _addressLabelController.text,
       addressadditionalLabel: _addressAdditionalInfoController.text,
+      latitude: _latitudeController.text,
+      longitude: _longitudeController.text,
     );
 
     if (errorMessage != null) {
