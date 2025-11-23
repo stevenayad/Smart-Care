@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'
-    show BlocProvider, BlocListener, MultiBlocProvider, ReadContext;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/widget/evluted_button.dart';
@@ -10,7 +9,6 @@ import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
-
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
@@ -50,8 +48,6 @@ class DelvieryScreen extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          final cartId = context.read<CartCubit>().cartId;
-
           return Scaffold(
             appBar: buildGradientAppBar(
               'Pickup or Delivery',
@@ -92,51 +88,65 @@ class DelvieryScreen extends StatelessWidget {
                             ),
                           );
                         } else if (state is OrderFailure) {
-                          showOrderFailedDialog(context, state.errmessage);
+                          OrderDialog.showFailed(context, state.errmessage);
                         }
                       },
-                      child: EvlutedButton(
-                        text: 'Pick Up Order',
-                        onTap: () {
-                          if (selectedTab == 0 && selectedAddressId == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Please select an address!"),
-                              ),
+                      child: BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          final cartCubit = context.read<CartCubit>();
+                          final cartId = cartCubit.cartId;
+
+                          if (cartId == null || state is CartInitial) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
                             );
-                            return;
                           }
 
-                          if (selectedTab == 1 && selectedStoreId == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Please select a store!"),
-                              ),
-                            );
-                            return;
-                          }
+                          return EvlutedButton(
+                            text: 'Pick Up Order',
+                            onTap: () {
+                              if (selectedTab == 0 &&
+                                  selectedAddressId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Please select an address!"),
+                                  ),
+                                );
+                                return;
+                              }
 
-                          if (selectedTab == 0) {
-                            final requestcreateorder = RequestCreateoreder(
-                              cartId: 'e58ddaaf-941b-406e-d1a0-08de2754afd1',
-                              deliveryAddressId: selectedAddressId,
-                            );
+                              if (selectedTab == 1 && selectedStoreId == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Please select a store!"),
+                                  ),
+                                );
+                                return;
+                              }
 
-                            BlocProvider.of<OrderCubit>(
-                              context,
-                            ).createorder(requestcreateorder);
-                          }
+                              if (selectedTab == 0) {
+                                final requestcreateorder = RequestCreateoreder(
+                                  cartId: cartId,
+                                  deliveryAddressId: selectedAddressId,
+                                );
 
-                          if (selectedTab == 1) {
-                            final request = RequestPickup(
-                              cartId: 'e58ddaaf-941b-406e-d1a0-08de2754afd1',
-                              storeId: selectedStoreId!,
-                            );
+                                BlocProvider.of<OrderCubit>(
+                                  context,
+                                ).createorder(requestcreateorder);
+                              }
 
-                            BlocProvider.of<OrderCubit>(
-                              context,
-                            ).pickorder(request);
-                          }
+                              if (selectedTab == 1) {
+                                final request = RequestPickup(
+                                  cartId: cartId,
+                                  storeId: selectedStoreId!,
+                                );
+
+                                BlocProvider.of<OrderCubit>(
+                                  context,
+                                ).pickorder(request);
+                              }
+                            },
+                          );
                         },
                       ),
                     ),

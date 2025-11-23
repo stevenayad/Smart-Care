@@ -22,7 +22,7 @@ class OrderCubit extends Cubit<OrderState> {
       (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
       (model) {
         orderid = model.data!.id;
-        print('------------------------Eht-------------------------${orderid}');
+           print('Order id  in Cubit---${orderid}');
         emit(PickupSucess(pickupOrderModel: model));
       },
     );
@@ -35,7 +35,6 @@ class OrderCubit extends Cubit<OrderState> {
       (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
       (model) {
         orderid = model.data!.id;
-        print('------------------------Eht-------------------------${orderid}');
         emit(CreateorderSucess(createOrderModel: model));
       },
     );

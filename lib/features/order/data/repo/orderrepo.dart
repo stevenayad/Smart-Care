@@ -95,14 +95,9 @@ class Orderrepo {
     }
   }
 
-    Future<Either<Failure, OrderDetails>> fetchOrderDetails(
-    String id,
-  ) async {
+  Future<Either<Failure, OrderDetails>> fetchOrderDetails(String id) async {
     try {
-      final response = await apiConsumer.get(
-        "api/orders/details/${id}",
-        null
-      );
+      final response = await apiConsumer.get("api/orders/details/${id}", null);
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
