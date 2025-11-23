@@ -42,8 +42,8 @@ class RegisterValidator {
     if (password.isEmpty) {
       return 'Please enter a password';
     }
-    if (password.length < 6) {
-      return 'Password must be at least 6 characters';
+    if (password.length < 12) {
+      return 'Password must be at least 12 characters';
     }
     if (confirmPassword != password) {
       return 'Passwords do not match';
