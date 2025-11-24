@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/widget/show_dailog_cancel_order.dart';
 import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
@@ -9,11 +10,10 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
   final PaymentSignalr signalRService;
 
   Function(OrderResponse model)? onPaymentMessage;
-
-  StreamSubscription? _paymentStream;
+  bool _isLoadingVisible = false;
 
   PaymentSignalRCubit({required this.signalRService})
-    : super(PaymentSignalRState()) {
+      : super(PaymentSignalRState()) {
     _init();
   }
 
@@ -21,32 +21,41 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
     await signalRService.connect();
 
     signalRService.listenReservationExpired((data) {
-      if (data.status == "failed" || data.status == "cancelled") {
-        navigatorKey.currentState?.pop();
+      
+      if (_isLoadingVisible && Navigator.canPop(navigatorKey.currentContext!)) {
+        Navigator.of(navigatorKey.currentContext!).pop();
+        _isLoadingVisible = false;
+      }
+
+     if (data.status == "failed" || data.status == "cancelled") {
         showGlobalOrderCancelledDialog(data.message);
       } else if (data.status == "success") {
         showGlobalOrderSuccessDialog(data.message);
       }
-      final orderId = data.orderId;
-      final status = data.status;
-      final message = data.message;
 
-      emit(
-        state.copyWith(lastMessage: message, orderId: orderId, status: status),
-      );
+  
+      emit(state.copyWith(
+        lastMessage: data.message,
+        orderId: data.orderId,
+        status: data.status,
+      ));
 
       onPaymentMessage?.call(data);
     });
   }
 
-  /*Future<void> joinUserGroup() async {
-    await signalRService.joinUserGroup();
-    print('Join in Payment ');
-  }*/
+
+  Future<void> startPaymentSession() async {
+    if (!_isLoadingVisible) {
+      _isLoadingVisible = true;
+      showLoadingDialog();
+    }
+
+    await signalRService.connect();
+  }
 
   @override
   Future<void> close() async {
-    await _paymentStream?.cancel();
     return super.close();
   }
 }

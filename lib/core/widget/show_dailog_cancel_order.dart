@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/main.dart';
-
 
 class SmartDialog extends StatefulWidget {
   final IconData icon;
@@ -8,12 +8,14 @@ class SmartDialog extends StatefulWidget {
   final String title;
   final String message;
 
+
   const SmartDialog({
     super.key,
     required this.icon,
     required this.iconColor,
     required this.title,
     required this.message,
+ 
   });
 
   @override
@@ -28,8 +30,10 @@ class _SmartDialogState extends State<SmartDialog>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 350));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
     _scale = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
     _controller.forward();
   }
@@ -56,8 +60,10 @@ class _SmartDialogState extends State<SmartDialog>
               child: Icon(widget.icon, color: widget.iconColor, size: 28),
             ),
             const SizedBox(width: 12),
-            Text(widget.title,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text(
+              widget.title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
           ],
         ),
         content: Text(
@@ -69,24 +75,28 @@ class _SmartDialogState extends State<SmartDialog>
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: widget.iconColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreenView() ));
             },
             child: const Text("OK", style: TextStyle(color: Colors.white)),
-          )
+          ),
         ],
       ),
     );
   }
 }
+
 void showGlobalOrderCancelledDialog(String message) {
   showDialog(
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialog(
+    
       icon: Icons.cancel,
       iconColor: Colors.red,
       title: "Order Cancelled",
@@ -100,10 +110,20 @@ void showGlobalOrderSuccessDialog(String message) {
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialog(
+     
       icon: Icons.check_circle,
       iconColor: Colors.green,
       title: "Order Successful",
       message: message,
+    ),
+  );
+}
+void showLoadingDialog() {
+  showDialog(
+    context: navigatorKey.currentState!.overlay!.context,
+    barrierDismissible: false,
+    builder: (context) => const Center(
+      child: CircularProgressIndicator(),
     ),
   );
 }

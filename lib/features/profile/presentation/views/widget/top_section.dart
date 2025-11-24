@@ -13,8 +13,21 @@ class TopSection extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(color: AppColors.primaryLightColor),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            customappbar(context, 'My Profile', null, null),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Text(
+                "My Profile",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 24,
+                  color: Colors.grey[900],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
             UserInfo(),
           ],
         ),

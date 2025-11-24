@@ -56,32 +56,7 @@ class PaymentSignalr {
     }
   }
 
-  /*Future<void> joinUserGroup() async {
-
-    await connect();
-
-    int retries = 5;
-    while (hubConnection.state != HubConnectionState.Connected && retries > 0) {
-      log("⏳ Waiting for connection… Current State Payment: ${hubConnection.state}");
-      await Future.delayed(const Duration(milliseconds: 200));
-      retries--;
-    }
-
-    if (hubConnection.state != HubConnectionState.Connected) {
-      log("❌ Cannot join, connection still not established Payment");
-      return;
-    }
-
-    try {
-      await hubConnection.invoke(
-        "JoinUserGroup",
-        args: [CacheHelper.getUserId()!],
-      );
-      log("🟢 Joined Group Payment: ${CacheHelper.getUserId()!}");
-    } catch (e) {
-      log("❌ JoinUserGroup Error: $e");
-    }
-  }*/
+ 
 
   void listenReservationExpired(
     void Function(OrderResponse) handler,

@@ -8,9 +8,9 @@ class AddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(context, 'My Addresses', () {
+      appBar: customappbar(context, 'My Addresses', onPressed: () {
         Navigator.pop(context);
-      }, null),
+      }, actions: null),
       body: AddressBody(),
     );
   }

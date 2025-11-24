@@ -14,7 +14,12 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(context, 'Favourite', null, null),
+      appBar: customappbar(
+        context,
+        'Favourite',
+       onPressed:  () => Navigator.pop(context),
+        actions:  null,
+      ),
       body: BlocProvider(
         create: (context) =>
             DisplayFavoutieCubit(Favrepoimplemtaion(api: DioConsumer(Dio())))
