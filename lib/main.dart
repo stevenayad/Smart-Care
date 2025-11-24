@@ -16,6 +16,7 @@ import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 

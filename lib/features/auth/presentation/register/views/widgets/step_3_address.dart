@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/core/api/services/location_service.dart';
+import 'package:smartcare/features/auth/presentation/register/views/map_picker_screen.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/custom_checkbox_field.dart';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/location_picker_radio.dart';
 import 'package:smartcare/features/auth/presentation/widgets/custom_text_feild.dart';
 
 class Step3Address extends StatelessWidget {
@@ -35,7 +38,7 @@ class Step3Address extends StatelessWidget {
           CustomTextFormField(
             controller: addressController,
             icon: Icons.location_on_outlined,
-            label: 'Address',
+            label: 'Address description',
             hint: 'e.g., 123 Main St',
             validator: (v) => v!.isEmpty ? 'Address is required' : null,
           ),
@@ -57,10 +60,15 @@ class Step3Address extends StatelessWidget {
           CustomTextFormField(
             controller: addressAdditionalInfoController,
             icon: Icons.label_outline,
-            label: 'address Additional Info Controller Label',
+            label: 'address Additional Info (any notes) Label',
             hint: 'e.g., near to ainshams unversity',
             validator: (v) =>
                 v!.isEmpty ? 'address Additional is required' : null,
+          ),
+          const SizedBox(height: 20),
+          LocationPickerRadio(
+            latitudeController: latitudeController,
+            longitudeController: longitudeController,
           ),
         ],
       ),

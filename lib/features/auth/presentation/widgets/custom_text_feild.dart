@@ -45,6 +45,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         context,
       ).textTheme.bodyLarge?.copyWith(color: colorScheme.onSurface),
       decoration: InputDecoration(
+        label: Text(widget.label),
         hintText: widget.hint,
         hintStyle: Theme.of(
           context,

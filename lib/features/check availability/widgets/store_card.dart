@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/check%20availability/model/store.dart';
+import 'package:smartcare/features/check%20availability/data/model/inventory_model.dart';
 import 'package:smartcare/features/check%20availability/widgets/build_card_header.dart';
 import 'package:smartcare/features/check%20availability/widgets/build_stock_status.dart';
 import 'package:smartcare/features/check%20availability/widgets/info_line.dart';
 
 class StoreCard extends StatelessWidget {
-  final Store store;
+  final InventoryModel inventory;
 
-  const StoreCard({super.key, required this.store});
+  const StoreCard({super.key, required this.inventory});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,13 @@ class StoreCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildCardHeader(store: store, context: context),
+            buildCardHeader(inventory: inventory, context: context),
             const SizedBox(height: 12),
-            InfoLine(icon: Icons.location_on_outlined, text: store.address),
-            InfoLine(icon: Icons.phone_outlined, text: store.phoneNumber),
-            InfoLine(icon: Icons.access_time, text: store.operatingHours),
+            InfoLine(icon: Icons.location_on_outlined, text: inventory.address),
+            InfoLine(icon: Icons.phone_outlined, text: inventory.phone),
+            // InfoLine(icon: Icons.access_time, text: store.operatingHours),
             const SizedBox(height: 16),
-            buildStockStatus(store: store, context: context),
+            buildStockStatus(inventory: inventory, context: context),
           ],
         ),
       ),
