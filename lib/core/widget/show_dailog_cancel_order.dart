@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/main.dart';
 
@@ -8,14 +9,12 @@ class SmartDialog extends StatefulWidget {
   final String title;
   final String message;
 
-
   const SmartDialog({
     super.key,
     required this.icon,
     required this.iconColor,
     required this.title,
     required this.message,
- 
   });
 
   @override
@@ -80,8 +79,11 @@ class _SmartDialogState extends State<SmartDialog>
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
-            onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MainScreenView() ));
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => OrdersScreen()),
+              );
             },
             child: const Text("OK", style: TextStyle(color: Colors.white)),
           ),
@@ -96,7 +98,6 @@ void showGlobalOrderCancelledDialog(String message) {
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialog(
-    
       icon: Icons.cancel,
       iconColor: Colors.red,
       title: "Order Cancelled",
@@ -110,7 +111,6 @@ void showGlobalOrderSuccessDialog(String message) {
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialog(
-     
       icon: Icons.check_circle,
       iconColor: Colors.green,
       title: "Order Successful",
@@ -118,13 +118,11 @@ void showGlobalOrderSuccessDialog(String message) {
     ),
   );
 }
+
 void showLoadingDialog() {
   showDialog(
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
-    builder: (context) => const Center(
-      child: CircularProgressIndicator(),
-    ),
+    builder: (context) => const Center(child: CircularProgressIndicator()),
   );
 }
-
