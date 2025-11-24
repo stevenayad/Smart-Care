@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/widget/custom_appbar.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart'
     show ProfileRepoimplemtation;
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilecubit.dart';
@@ -32,12 +33,9 @@ class EditProfileScreen extends StatelessWidget {
           final colorScheme = Theme.of(context).colorScheme;
           final editprofilecubit = BlocProvider.of<Editprofilecubit>(context);
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Edit Profile'),
-              backgroundColor: colorScheme.primary,
-              foregroundColor: Colors.white,
-              elevation: 0,
-            ),
+            appBar: customappbar(context, 'My Cart', onPressed: () {
+              Navigator.pop(context);
+            }, actions: null),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Form(

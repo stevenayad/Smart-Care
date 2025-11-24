@@ -8,7 +8,14 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(context, 'Add New Address', null, null),
+      appBar: customappbar(
+        context,
+        'Add New Address',
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        actions: null,
+      ),
       body: AddScreenBody(),
     );
   }

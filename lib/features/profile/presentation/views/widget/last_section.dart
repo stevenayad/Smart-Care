@@ -5,6 +5,7 @@ import 'package:smartcare/features/profile/presentation/views/address_screen.dar
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 
 import 'package:smartcare/features/profile/presentation/views/widget/build_navagationtitle.dart';
+import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
 
 class LastSection extends StatelessWidget {
   const LastSection({super.key});
@@ -56,19 +57,12 @@ class LastSection extends StatelessWidget {
             'Address',
             Icons.location_on_outlined,
             onTap: () {
-              print('💡 Address tapped');
+              
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddressScreen()),
               );
             },
-          ),
-          Divider(thickness: 0.5),
-          buildNavagationtitle(
-            context,
-            'Payment Methods',
-            Icons.payment,
-            onTap: () {},
           ),
           Divider(thickness: 0.5),
           buildNavagationtitle(
@@ -99,7 +93,12 @@ class LastSection extends StatelessWidget {
             context,
             'Settings',
             Icons.settings,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
+              );
+            },
           ),
         ],
       ),

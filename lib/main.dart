@@ -10,6 +10,7 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
@@ -17,8 +18,7 @@ import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
-import 'package:smartcare/features/order/presentation/views/delviery_screen.dart';
-import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -26,16 +26,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await CacheHelper.init();
-
-  final cartSignalRService = CartSignalRService(
-    CacheHelper.getAccessToken() ?? "",
-  );
-  await cartSignalRService.init();
-
-  final paymentSignalRService = PaymentSignalr(
-    CacheHelper.getAccessToken() ?? "",
-  );
-  await paymentSignalRService.init();
 
   Bloc.observer = SimpleBlocObserver();
 
@@ -82,7 +72,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: MainScreenView(),
+      home: LoginScreen(),
     );
   }
 }

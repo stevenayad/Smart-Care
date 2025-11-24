@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/widget/custom_appbar.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
@@ -15,6 +16,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartSignalRService = CartSignalRService(
+      CacheHelper.getAccessToken() ?? "",
+    );
+    cartSignalRService.init();
+
     final signalRService = CartSignalRService(CacheHelper.getAccessToken()!);
 
     return MultiBlocProvider(
@@ -41,8 +47,10 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ],
-      child: const Scaffold(
-        appBar: CartAppBar(),
+      child:  Scaffold(
+        appBar: customappbar(context, 'My Cart',onPressed: () {
+          Navigator.pop(context);
+        }, actions: null ),
         body: Column(children: [Expanded(child: CartBody())]),
       ),
     );

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
 import 'package:smartcare/features/payment/data/Model/payment_method.dart';
+import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
+import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/open_payment_link.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/payment_item.dart';
@@ -33,6 +36,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final paymentSignalRCubit = context.read<PaymentSignalRCubit>();
+
     return Container(
       padding: const EdgeInsets.all(16),
       height: MediaQuery.of(context).size.height * 0.55,
@@ -102,10 +107,16 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                 }
               },
               child: ElevatedButton(
-                onPressed: () {
-                  /*final orderid = context.read<OrderCubit>().orderid;
-                  print('Order id  in Payment---${orderid}');*/
-                  BlocProvider.of<PaymentCubit>(context).ConfrimOrder(widget.orderid!);
+                onPressed: () async {
+                  final signalR = PaymentSignalr(CacheHelper.getAccessToken()!);
+                  final paymentSignalRCubit = PaymentSignalRCubit(
+                    signalRService: signalR,
+                  );
+                  await paymentSignalRCubit.startPaymentSession();
+
+                  BlocProvider.of<PaymentCubit>(
+                    context,
+                  ).ConfrimOrder(widget.orderid!);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0066FF),

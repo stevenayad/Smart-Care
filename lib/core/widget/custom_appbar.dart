@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 
 PreferredSizeWidget customappbar(
-  context,
-  String text,
+  BuildContext context,
+  String text, {
   void Function()? onPressed,
   List<Widget>? actions,
-) {
+  bool isIcon = true, 
+}) {
   return AppBar(
     backgroundColor: AppColors.primaryLightColor,
     actions: actions,
-    title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
-    leading: IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+    title: Text(
+      text,
+      style: Theme.of(context).textTheme.bodyLarge,
     ),
+    leading: isIcon
+        ? IconButton(
+            onPressed: onPressed,
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          )
+        : null,
   );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
 import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -42,7 +43,14 @@ class HomeHeader extends StatelessWidget {
               ),
 
               const SizedBox(width: 10),
-              _iconCircle(Icons.shopping_cart_outlined),
+              GestureDetector(
+                onTap: (){
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartScreen()),
+                  );
+                },
+                child: _iconCircle(Icons.shopping_cart_outlined )),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
