@@ -1,17 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:smartcare/core/api/api_consumer.dart';
 
 import 'package:smartcare/core/faluire.dart';
-import 'package:smartcare/features/Orders/data/datasources/order_remote_data_source.dart';
 import 'package:smartcare/features/Orders/data/models/order_model.dart';
 import 'package:smartcare/features/Orders/domain/entities/order.dart';
 import 'package:smartcare/features/Orders/domain/repositories/order_repository.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
-  final OrderRemoteDataSource remoteDataSource;
+  final ApiConsumer apiConsumer;
 
-  OrderRepositoryImpl({required this.remoteDataSource});
-
+  OrderRepositoryImpl({required this.apiConsumer});
 
   Orderr _fromModel(OrderModel model) {
     return Orderr(
@@ -28,9 +27,6 @@ class OrderRepositoryImpl implements OrderRepository {
     );
   }
 
-  // -------------------------------
-  // Error Mapper (NO CHANGE TO FAILURE FILE)
-  // -------------------------------
   Failure _handleError(dynamic e) {
     if (e is DioException) {
       return servivefailure.fromDioError(e);
@@ -38,60 +34,53 @@ class OrderRepositoryImpl implements OrderRepository {
     return servivefailure("Unexpected error occurred.");
   }
 
-  // --------------------------------------------------------------------------
-  // GET ORDER BY ID
-  // --------------------------------------------------------------------------
+  // ------------------------------
+  // API Calls
+  // ------------------------------
   @override
   Future<Either<Failure, Orderr>> getOrderById(String id) async {
     try {
-      final model = await remoteDataSource.getOrderById(id);
-      return Right(_fromModel(model));
+      final response = await apiConsumer.get('/api/orders/$id', null);
+      final data = response['data'] as Map<String, dynamic>;
+      return Right(_fromModel(OrderModel.fromJson(data)));
     } catch (e) {
       return Left(_handleError(e));
     }
   }
 
-  // --------------------------------------------------------------------------
-  // GET ORDER DETAILS
-  // --------------------------------------------------------------------------
   @override
   Future<Either<Failure, Orderr>> getOrderDetails(String id) async {
     try {
-      final model = await remoteDataSource.getOrderDetails(id);
-      return Right(_fromModel(model));
+      final response = await apiConsumer.get('/api/orders/details/$id', null);
+      final data = response['data'] as Map<String, dynamic>;
+      return Right(_fromModel(OrderModel.fromJson(data)));
     } catch (e) {
       return Left(_handleError(e));
     }
   }
 
-  // --------------------------------------------------------------------------
-  // GET ALL ORDERS FOR CUSTOMER
-  // --------------------------------------------------------------------------
   @override
   Future<Either<Failure, List<Orderr>>> getOrdersByCustomer() async {
     try {
-      final models = await remoteDataSource.getOrdersByCustomer();
-      return Right(models.map(_fromModel).toList());
+      final response = await apiConsumer.get('/api/me/orders', null);
+      final list = response['data'] as List<dynamic>;
+      return Right(list.map((e) => _fromModel(OrderModel.fromJson(e))).toList());
     } catch (e) {
       return Left(_handleError(e));
     }
   }
 
-  // --------------------------------------------------------------------------
-  // GET ORDERS BY STATUS
-  // --------------------------------------------------------------------------
   @override
-  Future<Either<Failure, List<Orderr>>> getOrdersByCustomerAndStatus(
-      String clientId,
-      int status,
-  ) async {
+  Future<Either<Failure, List<Orderr>>> getOrdersByCustomerAndStatus(String clientId, int status) async {
     try {
-      final models =
-          await remoteDataSource.getOrdersByCustomerAndStatus(clientId, status);
-      return Right(models.map(_fromModel).toList());
+      final response = await apiConsumer.get('/api/orders/by-customer-and-status', {
+        'clientId': clientId,
+        'status': status,
+      });
+      final list = response['data'] as List<dynamic>;
+      return Right(list.map((e) => _fromModel(OrderModel.fromJson(e))).toList());
     } catch (e) {
       return Left(_handleError(e));
     }
   }
-
 }
