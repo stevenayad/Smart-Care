@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/check%20availability/presentation/bloc/availability_bloc.dart';
-import 'package:smartcare/features/check%20availability/widgets/store_card.dart';
+import 'package:smartcare/features/check%20availability/presentation/views/widgets/store_card.dart';
 
 class BodyCheckAvailablity extends StatelessWidget {
   const BodyCheckAvailablity({super.key});
