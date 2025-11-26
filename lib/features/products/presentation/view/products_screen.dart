@@ -6,9 +6,7 @@ import 'package:smartcare/core/app_color.dart';
 
 import 'package:smartcare/core/api/dio_consumer.dart';
 
-import 'package:smartcare/features/products/data/datasources/products_remote_data_source.dart';
-import 'package:smartcare/features/products/data/datasources/categories_remote_data_source.dart';
-import 'package:smartcare/features/products/data/datasources/companies_remote_data_source.dart';
+
 
 import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
 
@@ -93,15 +91,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       create: (_) {
         final dio = DioConsumer(Dio());
 
-        final productsRemote = ProductsRemoteDataSource(dio);
-        final companiesRemote = CompaniesRemoteDataSource(dio);
-        final categoriesRemote = CategoriesRemoteDataSource(dio);
-
-        return ProductsRepositoryImpl(
-          productsRemote,
-          companiesRemote,
-          categoriesRemote,
-        );
+        return ProductsRepositoryImpl(dio);
       },
       child: MultiBlocProvider(
         providers: [

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/cart/data/model/request_add_item_model.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
-import 'package:smartcare/features/check%20availability/check_availability_screen.dart'
+import 'package:smartcare/features/check%20availability/presentation/views/screen/check_availability_screen.dart'
     show CheckAvailabilityScreen;
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
 import 'package:smartcare/features/home/presentation/views/widget/build_info_section.dart';

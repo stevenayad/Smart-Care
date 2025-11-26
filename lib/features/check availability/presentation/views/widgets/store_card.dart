@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/check%20availability/data/model/inventory_model.dart';
-import 'package:smartcare/features/check%20availability/widgets/build_card_header.dart';
-import 'package:smartcare/features/check%20availability/widgets/build_stock_status.dart';
-import 'package:smartcare/features/check%20availability/widgets/info_line.dart';
+import 'package:smartcare/features/check%20availability/presentation/views/widgets/build_card_header.dart';
+import 'package:smartcare/features/check%20availability/presentation/views/widgets/build_stock_status.dart';
+import 'package:smartcare/features/check%20availability/presentation/views/widgets/info_line.dart';
 
 class StoreCard extends StatelessWidget {
   final InventoryModel inventory;
