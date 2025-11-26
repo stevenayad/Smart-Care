@@ -21,7 +21,7 @@ class scroll_view extends StatelessWidget {
           floating: true,
           expandedHeight: 130.0,
           backgroundColor: AppColors.primaryblue,
-
+          automaticallyImplyLeading: false,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
           ),
@@ -63,8 +63,6 @@ class scroll_view extends StatelessWidget {
               ),
             ),
           ),
-          // --- "Smaller" ---
-          // The 'bottom' property was removed.
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {

@@ -4,23 +4,15 @@ import 'package:smartcare/core/faluire.dart';
 import '../../data/models/product_model.dart';
 import '../../data/models/company_model.dart';
 import '../../data/models/category_model.dart';
-import '../../data/datasources/products_remote_data_source.dart';
-import '../../data/datasources/companies_remote_data_source.dart';
-import '../../data/datasources/categories_remote_data_source.dart';
+import 'package:smartcare/core/api/api_consumer.dart';
 
 class ProductsRepositoryImpl {
-  final ProductsRemoteDataSource productsRemoteDataSource;
-  final CompaniesRemoteDataSource companiesRemoteDataSource;
-  final CategoriesRemoteDataSource categoriesRemoteDataSource;
+  final ApiConsumer consumer;
 
-  ProductsRepositoryImpl(
-    this.productsRemoteDataSource,
-    this.companiesRemoteDataSource,
-    this.categoriesRemoteDataSource,
-  );
+  ProductsRepositoryImpl(this.consumer);
 
   // -----------------------------
-  //  Extract backend error message
+  // Extract backend error message
   // -----------------------------
   String _backendMessageFrom(DioException dioError) {
     try {
@@ -28,9 +20,7 @@ class ProductsRepositoryImpl {
 
       // Expected backend format:
       // { statusCode: 424, succeeded: false, message: "...", errorsBag: null, data: null }
-      if (data is Map &&
-          data["message"] is String &&
-          data["message"].trim().isNotEmpty) {
+      if (data is Map && data["message"] is String && data["message"].trim().isNotEmpty) {
         return data["message"];
       }
 
@@ -41,7 +31,7 @@ class ProductsRepositoryImpl {
   }
 
   // -----------------------------
-  //  Map any error into safe text
+  // Map any error into safe text
   // -----------------------------
   String _mapError(Object e) {
     if (e is DioException) {
@@ -76,6 +66,7 @@ class ProductsRepositoryImpl {
     if (res is List) {
       return _mapToProducts(res);
     }
+
     final data = res['data'];
 
     // Case : Paginated response (data -> items -> list)
@@ -98,6 +89,7 @@ class ProductsRepositoryImpl {
     if (res is List) {
       return _mapToProducts(res);
     }
+
     // Case : Anything else
     return [];
   }
@@ -118,10 +110,8 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProducts(
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {'pageNumber': pageNumber, 'pageSize': pageSize};
+      final res = await consumer.get('/api/Products', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -135,11 +125,12 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByCompanyId(
-        companyId: companyId,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {
+        'CompanyId': companyId,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
+      final res = await consumer.get('/api/Products/CompanyId', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -153,13 +144,18 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByCategoryId(
-        categoryId: categoryId,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
-      final products = _parseProducts(res); // ✅ uses unified parser
-      return Right(products);
+      final query = {
+        'CategoryId': categoryId,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
+      final response = await consumer.get('/api/Products/CategoryId', query);
+
+      if (response is Map && response.containsKey('data')) {
+        final items = response['data']['items'];
+        if (items is List) return Right(_mapToProducts(items));
+      }
+      return Right([]);
     } catch (e) {
       return Left(servivefailure(_mapError(e)));
     }
@@ -171,11 +167,8 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByName(
-        name: name,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {'NameEn': name, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final res = await consumer.get('/api/Products/Name', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -189,11 +182,8 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByCompanyName(
-        companyName: companyName,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {'CompanyName': companyName, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final res = await consumer.get('/api/Products/CompanyName', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -207,11 +197,8 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByCategoryName(
-        categoryName: categoryName,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {'CategoryName': categoryName, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final res = await consumer.get('/api/Products/CategoryName', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -225,11 +212,8 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.getProductsByDescription(
-        description: description,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {'Description': description, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final res = await consumer.get('/api/Products/Description', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -249,17 +233,19 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final res = await productsRemoteDataSource.filterProducts(
-        orderByName: orderByName,
-        orderByPrice: orderByPrice,
-        orderByRate: orderByRate,
-        fromRate: fromRate,
-        toRate: toRate,
-        fromPrice: fromPrice,
-        toPrice: toPrice,
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-      );
+      final query = {
+        if (orderByName != null) 'OrderByName': orderByName,
+        if (orderByPrice != null) 'OrderByPrice': orderByPrice,
+        if (orderByRate != null) 'OrderByRate': orderByRate,
+        if (fromRate != null) 'FromRate': fromRate,
+        if (toRate != null) 'ToRate': toRate,
+        if (fromPrice != null) 'FromPrice': fromPrice,
+        if (toPrice != null) 'ToPrice': toPrice,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
+
+      final res = await consumer.get('/api/Products/Filter', query);
       final products = _parseProducts(res);
       return Right(products);
     } catch (e) {
@@ -270,15 +256,20 @@ class ProductsRepositoryImpl {
   // ---------------------------------------------------------------------------
   // 🏢 COMPANIES
   // ---------------------------------------------------------------------------
-
   Future<Either<Failure, List<CompanyModel>>> getCompanies() async {
     try {
-      final res = await companiesRemoteDataSource.getCompanies();
-      final companies = res
-          .where((e) => e != null)
-          .map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e)))
-          .toList();
-      return Right(companies);
+      final res = await consumer.get('/api/companies', null);
+
+      if (res is Map && res.containsKey('data')) {
+        final data = res['data'];
+        if (data is List) return Right(data.map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        if (data is Map && data.containsKey('items') && data['items'] is List) {
+          return Right(data['items'].map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        }
+      }
+
+      print('⚠️ Unexpected companies response format: $res');
+      return Right([]);
     } catch (e) {
       return Left(servivefailure(_mapError(e)));
     }
@@ -287,15 +278,20 @@ class ProductsRepositoryImpl {
   // ---------------------------------------------------------------------------
   // 🗂️ CATEGORIES
   // ---------------------------------------------------------------------------
-
   Future<Either<Failure, List<CategoryModel>>> getCategories() async {
     try {
-      final res = await categoriesRemoteDataSource.getCategories();
-      final categories = res
-          .where((e) => e != null)
-          .map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e)))
-          .toList();
-      return Right(categories);
+      final res = await consumer.get('/api/categories', null);
+
+      if (res is Map && res.containsKey('data')) {
+        final data = res['data'];
+        if (data is List) return Right(data.map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        if (data is Map && data.containsKey('items') && data['items'] is List) {
+          return Right(data['items'].map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        }
+      }
+
+      print('⚠️ Unexpected categories response format: $res');
+      return Right([]);
     } catch (e) {
       return Left(servivefailure(_mapError(e)));
     }
