@@ -64,7 +64,7 @@ class _LoginCardContentState extends State<LoginCardContent> {
         Text('Login', style: textTheme.titleLarge),
         Container(
           height: 2,
-          width: 80,
+          width: 90,
           color: colorScheme.surface,
           margin: const EdgeInsets.only(top: 4, bottom: 30),
         ),
@@ -110,10 +110,14 @@ class _LoginCardContentState extends State<LoginCardContent> {
         Center(
           child: widget.isLoading
               ? const CircularProgressIndicator()
-              : CustomElevatedButton(
-                  text: 'Login',
-                  onPressed: _onLogin,
-                  elevation: 10,
+              : SizedBox(
+                  width: 150,
+                  child: CustomElevatedButton(
+                    text: 'Login',
+                    onPressed: _onLogin,
+                    elevation: 10,
+                    borderRadius: 40,
+                  ),
                 ),
         ),
       ],

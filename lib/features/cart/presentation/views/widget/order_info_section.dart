@@ -62,7 +62,7 @@ class OrderInfoSection extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-              EvlutedButton(
+              EvalutedButton(
                 text: 'CHECKOUT',
                 onTap: () {
                   Navigator.push(

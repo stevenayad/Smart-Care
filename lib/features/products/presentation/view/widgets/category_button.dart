@@ -5,6 +5,7 @@ import 'package:smartcare/features/products/presentation/bloc/category/category_
 import 'package:smartcare/features/products/presentation/bloc/category/category_state.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/custom/gradient_button.dart';
 import 'category_bottom_sheet.dart';
 
 class CategoryButton extends StatefulWidget {
@@ -58,25 +59,21 @@ class _CategoryButtonState extends State<CategoryButton> {
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
         if (state is CategoryLoading) {
-          return ElevatedButton(
-            onPressed: null,
-            child: const Text('Loading...'),
-          );
+          return SmallGradientButton(text: "Loading...", onTap: null);
         } else if (state is CategoryLoaded) {
-          return ElevatedButton(
-            onPressed: () => _openCategorySheet(context, state.categories),
-            // child: Text(selectedCategory),
-            child: Text("Category"),
+          return SmallGradientButton(
+            text: "Category",
+            onTap: () => _openCategorySheet(context, state.categories),
           );
         } else if (state is CategoryError) {
-          return ElevatedButton(
-            onPressed: () => context.read<CategoryBloc>().add(LoadCategories()),
-            child: const Text('Retry Categories'),
+          return SmallGradientButton(
+            text: "Retry Categories",
+            onTap: () => context.read<CategoryBloc>().add(LoadCategories()),
           );
         } else {
-          return ElevatedButton(
-            onPressed: () => context.read<CategoryBloc>().add(LoadCategories()),
-            child: const Text('Category'),
+          return SmallGradientButton(
+            text: 'Category',
+            onTap: () { context.read<CategoryBloc>().add(LoadCategories()); },
           );
         }
       },

@@ -4,7 +4,7 @@ import 'package:smartcare/core/app_color.dart';
 class CustomElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final Color? backgroundColor;
+  final List<Color>? gradientColors;
   final Color? textColor;
   final double elevation;
   final double borderRadius;
@@ -18,9 +18,9 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.backgroundColor,
+    this.gradientColors,
     this.textColor,
-    this.elevation = 3.0,
+    this.elevation = 4.0,
     this.borderRadius = 12.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
     this.fontSize = 16,
@@ -31,66 +31,83 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final List<Color> colors =
+        gradientColors ??
+        [
+          AppColors.primaryblue.withValues(alpha: 0.9),
+          AppColors.primaryLightColor.withValues(alpha: 0.9),
+        ];
 
-    final bgColor =
-        backgroundColor ??
-        (isDark ? AppColors.primaryblue : AppColors.primaryLightColor);
-
-    final txtColor = textColor ?? AppColors.white;
+    final Color txtColor = textColor ?? AppColors.white;
 
     return SizedBox(
       width: isFullWidth ? double.infinity : null,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style:
-            ElevatedButton.styleFrom(
-              backgroundColor: bgColor,
-              foregroundColor: txtColor,
-              elevation: elevation,
-              padding: padding,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              shadowColor:
-                  (isDark ? AppColors.darkMediumGrey : AppColors.mediumGrey)
-                      .withValues(alpha: 0.4),
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return AppColors.primaryDarkColor.withValues(alpha: 0.1);
-                }
-                if (states.contains(WidgetState.hovered)) {
-                  return AppColors.primaryblue.withValues(alpha: 0.05);
-                }
-                return null;
-              }),
+      child: Material(
+        borderRadius: BorderRadius.circular(borderRadius),
+        elevation: elevation,
+        shadowColor: Colors.black26,
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: colors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-        child: icon == null
-            ? Text(
-                text,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: txtColor,
-                  fontSize: fontSize,
-                  fontWeight: fontWeight,
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, color: txtColor, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    text,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: txtColor,
-                      fontSize: fontSize,
-                      fontWeight: fontWeight,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(borderRadius),
+            splashColor: Colors.white24,
+            highlightColor: Colors.white10,
+            child: Padding(
+              padding: padding!,
+              child: icon == null
+                  ? Center(
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color: txtColor,
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          letterSpacing: 0.5,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black26,
+                              offset: const Offset(1, 1),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(icon, color: txtColor, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          text,
+                          style: TextStyle(
+                            color: txtColor,
+                            fontSize: fontSize,
+                            fontWeight: fontWeight,
+                            letterSpacing: 0.5,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black26,
+                                offset: const Offset(1, 1),
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
+            ),
+          ),
+        ),
       ),
     );
   }

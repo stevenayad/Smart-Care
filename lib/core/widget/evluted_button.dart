@@ -1,50 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/core/app_color.dart';
 
-class EvlutedButton extends StatelessWidget {
+class EvalutedButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final double height;
   final double borderRadius;
-  final List<Color> gradientColors;
-  final Color shadowColor;
+  final List<Color>? gradientColors;
+  final Color? shadowColor;
 
-  const EvlutedButton({
+  const EvalutedButton({
     super.key,
     required this.text,
     required this.onTap,
     this.height = 55,
     this.borderRadius = 14,
-    this.gradientColors = const [Color(0xFF5252FF), Color(0xFF8A80FF)],
-    this.shadowColor = const Color(0xFFFF5252),
+    this.gradientColors,
+    this.shadowColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    final List<Color> colors = gradientColors ??
+        [
+          AppColors.primaryblue.withValues (alpha:  0.9),
+          AppColors.primaryLightColor.withValues(alpha:  0.9),
+        ];
+
+    final Color shadow = shadowColor ?? AppColors.primaryblue.withValues(alpha:  0.4);
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
       width: double.infinity,
       height: height,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: gradientColors,
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+          colors: colors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: shadowColor.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: shadow,
+            spreadRadius: 2,
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Material(
         color: Colors.transparent,
+        borderRadius: BorderRadius.circular(borderRadius),
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(borderRadius),
+          splashColor: Colors.white24,
+          highlightColor: Colors.white10,
           child: Center(
             child: Text(
               text,
@@ -53,6 +65,13 @@ class EvlutedButton extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.8,
+                shadows: [
+                  Shadow(
+                    color: Colors.black26,
+                    offset: Offset(1, 1),
+                    blurRadius: 2,
+                  ),
+                ],
               ),
             ),
           ),

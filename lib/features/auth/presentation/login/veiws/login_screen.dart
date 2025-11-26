@@ -64,7 +64,6 @@ class LoginScreen extends StatelessWidget {
                         height: cardHeight,
                         child: CustomPaint(
                           painter: LoginCardPainter(
-                            AppThemes.lightTheme.primaryColor,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
