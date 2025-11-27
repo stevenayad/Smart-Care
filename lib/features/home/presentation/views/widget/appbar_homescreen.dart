@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
 import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
 
@@ -7,9 +8,17 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      color: const Color(0xFFE9F7F1),
+      // color: theme.primaryColor,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [theme.colorScheme.primary, theme.colorScheme.secondary],
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -21,16 +30,22 @@ class HomeHeader extends StatelessWidget {
                     hintText: "Search",
                     hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                    fillColor: theme.colorScheme.surface,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                     suffixIcon: Container(
                       margin: EdgeInsets.only(right: 8),
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Color(0xFF1B8A6F).withOpacity(0.1),
+                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Icon(Icons.filter_list, color: Color(0xFF1B8A6F)),
+                      child: Icon(
+                        Icons.filter_list,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
 
                     contentPadding: const EdgeInsets.symmetric(vertical: 0),
@@ -60,38 +75,39 @@ class HomeHeader extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SettingScreen()),
                   );
                 },
-                child: _iconCircle(Icons.settings),
+                child: _iconCircle(context, Icons.settings),
               ),
             ],
           ),
 
           const SizedBox(height: 20),
 
-          const Text(
+          Text(
             "Hello To Smart Care",
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1B8A6F),
+              color: theme.colorScheme.surface,
             ),
           ),
 
           const SizedBox(height: 4),
 
-          const Text(
+          Text(
             "How can we help you stay healthy today?",
-            style: TextStyle(fontSize: 14, color: Color(0xFF2AAE8A)),
+            style: TextStyle(fontSize: 14, color: theme.colorScheme.surface),
           ),
         ],
       ),
     );
   }
 
-  Widget _iconCircle(IconData icon) {
+  Widget _iconCircle(BuildContext context, IconData icon) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      child: Icon(icon, size: 20, color: const Color(0xFF2AAE8A)),
+      child: Icon(icon, size: 20, color: theme.colorScheme.primary),
     );
   }
 }

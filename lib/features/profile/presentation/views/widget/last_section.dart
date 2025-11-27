@@ -3,6 +3,7 @@ import 'package:smartcare/features/Favourite/presentation/views/favourites_scree
 import 'package:smartcare/features/Orders/presentation/view/widget/orders_bloc_provider.dart';
 import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/change_password_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
 
 import 'package:smartcare/features/profile/presentation/views/widget/build_navagationtitle.dart';
@@ -43,7 +44,12 @@ class LastSection extends StatelessWidget {
             context,
             'Change Password',
             Icons.lock_outline,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChangePasswordScreen()),
+              );
+            },
           ),
           Divider(thickness: 0.5),
           buildNavagationtitle(

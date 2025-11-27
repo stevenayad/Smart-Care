@@ -102,7 +102,7 @@ class DelvieryScreen extends StatelessWidget {
                             );
                           }
 
-                          return EvlutedButton(
+                          return EvalutedButton(
                             text: 'Pick Up Order',
                             onTap: () {
                               if (selectedTab == 0 &&

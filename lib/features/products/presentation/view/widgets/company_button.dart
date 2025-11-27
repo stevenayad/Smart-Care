@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/custom/gradient_button.dart';
 import '../../bloc/companies/companies_bloc.dart';
 import '../../bloc/companies/companies_event.dart';
 import '../../bloc/companies/companies_state.dart';
@@ -58,25 +59,23 @@ class _CompanyButtonState extends State<CompanyButton> {
     return BlocBuilder<CompaniesBloc, CompaniesState>(
       builder: (context, state) {
         if (state is CompaniesLoading) {
-          return ElevatedButton(
-            onPressed: null,
-            child: const Text('Loading...'),
-          );
+          return SmallGradientButton(text: 'Loading...', onTap: () {});
         } else if (state is CompaniesLoaded) {
-          return ElevatedButton(
-            onPressed: () => _openCompanySheet(context, state.companies),
-            // child: Text(selectedCompany),
-            child: Text("Company"),
+          return SmallGradientButton(
+            text: 'Company',
+            onTap: () {
+              _openCompanySheet(context, state.companies);
+            },
           );
         } else if (state is CompaniesError) {
-          return ElevatedButton(
-            onPressed: () => context.read<CompaniesBloc>().add(LoadCompanies()),
-            child: const Text('Retry Companies'),
+          return SmallGradientButton(
+            text: 'Retry Companies',
+            onTap: () => context.read<CompaniesBloc>().add(LoadCompanies()),
           );
         } else {
-          return ElevatedButton(
-            onPressed: () => context.read<CompaniesBloc>().add(LoadCompanies()),
-            child: const Text('Company'),
+          return SmallGradientButton(
+            text: 'Company',
+            onTap: () => context.read<CompaniesBloc>().add(LoadCompanies()),
           );
         }
       },

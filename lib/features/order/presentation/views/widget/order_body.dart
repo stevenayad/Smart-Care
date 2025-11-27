@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
-import 'package:smartcare/core/widget/evluted_button.dart' show EvlutedButton;
+import 'package:smartcare/core/widget/evluted_button.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/order_summary_section.dart';
@@ -24,7 +24,7 @@ class OrderBody extends StatelessWidget {
           OrderSummarySection(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: EvlutedButton(
+            child: EvalutedButton(
               text: 'Processing Payment',
               onTap: () {
                 showModalBottomSheet(

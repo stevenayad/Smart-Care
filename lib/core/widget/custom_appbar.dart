@@ -9,7 +9,7 @@ PreferredSizeWidget customappbar(
   bool isIcon = true,
 }) {
   return AppBar(
-    backgroundColor: AppColors.primaryLightColor,
+    backgroundColor: AppColors.primaryblue,
     actions: actions,
     title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
     leading: isIcon

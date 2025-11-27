@@ -20,7 +20,7 @@ class scroll_view extends StatelessWidget {
           pinned: true,
           floating: true,
           expandedHeight: 130.0,
-          backgroundColor: AppColors.primaryblue,
+          // backgroundColor: AppColors.primaryblue,
           automaticallyImplyLeading: false,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
@@ -37,10 +37,18 @@ class scroll_view extends StatelessWidget {
 
           flexibleSpace: FlexibleSpaceBar(
             background: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.primaryblue,
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(30),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                    AppColors.primaryblue.withValues(alpha: 0.9),
+                    AppColors.accentGreen.withValues(alpha: 0.5),
+                  ],
                 ),
               ),
               child: Padding(

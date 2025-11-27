@@ -12,11 +12,28 @@ class SearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Search stores...',
-          prefixIcon: Icon(Icons.search),
-          fillColor: AppColors.white,
+          hintStyle: const TextStyle(color: Colors.grey),
+          prefixIcon: const Icon(Icons.search, color: AppColors.primaryblue),
           filled: true,
+          fillColor: AppColors.white,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 15.0,
+            horizontal: 20.0,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide(color: AppColors.primaryblue, width: 2),
+          ),
         ),
         onChanged: (query) {
           context.read<StoreBloc>().add(SearchStores(query));
