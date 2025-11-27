@@ -20,7 +20,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
         children: [
           GoogleMap(
             initialCameraPosition: const CameraPosition(
-              target: LatLng(30.0444, 31.2357), 
+              target: LatLng(30.0444, 31.2357),
               zoom: 14,
             ),
             onMapCreated: (controller) => mapController = controller,
@@ -32,7 +32,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
                     Marker(
                       markerId: const MarkerId("chosen"),
                       position: selectedPosition!,
-                    )
+                    ),
                   }
                 : {},
           ),
@@ -49,7 +49,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
               },
               child: const Text("Select This Location"),
             ),
-          )
+          ),
         ],
       ),
     );

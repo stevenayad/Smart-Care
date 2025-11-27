@@ -12,7 +12,11 @@ class PaymentRepo {
 
   Future<Either<Failure, PaymentModel>> PaymentOrder(String idorder) async {
     try {
-      final response = await apiConsumer.post("api/Payments/process/${idorder}", null ,false);
+      final response = await apiConsumer.post(
+        "api/Payments/process/${idorder}",
+        null,
+        false,
+      );
       if (response == null || response is! Map<String, dynamic>) {
         return Left(servivefailure("Invalid server response"));
       }
@@ -26,5 +30,4 @@ class PaymentRepo {
       return Left(servivefailure("Unexpected error, please try again"));
     }
   }
-
 }

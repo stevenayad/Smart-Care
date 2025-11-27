@@ -17,8 +17,8 @@ class FavouritesScreen extends StatelessWidget {
       appBar: customappbar(
         context,
         'Favourite',
-       onPressed:  () => Navigator.pop(context),
-        actions:  null,
+        onPressed: () => Navigator.pop(context),
+        actions: null,
       ),
       body: BlocProvider(
         create: (context) =>

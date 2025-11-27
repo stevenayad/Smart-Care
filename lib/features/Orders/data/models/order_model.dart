@@ -1,4 +1,3 @@
-
 import 'package:smartcare/features/Orders/data/models/store_model.dart';
 
 import 'address_model.dart';
@@ -37,8 +36,8 @@ class OrderModel {
       paymentId: json['paymentId'] is int
           ? json['paymentId'] as int
           : (json['paymentId'] != null
-              ? int.tryParse(json['paymentId'].toString())
-              : null),
+                ? int.tryParse(json['paymentId'].toString())
+                : null),
       address: json['address'] != null
           ? AddressModel.fromJson(Map<String, dynamic>.from(json['address']))
           : null,
@@ -50,19 +49,21 @@ class OrderModel {
           : null,
       status: json['status'] is int
           ? json['status'] as int
-          : (json['status'] != null ? int.tryParse(json['status'].toString()) : null),
+          : (json['status'] != null
+                ? int.tryParse(json['status'].toString())
+                : null),
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'] as String)
           : null,
       orderItems: json['orderItems'] != null
-          ? List<Map<String, dynamic>>.from(json['orderItems'])
-              .map((e) => OrderItemModel.fromJson(e))
-              .toList()
+          ? List<Map<String, dynamic>>.from(
+              json['orderItems'],
+            ).map((e) => OrderItemModel.fromJson(e)).toList()
           : null,
       outOfStocks: json['outOfStocks'] != null
-          ? List<Map<String, dynamic>>.from(json['outOfStocks'])
-              .map((e) => OutOfStockModel.fromJson(e))
-              .toList()
+          ? List<Map<String, dynamic>>.from(
+              json['outOfStocks'],
+            ).map((e) => OutOfStockModel.fromJson(e)).toList()
           : null,
     );
   }

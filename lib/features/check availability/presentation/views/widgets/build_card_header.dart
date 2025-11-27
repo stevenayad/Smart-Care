@@ -9,7 +9,7 @@ class buildCardHeader extends StatelessWidget {
   });
 
   final InventoryModel inventory;
-  
+
   final BuildContext context;
 
   @override
@@ -18,7 +18,7 @@ class buildCardHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          inventory.storeName.isEmpty ? "Store ":inventory.storeName,
+          inventory.storeName.isEmpty ? "Store " : inventory.storeName,
           style: Theme.of(
             context,
           ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
