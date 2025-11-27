@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/custom/gradient_button.dart';
 import 'filter_sheet.dart';
 
 class FilterButton extends StatelessWidget {
@@ -26,17 +27,13 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: () => _openFilterSheet(context),
-      icon: const Icon(Icons.filter_alt_rounded, size: 22),
-      label: const Text(
-        'Filter',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-      ),
-      style: ElevatedButton.styleFrom(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    return SizedBox(
+      width: 120, 
+      child: SmallGradientButton(
+        text: "Filter",
+        icon: Icons.filter_alt_rounded, 
+        iconSize: 20,
+        onTap: () => _openFilterSheet(context),
       ),
     );
   }

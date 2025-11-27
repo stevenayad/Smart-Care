@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
+import 'package:smartcare/features/products/presentation/view/widgets/custom/gradient_button.dart';
 
 class ApplyFilterButton extends StatelessWidget {
   final String selectedSort;
@@ -64,26 +65,13 @@ class ApplyFilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: () => _apply(context),
-        icon: const Icon(Icons.check_rounded, size: 22),
-        label: const Text(
-          'Apply Filter',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        style: ElevatedButton.styleFrom(
-          elevation: 4,
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
+      child: SmallGradientButton(
+        text: "Apply Filter",
+        icon: Icons.check_rounded,
+        iconSize: 22,
+        onTap: () => _apply(context),
       ),
     );
   }
