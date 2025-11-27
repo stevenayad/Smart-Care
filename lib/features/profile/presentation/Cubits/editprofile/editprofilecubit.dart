@@ -17,6 +17,17 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
   int? gender;
   int? accountType;
 
+
+   void setGender(int value) {
+    gender = value;
+    emit(EditProfileGenderChanged(gender));
+  }
+
+  void setAccountType(int value) {
+    accountType = value;
+    emit(EditProfileAccountTypeChanged(accountType));
+  }
+
   Future<void> editprofile(EditProfileRequest editprofrile) async {
     emit(EditProfilloading());
     var result = await repo.Editprofile(editprofrile);

@@ -27,6 +27,8 @@ class EditProfileShimmerLoader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           const SizedBox(height: 20),
           Center(

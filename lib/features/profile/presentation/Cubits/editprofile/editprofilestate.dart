@@ -18,3 +18,13 @@ class Editprofilesuccess extends EditProfilestate {
   final Profiledata model;
   const Editprofilesuccess(this.model);
 }
+
+class EditProfileGenderChanged extends EditProfilestate {
+  final int? gender;
+  EditProfileGenderChanged(this.gender);
+}
+
+class EditProfileAccountTypeChanged extends EditProfilestate {
+  final int? accountType;
+  EditProfileAccountTypeChanged(this.accountType);
+}

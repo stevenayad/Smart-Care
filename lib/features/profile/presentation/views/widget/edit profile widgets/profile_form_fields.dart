@@ -61,92 +61,82 @@ class ProfileFormFields extends StatelessWidget {
             editprofilecubit.accountType = accountType;
           });
 
-          return Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            margin: const EdgeInsets.all(16),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Edit Profile",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  EditProfileTextField(
-                    label: 'First Name',
-                    controller: editprofilecubit.firstNameController,
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'First name required'
-                        : null,
-                  ),
-                  const SizedBox(height: 15),
-                  EditProfileTextField(
-                    label: 'Last Name',
-                    controller: editprofilecubit.lastNameController,
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Last name required'
-                        : null,
-                  ),
-                  const SizedBox(height: 15),
-                  EditProfileTextField(
-                    label: 'User Name',
-                    controller: editprofilecubit.usernameController,
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'User name required'
-                        : null,
-                  ),
-                  const SizedBox(height: 15),
-                  EditProfileTextField(
-                    label: 'Phone Number',
-                    controller: editprofilecubit.phoneController,
-                    keyboardType: TextInputType.phone,
-                    validator: (value) {
-                      if (value == null || value.isEmpty)
-                        return 'Phone number required';
-                      final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
-                      return phoneRegex.hasMatch(value)
-                          ? null
-                          : 'Enter a valid phone number';
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  EditProfileTextField(
-                    label: 'Date of Birth',
-                    controller: editprofilecubit.dobController,
-                    readOnly: true,
-                    suffixIcon: const Icon(Icons.calendar_today),
-                    onTap: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime(1990, 1, 1),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-                      if (picked != null) {
-                        editprofilecubit.dobController.text =
-                            '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-                      }
-                    },
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Date of birth required'
-                        : null,
-                  ),
-                  const SizedBox(height: 10),
-                  const EditProfileGenderSelection(),
-                  const SizedBox(height: 10),
-                  const EditProfileAccountType(),
-                ],
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Edit Profile",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              EditProfileTextField(
+                label: 'First Name',
+                controller: editprofilecubit.firstNameController,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'First name required'
+                    : null,
+              ),
+              const SizedBox(height: 15),
+              EditProfileTextField(
+                label: 'Last Name',
+                controller: editprofilecubit.lastNameController,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Last name required'
+                    : null,
+              ),
+              const SizedBox(height: 15),
+              EditProfileTextField(
+                label: 'User Name',
+                controller: editprofilecubit.usernameController,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'User name required'
+                    : null,
+              ),
+              const SizedBox(height: 15),
+              EditProfileTextField(
+                label: 'Phone Number',
+                controller: editprofilecubit.phoneController,
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return 'Phone number required';
+                  final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
+                  return phoneRegex.hasMatch(value)
+                      ? null
+                      : 'Enter a valid phone number';
+                },
+              ),
+              const SizedBox(height: 15),
+              EditProfileTextField(
+                label: 'Date of Birth',
+                controller: editprofilecubit.dobController,
+                readOnly: true,
+                suffixIcon: const Icon(Icons.calendar_today),
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime(1990, 1, 1),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (picked != null) {
+                    editprofilecubit.dobController.text =
+                        '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                  }
+                },
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Date of birth required'
+                    : null,
+              ),
+              const SizedBox(height: 10),
+              const EditProfileGenderSelection(),
+              const SizedBox(height: 10),
+              const EditProfileAccountType(),
+            ],
           );
         }
 
