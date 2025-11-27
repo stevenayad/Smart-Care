@@ -68,7 +68,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) async {
     emit(OrdersLoading());
     try {
-      final result = await repository.getOrdersByCustomerAndStatus(event.clientId, event.status);
+      final result = await repository.getOrdersByCustomerAndStatus(
+        event.clientId,
+        event.status,
+      );
       result.fold(
         (failure) => emit(OrdersError(failure.errMessage)),
         (orders) => emit(OrdersListLoaded(orders)),

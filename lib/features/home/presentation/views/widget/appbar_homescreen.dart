@@ -65,7 +65,7 @@ class HomeHeader extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => CartScreen()),
                   );
                 },
-                child: _iconCircle(context, Icons.shopping_cart_outlined),
+                child: _iconCircle(Icons.shopping_cart_outlined),
               ),
               const SizedBox(width: 10),
               GestureDetector(

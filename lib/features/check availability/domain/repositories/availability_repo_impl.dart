@@ -10,7 +10,8 @@ class AvailabilityRepoImpl implements AvailabilityRepo {
 
   @override
   Future<Either<Failure, List<InventoryModel>>> checkAvailability(
-      String productId) async {
+    String productId,
+  ) async {
     try {
       final response = await api.get("/api/Inventories/GetAvailableInventory", {
         "productId": productId,

@@ -12,12 +12,9 @@ BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
   final apiConsumer = DioConsumer(dio);
   final repository = OrderRepositoryImpl(apiConsumer: apiConsumer);
 
-
-
   return BlocProvider(
-    create: (_) => OrdersBloc(
-      repository: repository
-    )..add(FetchOrdersByCustomer()),
+    create: (_) =>
+        OrdersBloc(repository: repository)..add(FetchOrdersByCustomer()),
     child: const OrdersScreen(),
   );
 }

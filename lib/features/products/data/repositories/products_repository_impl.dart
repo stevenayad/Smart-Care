@@ -20,7 +20,9 @@ class ProductsRepositoryImpl {
 
       // Expected backend format:
       // { statusCode: 424, succeeded: false, message: "...", errorsBag: null, data: null }
-      if (data is Map && data["message"] is String && data["message"].trim().isNotEmpty) {
+      if (data is Map &&
+          data["message"] is String &&
+          data["message"].trim().isNotEmpty) {
         return data["message"];
       }
 
@@ -167,7 +169,11 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final query = {'NameEn': name, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final query = {
+        'NameEn': name,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
       final res = await consumer.get('/api/Products/Name', query);
       final products = _parseProducts(res);
       return Right(products);
@@ -182,7 +188,11 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final query = {'CompanyName': companyName, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final query = {
+        'CompanyName': companyName,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
       final res = await consumer.get('/api/Products/CompanyName', query);
       final products = _parseProducts(res);
       return Right(products);
@@ -197,7 +207,11 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final query = {'CategoryName': categoryName, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final query = {
+        'CategoryName': categoryName,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
       final res = await consumer.get('/api/Products/CategoryName', query);
       final products = _parseProducts(res);
       return Right(products);
@@ -212,7 +226,11 @@ class ProductsRepositoryImpl {
     int pageSize = 10,
   }) async {
     try {
-      final query = {'Description': description, 'pageNumber': pageNumber, 'pageSize': pageSize};
+      final query = {
+        'Description': description,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize,
+      };
       final res = await consumer.get('/api/Products/Description', query);
       final products = _parseProducts(res);
       return Right(products);
@@ -262,9 +280,18 @@ class ProductsRepositoryImpl {
 
       if (res is Map && res.containsKey('data')) {
         final data = res['data'];
-        if (data is List) return Right(data.map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        if (data is List)
+          return Right(
+            data
+                .map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e)))
+                .toList(),
+          );
         if (data is Map && data.containsKey('items') && data['items'] is List) {
-          return Right(data['items'].map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e))).toList());
+          return Right(
+            data['items']
+                .map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e)))
+                .toList(),
+          );
         }
       }
 
@@ -284,9 +311,22 @@ class ProductsRepositoryImpl {
 
       if (res is Map && res.containsKey('data')) {
         final data = res['data'];
-        if (data is List) return Right(data.map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e))).toList());
+        if (data is List)
+          return Right(
+            data
+                .map(
+                  (e) => CategoryModel.fromJson(Map<String, dynamic>.from(e)),
+                )
+                .toList(),
+          );
         if (data is Map && data.containsKey('items') && data['items'] is List) {
-          return Right(data['items'].map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e))).toList());
+          return Right(
+            data['items']
+                .map(
+                  (e) => CategoryModel.fromJson(Map<String, dynamic>.from(e)),
+                )
+                .toList(),
+          );
         }
       }
 

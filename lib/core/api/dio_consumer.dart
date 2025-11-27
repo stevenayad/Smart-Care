@@ -130,15 +130,21 @@ class DioConsumer implements ApiConsumer {
   // PUT
   // ---------------------------------------------------------------------------
   @override
-  Future<dynamic> put(String endpoint, Map<String, dynamic>? body) async {
+  Future<dynamic> put(
+    String endpoint,
+    dynamic body, {
+    bool isFormData = false,
+  }) async {
     try {
       final token = CacheHelper.getAccessToken();
-      final headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      };
+      final headers = <String, String>{'Accept': 'application/json'};
+
       if (token != null && token.isNotEmpty) {
         headers['Authorization'] = 'Bearer $token';
+      }
+
+      if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
       }
 
       print('📝 PUT => ${dio.options.baseUrl}$endpoint');
@@ -189,6 +195,42 @@ class DioConsumer implements ApiConsumer {
       );
 
       print("✅ Dio DELETE Success: ${response.statusCode}");
+      print("🔵 Response: ${response.data}");
+      return response.data;
+    } on DioException catch (e) {
+      print("❌ DioException: ${e.message}");
+      print("❌ Response: ${e.response?.data}");
+      rethrow;
+    } catch (e, s) {
+      print("🔥 Non-Dio Error: $e");
+      print(s);
+      return {'error': e.toString()};
+    }
+  }
+
+  @override
+  Future<dynamic> patch(String endpoint, Map<String, dynamic>? body) async {
+    try {
+      final token = CacheHelper.getAccessToken();
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      if (token != null && token.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+
+      print('🛠️ PATCH => ${dio.options.baseUrl}$endpoint');
+      print('📦 Body: $body');
+
+      final response = await dio.patch(
+        endpoint,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      print("✅ Dio PATCH Success: ${response.statusCode}");
       print("🔵 Response: ${response.data}");
       return response.data;
     } on DioException catch (e) {

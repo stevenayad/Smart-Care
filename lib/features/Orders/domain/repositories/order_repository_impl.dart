@@ -64,21 +64,28 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await apiConsumer.get('/api/me/orders', null);
       final list = response['data'] as List<dynamic>;
-      return Right(list.map((e) => _fromModel(OrderModel.fromJson(e))).toList());
+      return Right(
+        list.map((e) => _fromModel(OrderModel.fromJson(e))).toList(),
+      );
     } catch (e) {
       return Left(_handleError(e));
     }
   }
 
   @override
-  Future<Either<Failure, List<Orderr>>> getOrdersByCustomerAndStatus(String clientId, int status) async {
+  Future<Either<Failure, List<Orderr>>> getOrdersByCustomerAndStatus(
+    String clientId,
+    int status,
+  ) async {
     try {
-      final response = await apiConsumer.get('/api/orders/by-customer-and-status', {
-        'clientId': clientId,
-        'status': status,
-      });
+      final response = await apiConsumer.get(
+        '/api/orders/by-customer-and-status',
+        {'clientId': clientId, 'status': status},
+      );
       final list = response['data'] as List<dynamic>;
-      return Right(list.map((e) => _fromModel(OrderModel.fromJson(e))).toList());
+      return Right(
+        list.map((e) => _fromModel(OrderModel.fromJson(e))).toList(),
+      );
     } catch (e) {
       return Left(_handleError(e));
     }
