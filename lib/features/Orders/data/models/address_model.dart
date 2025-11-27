@@ -20,8 +20,12 @@ class AddressModel {
       address: json['address'] as String?,
       label: json['label'] as String?,
       additionalInfo: json['additionalInfo'] as String?,
-      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
-      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
+      latitude: json['latitude'] != null
+          ? (json['latitude'] as num).toDouble()
+          : null,
+      longitude: json['longitude'] != null
+          ? (json['longitude'] as num).toDouble()
+          : null,
       isPrimary: json['isPrimary'] as bool?,
     );
   }

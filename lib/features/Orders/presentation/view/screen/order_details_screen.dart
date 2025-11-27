@@ -78,11 +78,11 @@ class OrderDetailsScreen extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColors.mediumGrey.withValues(alpha:0.2),
+                            color: AppColors.mediumGrey.withValues(alpha: 0.2),
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withValues(alpha:0.1),
+                              color: Colors.grey.withValues(alpha: 0.1),
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),
@@ -134,11 +134,11 @@ class OrderDetailsScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: AppColors.mediumGrey.withValues(alpha:0.2),
+                          color: AppColors.mediumGrey.withValues(alpha: 0.2),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withValues(alpha:0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),

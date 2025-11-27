@@ -44,13 +44,14 @@ class HomeHeader extends StatelessWidget {
 
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: (){
-                   Navigator.push(
+                onTap: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CartScreen()),
                   );
                 },
-                child: _iconCircle(Icons.shopping_cart_outlined )),
+                child: _iconCircle(Icons.shopping_cart_outlined),
+              ),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {

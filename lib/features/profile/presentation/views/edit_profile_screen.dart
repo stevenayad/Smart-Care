@@ -33,9 +33,14 @@ class EditProfileScreen extends StatelessWidget {
           final colorScheme = Theme.of(context).colorScheme;
           final editprofilecubit = BlocProvider.of<Editprofilecubit>(context);
           return Scaffold(
-            appBar: customappbar(context, 'My Cart', onPressed: () {
-              Navigator.pop(context);
-            }, actions: null),
+            appBar: customappbar(
+              context,
+              'My Cart',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              actions: null,
+            ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Form(

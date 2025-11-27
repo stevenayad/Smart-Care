@@ -36,9 +36,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-        appBar: customappbar(context, 'My orders', onPressed: () {
-              Navigator.pop(context);
-            }, actions: null),
+      appBar: customappbar(
+        context,
+        'My orders',
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        actions: null,
+      ),
       body: Column(
         children: [
           OrderStatusFilter(

@@ -21,7 +21,7 @@ class OrderStatusBadge extends StatelessWidget {
         children: [
           Icon(
             OrderStatusHelper.getStatusIcon(status),
-            size: 14, 
+            size: 14,
             color: textColor,
           ),
           const SizedBox(width: 6),

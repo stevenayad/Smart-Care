@@ -51,7 +51,7 @@ class OrderBody extends StatelessWidget {
                         create: (context) {
                           final signalR = PaymentSignalr(
                             CacheHelper.getAccessToken()!,
-                          );    
+                          );
                           final cubit = PaymentSignalRCubit(
                             signalRService: signalR,
                           );
