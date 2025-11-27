@@ -21,7 +21,8 @@ class CheckAvailabilityScreen extends StatelessWidget {
     final repo = AvailabilityRepoImpl(remote: remote);
 
     return BlocProvider(
-      create: (context) => AvailabilityBloc(repo)..add(CheckAvailabilityEvent(productId)),
+      create: (context) =>
+          AvailabilityBloc(repo)..add(CheckAvailabilityEvent(productId)),
       child: Scaffold(
         backgroundColor: AppColors.lightGrey,
         appBar: customAppBar(),

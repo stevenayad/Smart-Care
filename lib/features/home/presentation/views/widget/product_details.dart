@@ -69,7 +69,9 @@ class ProductDetails extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CheckAvailabilityScreen(productId: detialsProductModel.data!.productId!,),
+                      builder: (context) => CheckAvailabilityScreen(
+                        productId: detialsProductModel.data!.productId!,
+                      ),
                     ),
                   );
                 },

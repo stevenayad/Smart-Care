@@ -21,14 +21,14 @@ class OrderStatusFilter extends StatelessWidget {
         decoration: InputDecoration(
           labelText: 'Filter by Status',
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        ),
-        value: null, 
-        items: [
-          const DropdownMenuItem<int?>(
-            value: null,
-            child: Text('All'),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 10,
           ),
+        ),
+        value: null,
+        items: [
+          const DropdownMenuItem<int?>(value: null, child: Text('All')),
           ...List.generate(10, (index) {
             return DropdownMenuItem<int?>(
               value: index,

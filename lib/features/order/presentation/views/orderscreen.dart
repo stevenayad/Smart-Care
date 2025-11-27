@@ -7,7 +7,6 @@ import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.d
 import 'package:smartcare/features/order/presentation/views/widget/appbar.dart';
 import 'package:smartcare/features/order/presentation/views/widget/order_body.dart';
 
-
 class Orderscreen extends StatelessWidget {
   const Orderscreen({super.key, required this.orderId});
   final String orderId;
@@ -25,7 +24,7 @@ class Orderscreen extends StatelessWidget {
           'Order',
           onBack: () => Navigator.pop(context),
         ),
-        body: OrderBody(orderid: orderId,),
+        body: OrderBody(orderid: orderId),
       ),
     );
   }

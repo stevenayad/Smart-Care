@@ -13,7 +13,7 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
   bool _isLoadingVisible = false;
 
   PaymentSignalRCubit({required this.signalRService})
-      : super(PaymentSignalRState()) {
+    : super(PaymentSignalRState()) {
     _init();
   }
 
@@ -21,29 +21,28 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
     await signalRService.connect();
 
     signalRService.listenReservationExpired((data) {
-      
       if (_isLoadingVisible && Navigator.canPop(navigatorKey.currentContext!)) {
         Navigator.of(navigatorKey.currentContext!).pop();
         _isLoadingVisible = false;
       }
 
-     if (data.status == "failed" || data.status == "cancelled") {
+      if (data.status == "failed" || data.status == "cancelled") {
         showGlobalOrderCancelledDialog(data.message);
       } else if (data.status == "success") {
         showGlobalOrderSuccessDialog(data.message);
       }
 
-  
-      emit(state.copyWith(
-        lastMessage: data.message,
-        orderId: data.orderId,
-        status: data.status,
-      ));
+      emit(
+        state.copyWith(
+          lastMessage: data.message,
+          orderId: data.orderId,
+          status: data.status,
+        ),
+      );
 
       onPaymentMessage?.call(data);
     });
   }
-
 
   Future<void> startPaymentSession() async {
     if (!_isLoadingVisible) {

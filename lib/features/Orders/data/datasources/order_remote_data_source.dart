@@ -7,7 +7,8 @@ abstract class OrderRemoteDataSource {
 
   Future<List<OrderModel>> getOrdersByCustomer();
 
-  Future<List<OrderModel>> getOrdersByCustomerAndStatus(String clientId, int status);
-
-  
+  Future<List<OrderModel>> getOrdersByCustomerAndStatus(
+    String clientId,
+    int status,
+  );
 }

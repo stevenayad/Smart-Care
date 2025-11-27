@@ -8,7 +8,10 @@ class GetOrdersByCustomerAndStatus {
 
   GetOrdersByCustomerAndStatus(this.repository);
 
-  Future<Either<Failure, List<Orderr>>> call(String clientId, int status) async {
+  Future<Either<Failure, List<Orderr>>> call(
+    String clientId,
+    int status,
+  ) async {
     return await repository.getOrdersByCustomerAndStatus(clientId, status);
   }
 }

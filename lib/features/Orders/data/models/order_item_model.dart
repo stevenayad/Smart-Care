@@ -24,10 +24,20 @@ class OrderItemModel {
       id: json['id'] as String,
       orderId: json['orderId'] as String?,
       invetoryId: json['invetoryId'] as String?,
-      quantity: json['quantity'] is int ? json['quantity'] as int : (json['quantity'] != null ? int.tryParse(json['quantity'].toString()) : null),
-      unitPrice: json['unitPrice'] != null ? (json['unitPrice'] as num).toDouble() : null,
-      subTotal: json['subTotal'] != null ? (json['subTotal'] as num).toDouble() : null,
-      product: json['product'] != null ? ProductModel.fromJson(Map<String, dynamic>.from(json['product'])) : null,
+      quantity: json['quantity'] is int
+          ? json['quantity'] as int
+          : (json['quantity'] != null
+                ? int.tryParse(json['quantity'].toString())
+                : null),
+      unitPrice: json['unitPrice'] != null
+          ? (json['unitPrice'] as num).toDouble()
+          : null,
+      subTotal: json['subTotal'] != null
+          ? (json['subTotal'] as num).toDouble()
+          : null,
+      product: json['product'] != null
+          ? ProductModel.fromJson(Map<String, dynamic>.from(json['product']))
+          : null,
     );
   }
 

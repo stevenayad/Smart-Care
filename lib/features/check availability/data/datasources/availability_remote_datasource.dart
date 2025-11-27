@@ -1,4 +1,3 @@
-
 import 'package:smartcare/features/check%20availability/data/model/inventory_model.dart';
 
 abstract class AvailabilityRemoteDataSource {

@@ -67,9 +67,7 @@ class OrderInfoSection extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => DelvieryScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => DelvieryScreen()),
                   );
                 },
               ),

@@ -21,7 +21,9 @@ class ProductModel {
       nameEn: json['nameEn'] as String?,
       description: json['description'] as String?,
       price: json['price'] != null ? (json['price'] as num).toDouble() : null,
-      discountPercentage: json['discountPercentage'] != null ? (json['discountPercentage'] as num).toDouble() : null,
+      discountPercentage: json['discountPercentage'] != null
+          ? (json['discountPercentage'] as num).toDouble()
+          : null,
       imageUrl: json['imageUrl'] as String?,
     );
   }

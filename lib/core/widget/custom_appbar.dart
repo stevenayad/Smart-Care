@@ -6,15 +6,12 @@ PreferredSizeWidget customappbar(
   String text, {
   void Function()? onPressed,
   List<Widget>? actions,
-  bool isIcon = true, 
+  bool isIcon = true,
 }) {
   return AppBar(
     backgroundColor: AppColors.primaryLightColor,
     actions: actions,
-    title: Text(
-      text,
-      style: Theme.of(context).textTheme.bodyLarge,
-    ),
+    title: Text(text, style: Theme.of(context).textTheme.bodyLarge),
     leading: isIcon
         ? IconButton(
             onPressed: onPressed,

@@ -23,16 +23,25 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<List<OrderModel>> getOrdersByCustomer() async {
-    final response = await apiConsumer.get('/api/me/orders',null);
+    final response = await apiConsumer.get('/api/me/orders', null);
     final list = response['data'] as List<dynamic>;
-    return list.map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e))).toList();
+    return list
+        .map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
   }
 
   @override
-  Future<List<OrderModel>> getOrdersByCustomerAndStatus(String clientId, int status) async {
-    final response = await apiConsumer.get('/api/orders/by-customer-and-status', {'clientId': clientId, 'status': status});
+  Future<List<OrderModel>> getOrdersByCustomerAndStatus(
+    String clientId,
+    int status,
+  ) async {
+    final response = await apiConsumer.get(
+      '/api/orders/by-customer-and-status',
+      {'clientId': clientId, 'status': status},
+    );
     final list = response['data'] as List<dynamic>;
-    return list.map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e))).toList();
+    return list
+        .map((e) => OrderModel.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
   }
-
 }

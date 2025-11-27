@@ -12,7 +12,6 @@ class OrderRepositoryImpl implements OrderRepository {
 
   OrderRepositoryImpl({required this.remoteDataSource});
 
-
   Orderr _fromModel(OrderModel model) {
     return Orderr(
       id: model.id,
@@ -82,16 +81,17 @@ class OrderRepositoryImpl implements OrderRepository {
   // --------------------------------------------------------------------------
   @override
   Future<Either<Failure, List<Orderr>>> getOrdersByCustomerAndStatus(
-      String clientId,
-      int status,
+    String clientId,
+    int status,
   ) async {
     try {
-      final models =
-          await remoteDataSource.getOrdersByCustomerAndStatus(clientId, status);
+      final models = await remoteDataSource.getOrdersByCustomerAndStatus(
+        clientId,
+        status,
+      );
       return Right(models.map(_fromModel).toList());
     } catch (e) {
       return Left(_handleError(e));
     }
   }
-
 }

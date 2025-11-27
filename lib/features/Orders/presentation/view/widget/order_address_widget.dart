@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/Orders/domain/entities/order.dart';
 
-
 class OrderAddressWidget extends StatelessWidget {
   final Orderr order;
 
@@ -21,8 +20,11 @@ class OrderAddressWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.location_on_outlined,
-              color: AppColors.primaryblue, size: 24),
+          const Icon(
+            Icons.location_on_outlined,
+            color: AppColors.primaryblue,
+            size: 24,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

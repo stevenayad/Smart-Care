@@ -8,9 +8,14 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: customappbar(context, 'Settings',onPressed:  () {
+      appBar: customappbar(
+        context,
+        'Settings',
+        onPressed: () {
           Navigator.pop(context);
-        }, actions: null),
+        },
+        actions: null,
+      ),
       body: SettingBody(),
     );
   }

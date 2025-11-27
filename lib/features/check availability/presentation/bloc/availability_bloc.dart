@@ -11,12 +11,11 @@ class AvailabilityBloc extends Bloc<AvailabilityEvent, AvailabilityState> {
   AvailabilityBloc(this.repo) : super(AvailabilityInitial()) {
     on<CheckAvailabilityEvent>((event, emit) async {
       emit(AvailabilityLoading());
-      final result=await repo.checkAvailability(event.poductId);
+      final result = await repo.checkAvailability(event.poductId);
       result.fold(
-        (failure)=>emit(AvailabilityFailure(failure.errMessage)),
-        (data)=>emit(AvailabilitySuccess(data))
+        (failure) => emit(AvailabilityFailure(failure.errMessage)),
+        (data) => emit(AvailabilitySuccess(data)),
       );
-
     });
   }
 }
