@@ -7,7 +7,6 @@ import 'package:smartcare/features/Orders/presentation/bloc/orders_bloc.dart';
 import 'package:smartcare/features/Orders/presentation/bloc/orders_event.dart';
 import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 
-
 BlocProvider<OrdersBloc> buildOrdersBlocScreen() {
   final dio = Dio();
   final apiConsumer = DioConsumer(dio);

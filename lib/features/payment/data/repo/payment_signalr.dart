@@ -56,11 +56,7 @@ class PaymentSignalr {
     }
   }
 
- 
-
-  void listenReservationExpired(
-    void Function(OrderResponse) handler,
-  ) {
+  void listenReservationExpired(void Function(OrderResponse) handler) {
     _handler = handler;
 
     if (_listenerRegistered) return;

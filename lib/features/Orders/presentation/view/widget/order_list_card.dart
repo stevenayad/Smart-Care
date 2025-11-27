@@ -18,14 +18,11 @@ class OrderListCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      
+
       child: Material(
-        
-        color: AppColors.primaryblue.withValues( alpha: 
-          0.05,
-        ), 
+        color: AppColors.primaryblue.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
-        elevation: 0, 
+        elevation: 0,
 
         child: InkWell(
           onTap: onTap,
@@ -38,7 +35,7 @@ class OrderListCard extends StatelessWidget {
                   color: Colors.black.withValues(alpha: 0.08),
                   offset: const Offset(0, 4),
                   blurRadius: 15,
-                  spreadRadius: -5, 
+                  spreadRadius: -5,
                 ),
               ],
             ),
@@ -50,7 +47,7 @@ class OrderListCard extends StatelessWidget {
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryblue.withValues(alpha:  0.15),
+                    color: AppColors.primaryblue.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Center(

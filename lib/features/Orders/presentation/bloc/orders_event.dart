@@ -22,7 +22,6 @@ class FetchOrderDetails extends OrdersEvent {
 }
 
 class FetchOrdersByCustomer extends OrdersEvent {
-  
   FetchOrdersByCustomer();
 
   @override
@@ -37,5 +36,3 @@ class FetchOrdersByCustomerAndStatus extends OrdersEvent {
   @override
   List<Object?> get props => [clientId, status];
 }
-
-

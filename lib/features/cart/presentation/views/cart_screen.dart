@@ -47,10 +47,15 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ],
-      child:  Scaffold(
-        appBar: customappbar(context, 'My Cart',onPressed: () {
-          Navigator.pop(context);
-        }, actions: null ),
+      child: Scaffold(
+        appBar: customappbar(
+          context,
+          'My Cart',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          actions: null,
+        ),
         body: Column(children: [Expanded(child: CartBody())]),
       ),
     );

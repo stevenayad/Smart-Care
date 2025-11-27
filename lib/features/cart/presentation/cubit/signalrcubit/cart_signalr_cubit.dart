@@ -22,8 +22,7 @@ class CartSignalRCubit extends Cubit<CartSignalRState> {
     await signalRService.connect();
 
     signalRService.listenReservationExpired((data) async {
-    
-        showGlobalOrderCancelledDialog(data.message! );
+      showGlobalOrderCancelledDialog(data.message!);
 
       final id = data.productId;
       final msg = data.message ?? "";

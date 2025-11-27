@@ -31,23 +31,23 @@ class OrderStatusHelper {
   static Color getStatusColor(int? status) {
     switch (status) {
       case 0:
-        return Colors.amber; 
+        return Colors.amber;
       case 1:
-        return Colors.lightBlue; 
+        return Colors.lightBlue;
       case 2:
-        return Colors.indigo; 
+        return Colors.indigo;
       case 3:
-        return Colors.green; 
+        return Colors.green;
       case 4:
-        return Colors.red; 
+        return Colors.red;
       case 5:
-        return Colors.blueAccent; 
+        return Colors.blueAccent;
       case 6:
-        return Colors.orange; 
+        return Colors.orange;
       case 7:
-        return Colors.deepOrange; 
+        return Colors.deepOrange;
       case 8:
-        return Colors.grey; 
+        return Colors.grey;
       case 9:
         return Colors.purple;
       default:
@@ -56,10 +56,8 @@ class OrderStatusHelper {
   }
 
   static Color getStatusTextColor(int? status) {
-
-    if (status == 0 || status == 2)
-      return Colors.black; 
-    return Colors.white; 
+    if (status == 0 || status == 2) return Colors.black;
+    return Colors.white;
   }
 
   static IconData getStatusIcon(int? status) {
