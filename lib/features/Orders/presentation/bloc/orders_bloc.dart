@@ -14,7 +14,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<FetchOrdersByCustomerAndStatus>(_onFetchOrdersByCustomerAndStatus);
   }
 
-  Future<void> _onFetchOrderById(FetchOrderById event, Emitter<OrdersState> emit) async {
+  Future<void> _onFetchOrderById(
+    FetchOrderById event,
+    Emitter<OrdersState> emit,
+  ) async {
     emit(OrdersLoading());
     try {
       final result = await repository.getOrderById(event.id);
@@ -27,7 +30,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     }
   }
 
-  Future<void> _onFetchOrderDetails(FetchOrderDetails event, Emitter<OrdersState> emit) async {
+  Future<void> _onFetchOrderDetails(
+    FetchOrderDetails event,
+    Emitter<OrdersState> emit,
+  ) async {
     emit(OrdersLoading());
     try {
       final result = await repository.getOrderDetails(event.id);
@@ -40,7 +46,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     }
   }
 
-  Future<void> _onFetchOrdersByCustomer(FetchOrdersByCustomer event, Emitter<OrdersState> emit) async {
+  Future<void> _onFetchOrdersByCustomer(
+    FetchOrdersByCustomer event,
+    Emitter<OrdersState> emit,
+  ) async {
     emit(OrdersLoading());
     try {
       final result = await repository.getOrdersByCustomer();
@@ -53,10 +62,16 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     }
   }
 
-  Future<void> _onFetchOrdersByCustomerAndStatus(FetchOrdersByCustomerAndStatus event, Emitter<OrdersState> emit) async {
+  Future<void> _onFetchOrdersByCustomerAndStatus(
+    FetchOrdersByCustomerAndStatus event,
+    Emitter<OrdersState> emit,
+  ) async {
     emit(OrdersLoading());
     try {
-      final result = await repository.getOrdersByCustomerAndStatus(event.clientId, event.status);
+      final result = await repository.getOrdersByCustomerAndStatus(
+        event.clientId,
+        event.status,
+      );
       result.fold(
         (failure) => emit(OrdersError(failure.errMessage)),
         (orders) => emit(OrdersListLoaded(orders)),

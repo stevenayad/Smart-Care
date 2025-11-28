@@ -24,7 +24,7 @@ class EditProfileBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const EditProfileImagePicker(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             const ProfileFormFields(),
             const SizedBox(height: 30),
             EditProfileActionButtons(

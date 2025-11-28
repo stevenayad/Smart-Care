@@ -16,9 +16,9 @@ class EditProfileScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => Profilecubit(
-            ProfileRepoimplemtation(api: DioConsumer(Dio())),
-          )..fetchProfiledata(),
+          create: (context) =>
+              Profilecubit(ProfileRepoimplemtation(api: DioConsumer(Dio())))
+                ..fetchProfiledata(),
         ),
         BlocProvider(
           create: (context) => Editprofilecubit(
@@ -27,13 +27,12 @@ class EditProfileScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-         appBar: customappbar(
-        context,
-        'Edit Profile',
-        onPressed: () => Navigator.pop(context),
-      ),
+        appBar: customappbar(
+          context,
+          'Edit Profile',
+          onPressed: () => Navigator.pop(context),
+        ),
         body: EditProfileBody(),
-      
       ),
     );
   }

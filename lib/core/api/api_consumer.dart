@@ -11,4 +11,5 @@ abstract class ApiConsumer {
   ); //changed body to dynamic to accept form data
   Future<dynamic> put(String endpoint, Map<String, dynamic>? body);
   Future<dynamic> delete(String endpoint, Map<String, dynamic>? body);
+  Future<dynamic> patch(String endpoint, Map<String, dynamic>? body);
 }

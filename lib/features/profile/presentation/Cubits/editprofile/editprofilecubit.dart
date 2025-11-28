@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:smartcare/features/profile/data/Model/input_model/edit_profile_request.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilestate.dart';
@@ -14,11 +17,11 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
   late TextEditingController usernameController = TextEditingController();
   late TextEditingController phoneController = TextEditingController();
   late TextEditingController dobController = TextEditingController();
-  int? gender;
-  int? accountType;
 
+  int gender = 0;
+  int accountType = 0;
 
-   void setGender(int value) {
+  void setGender(int value) {
     gender = value;
     emit(EditProfileGenderChanged(gender));
   }
@@ -66,6 +69,47 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
   }
 
   void onCancel(BuildContext context) => Navigator.pop(context);
+
+  File? profileImage;
+
+  void pickProfileImage(File image) {
+    profileImage = image;
+  }
+
+
+
+  Future<void> updateProfileImage() async {
+  if (profileImage == null) return;
+
+  emit(EditProfileImageUploading());
+
+  final result = await repo.changeProfileImage(profileImage!);
+
+  result.fold(
+    (failure) {
+      emit(EditProfileImageUploadFailure(errMessage: failure.errMessage));
+    },
+    (profileData) {
+      emit(EditProfileImageUploadSuccess(profileData));
+    },
+  );
+}
+
+
+  Future<void> pickImage() async {
+  final picker = ImagePicker();
+  final XFile? file = await picker.pickImage(
+    source: ImageSource.gallery,
+    imageQuality: 70,
+  );
+
+  if (file != null) {
+    pickProfileImage(File(file.path));
+    emit(EditProfileImagePicked());
+    await updateProfileImage();
+  }
+}
+
 
   @override
   Future<void> close() {

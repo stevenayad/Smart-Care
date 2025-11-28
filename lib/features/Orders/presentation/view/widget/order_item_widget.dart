@@ -14,31 +14,27 @@ class OrderItemWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Material(
-        
-        color: AppColors.primaryblue.withValues(alpha:  0.05),
+        color: AppColors.primaryblue.withValues(alpha: 0.05),
 
         borderRadius: BorderRadius.circular(16),
-        elevation: 0, 
+        elevation: 0,
 
         child: InkWell(
-          onTap: () {
-          },
+          onTap: () {},
           borderRadius: BorderRadius.circular(16),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha:  0.06),
+                  color: Colors.black.withValues(alpha: 0.06),
                   offset: const Offset(0, 3),
                   blurRadius: 10,
                   spreadRadius: -2,
                 ),
               ],
             ),
-            padding: const EdgeInsets.all(
-              16.0,
-            ), 
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,7 +42,7 @@ class OrderItemWidget extends StatelessWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.lightGrey.withValues (alpha:  0.5),
+                    color: AppColors.lightGrey.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(12),
                     image:
                         (product?.imageUrl != null &&
@@ -92,7 +88,9 @@ class OrderItemWidget extends StatelessWidget {
                           product.description!,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: AppColors.mediumGrey.withValues(alpha:  0.8),
+                                color: AppColors.mediumGrey.withValues(
+                                  alpha: 0.8,
+                                ),
                               ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -120,7 +118,7 @@ class OrderItemWidget extends StatelessWidget {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.red.withValues ( alpha: .1),
+                                color: Colors.red.withValues(alpha: .1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(

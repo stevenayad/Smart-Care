@@ -6,6 +6,7 @@ abstract class AvailabilityEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
 class CheckAvailabilityEvent extends AvailabilityEvent {
   final String poductId;
 
@@ -13,5 +14,4 @@ class CheckAvailabilityEvent extends AvailabilityEvent {
 
   @override
   List<Object> get props => [poductId];
-
 }

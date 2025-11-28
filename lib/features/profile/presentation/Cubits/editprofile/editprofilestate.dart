@@ -28,3 +28,16 @@ class EditProfileAccountTypeChanged extends EditProfilestate {
   final int? accountType;
   EditProfileAccountTypeChanged(this.accountType);
 }
+
+class EditProfileImagePicked extends EditProfilestate {}
+
+
+class EditProfileImageUploading extends EditProfilestate {}
+class EditProfileImageUploadSuccess extends EditProfilestate {
+  final Profiledata profileData;
+  EditProfileImageUploadSuccess(this.profileData);
+}
+class EditProfileImageUploadFailure extends EditProfilestate {
+  final String errMessage;
+  EditProfileImageUploadFailure({required this.errMessage});
+}

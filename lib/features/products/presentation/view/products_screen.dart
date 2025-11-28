@@ -6,8 +6,6 @@ import 'package:smartcare/core/app_color.dart';
 
 import 'package:smartcare/core/api/dio_consumer.dart';
 
-
-
 import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
 
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';

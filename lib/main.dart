@@ -20,7 +20,6 @@ import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {

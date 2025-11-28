@@ -51,7 +51,12 @@ class LastSection extends StatelessWidget {
             'My Orders',
             Icons.shopping_bag_outlined,
             onTap: () {
-              Navigator.push(context, MaterialPageRoute( builder: (context) =>  buildOrdersBlocScreen(),) ) ;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => buildOrdersBlocScreen(),
+                ),
+              );
             },
           ),
           Divider(thickness: 0.5),
@@ -60,7 +65,6 @@ class LastSection extends StatelessWidget {
             'Address',
             Icons.location_on_outlined,
             onTap: () {
-              
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddressScreen()),

@@ -29,9 +29,6 @@ class EditProfileActionButtons extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
             ),
           );
-
-          context.read<Profilecubit>().fetchProfiledata();
-
           Navigator.of(
             context,
           ).pushReplacement(MaterialPageRoute(builder: (_) => ProfileScreen()));

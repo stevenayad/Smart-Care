@@ -3,11 +3,7 @@ class PaymentSignalRState {
   final String? status;
   final String? lastMessage;
 
-  PaymentSignalRState({
-    this.orderId,
-    this.status,
-    this.lastMessage,
-  });
+  PaymentSignalRState({this.orderId, this.status, this.lastMessage});
 
   PaymentSignalRState copyWith({
     String? orderId,
