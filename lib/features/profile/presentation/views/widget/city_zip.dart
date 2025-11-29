@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/custom_text_feild.dart';
 
 class CityZip extends StatelessWidget {
-  const CityZip({super.key});
+  TextEditingController cityController = TextEditingController();
+  TextEditingController zipController = TextEditingController();
+  CityZip({super.key, required this.cityController, required this.zipController});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class CityZip extends StatelessWidget {
           child: CustomTextFormField(
             label: 'City',
             icon: Icons.location_city_outlined,
-            controller: null,
+            controller: cityController,
             keyboardType: TextInputType.text,
           ),
         ),
@@ -23,7 +25,7 @@ class CityZip extends StatelessWidget {
           child: CustomTextFormField(
             label: 'ZIP Code',
             icon: Icons.markunread_mailbox_outlined,
-            controller: null,
+            controller: zipController,
             keyboardType: TextInputType.number,
           ),
         ),
