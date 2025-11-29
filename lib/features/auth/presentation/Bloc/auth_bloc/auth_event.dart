@@ -47,3 +47,20 @@ class RegisterButtonPressed extends AuthEvent {
     required this.addressIsPrimary,
   });
 }
+
+class SendResetCodeEvent extends AuthEvent {
+  final String email;
+  SendResetCodeEvent(this.email);
+}
+
+class ConfirmResetCodeEvent extends AuthEvent {
+  final String email;
+  final String code;
+  ConfirmResetCodeEvent(this.email, this.code);
+}
+
+class ResetPasswordEvent extends AuthEvent {
+  final String email;
+  final String newPassword;
+  ResetPasswordEvent(this.email, this.newPassword);
+}

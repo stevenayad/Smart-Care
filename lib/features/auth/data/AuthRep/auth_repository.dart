@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/auth/data/Model/auth_model.dart';
+import 'package:smartcare/features/auth/data/Model/base_bool_response.dart';
 
 class AuthRepository {
   final ApiConsumer api;
@@ -95,6 +96,93 @@ class AuthRepository {
       // }
 
       return Right(RegisterResponseModel.fromJson(data));
+    } on DioError catch (e) {
+      if (e.response?.data != null && e.response!.data is Map) {
+        final data = e.response!.data;
+
+        if (data["errorsBag"] != null && data["errorsBag"] is Map) {
+          final bag = data["errorsBag"] as Map;
+          final firstKey = bag.keys.first;
+          final firstError = (bag[firstKey] as List).first;
+
+          return Left(servivefailure(firstError));
+        }
+      }
+
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
+  }
+  // ===================== FORGOT PASSWORD =============================
+
+  Future<Either<Failure, BaseBoolResponse>> sendResetCode(String email) async {
+    try {
+      final data = await api.post("/api/auth/send-reset-code", {
+        "email": email,
+      }, false);
+
+      return Right(BaseBoolResponse.fromJson(data));
+    } on DioError catch (e) {
+      if (e.response?.data != null && e.response!.data is Map) {
+        final data = e.response!.data;
+
+        if (data["errorsBag"] != null && data["errorsBag"] is Map) {
+          final bag = data["errorsBag"] as Map;
+          final firstKey = bag.keys.first;
+          final firstError = (bag[firstKey] as List).first;
+
+          return Left(servivefailure(firstError));
+        }
+      }
+
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, BaseBoolResponse>> confirmResetPasswordCode(
+    String email,
+    String code,
+  ) async {
+    try {
+      final data = await api.post("/api/auth/confirm-reset-password-code", {
+        "email": email,
+        "code": code,
+      }, false);
+
+      return Right(BaseBoolResponse.fromJson(data));
+    } on DioError catch (e) {
+      if (e.response?.data != null && e.response!.data is Map) {
+        final data = e.response!.data;
+
+        if (data["errorsBag"] != null && data["errorsBag"] is Map) {
+          final bag = data["errorsBag"] as Map;
+          final firstKey = bag.keys.first;
+          final firstError = (bag[firstKey] as List).first;
+
+          return Left(servivefailure(firstError));
+        }
+      }
+
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, BaseBoolResponse>> resetPassword(
+    String email,
+    String newPassword,
+  ) async {
+    try {
+      final data = await api.post("/api/auth/reset-password", {
+        "email": email,
+        "newPassword": newPassword,
+      }, false);
+
+      return Right(BaseBoolResponse.fromJson(data));
     } on DioError catch (e) {
       if (e.response?.data != null && e.response!.data is Map) {
         final data = e.response!.data;

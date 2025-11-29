@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/features/auth/presentation/widgets/custom_elevated_button.dart';
-import 'package:smartcare/features/auth/presentation/widgets/custom_text_feild.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/login/veiws/confirm_reset_code_screen.dart';
+
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -12,79 +14,61 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  void _onResetPassword() {
+  void _submit() {
     final email = _emailController.text.trim();
-
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter your email address.'),
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-        ),
+        const SnackBar(content: Text("Enter your email")),
       );
       return;
     }
 
-    //  Here call API to send reset email
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Password reset link sent to $email'),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-
-    Navigator.pop(context);
+    context.read<AuthBloc>().add(SendResetCodeEvent(email));
   }
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Forgot Password'),
-        backgroundColor: colorScheme.primary,
-        elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 40),
-            Text('Reset Your Password', style: textTheme.titleLarge),
-            Container(
-              height: 2,
-              width: 150,
-              color: colorScheme.surface,
-              margin: const EdgeInsets.only(top: 4, bottom: 30),
-            ),
-            CustomTextFormField(
-              label: 'Email Address',
-              hint: 'Enter your email',
-              icon: Icons.mail_outline,
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 40),
-            Center(
-              child: CustomElevatedButton(
-                text: 'Send Reset Link',
-                onPressed: _onResetPassword,
-                elevation: 10,
+      appBar: AppBar(title: const Text("Forgot Password")),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is ResetCodeSentSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.response.message ?? "Code sent")),
+            );
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    ConfirmResetCodeScreen(email: _emailController.text),
               ),
+            );
+          } 
+        },
+        builder: (context, state) {
+          final loading = state is AuthLoading;
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    label: Text("Email"),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: loading ? null : _submit,
+                  child: loading
+                      ? const CircularProgressIndicator()
+                      : const Text("Send Reset Code"),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

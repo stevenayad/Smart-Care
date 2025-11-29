@@ -11,6 +11,7 @@ import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/data/Model/auth_model.dart';
+import 'package:smartcare/features/auth/data/Model/base_bool_response.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -21,6 +22,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
     on<RegisterButtonPressed>(_onRegisterButtonPressed);
+    on<SendResetCodeEvent>(_onSendResetCode);
+    on<ConfirmResetCodeEvent>(_onConfirmResetCode);
+    on<ResetPasswordEvent>(_onResetPassword);
   }
 
   void _onLoginButtonPressed(
@@ -80,6 +84,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthFailure(failure.errMessage)),
       (registerResponse) => emit(RegisterSuccess(registerResponse)),
+    );
+  }
+
+  void _onSendResetCode(
+    SendResetCodeEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    final result = await _authRepository.sendResetCode(event.email);
+
+    result.fold(
+      (fail) => emit(AuthFailure(fail.errMessage)),
+      (success) => emit(ResetCodeSentSuccess(success)),
+    );
+  }
+
+  void _onConfirmResetCode(
+    ConfirmResetCodeEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    final result = await _authRepository.confirmResetPasswordCode(
+      event.email,
+      event.code,
+    );
+
+    result.fold(
+      (fail) => emit(AuthFailure(fail.errMessage)),
+      (success) => emit(ResetCodeConfirmedSuccess(success)),
+    );
+  }
+
+  void _onResetPassword(
+    ResetPasswordEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    final result = await _authRepository.resetPassword(
+      event.email,
+      event.newPassword,
+    );
+
+    result.fold(
+      (fail) => emit(AuthFailure(fail.errMessage)),
+      (success) => emit(PasswordResetSuccess(success)),
     );
   }
 }
