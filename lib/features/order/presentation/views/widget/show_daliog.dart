@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 
 class OrderDialog {
-  // Failed order dialog
+
   static void showFailed(BuildContext context, String errMessage) {
     showDialog(
       context: context,

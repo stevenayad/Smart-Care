@@ -1,27 +1,34 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/features/Orders/domain/repositories/order_repository_impl.dart';
+import 'package:smartcare/features/Orders/presentation/bloc/orders_bloc.dart';
 import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/main.dart';
 
-class SmartDialog extends StatefulWidget {
+class SmartDialogPayment extends StatefulWidget {
   final IconData icon;
   final Color iconColor;
   final String title;
   final String message;
 
-  const SmartDialog({
+  const SmartDialogPayment({
     super.key,
     required this.icon,
     required this.iconColor,
     required this.title,
     required this.message,
+    
   });
 
   @override
-  State<SmartDialog> createState() => _SmartDialogState();
+  State<SmartDialogPayment> createState() => _SmartDialogState();
 }
 
-class _SmartDialogState extends State<SmartDialog>
+class _SmartDialogState extends State<SmartDialogPayment>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scale;
@@ -80,11 +87,27 @@ class _SmartDialogState extends State<SmartDialog>
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => OrdersScreen()),
-              );
+              Navigator.pop(context);
+
+                
+                Navigator.push(
+                  navigatorKey.currentState!.context,
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider(
+                      create: (_) => OrdersBloc(
+                        repository: OrderRepositoryImpl(
+                          apiConsumer: DioConsumer(Dio()),
+                        ),
+                      ),
+                      child: OrdersScreen(),
+                    ),
+                  ),
+                );
+              
+
+           
             },
+
             child: const Text("OK", style: TextStyle(color: Colors.white)),
           ),
         ],
@@ -93,27 +116,28 @@ class _SmartDialogState extends State<SmartDialog>
   }
 }
 
-void showGlobalOrderCancelledDialog(String message) {
+void showGlobalPaymntCancelledDialog(String message) {
   showDialog(
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
-    builder: (context) => SmartDialog(
+    builder: (context) => SmartDialogPayment(
+
       icon: Icons.cancel,
       iconColor: Colors.red,
-      title: "Order Cancelled",
+      title:  "Order Cancelled",
       message: message,
     ),
   );
 }
 
-void showGlobalOrderSuccessDialog(String message) {
+void showGlobalPaymentSuccessDialog(String message) {
   showDialog(
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
-    builder: (context) => SmartDialog(
+    builder: (context) => SmartDialogPayment(
       icon: Icons.check_circle,
       iconColor: Colors.green,
-      title: "Order Successful",
+      title:"Order Success" ,
       message: message,
     ),
   );

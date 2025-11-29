@@ -7,6 +7,7 @@ import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart'
 import 'package:smartcare/features/check%20availability/presentation/views/screen/check_availability_screen.dart'
     show CheckAvailabilityScreen;
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
+import 'package:smartcare/features/home/presentation/cubits/cubit/signalrdetials_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/build_info_section.dart';
 import 'package:smartcare/features/home/presentation/views/widget/check_store.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_price.dart';
@@ -38,7 +39,6 @@ class ProductDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Product Name
               Text(
                 detialsProductModel.data?.nameEn ?? " ",
                 style: const TextStyle(
@@ -47,6 +47,42 @@ class ProductDetails extends StatelessWidget {
                   color: Colors.black87,
                 ),
               ),
+              BlocBuilder<SignalrdetialsCubit, SignalrdetialsState>(
+                builder: (context, state) {
+                  bool available =
+                      detialsProductModel.data?.isAvailable ?? false;
+
+             
+                  if (state is SignalrdetialsUpdated) {
+                    if (state.model.productId ==
+                        detialsProductModel.data!.productId) {
+                      available = state.model.isAvailable;
+                    }
+                  }
+
+                  return Row(
+                    children: [
+                      Icon(
+                        available ? Icons.check_circle : Icons.cancel,
+                        color: available ? Colors.green : Colors.red,
+                        size: 22,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        available ? "Available" : "Unavailable",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: available ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+
+           
+
               const SizedBox(height: 10),
 
               buildInfoSection(detialsProductModel),

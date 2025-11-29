@@ -56,12 +56,13 @@ class CartCubit extends Cubit<CartState> {
     final result = await cartrepo.AddItem(request);
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
-      (model) {
+      (model) async {
         final newItem = model.data;
         if (newItem != null) {
           _cartItems = [..._cartItems, mapAddDataToDatumCart(newItem)];
         }
         emit(AddItemSucces(addItemSucces: model));
+         await GetITem(cartId!);
       },
     );
   }
@@ -71,11 +72,12 @@ class CartCubit extends Cubit<CartState> {
     final result = await cartrepo.RemoveItem(request);
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
-      (model) {
+      (model) async{
         _cartItems = _cartItems
             .where((e) => e.id != request.cartItemId)
             .toList();
         emit(RemoveItemSucces(removeItemCartModel: model));
+         await GetITem(cartId!);
       },
     );
   }
@@ -88,6 +90,7 @@ class CartCubit extends Cubit<CartState> {
       (model) {
         _cartItems = List<DatumCart>.from(model.data ?? []);
         emit(GetItemSucces(itemsCart: model));
+        
       },
     );
   }
@@ -97,7 +100,7 @@ class CartCubit extends Cubit<CartState> {
     final result = await cartrepo.UpdateItemCart(request);
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
-      (model) {
+      (model) async{
         final updated = model.data;
         if (updated != null) {
           final index = _cartItems.indexWhere((e) => e.id == updated.id);
@@ -106,6 +109,7 @@ class CartCubit extends Cubit<CartState> {
           }
         }
         emit(UpdateItemSucces(updateCartItemModel: model));
+         await GetITem(cartId!);
       },
     );
   }

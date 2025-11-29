@@ -10,6 +10,10 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
+import 'package:smartcare/features/cart/data/cart_signalr.dart';
+import 'package:smartcare/features/cart/data/cartrepo.dart';
+import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
+import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
@@ -29,13 +33,16 @@ void main() async {
   final dio = Dio();
   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
       (HttpClient client) {
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-        return client;
-      };
-  final ApiConsumer apiConsumer = DioConsumer(dio);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    return client;
+  };
 
+  final ApiConsumer apiConsumer = DioConsumer(dio);
   final AuthRepository authRepository = AuthRepository(apiConsumer);
+
+  final signalRService =
+      CartSignalRService(CacheHelper.getAccessToken() ?? "");
 
   runApp(
     MultiBlocProvider(
@@ -46,7 +53,26 @@ void main() async {
                 ..getaddress()
                 ..getstore(),
         ),
+
         BlocProvider(create: (context) => AuthBloc(authRepository)),
+
+        /// ✅ FIXED — no syntax errors
+        BlocProvider<CartCubit>(
+          lazy: false,
+          create: (context) => CartCubit(
+            cartrepo: Cartrepo(apiConsumer: DioConsumer(Dio())),
+            signalRService: signalRService,
+          ),
+        ),
+
+        BlocProvider<CartSignalRCubit>(
+          lazy: false,
+          create: (ctx) => CartSignalRCubit(
+            signalRService: signalRService,
+            cartCubit: ctx.read<CartCubit>(),
+          ),
+        ),
+
         BlocProvider(
           create: (context) =>
               FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
