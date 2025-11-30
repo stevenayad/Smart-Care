@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_color.dart';
+import 'package:smartcare/core/app_theme.dart';
 import '../../bloc/orders_bloc.dart';
 import '../../bloc/orders_event.dart';
 import '../../bloc/orders_state.dart';
@@ -27,10 +28,9 @@ class OrderDetailsScreen extends StatelessWidget {
       value: ordersBloc..add(FetchOrderDetails(orderId)),
       child: Scaffold(
         backgroundColor: AppColors.lightGrey,
-        appBar: AppBar(
-          title: const Text("Order Details"),
-          centerTitle: true,
-          elevation: 0,
+        appBar: AppThemes.customAppBar(
+          title: 'Order Details',
+          showBackButton: true,
         ),
         body: BlocBuilder<OrdersBloc, OrdersState>(
           builder: (context, state) {

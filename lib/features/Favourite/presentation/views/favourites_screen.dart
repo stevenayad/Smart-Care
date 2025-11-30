@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/Favourite/data/favrepoimplemtaion.dart';
 import 'package:smartcare/features/Favourite/presentation/cubits/favourite/favoutie_cubit.dart';
 import 'package:smartcare/features/Favourite/presentation/views/widgets/Favourite_body.dart';
@@ -14,12 +14,11 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(
-        context,
-        'Favourite',
-        onPressed: () => Navigator.pop(context),
-        actions: null,
-      ),
+      appBar: AppThemes.customAppBar(
+    title: 'Dashboard',
+    showBackButton: true,
+    isDarkMode: false, 
+  ),
       body: BlocProvider(
         create: (context) =>
             DisplayFavoutieCubit(Favrepoimplemtaion(api: DioConsumer(Dio())))

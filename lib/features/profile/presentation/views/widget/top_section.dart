@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/User_Info.dart';
 
 class TopSection extends StatelessWidget {

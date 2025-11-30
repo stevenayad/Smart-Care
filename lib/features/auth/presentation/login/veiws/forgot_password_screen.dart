@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/confirm_reset_code_screen.dart';
-
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -17,9 +17,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void _submit() {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Enter your email")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Enter your email")));
       return;
     }
 
@@ -29,7 +29,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Forgot Password")),
+      appBar: AppThemes.customAppBar(
+        title: 'Forgot Password',
+        showBackButton: true,
+        isDarkMode: false,
+      ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is ResetCodeSentSuccess) {
@@ -44,7 +48,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ConfirmResetCodeScreen(email: _emailController.text),
               ),
             );
-          } 
+          }
         },
         builder: (context, state) {
           final loading = state is AuthLoading;
@@ -54,9 +58,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    label: Text("Email"),
-                  ),
+                  decoration: const InputDecoration(label: Text("Email")),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(

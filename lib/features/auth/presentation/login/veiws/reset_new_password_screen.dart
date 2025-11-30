@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 
 class ResetNewPasswordScreen extends StatefulWidget {
@@ -28,7 +29,11 @@ class _ResetNewPasswordScreenState extends State<ResetNewPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Reset Password")),
+      appBar: AppThemes.customAppBar(
+        title: 'Reset Password',
+        showBackButton: true,
+        isDarkMode: false,
+      ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is PasswordResetSuccess) {

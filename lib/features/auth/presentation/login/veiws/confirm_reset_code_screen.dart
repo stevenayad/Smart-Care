@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/reset_new_password_screen.dart';
 
@@ -29,7 +30,11 @@ class _ConfirmResetCodeScreenState extends State<ConfirmResetCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Confirm Code")),
+      appBar: AppThemes.customAppBar(
+    title: 'Confirm Code',
+    showBackButton: true,
+    isDarkMode: false, 
+  ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is ResetCodeConfirmedSuccess) {

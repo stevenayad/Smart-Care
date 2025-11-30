@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/settings/presentation/views/widgets/setting_body.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -8,14 +8,7 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(
-        context,
-        'Settings',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        actions: null,
-      ),
+      appBar: AppThemes.customAppBar(title: 'Settings', showBackButton: true),
       body: SettingBody(),
     );
   }

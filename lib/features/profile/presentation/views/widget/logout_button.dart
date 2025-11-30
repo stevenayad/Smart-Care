@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/widget/evluted_button.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';
@@ -25,15 +26,11 @@ class LogoutButton extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-            onPressed: () {
+          child: EvalutedButton(
+            text: 'Log out',
+            onTap: () {
               showLogoutDialog(context);
             },
-            style: Theme.of(context).elevatedButtonTheme.style,
-            child: Text(
-              'Log out',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
           ),
         ),
       ),
