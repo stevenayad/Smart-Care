@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/core/widget/show_dailog_cancel_order.dart';
+import 'package:smartcare/core/widget/show_dailog_payment.dart';
 import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
 import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_state.dart';
 import 'package:smartcare/main.dart';
@@ -27,9 +27,9 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
       }
 
       if (data.status == "failed" || data.status == "cancelled") {
-        showGlobalOrderCancelledDialog(data.message);
+        showGlobalPaymntCancelledDialog(data.message);
       } else if (data.status == "success") {
-        showGlobalOrderSuccessDialog(data.message);
+        showGlobalPaymentSuccessDialog(data.message);
       }
 
       emit(
