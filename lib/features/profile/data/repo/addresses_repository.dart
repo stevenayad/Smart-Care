@@ -6,4 +6,5 @@ abstract class AddressesRepository {
   Future<Either<servivefailure, List<AddressModel>>> getAddresses();
   Future<Either<servivefailure, AddressModel>> addAddress(AddressModel address);
   Future<Either<servivefailure, bool>> removeAddress(String addressId);
+  Future<Either<servivefailure, bool>> setPrimary(String addressId);
 }

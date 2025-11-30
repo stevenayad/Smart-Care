@@ -17,15 +17,20 @@ class AddressItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         if (!address.isPrimary)
-          TextButton(onPressed: () {}, child: const Text('Set as Default')),
-        TextButton(onPressed: () {}, child: const Text('Edit')),
+          TextButton(
+            onPressed: () {
+              context.read<AddressesBloc>().add(
+                SetPrimaryAddressEvent(address.id),
+              );
+            },
+            child: const Text('Set as Default'),
+          ),
+        //TextButton(onPressed: () {}, child: const Text('Edit')),
         TextButton(
           onPressed: () {
             context.read<AddressesBloc>().add(RemoveAddressEvent(address.id));
           },
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.red,
-          ),
+          style: TextButton.styleFrom(foregroundColor: Colors.red),
           child: const Text('Delete'),
         ),
       ],

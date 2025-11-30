@@ -17,3 +17,8 @@ class RemoveAddressEvent extends AddressesEvent {
   final String addressId;
   RemoveAddressEvent(this.addressId);
 }
+
+class SetPrimaryAddressEvent extends AddressesEvent {
+  final String addressId;
+  SetPrimaryAddressEvent(this.addressId);
+}

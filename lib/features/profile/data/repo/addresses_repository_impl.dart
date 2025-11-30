@@ -15,8 +15,9 @@ class AddressesRepositoryImpl implements AddressesRepository {
     try {
       final response = await api.get("/api/Client/addresses", null);
 
-      List<AddressModel> list =
-          (response['data'] as List).map((e) => AddressModel.fromJson(e)).toList();
+      List<AddressModel> list = (response['data'] as List)
+          .map((e) => AddressModel.fromJson(e))
+          .toList();
 
       return Right(list);
     } on DioException catch (e) {
@@ -25,7 +26,9 @@ class AddressesRepositoryImpl implements AddressesRepository {
   }
 
   @override
-  Future<Either<servivefailure, AddressModel>> addAddress(AddressModel address) async {
+  Future<Either<servivefailure, AddressModel>> addAddress(
+    AddressModel address,
+  ) async {
     try {
       final body = {
         "address": address.address,
@@ -33,7 +36,7 @@ class AddressesRepositoryImpl implements AddressesRepository {
         "additionalInfo": address.additionalInfo,
         "latitude": address.latitude,
         "longitude": address.longitude,
-        "isPrimary": address.isPrimary
+        "isPrimary": address.isPrimary,
       };
 
       final response = await api.post("/api/Client/addresses/Add", body, false);
@@ -47,9 +50,24 @@ class AddressesRepositoryImpl implements AddressesRepository {
   @override
   Future<Either<servivefailure, bool>> removeAddress(String addressId) async {
     try {
-      final response =
-          await api.delete("/api/Client/addresses/Remove/$addressId", null);
+      final response = await api.delete(
+        "/api/Client/addresses/Remove/$addressId",
+        null,
+      );
 
+      return Right(response["data"] == true);
+    } on DioException catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<servivefailure, bool>> setPrimary(String addressId) async {
+    try {
+      final response = await api.patch(
+        "/api/Client/addresses/$addressId/set-primary",
+        null,
+      );
       return Right(response["data"] == true);
     } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));

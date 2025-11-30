@@ -46,6 +46,10 @@ class _AddressBodyState extends State<AddressBody> {
                   context.read<AddressesBloc>().add(GetAddressesEvent());
                   return const Center(child: CircularProgressIndicator());
                 }
+                if (state is SetPrimaryAddress) {
+                  context.read<AddressesBloc>().add(GetAddressesEvent());
+                  return const Center(child: CircularProgressIndicator());
+                }
                 if (state is AddressesInitial) return const SizedBox.shrink();
                 return const SizedBox.shrink();
               },

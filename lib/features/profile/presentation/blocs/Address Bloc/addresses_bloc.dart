@@ -7,7 +7,6 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
   final AddressesRepository repo;
 
   AddressesBloc(this.repo) : super(AddressesInitial()) {
-
     on<GetAddressesEvent>((event, emit) async {
       emit(AddressesLoading());
 
@@ -18,7 +17,6 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
         (r) => emit(AddressesLoaded(r)),
       );
     });
-
 
     on<AddAddressEvent>((event, emit) async {
       emit(AddressesLoading());
@@ -31,7 +29,6 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
       );
     });
 
-
     on<RemoveAddressEvent>((event, emit) async {
       emit(AddressesLoading());
 
@@ -40,6 +37,16 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesState> {
       result.fold(
         (l) => emit(AddressesError(l.errMessage)),
         (r) => emit(AddressRemoved(event.addressId)),
+      );
+    });
+    on<SetPrimaryAddressEvent>((event, emit) async {
+      emit(AddressesLoading());
+
+      final result = await repo.setPrimary(event.addressId);
+
+      result.fold(
+        (l) => emit(AddressesError(l.errMessage)),
+        (r) => emit(SetPrimaryAddress(event.addressId)),
       );
     });
   }

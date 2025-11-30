@@ -32,3 +32,8 @@ class AddressesError extends AddressesState {
   final String message;
   AddressesError(this.message);
 }
+
+class SetPrimaryAddress extends AddressesState {
+  final String addressId;
+  SetPrimaryAddress(this.addressId);
+}

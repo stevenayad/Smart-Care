@@ -69,7 +69,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: CacheHelper.getAccessToken() != null ? MainScreenView() : LoginScreen(),
+      home:  LoginScreen(),
     );
   }
 }
