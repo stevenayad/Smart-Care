@@ -27,3 +27,12 @@ class StoreError extends StoreState {
   @override
   List<Object?> get props => [message];
 }
+class NearestStoreLoaded extends StoreState {
+  final StoreEntity store;
+  const NearestStoreLoaded(this.store);
+}
+
+class NearestStoreError extends StoreState {
+  final String message;
+  const NearestStoreError(this.message);
+}

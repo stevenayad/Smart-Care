@@ -2,52 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/confirm_reset_code_screen.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class ResetNewPasswordScreen extends StatefulWidget {
+  final String email;
+  const ResetNewPasswordScreen({super.key, required this.email});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<ResetNewPasswordScreen> createState() => _ResetNewPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _ResetNewPasswordScreenState extends State<ResetNewPasswordScreen> {
+  final TextEditingController _passController = TextEditingController();
 
   void _submit() {
-    final email = _emailController.text.trim();
-    if (email.isEmpty) {
+    final pass = _passController.text.trim();
+    if (pass.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text("Enter your email")));
+      ).showSnackBar(const SnackBar(content: Text("Enter your new password")));
       return;
     }
 
-    context.read<AuthBloc>().add(SendResetCodeEvent(email));
+    context.read<AuthBloc>().add(ResetPasswordEvent(widget.email, pass));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppThemes.customAppBar(
-        title: 'Forgot Password',
+        title: 'Reset Password',
         showBackButton: true,
         isDarkMode: false,
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is ResetCodeSentSuccess) {
+          if (state is PasswordResetSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.response.message ?? "Code sent")),
-            );
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) =>
-                    ConfirmResetCodeScreen(email: _emailController.text),
+              SnackBar(
+                content: Text(state.response.message ?? "Password Reset"),
               ),
             );
+            Navigator.popUntil(context, (c) => c.isFirst);
           }
         },
         builder: (context, state) {
@@ -57,15 +52,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Column(
               children: [
                 TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(label: Text("Email")),
+                  controller: _passController,
+                  decoration: const InputDecoration(
+                    label: Text("New Password"),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: loading ? null : _submit,
                   child: loading
                       ? const CircularProgressIndicator()
-                      : const Text("Send Reset Code"),
+                      : const Text("Reset Password"),
                 ),
               ],
             ),

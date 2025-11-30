@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
@@ -27,10 +27,9 @@ class EditProfileScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        appBar: customappbar(
-          context,
-          'Edit Profile',
-          onPressed: () => Navigator.pop(context),
+        appBar: AppThemes.customAppBar(
+          title: 'Edit Profile',
+          showBackButton: true,
         ),
         body: EditProfileBody(),
       ),

@@ -125,7 +125,7 @@ class LoginCardPainter extends CustomPainter {
     canvas.drawPath(card, innerGlow);
 
     // === 7) REALISTIC DROP SHADOWS (dual-layer) ===
-    canvas.drawShadow(card, Colors.black.withValues(alpha: 0.35), 35, true);
+    canvas.drawShadow(card, Colors.black.withValues(alpha: 0.5), 35, true);
     canvas.drawShadow(
       card,
       Colors.blueAccent.withValues(alpha: 0.20),

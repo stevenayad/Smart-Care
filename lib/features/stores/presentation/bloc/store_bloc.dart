@@ -14,6 +14,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     on<SearchStores>(_onSearchStores);
     on<CallStore>(_onCallStore);
     on<OpenDirections>(_onOpenDirections);
+    on<GetNearestStore>(_onGetNearestStore);
   }
 
   Future<void> _onFetchStores(
@@ -71,5 +72,22 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     } else {
       throw 'Could not launch map for ${event.latitude},${event.longitude}';
     }
+  }
+
+  Future<void> _onGetNearestStore(
+    GetNearestStore event,
+    Emitter<StoreState> emit,
+  ) async {
+    emit(StoreLoading());
+
+    final result = await repository.getNearestStore(
+      latitude: event.latitude,
+      longitude: event.longitude,
+    );
+
+    result.fold(
+      (failure) => emit(NearestStoreError(failure.errMessage)),
+      (store) => emit(NearestStoreLoaded(store)),
+    );
   }
 }

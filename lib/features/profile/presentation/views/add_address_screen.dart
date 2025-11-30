@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/add_screen_body.dart';
 
 class AddAddressScreen extends StatelessWidget {
@@ -8,13 +8,9 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customappbar(
-        context,
-        'Add New Address',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        actions: null,
+      appBar: AppThemes.customAppBar(
+        title: 'Add New Address',
+        showBackButton: true,
       ),
       body: AddScreenBody(),
     );

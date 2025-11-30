@@ -1,7 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/api_consumer.dart';
+import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/orders_bloc_provider.dart';
 import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
+import 'package:smartcare/features/profile/data/repo/addresses_repository_impl.dart';
+import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/addresses_bloc.dart';
+import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/addresses_event.dart';
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/change_password_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
@@ -73,7 +80,9 @@ class LastSection extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AddressScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const AddressScreen(),
+                ),
               );
             },
           ),

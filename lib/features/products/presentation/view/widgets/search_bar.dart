@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/products/products_bloc.dart';
 import '../../bloc/products/products_event.dart';
+import 'dart:async';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({super.key});
@@ -13,16 +14,16 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   final TextEditingController _ctrl = TextEditingController();
   String _searchType = 'Name';
+  Timer? _debounce;
 
-  void _onSearch() {
-    final q = _ctrl.text.trim();
+  void _onSearch(String query) {
+    final q = query.trim();
+    final bloc = context.read<ProductsBloc>();
 
     if (q.isEmpty) {
-      context.read<ProductsBloc>().add(const LoadProducts());
+      bloc.add(const LoadProducts());
       return;
     }
-
-    final bloc = context.read<ProductsBloc>();
 
     switch (_searchType) {
       case 'Company':
@@ -39,61 +40,87 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     }
   }
 
+  void _onChanged(String value) {
+    // Debounce to prevent too many calls
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _onSearch(value);
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          DropdownButton<String>(
-            value: _searchType,
-            borderRadius: BorderRadius.circular(12),
-            items: const [
-              DropdownMenuItem(value: 'Name', child: Text('Name')),
-              DropdownMenuItem(value: 'Company', child: Text('Company')),
-              DropdownMenuItem(value: 'Category', child: Text('Category')),
-              DropdownMenuItem(
-                value: 'Description',
-                child: Text('Description'),
-              ),
-            ],
-            onChanged: (val) => setState(() => _searchType = val!),
+      padding: const EdgeInsets.all(12.0),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colorScheme.primary.withValues(alpha: 0.8), colorScheme.primary],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          const SizedBox(width: 8),
-
-          // Search TextField
-          Expanded(
-            child: TextField(
-              controller: _ctrl,
-              onSubmitted: (_) => _onSearch(),
-              decoration: InputDecoration(
-                hintText: 'Search by $_searchType...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                isDense: true,
-                contentPadding: const EdgeInsets.all(12),
-              ),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha:0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
             ),
-          ),
-          const SizedBox(width: 8),
-
-          ElevatedButton.icon(
-            onPressed: _onSearch,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              shape: RoundedRectangleBorder(
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(
+          children: [
+            // Dropdown
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
+              child: DropdownButton<String>(
+                value: _searchType,
+                underline: const SizedBox(),
+                items: const [
+                  DropdownMenuItem(value: 'Name', child: Text('Name')),
+                  DropdownMenuItem(value: 'Company', child: Text('Company')),
+                  DropdownMenuItem(value: 'Category', child: Text('Category')),
+                  DropdownMenuItem(value: 'Description', child: Text('Description')),
+                ],
+                onChanged: (val) => setState(() => _searchType = val!),
+              ),
             ),
-            icon: const Icon(Icons.search, size: 18),
-            label: const Text('Search'),
-          ),
-        ],
+            const SizedBox(width: 12),
+
+            // Search TextField
+            Expanded(
+              child: TextField(
+                controller: _ctrl,
+                onChanged: _onChanged, 
+                decoration: InputDecoration(
+                  hintText: 'Search by $_searchType...',
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

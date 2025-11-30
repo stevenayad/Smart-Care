@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/widget/evluted_button.dart';
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
@@ -14,7 +15,6 @@ import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/orderscreen.dart';
-import 'package:smartcare/features/order/presentation/views/widget/appbar.dart';
 import 'package:smartcare/features/order/presentation/views/widget/delivery_selection.dart';
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
 
@@ -45,9 +45,9 @@ class DelvieryScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: buildGradientAppBar(
-              'Pickup or Delivery',
-              onBack: () => Navigator.pop(context),
+            appBar: AppThemes.customAppBar(
+              title: 'Pickup or Delivery',
+              showBackButton: true,
             ),
             body: SingleChildScrollView(
               child: Column(

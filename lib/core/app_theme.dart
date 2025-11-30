@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
+import 'package:smartcare/main.dart';
 
 // Defines the text styles for both light and dark typography
 const TextTheme appTextTheme = TextTheme(
@@ -36,17 +37,17 @@ class AppThemes {
       bodyColor: AppColors.darkGrey,
       displayColor: AppColors.darkGrey,
     ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.primaryblue,
-      foregroundColor: AppColors.darkGrey,
-      elevation: 0,
-      titleTextStyle: TextStyle(
-        color: AppColors.darkGrey,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
 
+    // appBarTheme: const AppBarTheme(
+    //   backgroundColor: AppColors.primaryblue,
+    //   foregroundColor: AppColors.darkGrey,
+    //   elevation: 0,
+    //   titleTextStyle: TextStyle(
+    //     color: AppColors.darkGrey,
+    //     fontSize: 20,
+    //     fontWeight: FontWeight.bold,
+    //   ),
+    // ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.white,
       selectedItemColor: AppColors.primaryblue,
@@ -110,16 +111,16 @@ class AppThemes {
       bodyColor: AppColors.darkOnSurface,
       displayColor: AppColors.darkOnSurface,
     ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkSurface,
-      foregroundColor: AppColors.darkOnSurface,
-      elevation: 0,
-      titleTextStyle: TextStyle(
-        color: AppColors.darkOnSurface,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+    // appBarTheme: const AppBarTheme(
+    //   backgroundColor: AppColors.darkSurface,
+    //   foregroundColor: AppColors.darkOnSurface,
+    //   elevation: 0,
+    //   titleTextStyle: TextStyle(
+    //     color: AppColors.darkOnSurface,
+    //     fontSize: 20,
+    //     fontWeight: FontWeight.bold,
+    //   ),
+    // ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColors.darkSurface,
       selectedItemColor: AppColors.primaryblue,
@@ -152,4 +153,54 @@ class AppThemes {
       }),
     ),
   );
+  static AppBar customAppBar({
+    required String title,
+    bool showBackButton = false,
+    bool isDarkMode = false,
+  }) {
+    final gradientColors = isDarkMode
+        ? [AppColors.primaryblue, AppColors.secondaryDarkColor]
+        : [AppColors.primaryblue, AppColors.primaryblue, AppColors.accentGreen];
+
+    return AppBar(
+      automaticallyImplyLeading: false,
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      leading: showBackButton
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(navigatorKey.currentContext!).pop(),
+            )
+          : null,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.25),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
