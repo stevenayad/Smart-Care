@@ -14,11 +14,7 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppThemes.customAppBar(
-    title: 'Dashboard',
-    showBackButton: true,
-    isDarkMode: false, 
-  ),
+      appBar: AppThemes.customAppBar(title: 'Favourite', showBackButton: true),
       body: BlocProvider(
         create: (context) =>
             DisplayFavoutieCubit(Favrepoimplemtaion(api: DioConsumer(Dio())))
