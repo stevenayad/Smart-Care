@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
@@ -32,10 +33,9 @@ class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
         BlocProvider(create: (_) => CompanyCubit(homeRepo)),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Companies & Products"),
-          centerTitle: true,
-          backgroundColor: Colors.blue.shade900,
+        appBar: AppThemes.customAppBar(
+          title: 'Companies & Products',
+          showBackButton: true,
         ),
         body: CustomScrollView(
           slivers: [

@@ -20,6 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEFFBFF),
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -63,8 +64,7 @@ class LoginScreen extends StatelessWidget {
                         width: cardWidth,
                         height: cardHeight,
                         child: CustomPaint(
-                          painter: LoginCardPainter(
-                          ),
+                          painter: LoginCardPainter(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 40.0,

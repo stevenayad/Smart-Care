@@ -81,11 +81,7 @@ class LastSection extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => BlocProvider(
-                    create: (context) =>
-                        AddressesBloc(AddressesRepositoryImpl(DioConsumer(Dio())))..add(GetAddressesEvent()),
-                    child: const AddressScreen(),
-                  ),
+                  builder: (_) => const AddressScreen(),
                 ),
               );
             },

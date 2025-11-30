@@ -59,7 +59,7 @@ class ProductItem extends StatelessWidget {
               ],
             ),
 
-            Expanded(
+            Flexible(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(

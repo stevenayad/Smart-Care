@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/order_status_filter.dart';
 import '../../bloc/orders_bloc.dart';
 import '../../bloc/orders_state.dart';
@@ -36,14 +36,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-      appBar: customappbar(
-        context,
-        'My orders',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        actions: null,
-      ),
+      appBar: AppThemes.customAppBar(title: 'My orders', showBackButton: true),
       body: Column(
         children: [
           OrderStatusFilter(
