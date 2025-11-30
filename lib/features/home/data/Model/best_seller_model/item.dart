@@ -1,7 +1,7 @@
-class Data {
+class BestSellerItem {
   String? productId;
   String? mainImageUrl;
-  List<dynamic>? images;
+  List<String>? images;
   String? nameEn;
   String? companyName;
   String? description;
@@ -12,9 +12,9 @@ class Data {
   String? activeIngredients;
   dynamic expirationDate;
   double? discountPercentage;
-  String? tags; 
+  String? tags;
 
-  Data({
+  BestSellerItem({
     this.productId,
     this.mainImageUrl,
     this.images,
@@ -28,24 +28,26 @@ class Data {
     this.activeIngredients,
     this.expirationDate,
     this.discountPercentage,
-    this.tags, 
+    this.tags,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        productId: json['productId'] as String?,
-        mainImageUrl: json['mainImageUrl'] as String?,
-        images: json['images'] as List<dynamic>?,
-        nameEn: json['nameEn'] as String?,
-        companyName: json['companyName'] as String?,
-        description: json['description'] as String?,
+  factory BestSellerItem.fromJson(Map<String, dynamic> json) => BestSellerItem(
+        productId: json['productId'],
+        mainImageUrl: json['mainImageUrl'],
+        images: json['images'] == null
+            ? null
+            : List<String>.from(json['images'].map((x) => x.toString())),
+        nameEn: json['nameEn'],
+        companyName: json['companyName'],
+        description: json['description'],
         averageRating: (json['averageRating'] as num?)?.toInt(),
         totalRatings: (json['totalRatings'] as num?)?.toInt(),
         price: (json['price'] as num?)?.toInt(),
-        isAvailable: json['isAvailable'] as bool?,
-        activeIngredients: json['activeIngredients'] as String?,
+        isAvailable: json['isAvailable'],
+        activeIngredients: json['activeIngredients'].toString(),
         expirationDate: json['expirationDate'],
-        discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
-        tags: json['tags'] as String?, 
+        tags: json['tags']?.toString(),
+       discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,6 +64,6 @@ class Data {
         'activeIngredients': activeIngredients,
         'expirationDate': expirationDate,
         'discountPercentage': discountPercentage,
-        'tags': tags, 
+        'tags': tags,
       };
 }

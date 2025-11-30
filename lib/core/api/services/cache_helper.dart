@@ -4,6 +4,7 @@ class CacheHelper {
   static late SharedPreferences _sharedPreferences;
 
   static const String _accessTokenKey = 'accessToken';
+  static const String _refreashTokenKey = 'refreahToken';
   static const String _userIdKey = 'userId';
 
   static Future<void> init() async {
@@ -13,6 +14,19 @@ class CacheHelper {
   static Future<void> saveAccessToken(String token) async {
     await _sharedPreferences.setString(_accessTokenKey, token);
     print('🔑 Access Token saved: $token');
+  }
+
+  static Future<void> removeAccessToken() async {
+    await _sharedPreferences.remove(_accessTokenKey);
+  }
+
+  static Future<void> saveRefreashToken(String token) async {
+    await _sharedPreferences.setString(_refreashTokenKey, token);
+    print('🔑 Access Token saved: $token');
+  }
+
+  static String? getRefreashToken() {
+    return _sharedPreferences.getString(_refreashTokenKey);
   }
 
   static String? getAccessToken() {

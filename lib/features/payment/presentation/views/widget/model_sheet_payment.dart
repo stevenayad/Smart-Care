@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
-import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
+
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
 import 'package:smartcare/features/payment/data/Model/payment_method.dart';
-import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
+
 import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/open_payment_link.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/payment_item.dart';
-
 class PaymentBottomSheet extends StatefulWidget {
   const PaymentBottomSheet({super.key, required this.orderid});
   final String orderid;
+
   @override
   State<PaymentBottomSheet> createState() => _PaymentBottomSheetState();
 }
@@ -36,7 +37,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final paymentSignalRCubit = context.read<PaymentSignalRCubit>();
+    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -56,14 +57,11 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               ),
             ),
           ),
-
           const Text(
             "Select Payment Method",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-
           const SizedBox(height: 16),
-
           Expanded(
             child: ListView.builder(
               itemCount: methods.length,
@@ -72,9 +70,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                   method: methods[index].copyWith(
                     isSelected: selectedIndex == index,
                   ),
-                  onTap: () {
-                    setState(() => selectedIndex = index);
-                  },
+                  onTap: () => setState(() => selectedIndex = index),
                 );
               },
             ),
@@ -93,11 +89,10 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                       context,
                       'Order Successful',
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainScreenView(),
-                          ),
+                              builder: (_) => MainScreenView()),
                         );
                       },
                     );
@@ -108,15 +103,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               },
               child: ElevatedButton(
                 onPressed: () async {
-                  final signalR = PaymentSignalr(CacheHelper.getAccessToken()!);
                   final paymentSignalRCubit = PaymentSignalRCubit(
-                    signalRService: signalR,
+                    signalRService: signalRService,
                   );
                   await paymentSignalRCubit.startPaymentSession();
 
-                  BlocProvider.of<PaymentCubit>(
-                    context,
-                  ).ConfrimOrder(widget.orderid!);
+                  context
+                      .read<PaymentCubit>()
+                      .ConfrimOrder(widget.orderid);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0066FF),

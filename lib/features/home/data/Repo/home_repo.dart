@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/failure.dart';
+import 'package:smartcare/features/home/data/Model/best_seller_model/best_seller_model.dart';
 import 'package:smartcare/features/home/data/Model/category_paginted_model/category_paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/paginted_model/paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/productforcompany.dart';
@@ -94,6 +95,23 @@ class HomeRepo {
         null,
       );
       final parsedModel = Productforcompany.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
+
+  Future<Either<Failure, BestSellerModel>> getBestSeller(
+
+  ) async {
+    try {
+      final response = await api.get(
+        "api/Products/BestSeller?pageNumber=1&pageSize=10",
+        null,
+      );
+      final parsedModel = BestSellerModel.fromJson(response);
       return Right(parsedModel);
     } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));

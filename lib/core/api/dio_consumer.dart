@@ -18,10 +18,8 @@ class DioConsumer implements ApiConsumer {
       sendTimeout: const Duration(seconds: 60),
     );
 
-    // ✅ Add custom interceptors (for token or refresh logic)
-    dio.interceptors.add(InterceptorsConsumer());
+    dio.interceptors.add(InterceptorsConsumer(dio: dio));
 
-    // ✅ Logging interceptor for debugging
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -39,7 +37,6 @@ class DioConsumer implements ApiConsumer {
       ),
     );
 
-    // ✅ Accept invalid SSL certificates (development only)
     (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
           client.badCertificateCallback =

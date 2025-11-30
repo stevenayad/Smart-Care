@@ -21,13 +21,15 @@ class EvalutedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> colors = gradientColors ??
+    final List<Color> colors =
+        gradientColors ??
         [
-          AppColors.primaryblue.withValues (alpha:  0.9),
-          AppColors.primaryLightColor.withValues(alpha:  0.9),
+          AppColors.primaryblue.withValues(alpha: 0.9),
+          AppColors.primaryLightColor.withValues(alpha: 0.9),
         ];
 
-    final Color shadow = shadowColor ?? AppColors.primaryblue.withValues(alpha:  0.4);
+    final Color shadow =
+        shadowColor ?? AppColors.primaryblue.withValues(alpha: 0.4);
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),

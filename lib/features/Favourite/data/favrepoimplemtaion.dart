@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
-import 'package:smartcare/core/faluire.dart';
+import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/favorite_item_model.dart';
 
 class Favrepoimplemtaion {

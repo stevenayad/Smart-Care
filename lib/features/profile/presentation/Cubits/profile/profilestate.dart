@@ -27,7 +27,5 @@ class ChangePasswordSuccess extends Profilestate {
 }
 
 class LogoutSuccess extends Profilestate {
-
   const LogoutSuccess();
 }
-

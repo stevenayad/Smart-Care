@@ -73,7 +73,9 @@ class _CategoryButtonState extends State<CategoryButton> {
         } else {
           return SmallGradientButton(
             text: 'Category',
-            onTap: () { context.read<CategoryBloc>().add(LoadCategories()); },
+            onTap: () {
+              context.read<CategoryBloc>().add(LoadCategories());
+            },
           );
         }
       },

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/widget/evluted_button.dart';
@@ -22,7 +23,7 @@ class DelvieryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signalRService = CartSignalRService(CacheHelper.getAccessToken()!);
+    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
     String? selectedStoreId;
     String? selectedAddressId;
     int selectedTab = 0;
@@ -39,12 +40,7 @@ class DelvieryScreen extends StatelessWidget {
           create: (context) =>
               OrderCubit(Orderrepo(apiConsumer: DioConsumer(Dio()))),
         ),
-        BlocProvider(
-          create: (context) => CartCubit(
-            cartrepo: Cartrepo(apiConsumer: DioConsumer(Dio())),
-            signalRService: signalRService,
-          ),
-        ),
+       BlocProvider.value(value: context.read<CartCubit>()),
       ],
       child: Builder(
         builder: (context) {
@@ -89,13 +85,15 @@ class DelvieryScreen extends StatelessWidget {
                           );
                         } else if (state is OrderFailure) {
                           OrderDialog.showFailed(context, state.errmessage);
+                        } else if (state is OrderOutofStock) {
+                          OrderDialog.showOutOfStock(context, state.outodstock);
                         }
                       },
                       child: BlocBuilder<CartCubit, CartState>(
                         builder: (context, state) {
                           final cartCubit = context.read<CartCubit>();
                           final cartId = cartCubit.cartId;
-
+                          print('CartID-//////////////------99999999999977777777777777777754-${cartId}');
                           if (cartId == null || state is CartInitial) {
                             return const Center(
                               child: CircularProgressIndicator(),

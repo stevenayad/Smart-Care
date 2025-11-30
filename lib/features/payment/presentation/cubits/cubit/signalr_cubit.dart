@@ -1,30 +1,28 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/widget/show_dailog_payment.dart';
-import 'package:smartcare/features/payment/data/repo/payment_signalr.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_state.dart';
 import 'package:smartcare/main.dart';
 
 class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
-  final PaymentSignalr signalRService;
+  final AppSignalRService signalRService;
 
   Function(OrderResponse model)? onPaymentMessage;
   bool _isLoadingVisible = false;
 
-  PaymentSignalRCubit({required this.signalRService})
-    : super(PaymentSignalRState()) {
-    _init();
+  PaymentSignalRCubit({required this.signalRService}) : super(PaymentSignalRState()) {
+    _addListener();
   }
 
-  Future<void> _init() async {
-    await signalRService.connect();
+  void _addListener() {
+    signalRService.onPaymentStatusChanged = (data) {
 
-    signalRService.listenReservationExpired((data) {
       if (_isLoadingVisible && Navigator.canPop(navigatorKey.currentContext!)) {
         Navigator.of(navigatorKey.currentContext!).pop();
         _isLoadingVisible = false;
       }
+
 
       if (data.status == "failed" || data.status == "cancelled") {
         showGlobalPaymntCancelledDialog(data.message);
@@ -32,6 +30,7 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
         showGlobalPaymentSuccessDialog(data.message);
       }
 
+    
       emit(
         state.copyWith(
           lastMessage: data.message,
@@ -41,7 +40,7 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
       );
 
       onPaymentMessage?.call(data);
-    });
+    };
   }
 
   Future<void> startPaymentSession() async {
@@ -49,8 +48,7 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
       _isLoadingVisible = true;
       showLoadingDialog();
     }
-
-    await signalRService.connect();
+ 
   }
 
   @override

@@ -21,7 +21,6 @@ class SmartDialogCart extends StatefulWidget {
     required this.iconColor,
     required this.title,
     required this.message,
-    
   });
 
   @override
@@ -87,7 +86,7 @@ class _SmartDialogState extends State<SmartDialogCart>
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
             onPressed: () {
-              Navigator.pop(context);   
+              Navigator.pop(context);
             },
 
             child: const Text("OK", style: TextStyle(color: Colors.white)),
@@ -103,7 +102,6 @@ void showGlobalCartCancelledDialog(String message) {
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialogCart(
-
       icon: Icons.cancel,
       iconColor: Colors.red,
       title: "Cart Cancledd",

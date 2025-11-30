@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smartcare/features/home/data/Model/best_seller_model/item.dart';
 
 class BestsellerFavouriteitem extends StatelessWidget {
-  const BestsellerFavouriteitem({super.key});
+  const BestsellerFavouriteitem({super.key, required this.model});
+  final BestSellerItem model;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,16 +27,15 @@ class BestsellerFavouriteitem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
-              'https://images.pexels.com/photos/3683079/pexels-photo-3683079.jpeg',
-              height:
-                  100, //need give height , because not take original height  of screen
+              model.mainImageUrl ?? "",
+              height: 100,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Vitamin C 1000mg',
+            model.nameEn??"",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(
@@ -43,7 +44,7 @@ class BestsellerFavouriteitem extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '⭐ 4.8',
+            '⭐ ${model.averageRating}',
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: Colors.orange),
@@ -51,7 +52,7 @@ class BestsellerFavouriteitem extends StatelessWidget {
 
           const SizedBox(height: 4),
           Text(
-            '\$15.99',
+            '\$${model.price}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.green,
