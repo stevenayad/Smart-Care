@@ -18,10 +18,12 @@ class StoreModel {
     succeeded = json['succeeded'];
     message = json['message'];
     errorsBag = json['errorsBag'];
-    if (json['data'] != null) {
-      data = (json['data'] as List)
-          .map((v) => Data.fromJson(v as Map<String, dynamic>))
-          .toList();
+    if (json['data'] is List) {
+      data = (json['data'] as List).map((v) => Data.fromJson(v)).toList();
+    } else if (json['data'] is Map<String, dynamic>) {
+      data = [Data.fromJson(json['data'])];
+    } else {
+      data = [];
     }
   }
 

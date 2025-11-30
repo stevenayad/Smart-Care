@@ -17,8 +17,6 @@ class LoginSuccess extends AuthState {
   LoginSuccess(this.loginData);
 }
 
-// NEW: A specific success state for a successful registration.
-// It holds the RegisterResponseModel directly.
 class RegisterSuccess extends AuthState {
   final RegisterResponseModel registerData;
   RegisterSuccess(this.registerData);
@@ -27,4 +25,19 @@ class RegisterSuccess extends AuthState {
 class AuthFailure extends AuthState {
   final String errorMessage;
   AuthFailure(this.errorMessage);
+}
+
+class ResetCodeSentSuccess extends AuthState {
+  final BaseBoolResponse response;
+  ResetCodeSentSuccess(this.response);
+}
+
+class ResetCodeConfirmedSuccess extends AuthState {
+  final BaseBoolResponse response;
+  ResetCodeConfirmedSuccess(this.response);
+}
+
+class PasswordResetSuccess extends AuthState {
+  final BaseBoolResponse response;
+  PasswordResetSuccess(this.response);
 }

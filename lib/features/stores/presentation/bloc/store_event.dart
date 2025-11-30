@@ -27,3 +27,10 @@ class OpenDirections extends StoreEvent {
   final double longitude;
   OpenDirections(this.latitude, this.longitude);
 }
+
+class GetNearestStore extends StoreEvent {
+  final double latitude;
+  final double longitude;
+
+  const GetNearestStore(this.latitude, this.longitude);
+}

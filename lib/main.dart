@@ -95,7 +95,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: MainScreenView(),
+      home:  LoginScreen(),
     );
   }
 }
