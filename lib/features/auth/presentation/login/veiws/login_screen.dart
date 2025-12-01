@@ -63,8 +63,7 @@ class LoginScreen extends StatelessWidget {
                         width: cardWidth,
                         height: cardHeight,
                         child: CustomPaint(
-                          painter: LoginCardPainter(
-                          ),
+                          painter: LoginCardPainter(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 40.0,

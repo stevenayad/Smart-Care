@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/cart/data/model/create_cart_model.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
 import 'package:smartcare/features/order/data/model/order_details/order_details..dart';
+import 'package:smartcare/features/order/data/model/pickup_order_model/outof_stock.dart';
 import 'package:smartcare/features/order/data/model/pickup_order_model/pickup_order_model.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
@@ -19,7 +20,14 @@ class OrderCubit extends Cubit<OrderState> {
     emit(OrderLoading());
     final result = await orderrepo.pickuporder(request);
     result.fold(
-      (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
+      (failure) {
+        if (failure.outOfStocks != null && failure.outOfStocks!.isNotEmpty) {
+          emit(OrderOutofStock(outodstock: failure.outOfStocks!));
+        } else {
+       
+          emit(OrderFailure(errmessage: failure.errMessage));
+        }
+      },
       (model) {
         orderid = model.data!.id;
         print('Order id  in Cubit---${orderid}');

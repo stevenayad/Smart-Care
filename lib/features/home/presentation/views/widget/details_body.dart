@@ -18,11 +18,13 @@ class DetailsBody extends StatelessWidget {
           return Center(child: Text("❌ ${state.errMesssage}"));
         } else if (state is DetailsproductSuccess) {
           final product = state.detialsProductModel;
-          return Column(
-            children: [
-              ImageDetails(detialsProductModel: product),
-              ProductDetails(detialsProductModel: product),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ImageDetails(detialsProductModel: product),
+                ProductDetails(detialsProductModel: product),
+              ],
+            ),
           );
         }
         return const SizedBox();

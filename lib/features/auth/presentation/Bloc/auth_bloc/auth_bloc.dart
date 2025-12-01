@@ -37,9 +37,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (result as Right<Failure, LoginResponseModel>).value;
 
       final String? accessToken = loginResponse.data?.accessToken;
+      final String? refreashToken = loginResponse.data?.refreshToken;
       if (accessToken != null) {
         await CacheHelper.saveAccessToken(accessToken);
-
+        await CacheHelper.saveRefreashToken(refreashToken ?? "");
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         final String userId =
             decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];

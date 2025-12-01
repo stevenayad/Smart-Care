@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart' show AppSignalRService;
+import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 
 import 'package:smartcare/features/home/presentation/views/home_screen.dart';
@@ -13,6 +15,10 @@ class MainScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+  final signalRService = AppSignalRService(CacheHelper.getAccessToken() ?? "");
+  signalRService.init();
+  
     final List<Widget> _screens = const [
       HomeScreen(),
       ProductsScreen(),

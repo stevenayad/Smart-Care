@@ -1,48 +1,46 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/widget/show_dailog_cart.dart';
-import 'package:smartcare/core/widget/show_dailog_payment.dart';
-import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import '../cart/cart_cubit.dart';
 import 'cart_signalr_state.dart';
 
 class CartSignalRCubit extends Cubit<CartSignalRState> {
-  final CartSignalRService signalRService;
+  final AppSignalRService signalRService;
   final CartCubit cartCubit;
 
   Function(String message)? onReservationMessage;
 
-  StreamSubscription? _cartStream;
-
   CartSignalRCubit({required this.signalRService, required this.cartCubit})
     : super(CartSignalRState()) {
-    _init();
+    _addListener();
   }
 
-  Future<void> _init() async {
-    await signalRService.connect();
+  void _addListener() {
+    signalRService.onCartReservationExpired = (data) async {
+      if (isClosed || cartCubit.isClosed) return;
+      showGlobalCartCancelledDialog(data.message ?? "");
 
-    signalRService.listenReservationExpired((data) async {
-      showGlobalCartCancelledDialog(data.message!);
-
-      final id = data.productId;
-      final msg = data.message ?? "";
-
-      cartCubit.cartItems.removeWhere((i) => i.productId == id);
+      cartCubit.cartItems.removeWhere((i) => i.productId == data.productId);
 
       if (cartCubit.cartId != null && !cartCubit.isClosed) {
         await cartCubit.GetITem(cartCubit.cartId!);
       }
 
-      emit(state.copyWith(lastMessage: msg, items: [...cartCubit.cartItems]));
+      emit(
+        state.copyWith(
+          lastMessage: data.message,
+          items: [...cartCubit.cartItems],
+        ),
+      );
 
-      onReservationMessage?.call(msg);
-    });
+      onReservationMessage?.call(data.message ?? "");
+    };
   }
 
   @override
   Future<void> close() async {
-    await _cartStream?.cancel();
+    // Don't close the connection here; it's shared app-wide
     return super.close();
   }
 }

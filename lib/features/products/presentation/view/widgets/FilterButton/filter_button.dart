@@ -28,10 +28,10 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120, 
+      width: 120,
       child: SmallGradientButton(
         text: "Filter",
-        icon: Icons.filter_alt_rounded, 
+        icon: Icons.filter_alt_rounded,
         iconSize: 20,
         onTap: () => _openFilterSheet(context),
       ),

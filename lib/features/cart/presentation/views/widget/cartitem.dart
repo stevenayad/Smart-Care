@@ -48,12 +48,37 @@ class Cartitem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.productName ?? "",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.productName ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    IconButton(
+                      icon: const Icon(
+                        Icons.cancel,
+                        color: Colors.grey,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        cubit.DeleteItem(
+                          RequestRemoveItem(
+                            cartId: cartId,
+                            cartItemId: item.id!,
+                          ),
+                        ).then((_) => cubit.GetITem(cartId));
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -108,7 +133,7 @@ class Cartitem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "\$${item.totalPrice ?? item.unitPrice ?? 0}",
+                      "\$${item.unitPrice}",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

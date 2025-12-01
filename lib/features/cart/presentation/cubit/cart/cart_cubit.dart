@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/cart/data/cart_signalr.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/data/model/add_item_cart_model/add_item_cart_model.dart';
 import 'package:smartcare/features/cart/data/model/add_item_cart_model/data.dart';
@@ -13,17 +13,15 @@ import 'package:smartcare/features/cart/data/model/request_remove_item.dart';
 import 'package:smartcare/features/cart/data/model/request_update_item_model.dart';
 import 'package:smartcare/features/cart/data/model/update_cart_item_model/data.dart';
 import 'package:smartcare/features/cart/data/model/update_cart_item_model/update_cart_item_model.dart';
-import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_state.dart';
+
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   final Cartrepo cartrepo;
-  final CartSignalRService signalRService;
+  final AppSignalRService signalRService;
 
   CartCubit({required this.cartrepo, required this.signalRService})
-    : super(CartInitial()) {
-    makecart();
-  }
+    : super(CartInitial());
 
   String? cartId;
 
@@ -42,9 +40,6 @@ class CartCubit extends Cubit<CartState> {
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
       (model) async {
         cartId = model.data;
-        if (cartId != null) {
-          await signalRService.joinUserGroup(cartId!);
-        }
         emit(CartSucces(createCartModel: model));
         await GetITem(cartId!);
       },
@@ -62,7 +57,7 @@ class CartCubit extends Cubit<CartState> {
           _cartItems = [..._cartItems, mapAddDataToDatumCart(newItem)];
         }
         emit(AddItemSucces(addItemSucces: model));
-         await GetITem(cartId!);
+        await GetITem(cartId!);
       },
     );
   }
@@ -72,12 +67,12 @@ class CartCubit extends Cubit<CartState> {
     final result = await cartrepo.RemoveItem(request);
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
-      (model) async{
+      (model) async {
         _cartItems = _cartItems
             .where((e) => e.id != request.cartItemId)
             .toList();
         emit(RemoveItemSucces(removeItemCartModel: model));
-         await GetITem(cartId!);
+        await GetITem(cartId!);
       },
     );
   }
@@ -90,7 +85,6 @@ class CartCubit extends Cubit<CartState> {
       (model) {
         _cartItems = List<DatumCart>.from(model.data ?? []);
         emit(GetItemSucces(itemsCart: model));
-        
       },
     );
   }
@@ -100,7 +94,7 @@ class CartCubit extends Cubit<CartState> {
     final result = await cartrepo.UpdateItemCart(request);
     result.fold(
       (failure) => emit(CartFailure(errmessage: failure.errMessage)),
-      (model) async{
+      (model) async {
         final updated = model.data;
         if (updated != null) {
           final index = _cartItems.indexWhere((e) => e.id == updated.id);
@@ -109,7 +103,7 @@ class CartCubit extends Cubit<CartState> {
           }
         }
         emit(UpdateItemSucces(updateCartItemModel: model));
-         await GetITem(cartId!);
+        await GetITem(cartId!);
       },
     );
   }

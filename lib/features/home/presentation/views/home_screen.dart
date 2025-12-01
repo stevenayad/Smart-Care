@@ -7,6 +7,7 @@ import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart'
     show CompanyCubit;
+import 'package:smartcare/features/home/presentation/cubits/cubit/best_seller_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,6 +29,9 @@ class HomeScreen extends StatelessWidget {
               ),
               BlocProvider<CompanyCubit>(
                 create: (context) => CompanyCubit(gategoryrepo)..fetchcomapy(),
+              ),
+              BlocProvider<BestSellerCubit>(
+                create: (context) => BestSellerCubit(gategoryrepo)..fetchBestSeller(),
               ),
             ],
             child: HomeBody(),

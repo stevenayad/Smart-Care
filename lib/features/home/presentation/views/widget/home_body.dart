@@ -48,7 +48,7 @@ class HomeBody extends StatelessWidget {
                     const SizedBox(height: 10),
                     const BannerPromotion(),
                     const Company(),
-                    const BestSeller(),
+                    const BestSellerView(),
                     const SizedBox(height: 10),
                   ],
                 ),

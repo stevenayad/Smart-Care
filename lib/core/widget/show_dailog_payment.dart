@@ -21,7 +21,6 @@ class SmartDialogPayment extends StatefulWidget {
     required this.iconColor,
     required this.title,
     required this.message,
-    
   });
 
   @override
@@ -89,23 +88,19 @@ class _SmartDialogState extends State<SmartDialogPayment>
             onPressed: () {
               Navigator.pop(context);
 
-                
-                Navigator.push(
-                  navigatorKey.currentState!.context,
-                  MaterialPageRoute(
-                    builder: (_) => BlocProvider(
-                      create: (_) => OrdersBloc(
-                        repository: OrderRepositoryImpl(
-                          apiConsumer: DioConsumer(Dio()),
-                        ),
+              Navigator.push(
+                navigatorKey.currentState!.context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (_) => OrdersBloc(
+                      repository: OrderRepositoryImpl(
+                        apiConsumer: DioConsumer(Dio()),
                       ),
-                      child: OrdersScreen(),
                     ),
+                    child: OrdersScreen(),
                   ),
-                );
-              
-
-           
+                ),
+              );
             },
 
             child: const Text("OK", style: TextStyle(color: Colors.white)),
@@ -121,10 +116,9 @@ void showGlobalPaymntCancelledDialog(String message) {
     context: navigatorKey.currentState!.overlay!.context,
     barrierDismissible: false,
     builder: (context) => SmartDialogPayment(
-
       icon: Icons.cancel,
       iconColor: Colors.red,
-      title:  "Order Cancelled",
+      title: "Order Cancelled",
       message: message,
     ),
   );
@@ -137,7 +131,7 @@ void showGlobalPaymentSuccessDialog(String message) {
     builder: (context) => SmartDialogPayment(
       icon: Icons.check_circle,
       iconColor: Colors.green,
-      title:"Order Success" ,
+      title: "Order Success",
       message: message,
     ),
   );

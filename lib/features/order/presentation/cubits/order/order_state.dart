@@ -33,4 +33,10 @@ class OrderFailure extends OrderState {
   OrderFailure({required this.errmessage});
 }
 
+class OrderOutofStock extends OrderState {
+  final List<OutOfStock> outodstock;
+
+  OrderOutofStock({required this.outodstock});
+}
+
 class OrderLoading extends OrderState {}

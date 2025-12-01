@@ -15,22 +15,21 @@ class ImageDetails extends StatefulWidget {
 class _ImageDetailsState extends State<ImageDetails> {
   int currentIndex = 0;
   late PageController controller;
-  final List<String> fallbackImages = [
-    'https://th.bing.com/th/id/R.829843c130c948d4fbb835dae965a5da?rik=LCpFbdcAeWDZ8w&riu=http%3a%2f%2fwallpapercave.com%2fwp%2ffAwVCh3.jpg&ehk=lGN4CaEuFMjMiZTZ2nF9id7MRRJ3e1tiWELDbLGorPE%3d&risl=&pid=ImgRaw&r=0',
-    'https://th.bing.com/th/id/R.829843c130c948d4fbb835dae965a5da?rik=LCpFbdcAeWDZ8w&riu=http%3a%2f%2fwallpapercave.com%2fwp%2ffAwVCh3.jpg&ehk=lGN4CaEuFMjMiZTZ2nF9id7MRRJ3e1tiWELDbLGorPE%3d&risl=&pid=ImgRaw&r=0',
-    'https://th.bing.com/th/id/R.829843c130c948d4fbb835dae965a5da?rik=LCpFbdcAeWDZ8w&riu=http%3a%2f%2fwallpapercave.com%2fwp%2ffAwVCh3.jpg&ehk=lGN4CaEuFMjMiZTZ2nF9id7MRRJ3e1tiWELDbLGorPE%3d&risl=&pid=ImgRaw&r=0',
-  ];
 
   @override
   Widget build(BuildContext context) {
-    final images = widget.detialsProductModel.data?.images ?? [];
+    final images =
+        (widget.detialsProductModel.data?.images == null ||
+            widget.detialsProductModel.data!.images!.isEmpty)
+        ? [widget.detialsProductModel.data?.mainImageUrl ?? ""]
+        : widget.detialsProductModel.data!.images!;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.35,
       child: Stack(
         children: [
           PageView.builder(
-            itemCount: fallbackImages.length,
+            itemCount: images.length,
             onPageChanged: (index) {
               setState(() {
                 currentIndex = index;
@@ -41,7 +40,7 @@ class _ImageDetailsState extends State<ImageDetails> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(fallbackImages[index]),
+                    image: NetworkImage(images[index]),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -108,7 +107,7 @@ class _ImageDetailsState extends State<ImageDetails> {
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(fallbackImages.length, (index) {
+              children: List.generate(images.length, (index) {
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 4),

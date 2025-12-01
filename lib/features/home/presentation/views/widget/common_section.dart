@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/company_with_product_screen.dart';
-
 class BestSellerSection extends StatelessWidget {
   final String title;
   final List<Widget> items;
   final VoidCallback? onViewAllTap;
-  final bool isbestseller_favourotiteite;
 
   const BestSellerSection({
     super.key,
     required this.title,
     required this.items,
     this.onViewAllTap,
-    required this.isbestseller_favourotiteite,
   });
 
   @override
@@ -38,23 +32,7 @@ class BestSellerSection extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title, style: titlestyle),
-              GestureDetector(
-                onTap: () {},
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('View All', style: viewAllStyle),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 14,
-                      color: Colors.black54,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            children: [Text(title, style: titlestyle)],
           ),
         ),
 
@@ -68,7 +46,7 @@ class BestSellerSection extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: isbestseller_favourotiteite ? 0.7 : 1.5,
+              childAspectRatio: 0.7,
             ),
             itemBuilder: (context, index) => items[index],
           ),

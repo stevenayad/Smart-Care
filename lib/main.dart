@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
@@ -33,16 +34,17 @@ void main() async {
   final dio = Dio();
   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
       (HttpClient client) {
-    client.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-    return client;
-  };
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
 
   final ApiConsumer apiConsumer = DioConsumer(dio);
   final AuthRepository authRepository = AuthRepository(apiConsumer);
 
-  final signalRService =
-      CartSignalRService(CacheHelper.getAccessToken() ?? "");
+  final signalRService = AppSignalRService(CacheHelper.getAccessToken() ?? "");
+  
+  
 
   runApp(
     MultiBlocProvider(
@@ -56,7 +58,6 @@ void main() async {
 
         BlocProvider(create: (context) => AuthBloc(authRepository)),
 
-        /// ✅ FIXED — no syntax errors
         BlocProvider<CartCubit>(
           lazy: false,
           create: (context) => CartCubit(

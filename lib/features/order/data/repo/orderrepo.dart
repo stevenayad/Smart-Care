@@ -5,6 +5,7 @@ import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/order/data/model/address_model/address_model.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
 import 'package:smartcare/features/order/data/model/order_details/order_details..dart';
+import 'package:smartcare/features/order/data/model/pickup_order_model/outof_stock.dart';
 import 'package:smartcare/features/order/data/model/pickup_order_model/pickup_order_model.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
@@ -49,28 +50,51 @@ class Orderrepo {
     }
   }
 
-  Future<Either<Failure, PickupOrderModel>> pickuporder(
-    RequestPickup request,
-  ) async {
-    try {
-      final response = await apiConsumer.post(
-        "api/orders/create-pickup-order",
-        request.toJson(),
-        false,
-      );
-      if (response == null || response is! Map<String, dynamic>) {
-        return Left(servivefailure("Invalid server response"));
-      }
-      final parsedModel = PickupOrderModel.fromJson(response);
-      return Right(parsedModel);
-    } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
-      return Left(servivefailure.fromDioError(e));
-    } catch (e) {
-      print("❌ Unexpected Error: $e");
-      return Left(servivefailure("Unexpected error, please try again"));
+ Future<Either<Failure, PickupOrderModel>> pickuporder(
+  RequestPickup request,
+) async {
+  try {
+    final response = await apiConsumer.post(
+      "api/orders/create-pickup-order",
+      request.toJson(),
+      false,
+    );
+
+    if (response == null || response is! Map<String, dynamic>) {
+      return Left(servivefailure("Invalid server response"));
     }
+
+ 
+    final succeeded = response["succeeded"] as bool? ?? false;
+
+    if (!succeeded) {
+      final data = response["data"];
+      if (data != null && data["outOfStocks"] != null) {
+        final List outList = data["outOfStocks"];
+
+        final stockItems = outList
+            .map((e) => OutOfStock.fromJson(e))
+            .toList();
+
+        return Left(servivefailure(
+          response["message"] ?? "Some items are out of stock",
+          outOfStocks: stockItems,
+        ));
+      }
+
+      return Left(servivefailure(response["message"] ?? "Order failed"));
+    }
+
+    final parsedModel = PickupOrderModel.fromJson(response);
+    return Right(parsedModel);
+
+  } on DioException catch (e) {
+    return Left(servivefailure.fromDioError(e));
+  } catch (e) {
+    return Left(servivefailure("Unexpected error, please try again"));
   }
+}
+
 
   Future<Either<Failure, CreateOrderModel>> createorder(
     RequestCreateoreder request,

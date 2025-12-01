@@ -28,7 +28,6 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
         if (state is ProfileSuccess) {
           final profile = state.model;
 
-          
           int genderValue;
           switch (profile.data?.gender) {
             case 'NotPreferToSay':
@@ -44,7 +43,6 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
               genderValue = 0;
           }
 
-        
           int accountTypeValue;
           switch (profile.data?.accountType) {
             case 'SelfUse':
@@ -57,7 +55,6 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
               accountTypeValue = 0;
           }
 
-          
           if (!_initialized) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               editprofilecubit.firstNameController.text =
@@ -73,20 +70,26 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
               editprofilecubit.gender = genderValue;
               editprofilecubit.accountType = accountTypeValue;
 
-              editprofilecubit.emit(EditProfileGenderChanged(editprofilecubit.gender));
-              editprofilecubit.emit(EditProfileAccountTypeChanged(editprofilecubit.accountType));
+              editprofilecubit.emit(
+                EditProfileGenderChanged(editprofilecubit.gender),
+              );
+              editprofilecubit.emit(
+                EditProfileAccountTypeChanged(editprofilecubit.accountType),
+              );
 
               _initialized = true;
             });
           }
 
-         
           DateTime? initialDOB;
           try {
             if (editprofilecubit.dobController.text.isNotEmpty) {
               final parts = editprofilecubit.dobController.text.split('/');
               initialDOB = DateTime(
-                  int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+                int.parse(parts[2]),
+                int.parse(parts[1]),
+                int.parse(parts[0]),
+              );
             }
           } catch (_) {
             initialDOB = DateTime(1990, 1, 1);
@@ -101,22 +104,25 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
                 EditProfileTextField(
                   label: 'First Name',
                   controller: editprofilecubit.firstNameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'First name required' : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'First name required'
+                      : null,
                 ),
                 const SizedBox(height: 15),
                 EditProfileTextField(
                   label: 'Last Name',
                   controller: editprofilecubit.lastNameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'Last name required' : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Last name required'
+                      : null,
                 ),
                 const SizedBox(height: 15),
                 EditProfileTextField(
                   label: 'User Name',
                   controller: editprofilecubit.usernameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'User name required' : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'User name required'
+                      : null,
                 ),
                 const SizedBox(height: 15),
                 EditProfileTextField(
@@ -124,7 +130,8 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
                   controller: editprofilecubit.phoneController,
                   keyboardType: TextInputType.phone,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Phone number required';
+                    if (value == null || value.isEmpty)
+                      return 'Phone number required';
                     final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
                     return phoneRegex.hasMatch(value)
                         ? null
@@ -149,8 +156,9 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
                           '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
                     }
                   },
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'Date of birth required' : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Date of birth required'
+                      : null,
                 ),
                 const SizedBox(height: 20),
                 const EditProfileGenderSelection(),

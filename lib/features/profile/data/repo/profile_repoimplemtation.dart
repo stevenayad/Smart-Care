@@ -61,33 +61,32 @@ class ProfileRepoimplemtation {
       return Left(servivefailure("Unexpected error, please try again"));
     }
   }
+
   Future<Either<Failure, Profiledata>> changeProfileImage(File image) async {
-  try {
-    FormData formData = FormData.fromMap({
-      'ProfileImage': await MultipartFile.fromFile(
-        image.path,
-        filename: image.path.split('/').last,
-        contentType: MediaType('image', 'jpeg'), 
-      ),
-    });
+    try {
+      FormData formData = FormData.fromMap({
+        'ProfileImage': await MultipartFile.fromFile(
+          image.path,
+          filename: image.path.split('/').last,
+          contentType: MediaType('image', 'jpeg'),
+        ),
+      });
 
-    final response = await api.put(
-      'api/users/clients/me/change-profile-image',
-    formData,
-      isFormData: true,       
-    );
+      final response = await api.put(
+        'api/users/clients/me/change-profile-image',
+        formData,
+        isFormData: true,
+      );
 
-    final profile = Profiledata.fromJson(response);
-    return Right(profile);
-  } on DioError catch (e) {
-    return Left(servivefailure.fromDioError(e));
-  } catch (e) {
-    return Left(servivefailure("Unexpected error, please try again"));
+      final profile = Profiledata.fromJson(response);
+      return Right(profile);
+    } on DioError catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
   }
-}
 
-
- 
   Future<Either<Failure, ChangePasswordModel>> ChangePassword(
     ChangePasswordRequest changepasswordrequest,
   ) async {
@@ -107,15 +106,9 @@ class ProfileRepoimplemtation {
     }
   }
 
-   Future<Either<Failure, LogoutModel>> Logout(
-    
-  ) async {
+  Future<Either<Failure, LogoutModel>> Logout() async {
     try {
-      final response = await api.post(
-        'api/auth/logout',
-        null,
-        false,
-      );
+      final response = await api.post('api/auth/logout', null, false);
 
       final profile = LogoutModel.fromJson(response);
       return Right(profile);
@@ -126,4 +119,3 @@ class ProfileRepoimplemtation {
     }
   }
 }
-  

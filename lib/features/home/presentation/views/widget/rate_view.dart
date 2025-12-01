@@ -30,61 +30,17 @@ class _RateReviewState extends State<RateReview> {
         }
       },
       builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 6,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star_rate_rounded,
-                    color: Colors.amber,
-                    size: 24,
-                  ),
-                  const SizedBox(width: 6),
-                  const Text(
-                    "Rate this Product",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.amber.withOpacity(.2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      currentRating.toStringAsFixed(1),
-                      style: const TextStyle(
-                        color: Colors.amber,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 18),
-
               Center(
                 child: RatingBar.builder(
                   initialRating: currentRating,
                   minRating: 1,
                   itemCount: 5,
                   itemPadding: const EdgeInsets.symmetric(horizontal: 4),
-                  itemSize: 34,
+                  itemSize: 20,
                   glow: false,
                   itemBuilder: (_, __) =>
                       const Icon(Icons.star, color: Colors.amber),
@@ -103,6 +59,25 @@ class _RateReviewState extends State<RateReview> {
 
                     context.read<RateCubit>().createrate(request);
                   },
+                ),
+              ),
+              const SizedBox(width: 3),
+              Container(
+                child: Text(
+                  currentRating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "(${widget.detailsProductModel.data?.totalRatings.toString() ?? ""})",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
                 ),
               ),
             ],

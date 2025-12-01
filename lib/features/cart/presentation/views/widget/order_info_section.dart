@@ -18,7 +18,7 @@ class OrderInfoSection extends StatelessWidget {
         final items = cartCubit.cartItems;
 
         double subtotal = 0;
-        for (var item in items) {
+        for (var item in items) { 
           subtotal += (item.totalPrice ?? 0);
         }
 
@@ -43,7 +43,7 @@ class OrderInfoSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                "Order Summary",
+                "Cart Summary",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),

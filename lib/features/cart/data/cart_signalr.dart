@@ -1,4 +1,4 @@
-import 'dart:developer';
+/*import 'dart:developer';
 import 'package:signalr_netcore/hub_connection.dart';
 import 'package:signalr_netcore/hub_connection_builder.dart';
 import 'package:signalr_netcore/http_connection_options.dart';
@@ -122,4 +122,4 @@ class ReservationExpiredModel {
       message: json['message'] as String?,
     );
   }
-}
+}*/
