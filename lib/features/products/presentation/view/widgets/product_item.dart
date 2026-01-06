@@ -116,7 +116,7 @@ class ProductItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            "\$${price.toStringAsFixed(2)}",
+                            "EGP ${price.toStringAsFixed(2)}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
