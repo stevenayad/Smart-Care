@@ -9,7 +9,7 @@ class ProductIngredients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> ingredients =
-      detailsProductModel.data!.activeIngredients!.isEmpty
+        detailsProductModel.data!.activeIngredients!.isEmpty
         ? []
         : detailsProductModel.data!.activeIngredients!.split(',');
 

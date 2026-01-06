@@ -6,7 +6,7 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/widget/product_gridview.dart';
+import 'package:smartcare/features/home/presentation/views/widget/company_product_gridview.dart';
 import 'package:smartcare/features/home/presentation/views/widget/company_listview.dart';
 
 class CompanyWithProductsScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
             const SliverToBoxAdapter(child: Divider(thickness: 1)),
             if (selectedCompanyId != null)
               SliverFillRemaining(
-                child: ProductGridView(companyId: selectedCompanyId!),
+                child: CompanyProductGridview(companyId: selectedCompanyId!),
               )
             else
               const SliverFillRemaining(

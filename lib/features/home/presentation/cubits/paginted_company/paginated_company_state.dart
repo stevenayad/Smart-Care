@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/home/data/Model/paginted_model/item.dart';
+import 'package:smartcare/features/home/data/Model/company_paginted_model/item.dart';
 
 abstract class PaginatedCompanyState extends Equatable {
   const PaginatedCompanyState();

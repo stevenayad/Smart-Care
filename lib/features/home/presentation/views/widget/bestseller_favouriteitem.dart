@@ -35,7 +35,7 @@ class BestsellerFavouriteitem extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            model.nameEn??"",
+            model.nameEn ?? "",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(

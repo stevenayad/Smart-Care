@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:smartcare/features/home/data/Model/paginted_model/item.dart';
+import 'package:smartcare/features/home/data/Model/company_paginted_model/item.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'paginated_company_state.dart';
 

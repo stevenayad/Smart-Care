@@ -28,9 +28,7 @@ class NearestStoreScreen extends StatelessWidget {
           children: [
             Text(
               "We've found the nearest store to your location",
-              style: theme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: theme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
 
@@ -73,10 +71,7 @@ class NearestStoreScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             TextButton(
-              child: const Text(
-                "Cancel",
-                style: TextStyle(fontSize: 16),
-              ),
+              child: const Text("Cancel", style: TextStyle(fontSize: 16)),
               onPressed: () => Navigator.pop(context),
             ),
           ],

@@ -28,12 +28,10 @@ class storeBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-              "We've found the nearest store to your location",
-              style: theme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+                "We've found the nearest store to your location",
+                style: theme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
               Center(child: StoreCard(store: state.store)),
               Padding(
                 padding: const EdgeInsets.all(16.0),

@@ -10,9 +10,20 @@ sealed class PaymentState extends Equatable {
 final class PaymentInitial extends PaymentState {}
 
 class PaymentSuccess extends PaymentState {
-  final PaymentModel paymentModel;
+  final IntentpaymentModel paymentModel;
 
   PaymentSuccess({required this.paymentModel});
+}
+
+class PaymentIntentReady extends PaymentState {
+  final String clientSecret;
+  PaymentIntentReady(this.clientSecret);
+}
+
+class PaymentCashSuccess extends PaymentState {
+  final PaymentCashModel paymentModel;
+
+  PaymentCashSuccess({required this.paymentModel});
 }
 
 class PaymentFlaiure extends PaymentState {

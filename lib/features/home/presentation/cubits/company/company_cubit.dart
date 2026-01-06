@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/home/data/Model/company_model/company_model.dart';
-import 'package:smartcare/features/home/data/Model/paginted_model/paginted_model.dart';
+import 'package:smartcare/features/home/data/Model/company_paginted_model/paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/item.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/productforcompany.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';

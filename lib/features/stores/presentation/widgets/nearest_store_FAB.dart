@@ -5,7 +5,6 @@ import 'package:smartcare/features/auth/presentation/register/views/map_picker_s
 import 'package:smartcare/features/stores/presentation/bloc/store_bloc.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_event.dart';
 
-
 class NearestStoreFAB extends StatelessWidget {
   const NearestStoreFAB({super.key});
 
@@ -50,9 +49,7 @@ class NearestStoreFAB extends StatelessWidget {
                   Navigator.pop(context);
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const MapPickerScreen(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const MapPickerScreen()),
                   );
 
                   if (result != null) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class BestSellerSection extends StatelessWidget {
   final String title;
   final List<Widget> items;

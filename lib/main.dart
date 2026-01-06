@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
@@ -18,15 +19,19 @@ import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_sig
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
+import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+   Stripe.publishableKey =
+      "pk_test_51REy0EFRp5Zs3XNLj1aEXrZT4rEJedhD1I3zReXqqS9gweVetdESHEvutDhaLIporP6gO2GIMyGxVsCTLfzFRWn300Zeb5Rrz7";
   await CacheHelper.init();
 
   Bloc.observer = SimpleBlocObserver();
@@ -43,8 +48,6 @@ void main() async {
   final AuthRepository authRepository = AuthRepository(apiConsumer);
 
   final signalRService = AppSignalRService(CacheHelper.getAccessToken() ?? "");
-  
-  
 
   runApp(
     MultiBlocProvider(
@@ -57,6 +60,11 @@ void main() async {
         ),
 
         BlocProvider(create: (context) => AuthBloc(authRepository)),
+
+        BlocProvider(
+          create: (context) =>
+              OrderCubit(Orderrepo(apiConsumer: DioConsumer(Dio()))),
+        ), //orderid =>Null
 
         BlocProvider<CartCubit>(
           lazy: false,
@@ -96,7 +104,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home:  LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }

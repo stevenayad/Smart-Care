@@ -31,10 +31,10 @@ class _ConfirmResetCodeScreenState extends State<ConfirmResetCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppThemes.customAppBar(
-    title: 'Confirm Code',
-    showBackButton: true,
-    isDarkMode: false, 
-  ),
+        title: 'Confirm Code',
+        showBackButton: true,
+        isDarkMode: false,
+      ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is ResetCodeConfirmedSuccess) {

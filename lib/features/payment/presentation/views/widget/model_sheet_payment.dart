@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' hide PaymentMethod;
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
 import 'package:smartcare/features/payment/data/Model/payment_method.dart';
+import 'package:smartcare/features/payment/data/repo/payment_servcies.dart';
 
 import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/open_payment_link.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/payment_item.dart';
+
 class PaymentBottomSheet extends StatefulWidget {
   const PaymentBottomSheet({super.key, required this.orderid});
   final String orderid;
@@ -79,24 +83,41 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
             width: double.infinity,
             height: 55,
             child: BlocListener<PaymentCubit, PaymentState>(
-              listener: (context, state) {
-                if (state is PaymentSuccess) {
-                  if (selectedIndex == 0) {
-                    final url = state.paymentModel.data!.url ?? "";
-                    openPaymentLink(url, context);
-                  } else if (selectedIndex == 1) {
-                    OrderDialog.showSuccess(
+              listener: (context, state) async {
+                if (state is PaymentIntentReady) {
+                  print('Client Secret1 ${state.clientSecret}');
+                  try {
+                    print('Client Secret2 ${state.clientSecret}');
+                    await PaymentServcies.payOrder(state.clientSecret);
+                    print('Payment Success');
+                    context.read<CartCubit>().clearCart();
+                    Navigator.pushReplacement(
                       context,
-                      'Order Successful',
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => MainScreenView()),
-                        );
-                      },
+                      MaterialPageRoute(builder: (_) => const MainScreenView()),
+                    );
+                  } on StripeException catch (e) {
+                    print('Stripe cancelled: ${e.error.localizedMessage}');
+                    OrderDialog.showFailed(context, "Payment was cancelled");
+                  } catch (e) {
+                    print('Unexpected error: $e');
+
+                    OrderDialog.showFailed(
+                      context,
+                      "Payment failed, please try again",
                     );
                   }
+                } else if (state is PaymentCashSuccess) {
+                  OrderDialog.showSuccess(
+                    context,
+                    'Order Successful',
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => MainScreenView()),
+                      );
+                      context.read<CartCubit>().clearCart();
+                    },
+                  );
                 } else if (state is PaymentFlaiure) {
                   OrderDialog.showFailed(context, state.errmessage);
                 }
@@ -106,11 +127,16 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                   final paymentSignalRCubit = PaymentSignalRCubit(
                     signalRService: signalRService,
                   );
-                  await paymentSignalRCubit.startPaymentSession();
-
-                  context
-                      .read<PaymentCubit>()
-                      .ConfrimOrder(widget.orderid);
+                  // await paymentSignalRCubit.startPaymentSession();
+                  if (selectedIndex == 0) {
+                    context.read<PaymentCubit>().ConfrimOrderIntent(
+                      widget.orderid,
+                    );
+                  } else if (selectedIndex == 1) {
+                    context.read<PaymentCubit>().ConfrimOrderCash(
+                      widget.orderid,
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0066FF),

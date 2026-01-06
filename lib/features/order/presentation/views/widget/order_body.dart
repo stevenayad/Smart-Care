@@ -19,9 +19,7 @@ class OrderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
-
 
     return SingleChildScrollView(
       child: Column(

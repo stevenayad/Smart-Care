@@ -11,18 +11,17 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
   Function(OrderResponse model)? onPaymentMessage;
   bool _isLoadingVisible = false;
 
-  PaymentSignalRCubit({required this.signalRService}) : super(PaymentSignalRState()) {
+  PaymentSignalRCubit({required this.signalRService})
+    : super(PaymentSignalRState()) {
     _addListener();
   }
 
   void _addListener() {
     signalRService.onPaymentStatusChanged = (data) {
-
       if (_isLoadingVisible && Navigator.canPop(navigatorKey.currentContext!)) {
         Navigator.of(navigatorKey.currentContext!).pop();
         _isLoadingVisible = false;
       }
-
 
       if (data.status == "failed" || data.status == "cancelled") {
         showGlobalPaymntCancelledDialog(data.message);
@@ -30,7 +29,6 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
         showGlobalPaymentSuccessDialog(data.message);
       }
 
-    
       emit(
         state.copyWith(
           lastMessage: data.message,
@@ -48,7 +46,6 @@ class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {
       _isLoadingVisible = true;
       showLoadingDialog();
     }
- 
   }
 
   @override

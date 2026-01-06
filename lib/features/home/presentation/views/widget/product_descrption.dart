@@ -4,15 +4,10 @@ import 'package:smartcare/features/home/data/Model/details_product_model/details
 class ProductDescrption extends StatelessWidget {
   final DetailsProductModel detailsProductModel;
 
-  const ProductDescrption({
-    super.key,
-    required this.detailsProductModel,
-  });
+  const ProductDescrption({super.key, required this.detailsProductModel});
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: Column(

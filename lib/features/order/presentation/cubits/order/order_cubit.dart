@@ -7,6 +7,8 @@ import 'package:smartcare/features/order/data/model/pickup_order_model/outof_sto
 import 'package:smartcare/features/order/data/model/pickup_order_model/pickup_order_model.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
+import 'package:smartcare/features/order/data/model/requestupdateorder.dart';
+import 'package:smartcare/features/order/data/model/udateorder/udateorder.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 
 part 'order_state.dart';
@@ -24,7 +26,6 @@ class OrderCubit extends Cubit<OrderState> {
         if (failure.outOfStocks != null && failure.outOfStocks!.isNotEmpty) {
           emit(OrderOutofStock(outodstock: failure.outOfStocks!));
         } else {
-       
           emit(OrderFailure(errmessage: failure.errMessage));
         }
       },
@@ -47,6 +48,19 @@ class OrderCubit extends Cubit<OrderState> {
       },
     );
   }
+
+   Future<void> updateorder(RequestUpdateOrder request) async {
+    emit(OrderLoading());
+    final result = await orderrepo.updateorder(request);
+    result.fold(
+      (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
+      (model) {
+        orderid = model.data!.id;
+        emit(UpdateorderSucess(updateordermodel: model));
+      },
+    );
+  }
+
 
   Future<void> getorderdetails(String id) async {
     emit(OrderLoading());

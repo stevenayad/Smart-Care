@@ -9,7 +9,9 @@ import 'package:smartcare/features/order/data/model/pickup_order_model/outof_sto
 import 'package:smartcare/features/order/data/model/pickup_order_model/pickup_order_model.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
+import 'package:smartcare/features/order/data/model/requestupdateorder.dart';
 import 'package:smartcare/features/order/data/model/store_model/store_model.dart';
+import 'package:smartcare/features/order/data/model/udateorder/udateorder.dart';
 
 class Orderrepo {
   final ApiConsumer apiConsumer;
@@ -50,51 +52,50 @@ class Orderrepo {
     }
   }
 
- Future<Either<Failure, PickupOrderModel>> pickuporder(
-  RequestPickup request,
-) async {
-  try {
-    final response = await apiConsumer.post(
-      "api/orders/create-pickup-order",
-      request.toJson(),
-      false,
-    );
+  Future<Either<Failure, PickupOrderModel>> pickuporder(
+    RequestPickup request,
+  ) async {
+    try {
+      final response = await apiConsumer.post(
+        "api/orders/create-pickup-order",
+        request.toJson(),
+        false,
+      );
 
-    if (response == null || response is! Map<String, dynamic>) {
-      return Left(servivefailure("Invalid server response"));
-    }
-
- 
-    final succeeded = response["succeeded"] as bool? ?? false;
-
-    if (!succeeded) {
-      final data = response["data"];
-      if (data != null && data["outOfStocks"] != null) {
-        final List outList = data["outOfStocks"];
-
-        final stockItems = outList
-            .map((e) => OutOfStock.fromJson(e))
-            .toList();
-
-        return Left(servivefailure(
-          response["message"] ?? "Some items are out of stock",
-          outOfStocks: stockItems,
-        ));
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
       }
 
-      return Left(servivefailure(response["message"] ?? "Order failed"));
+      final succeeded = response["succeeded"] as bool? ?? false;
+
+      if (!succeeded) {
+        final data = response["data"];
+        if (data != null && data["outOfStocks"] != null) {
+          final List outList = data["outOfStocks"];
+
+          final stockItems = outList
+              .map((e) => OutOfStock.fromJson(e))
+              .toList();
+
+          return Left(
+            servivefailure(
+              response["message"] ?? "Some items are out of stock",
+              outOfStocks: stockItems,
+            ),
+          );
+        }
+
+        return Left(servivefailure(response["message"] ?? "Order failed"));
+      }
+
+      final parsedModel = PickupOrderModel.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure("Unexpected error, please try again"));
     }
-
-    final parsedModel = PickupOrderModel.fromJson(response);
-    return Right(parsedModel);
-
-  } on DioException catch (e) {
-    return Left(servivefailure.fromDioError(e));
-  } catch (e) {
-    return Left(servivefailure("Unexpected error, please try again"));
   }
-}
-
 
   Future<Either<Failure, CreateOrderModel>> createorder(
     RequestCreateoreder request,
@@ -118,6 +119,30 @@ class Orderrepo {
       return Left(servivefailure("Unexpected error, please try again"));
     }
   }
+
+   
+  Future<Either<Failure, Updateorder>> updateorder(
+    RequestUpdateOrder request,
+  ) async {
+    try {
+      final response = await apiConsumer.put(
+        "api/orders/update",
+        request.toJson(),
+      );
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final parsedModel = Updateorder.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
+
 
   Future<Either<Failure, OrderDetails>> fetchOrderDetails(String id) async {
     try {

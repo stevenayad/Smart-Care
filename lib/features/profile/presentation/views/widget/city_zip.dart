@@ -4,7 +4,11 @@ import 'package:smartcare/features/profile/presentation/views/widget/custom_text
 class CityZip extends StatelessWidget {
   TextEditingController cityController = TextEditingController();
   TextEditingController zipController = TextEditingController();
-  CityZip({super.key, required this.cityController, required this.zipController});
+  CityZip({
+    super.key,
+    required this.cityController,
+    required this.zipController,
+  });
 
   @override
   Widget build(BuildContext context) {
