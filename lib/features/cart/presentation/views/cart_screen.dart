@@ -44,6 +44,7 @@ class CartScreen extends StatelessWidget {
         ),
         body: Column(children: [Expanded(child: CartBody())]),
       ),
+    )
     );
   }
 }
