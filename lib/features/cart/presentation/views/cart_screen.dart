@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/core/widget/custom_appbar.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
@@ -34,15 +33,8 @@ class CartScreen extends StatelessWidget {
             );
           }
         },
-        child: Scaffold(
-          appBar: customappbar(
-            context,
-            'My Cart',
-            onPressed: () => Navigator.pop(context),
-          ),
-          body: Column(children: [Expanded(child: CartBody())]),
-        ),
-      ],
+        
+      
       child: Scaffold(
         appBar: AppThemes.customAppBar(
           title: 'My Cart',
@@ -51,6 +43,7 @@ class CartScreen extends StatelessWidget {
         ),
         body: Column(children: [Expanded(child: CartBody())]),
       ),
+    )
     );
   }
 }

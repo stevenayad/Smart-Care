@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/auth/presentation/register/views/register_page.dart'
     show RegisterScreen;
+import 'package:smartcare/features/onboarding/presentation/bloc/onboarding_bloc.dart';
 
 class Rowbutton extends StatelessWidget {
   final bool isDark;
@@ -15,6 +17,14 @@ class Rowbutton extends StatelessWidget {
     required this.itemsLength,
     required this.pageController,
   });
+  void _finishOnboarding(BuildContext context) {
+    context.read<OnboardingBloc>().add(CompleteOnboardingEvent());
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => RegisterScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +37,7 @@ class Rowbutton extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => RegisterScreen()),
-              );
+              _finishOnboarding(context);
             },
             child: Text(
               'Skip',
@@ -50,10 +57,7 @@ class Rowbutton extends StatelessWidget {
                   curve: Curves.easeIn,
                 );
               } else {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => RegisterScreen()),
-                );
+                _finishOnboarding(context);
               }
             },
             style: ElevatedButton.styleFrom(
