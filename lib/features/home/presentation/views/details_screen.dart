@@ -20,13 +20,12 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       final cartCubit = context.read<CartCubit>();
-
       if (cartCubit.cartId == null) {
         cartCubit.makecart();
       }
-    });
+    });*/
 
     return Scaffold(
       body: MultiBlocProvider(

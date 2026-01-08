@@ -12,7 +12,7 @@ class Data {
   String? activeIngredients;
   dynamic expirationDate;
   double? discountPercentage;
-  String? tags; 
+  String? tags;
 
   Data({
     this.productId,
@@ -28,40 +28,40 @@ class Data {
     this.activeIngredients,
     this.expirationDate,
     this.discountPercentage,
-    this.tags, 
+    this.tags,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        productId: json['productId'] as String?,
-        mainImageUrl: json['mainImageUrl'] as String?,
-        images: json['images'] as List<dynamic>?,
-        nameEn: json['nameEn'] as String?,
-        companyName: json['companyName'] as String?,
-        description: json['description'] as String?,
-        averageRating: (json['averageRating'] as num?)?.toInt(),
-        totalRatings: (json['totalRatings'] as num?)?.toInt(),
-        price: (json['price'] as num?)?.toInt(),
-        isAvailable: json['isAvailable'] as bool?,
-        activeIngredients: json['activeIngredients'] as String?,
-        expirationDate: json['expirationDate'],
-        discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
-        tags: json['tags'] as String?, 
-      );
+    productId: json['productId'] as String?,
+    mainImageUrl: json['mainImageUrl'] as String?,
+    images: json['images'] as List<dynamic>?,
+    nameEn: json['nameEn'] as String?,
+    companyName: json['companyName'] as String?,
+    description: json['description'] as String?,
+    averageRating: (json['averageRating'] as num?)?.toInt(),
+    totalRatings: (json['totalRatings'] as num?)?.toInt(),
+    price: (json['price'] as num?)?.toInt(),
+    isAvailable: json['isAvailable'] as bool?,
+    activeIngredients: json['activeIngredients'] as String?,
+    expirationDate: json['expirationDate'],
+    discountPercentage: (json['discountPercentage'] as num?)?.toDouble(),
+    tags: json['tags'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'productId': productId,
-        'mainImageUrl': mainImageUrl,
-        'images': images,
-        'nameEn': nameEn,
-        'companyName': companyName,
-        'description': description,
-        'averageRating': averageRating,
-        'totalRatings': totalRatings,
-        'price': price,
-        'isAvailable': isAvailable,
-        'activeIngredients': activeIngredients,
-        'expirationDate': expirationDate,
-        'discountPercentage': discountPercentage,
-        'tags': tags, 
-      };
+    'productId': productId,
+    'mainImageUrl': mainImageUrl,
+    'images': images,
+    'nameEn': nameEn,
+    'companyName': companyName,
+    'description': description,
+    'averageRating': averageRating,
+    'totalRatings': totalRatings,
+    'price': price,
+    'isAvailable': isAvailable,
+    'activeIngredients': activeIngredients,
+    'expirationDate': expirationDate,
+    'discountPercentage': discountPercentage,
+    'tags': tags,
+  };
 }

@@ -18,7 +18,7 @@ class OrderInfoSection extends StatelessWidget {
         final items = cartCubit.cartItems;
 
         double subtotal = 0;
-        for (var item in items) { 
+        for (var item in items) {
           subtotal += (item.totalPrice ?? 0);
         }
 

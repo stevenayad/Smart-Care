@@ -80,9 +80,7 @@ class LastSection extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const AddressScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const AddressScreen()),
               );
             },
           ),

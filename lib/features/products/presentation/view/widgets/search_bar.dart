@@ -64,14 +64,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [colorScheme.primary.withValues(alpha: 0.8), colorScheme.primary],
+            colors: [
+              colorScheme.primary.withValues(alpha: 0.8),
+              colorScheme.primary,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha:0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
@@ -94,7 +97,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   DropdownMenuItem(value: 'Name', child: Text('Name')),
                   DropdownMenuItem(value: 'Company', child: Text('Company')),
                   DropdownMenuItem(value: 'Category', child: Text('Category')),
-                  DropdownMenuItem(value: 'Description', child: Text('Description')),
+                  DropdownMenuItem(
+                    value: 'Description',
+                    child: Text('Description'),
+                  ),
                 ],
                 onChanged: (val) => setState(() => _searchType = val!),
               ),
@@ -105,13 +111,16 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             Expanded(
               child: TextField(
                 controller: _ctrl,
-                onChanged: _onChanged, 
+                onChanged: _onChanged,
                 decoration: InputDecoration(
                   hintText: 'Search by $_searchType...',
                   prefixIcon: const Icon(Icons.search, color: Colors.grey),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 16,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,

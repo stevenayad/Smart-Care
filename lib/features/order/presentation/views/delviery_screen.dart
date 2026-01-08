@@ -11,6 +11,7 @@ import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
+import 'package:smartcare/features/order/data/model/requestupdateorder.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
@@ -36,11 +37,9 @@ class DelvieryScreen extends StatelessWidget {
                 ..getaddress()
                 ..getstore(),
         ),
-        BlocProvider(
-          create: (context) =>
-              OrderCubit(Orderrepo(apiConsumer: DioConsumer(Dio()))),
-        ),
-       BlocProvider.value(value: context.read<CartCubit>()),
+
+        BlocProvider.value(value: context.read<OrderCubit>()),
+        BlocProvider.value(value: context.read<CartCubit>()),
       ],
       child: Builder(
         builder: (context) {
@@ -83,66 +82,112 @@ class DelvieryScreen extends StatelessWidget {
                               ),
                             ),
                           );
+                        } else if (state is UpdateorderSucess) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => Orderscreen(
+                                orderId: state.updateordermodel.data!.id ?? '',
+                              ),
+                            ),
+                          );
                         } else if (state is OrderFailure) {
                           OrderDialog.showFailed(context, state.errmessage);
                         } else if (state is OrderOutofStock) {
                           OrderDialog.showOutOfStock(context, state.outodstock);
                         }
                       },
-                      child: BlocBuilder<CartCubit, CartState>(
+                      child: BlocBuilder<OrderCubit, OrderState>(
                         builder: (context, state) {
-                          final cartCubit = context.read<CartCubit>();
-                          final cartId = cartCubit.cartId;
-                          print('CartID-//////////////------99999999999977777777777777777754-${cartId}');
-                          if (cartId == null || state is CartInitial) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          return EvalutedButton(
-                            text: 'Pick Up Order',
-                            onTap: () {
-                              if (selectedTab == 0 &&
-                                  selectedAddressId == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Please select an address!"),
-                                  ),
+                          return BlocBuilder<CartCubit, CartState>(
+                            builder: (context, state) {
+                              final cartCubit = context.read<CartCubit>();
+                              final cartId = cartCubit.cartId;
+                              final orderCubit = context.read<OrderCubit>();
+                            final hasOrder = state is OrderHasActive;
+                              print('orderID----${orderCubit.orderid}');
+                              print('CartID----${cartId}');
+                              print('has order ${hasOrder} ');
+                              if (cartId == null || state is CartInitial) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                                return;
                               }
 
-                              if (selectedTab == 1 && selectedStoreId == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Please select a store!"),
-                                  ),
-                                );
-                                return;
-                              }
+                              return EvalutedButton(
+                                text: hasOrder
+                                    ? 'Update Order'
+                                    : 'Confirm Order',
+                                onTap: () {
+                                  if (!hasOrder) {
+                                    if (selectedTab == 0 &&
+                                        selectedAddressId == null) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            "Please select an address!",
+                                          ),
+                                        ),
+                                      );
+                                      return;
+                                    }
 
-                              if (selectedTab == 0) {
-                                final requestcreateorder = RequestCreateoreder(
-                                  cartId: cartId,
-                                  deliveryAddressId: selectedAddressId,
-                                );
+                                    if (selectedTab == 1 &&
+                                        selectedStoreId == null) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            "Please select a store!",
+                                          ),
+                                        ),
+                                      );
+                                      return;
+                                    }
 
-                                BlocProvider.of<OrderCubit>(
-                                  context,
-                                ).createorder(requestcreateorder);
-                              }
+                                    if (selectedTab == 0) {
+                                      final requestcreateorder =
+                                          RequestCreateoreder(
+                                            cartId: cartId,
+                                            deliveryAddressId:
+                                                selectedAddressId,
+                                          );
 
-                              if (selectedTab == 1) {
-                                final request = RequestPickup(
-                                  cartId: cartId,
-                                  storeId: selectedStoreId!,
-                                );
+                                      BlocProvider.of<OrderCubit>(
+                                        context,
+                                      ).createorder(requestcreateorder);
+                                    }
 
-                                BlocProvider.of<OrderCubit>(
-                                  context,
-                                ).pickorder(request);
-                              }
+                                    if (selectedTab == 1) {
+                                      final request = RequestPickup(
+                                        cartId: cartId,
+                                        storeId: selectedStoreId!,
+                                      );
+
+                                      BlocProvider.of<OrderCubit>(
+                                        context,
+                                      ).pickorder(request);
+                                    }
+                                  } else {
+                                    orderCubit.updateorder(
+                                      RequestUpdateOrder(
+                                        orderId: orderCubit.orderid,
+                                        cartId: cartId,
+                                        updatedOrderType: selectedTab,
+                                        storeId: selectedTab == 1
+                                            ? selectedStoreId
+                                            : null,
+                                        shippingAddressId: selectedTab == 0
+                                            ? selectedAddressId
+                                            : null,
+                                      ),
+                                    );
+                                  }
+                                },
+                              );
                             },
                           );
                         },

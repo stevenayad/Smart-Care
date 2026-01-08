@@ -39,13 +39,22 @@ android {
         // --- Set manifest placeholder for Google Maps API key ---
         manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey
     }
+buildTypes {
+    release {
+        isMinifyEnabled = true
+        isShrinkResources = true
 
-    buildTypes {
-        release {
-            // Use debug signing for now; update for production
-            signingConfig = signingConfigs.getByName("debug")
-        }
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+
+       
+        signingConfig = signingConfigs.getByName("debug")
     }
+}
+
+
 }
 
 flutter {

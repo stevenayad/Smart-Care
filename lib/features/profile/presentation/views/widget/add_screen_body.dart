@@ -201,9 +201,10 @@ class _AddScreenBodyState extends State<AddScreenBody> {
                                 : Text(
                                     'Save Address',
                                     style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.7),
                                     ),
                                   ),
                           ),
@@ -220,7 +221,7 @@ class _AddScreenBodyState extends State<AddScreenBody> {
                               style: TextStyle(
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSurface.withValues(alpha:  0.7),
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                             ),
                           ),

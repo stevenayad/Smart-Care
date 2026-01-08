@@ -5,14 +5,14 @@ import 'package:smartcare/features/order/data/model/pickup_order_model/outof_sto
 
 abstract class Failure {
   final String errMessage;
-    final List<OutOfStock>? outOfStocks;
+  final List<OutOfStock>? outOfStocks;
 
   const Failure({required this.errMessage, this.outOfStocks});
 }
 
 class servivefailure extends Failure {
-    servivefailure(String errMessage, {List<OutOfStock>? outOfStocks})
-      : super(errMessage: errMessage, outOfStocks: outOfStocks);
+  servivefailure(String errMessage, {List<OutOfStock>? outOfStocks})
+    : super(errMessage: errMessage, outOfStocks: outOfStocks);
 
   factory servivefailure.fromDioError(DioError dioerror) {
     switch (dioerror.type) {
@@ -77,51 +77,43 @@ class servivefailure extends Failure {
       'Server error with status $statscode and unknown message format.',
     );
   }*/
- 
+
   factory servivefailure.badResponse(int statusCode, dynamic response) {
-  String errorMessage = "An unknown error occurred.";
-  List<OutOfStock>? outOfStocks;
+    String errorMessage = "An unknown error occurred.";
+    List<OutOfStock>? outOfStocks;
 
-  if (response is String) {
-    try {
-      response = jsonDecode(response);
-    } catch (_) {}
-  }
+    if (response is String) {
+      try {
+        response = jsonDecode(response);
+      } catch (_) {}
+    }
 
-  if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-    if (response is Map<String, dynamic>) {
-      
-            if (response.containsKey('data') &&
-          response['data'] is Map<String, dynamic> &&
-          response['data'].containsKey('outOfStocks')) {
-        
-        final stockData = response['data']['outOfStocks'];
+    if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
+      if (response is Map<String, dynamic>) {
+        if (response.containsKey('data') &&
+            response['data'] is Map<String, dynamic> &&
+            response['data'].containsKey('outOfStocks')) {
+          final stockData = response['data']['outOfStocks'];
 
-        if (stockData is List) {
-          outOfStocks = stockData
-              .map((e) => OutOfStock.fromJson(e))
-              .toList();
+          if (stockData is List) {
+            outOfStocks = stockData.map((e) => OutOfStock.fromJson(e)).toList();
+          }
+        }
+
+        if (response.containsKey('message')) {
+          errorMessage = response['message'];
         }
       }
 
-      if (response.containsKey('message')) {
-        errorMessage = response['message'];
-      }
+      return servivefailure(errorMessage, outOfStocks: outOfStocks);
     }
 
-    return servivefailure(
-      errorMessage,
-      outOfStocks: outOfStocks,
-    );
+    if (statusCode == 404) {
+      return servivefailure("Your request was not found, please try again.");
+    } else if (statusCode == 500) {
+      return servivefailure("Internal server error, please try again later.");
+    } else {
+      return servivefailure("Oops, something went wrong!");
+    }
   }
-
-  if (statusCode == 404) {
-    return servivefailure("Your request was not found, please try again.");
-  } else if (statusCode == 500) {
-    return servivefailure("Internal server error, please try again later.");
-  } else {
-    return servivefailure("Oops, something went wrong!");
-  }
-}
-
 }

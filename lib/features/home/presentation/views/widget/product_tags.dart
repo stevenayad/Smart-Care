@@ -8,7 +8,6 @@ class ProductTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     final String tagsString = detailsProductModel.data?.tags ?? "";
     final List<String> tags = tagsString.isEmpty
         ? []

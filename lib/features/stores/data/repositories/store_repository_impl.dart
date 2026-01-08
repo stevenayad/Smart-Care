@@ -36,41 +36,38 @@ class StoreRepositoryImpl implements StoreRepository {
       return Left(servivefailure("Unexpected error occurred: ${e.toString()}"));
     }
   }
+
   @override
-Future<Either<Failure, StoreEntity>> getNearestStore({
-  required double latitude,
-  required double longitude,
-}) async {
-  try {
-    final response = await apiConsumer.get(
-      '/api/stores/nearest',
-      {
+  Future<Either<Failure, StoreEntity>> getNearestStore({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      final response = await apiConsumer.get('/api/stores/nearest', {
         'Latitude': latitude,
         'Longitude': longitude,
-      },
-    );
+      });
 
-    final storeModel = StoreModel.fromJson(response);
+      final storeModel = StoreModel.fromJson(response);
 
-    if (storeModel.data == null || storeModel.data!.isEmpty) {
-      return Left(servivefailure("No nearest store found"));
+      if (storeModel.data == null || storeModel.data!.isEmpty) {
+        return Left(servivefailure("No nearest store found"));
+      }
+
+      final d = storeModel.data!.first;
+
+      final storeEntity = StoreEntity(
+        id: d.id!,
+        name: d.name!,
+        address: d.address!,
+        latitude: d.latitude!,
+        longitude: d.longitude!,
+        phone: d.phone!,
+      );
+
+      return Right(storeEntity);
+    } catch (e) {
+      return Left(servivefailure("Unexpected error: ${e.toString()}"));
     }
-
-    final d = storeModel.data!.first;
-
-    final storeEntity = StoreEntity(
-      id: d.id!,
-      name: d.name!,
-      address: d.address!,
-      latitude: d.latitude!,
-      longitude: d.longitude!,
-      phone: d.phone!,
-    );
-
-    return Right(storeEntity);
-  } catch (e) {
-    return Left(servivefailure("Unexpected error: ${e.toString()}"));
   }
-}
-
 }

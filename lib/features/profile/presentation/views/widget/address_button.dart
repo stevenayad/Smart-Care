@@ -32,8 +32,8 @@ class AddAddressButton extends StatelessWidget {
                     child: AddAddressScreen(),
                   ),
                 ),
-              ).then((_){
-                bloc.add( GetAddressesEvent());
+              ).then((_) {
+                bloc.add(GetAddressesEvent());
               });
             },
         borderRadius: BorderRadius.circular(30),

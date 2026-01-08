@@ -107,4 +107,10 @@ class CartCubit extends Cubit<CartState> {
       },
     );
   }
+
+  void clearCart() {
+    cartId = null;
+    _cartItems.clear();
+    emit(CartInitial());
+  }
 }

@@ -15,26 +15,27 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: context.read<CartCubit>()),
-        // BlocProvider.value(value: context.read<CartCubit>()),
-      ],
-      child: BlocListener<CartCubit, CartState>(
-        listener: (context, state) {
-          if (state is CartFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errmessage),
-                backgroundColor: Colors.red,
-                behavior: SnackBarBehavior.floating,
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-        
-      
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cubit = context.read<CartCubit>();
+      final id = cubit.cartId;
+      print('id from cart screen $id');
+      if (id != null && id.isNotEmpty) {
+        cubit.GetITem(id);
+      }
+    });
+    return BlocListener<CartCubit, CartState>(
+      listener: (context, state) {
+        if (state is CartFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errmessage),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      },
       child: Scaffold(
         appBar: AppThemes.customAppBar(
           title: 'My Cart',

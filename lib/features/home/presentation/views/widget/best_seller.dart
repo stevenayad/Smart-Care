@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/home/presentation/cubits/cubit/best_seller_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/best_seller/best_seller_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/bestseller_favouriteitem.dart';
 import 'package:smartcare/features/home/presentation/views/widget/common_section.dart';
 

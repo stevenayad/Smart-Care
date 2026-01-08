@@ -22,7 +22,7 @@ class InterceptorsConsumer extends Interceptor {
       print("❌ Token Missing");
     }
 
-    print('''
+   /* print('''
 ➡️ [REQUEST] -------------------------------
 METHOD: ${options.method}
 URL: ${options.uri}
@@ -31,7 +31,7 @@ DATA: ${options.data}
 QUERY: ${options.queryParameters}
 PATH: ${options.path}
 --------------------------------------------
-''');
+''');*/
 
     super.onRequest(options, handler);
   }

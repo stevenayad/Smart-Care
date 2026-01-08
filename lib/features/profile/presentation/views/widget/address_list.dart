@@ -8,7 +8,7 @@ class AddressList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  if (addresses.isEmpty) return const Center(child: Text('No addresses yet'));
+    if (addresses.isEmpty) return const Center(child: Text('No addresses yet'));
     return ListView.builder(
       itemCount: addresses.length,
       itemBuilder: (context, index) {

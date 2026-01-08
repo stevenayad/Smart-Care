@@ -27,6 +27,7 @@ class StoreError extends StoreState {
   @override
   List<Object?> get props => [message];
 }
+
 class NearestStoreLoaded extends StoreState {
   final StoreEntity store;
   const NearestStoreLoaded(this.store);

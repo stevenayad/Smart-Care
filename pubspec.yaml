@@ -62,6 +62,7 @@ dependencies:
   http_parser: ^4.1.2
   motion_tab_bar: ^2.0.4
   convex_bottom_bar: ^3.2.0
+  flutter_stripe: ^12.1.1
   
   
 

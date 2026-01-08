@@ -1,7 +1,7 @@
 import 'item.dart';
 
 class Data {
-  List<Item>? items;
+  List<GategoryItem>? items;
   int? totalCount;
   int? pageNumber;
   int? pageSize;
@@ -21,7 +21,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     items: (json['items'] as List<dynamic>?)
-        ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => GategoryItem.fromJson(e as Map<String, dynamic>))
         .toList(),
     totalCount: json['totalCount'] as int?,
     pageNumber: json['pageNumber'] as int?,

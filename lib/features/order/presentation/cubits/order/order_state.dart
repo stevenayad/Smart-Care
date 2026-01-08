@@ -21,6 +21,13 @@ class CreateorderSucess extends OrderState {
   CreateorderSucess({required this.createOrderModel});
 }
 
+class UpdateorderSucess extends OrderState {
+  final Updateorder updateordermodel;
+
+  UpdateorderSucess({required this.updateordermodel});
+}
+
+
 class orderdetailssuccess extends OrderState {
   final OrderDetails orderDetails;
 
@@ -40,3 +47,4 @@ class OrderOutofStock extends OrderState {
 }
 
 class OrderLoading extends OrderState {}
+class OrderHasActive extends OrderState {}

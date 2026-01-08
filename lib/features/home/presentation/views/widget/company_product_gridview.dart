@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 
-class ProductGridView extends StatefulWidget {
+class CompanyProductGridview extends StatefulWidget {
   final String companyId;
 
-  const ProductGridView({super.key, required this.companyId});
+  const CompanyProductGridview({super.key, required this.companyId});
 
   @override
-  State<ProductGridView> createState() => _ProductGridViewState();
+  State<CompanyProductGridview> createState() => _ProductGridViewState();
 }
 
-class _ProductGridViewState extends State<ProductGridView> {
+class _ProductGridViewState extends State<CompanyProductGridview> {
   int currentPage = 1;
 
   @override
@@ -21,7 +21,7 @@ class _ProductGridViewState extends State<ProductGridView> {
   }
 
   @override
-  void didUpdateWidget(covariant ProductGridView oldWidget) {
+  void didUpdateWidget(covariant CompanyProductGridview oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.companyId != widget.companyId) {
       currentPage = 1;

@@ -12,6 +12,11 @@ class GatergroySucess extends GatergoryState {
   List<Object> get props => [catergoryModel];
 }
 
+class GategoryCompanySuccess extends GatergoryState {
+  final ProductforGategory productforcategory;
+  GategoryCompanySuccess({required this.productforcategory});
+}
+
 class GatergroyFaliure extends GatergoryState {
   final String errMessage;
 
