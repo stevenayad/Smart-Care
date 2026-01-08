@@ -22,7 +22,7 @@ class DioConsumer implements ApiConsumer {
 
     dio.interceptors.add(
       LogInterceptor(
-        request: true,
+        //request: true,
         requestBody: true,
         responseBody: true,
         error: true,

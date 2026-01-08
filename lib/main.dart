@@ -32,6 +32,7 @@ void main() async {
 
    Stripe.publishableKey =
       "pk_test_51REy0EFRp5Zs3XNLj1aEXrZT4rEJedhD1I3zReXqqS9gweVetdESHEvutDhaLIporP6gO2GIMyGxVsCTLfzFRWn300Zeb5Rrz7";
+     await Stripe.instance.applySettings();
   await CacheHelper.init();
 
   Bloc.observer = SimpleBlocObserver();

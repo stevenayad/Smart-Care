@@ -104,7 +104,7 @@ class DelvieryScreen extends StatelessWidget {
                               final cartCubit = context.read<CartCubit>();
                               final cartId = cartCubit.cartId;
                               final orderCubit = context.read<OrderCubit>();
-                              final hasOrder = orderCubit.orderid != null;
+                            final hasOrder = state is OrderHasActive;
                               print('orderID----${orderCubit.orderid}');
                               print('CartID----${cartId}');
                               print('has order ${hasOrder} ');

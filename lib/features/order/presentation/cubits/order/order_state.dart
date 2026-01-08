@@ -47,3 +47,4 @@ class OrderOutofStock extends OrderState {
 }
 
 class OrderLoading extends OrderState {}
+class OrderHasActive extends OrderState {}

@@ -5,6 +5,7 @@ import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
 import 'package:smartcare/features/payment/data/Model/payment_method.dart';
@@ -85,12 +86,12 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
             child: BlocListener<PaymentCubit, PaymentState>(
               listener: (context, state) async {
                 if (state is PaymentIntentReady) {
-                  print('Client Secret1 ${state.clientSecret}');
                   try {
-                    print('Client Secret2 ${state.clientSecret}');
                     await PaymentServcies.payOrder(state.clientSecret);
                     print('Payment Success');
                     context.read<CartCubit>().clearCart();
+                    context.read<OrderCubit>().resetorderid();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (_) => const MainScreenView()),
@@ -100,7 +101,6 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     OrderDialog.showFailed(context, "Payment was cancelled");
                   } catch (e) {
                     print('Unexpected error: $e');
-
                     OrderDialog.showFailed(
                       context,
                       "Payment failed, please try again",
@@ -111,11 +111,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     context,
                     'Order Successful',
                     onPressed: () {
+                      context.read<CartCubit>().clearCart();
+                      context.read<OrderCubit>().resetorderid();
+                      print('After Payment');
+                      print(context.read<OrderCubit>().orderid);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (_) => MainScreenView()),
                       );
-                      context.read<CartCubit>().clearCart();
                     },
                   );
                 } else if (state is PaymentFlaiure) {

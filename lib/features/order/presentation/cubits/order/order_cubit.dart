@@ -33,6 +33,7 @@ class OrderCubit extends Cubit<OrderState> {
         orderid = model.data!.id;
         print('Order id  in Cubit---${orderid}');
         emit(PickupSucess(pickupOrderModel: model));
+          emit(OrderHasActive());
       },
     );
   }
@@ -45,11 +46,12 @@ class OrderCubit extends Cubit<OrderState> {
       (model) {
         orderid = model.data!.id;
         emit(CreateorderSucess(createOrderModel: model));
+          emit(OrderHasActive());
       },
     );
   }
 
-   Future<void> updateorder(RequestUpdateOrder request) async {
+  Future<void> updateorder(RequestUpdateOrder request) async {
     emit(OrderLoading());
     final result = await orderrepo.updateorder(request);
     result.fold(
@@ -57,10 +59,10 @@ class OrderCubit extends Cubit<OrderState> {
       (model) {
         orderid = model.data!.id;
         emit(UpdateorderSucess(updateordermodel: model));
+          emit(OrderHasActive());
       },
     );
   }
-
 
   Future<void> getorderdetails(String id) async {
     emit(OrderLoading());
@@ -70,4 +72,11 @@ class OrderCubit extends Cubit<OrderState> {
       (model) => emit(orderdetailssuccess(orderDetails: model)),
     );
   }
+
+ void resetorderid() {
+  orderid = null;
+  print('order id = null "print" ');
+  emit(OrderInitial());
+}
+
 }
