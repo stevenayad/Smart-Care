@@ -36,18 +36,18 @@ class buildStockStatus extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        if (inStock)
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              foregroundColor: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-            ),
-            child: const Text('Add to Cart'),
-          ),
+        // if (inStock)
+        //   ElevatedButton(
+        //     onPressed: () {},
+        //     style: ElevatedButton.styleFrom(
+        //       foregroundColor: AppColors.white,
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(8),
+        //       ),
+        //       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        //     ),
+        //     child: const Text('Add to Cart'),
+        //   ),
       ],
     );
   }
