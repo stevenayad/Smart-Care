@@ -18,6 +18,9 @@ class RegisterValidator {
     if (phoneNumber.trim().isEmpty) {
       return 'Please enter your phone';
     }
+    if (phoneNumber.trim().length != 11) {
+      return 'Phone number must be 11 digits';
+    }
     if (email.trim().isEmpty) {
       return 'Please enter your email';
     }
