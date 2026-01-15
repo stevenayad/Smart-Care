@@ -31,9 +31,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-   Stripe.publishableKey =
+  Stripe.publishableKey =
       "pk_test_51REy0EFRp5Zs3XNLj1aEXrZT4rEJedhD1I3zReXqqS9gweVetdESHEvutDhaLIporP6gO2GIMyGxVsCTLfzFRWn300Zeb5Rrz7";
- //await Stripe.instance.applySettings();
+  //await Stripe.instance.applySettings();
   await CacheHelper.init();
 
   Bloc.observer = SimpleBlocObserver();
@@ -106,7 +106,9 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: AppStartView(),
+      home: (CacheHelper.getAccessToken() != null)
+          ? const MainScreenView()
+          : AppStartView(),
     );
   }
 }
