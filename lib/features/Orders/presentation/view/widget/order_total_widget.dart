@@ -21,7 +21,7 @@ class OrderTotalWidget extends StatelessWidget {
         children: [
           Text("Total Amount", style: Theme.of(context).textTheme.titleMedium),
           Text(
-            "${order.totalPrice?.toStringAsFixed(2) ?? '0.00'}",
+            "EGP${order.totalPrice?.toStringAsFixed(2) ?? '0.00'}",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.primaryblue,
