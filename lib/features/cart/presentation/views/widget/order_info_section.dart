@@ -50,7 +50,7 @@ class OrderInfoSection extends StatelessWidget {
 
               Orderinforow(
                 text: 'Subtotal',
-                value: '\$${subtotal.toStringAsFixed(2)}',
+                value: '${subtotal.toStringAsFixed(2)} EGP',
               ),
 
               const Divider(thickness: 1.5),
