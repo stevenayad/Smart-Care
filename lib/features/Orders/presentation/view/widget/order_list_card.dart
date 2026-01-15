@@ -99,7 +99,7 @@ class OrderListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "EGP${order.totalPrice?.toStringAsFixed(2) ?? '0.00'}",
+                      "${order.totalPrice?.toStringAsFixed(2) ?? '0.00'}",
                       style: const TextStyle(
                         color: AppColors.primaryblue,
                         fontWeight: FontWeight.w800,
