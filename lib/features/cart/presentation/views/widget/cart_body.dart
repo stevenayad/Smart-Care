@@ -12,7 +12,7 @@ class CartBody extends StatelessWidget {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         if (state is CartInitial) {
-          return Center(child: const Text('NO Item Yet'));
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is CartFailure) {

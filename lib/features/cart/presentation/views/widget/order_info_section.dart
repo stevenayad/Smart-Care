@@ -57,7 +57,7 @@ class OrderInfoSection extends StatelessWidget {
 
               Orderinforow(
                 text: 'Total',
-                value: '\$${total.toStringAsFixed(2)}',
+                value: '${total.toStringAsFixed(2)} EGP',
                 bold: true,
               ),
 

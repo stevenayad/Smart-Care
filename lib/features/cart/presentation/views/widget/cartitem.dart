@@ -133,7 +133,7 @@ class Cartitem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "\$${item.unitPrice}",
+                      "${item.unitPrice} EGP",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

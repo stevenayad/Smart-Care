@@ -52,7 +52,7 @@ class BestsellerFavouriteitem extends StatelessWidget {
 
           const SizedBox(height: 4),
           Text(
-            '\$${model.price}',
+            '${model.price} EGP',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.green,
