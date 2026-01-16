@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/Favourite/presentation/cubits/favourite/favoutie_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/details_screen.dart';
 import 'favourite_item.dart';
 
 class FavouriteItemList extends StatelessWidget {
@@ -32,7 +33,17 @@ class FavouriteItemList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             sliver: SliverGrid(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => FavouriteItem(favouriteItem: items[index]),
+                (context, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            DetailsScreen(Productid: items[index].productId!),
+                      ),
+                    );
+                  },
+                  child: FavouriteItem(favouriteItem: items[index])),
                 childCount: items.length,
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

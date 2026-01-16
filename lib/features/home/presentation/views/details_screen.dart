@@ -26,32 +26,45 @@ class DetailsScreen extends StatelessWidget {
         cartCubit.makecart();
       }
     });*/
+    // final signalRService = DetailsSignalRService(
+    //   CacheHelper.getAccessToken() ?? "",
+    // );
+    // signalRService.joinProductGroup(Productid);
 
-    return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) =>
-                DetailsproductCubit(DetaisProductRepo(api: DioConsumer(Dio())))
-                  ..getproductdetails(Productid),
+    return BlocBuilder<SignalrdetialsCubit, SignalrdetialsState>(
+      buildWhen: (previous, current) {
+        // أول build بس
+        return previous is SignalrdetialsInitial;
+      },
+      builder: (context, state) {
+        context.read<SignalrdetialsCubit>().joinProduct(Productid);
+
+        return Scaffold(
+          body: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => DetailsproductCubit(
+                  DetaisProductRepo(api: DioConsumer(Dio())),
+                )..getproductdetails(Productid),
+              ),
+
+              BlocProvider(
+                create: (context) =>
+                    RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+                      ..loadUserRate(Productid),
+              ),
+
+              BlocProvider.value(value: context.read<CartCubit>()),
+              // BlocProvider(
+              //   create: (context) => SignalrdetialsCubit(
+              //     DetailsSignalRService(CacheHelper.getAccessToken()!),
+              //   )..initListener(Productid),
+              // ),
+            ],
+            child: DetailsBody(),
           ),
-
-          BlocProvider(
-            create: (context) =>
-                RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))
-                  ..loadUserRate(Productid),
-          ),
-
-          BlocProvider.value(value: context.read<CartCubit>()),
-
-          BlocProvider(
-            create: (context) => SignalrdetialsCubit(
-              DetailsSignalRService(CacheHelper.getAccessToken()!),
-            )..initListener(Productid),
-          ),
-        ],
-        child: DetailsBody(),
-      ),
+        );
+      },
     );
   }
 }
