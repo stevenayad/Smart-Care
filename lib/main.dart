@@ -17,9 +17,11 @@ import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
+import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
@@ -89,6 +91,11 @@ void main() async {
               FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
                 ..loadFavouriteItems(),
         ),
+        BlocProvider(
+          create: (context) => SignalrdetialsCubit(
+            DetailsSignalRService(CacheHelper.getAccessToken()!),
+          )..initGlobalListener(),
+        ),
       ],
       child: const SmartCare(),
     ),
@@ -106,9 +113,7 @@ class SmartCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: AppThemes.lightTheme,
-      home: (CacheHelper.getAccessToken() != null)
-          ? const MainScreenView()
-          : AppStartView(),
+      home: AppStartView(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/best_seller/best_seller_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/details_screen.dart';
 import 'package:smartcare/features/home/presentation/views/widget/bestseller_favouriteitem.dart';
 import 'package:smartcare/features/home/presentation/views/widget/common_section.dart';
 
@@ -30,7 +31,17 @@ class BestSellerView extends StatelessWidget {
           return BestSellerSection(
             title: 'Best Sellers',
             items: items
-                .map((item) => BestsellerFavouriteitem(model: item))
+                .map((item) => GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            DetailsScreen(Productid: item.productId!),
+                      ),
+                    );
+                  },
+                  child: BestsellerFavouriteitem(model: item)))
                 .toList(),
           );
         }

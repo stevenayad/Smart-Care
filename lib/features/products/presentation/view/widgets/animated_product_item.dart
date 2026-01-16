@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/cart/data/model/request_add_item_model.dart';
+import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:smartcare/features/products/data/models/product_model.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
@@ -50,7 +53,19 @@ class _AnimatedProductItemState extends State<AnimatedProductItem> {
                     brand: widget.product.activeIngredients,
                     rating: widget.product.averageRating,
                     price: widget.product.price,
-                    onAdd: () {},
+                    onAdd: () {
+                      final cubit = context.read<CartCubit>();
+                      final cartId = cubit.cartId ?? '';
+
+                      cubit.PutItem(
+                        RequestAddItemModel(
+                          cartId: cartId,
+                          productId: widget.product.productId,
+                          quantity: 1,
+                        ),
+                      );
+                    },
+
                     onFavorite: () {},
                   ),
                 ),

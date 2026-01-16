@@ -26,10 +26,10 @@ class MainScreenView extends StatelessWidget {
         cartCubit.GetITem(cartCubit.cartId ?? "");
       }
     });
-    final signalRService = AppSignalRService(
-      CacheHelper.getAccessToken() ?? "",
-    );
-    signalRService.init();
+    // final signalRService = AppSignalRService(
+    //   CacheHelper.getAccessToken() ?? "",
+    // );
+    // signalRService.init();
 
     final List<Widget> _screens = const [
       HomeScreen(),

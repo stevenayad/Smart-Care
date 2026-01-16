@@ -9,11 +9,15 @@ class SignalrdetialsCubit extends Cubit<SignalrdetialsState> {
 
   SignalrdetialsCubit(this.signalRService) : super(SignalrdetialsInitial());
 
-  void initListener(String productid) async {
+  void initGlobalListener() async {
     await signalRService.connect();
-    await signalRService.joinProductGroup(productid);
     signalRService.listenReservationExpired((model) {
       emit(SignalrdetialsUpdated(model));
+      print("🔥 EVENT RECEIVED: ${model.productId}");
     });
+  }
+
+  Future<void> joinProduct(String productId) async {
+    await signalRService.joinProductGroup(productId);
   }
 }
