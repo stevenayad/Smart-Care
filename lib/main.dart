@@ -4,116 +4,129 @@ import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:smartcare/core/api/services/app_signalr_services.dart';
-import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
+import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/app%20start/app_start_view.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
-import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
-import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
-import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/home_screen.dart';
-import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
+import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  /// Stripe
   Stripe.publishableKey =
       "pk_test_51REy0EFRp5Zs3XNLj1aEXrZT4rEJedhD1I3zReXqqS9gweVetdESHEvutDhaLIporP6gO2GIMyGxVsCTLfzFRWn300Zeb5Rrz7";
-  //await Stripe.instance.applySettings();
+
+  /// Cache
   await CacheHelper.init();
 
+  /// Bloc Observer
   Bloc.observer = SimpleBlocObserver();
 
+  /// Global Dio instance
   final dio = Dio();
-  (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-      (HttpClient client) {
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-        return client;
-      };
+  (dio.httpClientAdapter as DefaultHttpClientAdapter)
+      .onHttpClientCreate = (HttpClient client) {
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    return client;
+  };
 
-  final ApiConsumer apiConsumer = DioConsumer(dio);
-  final AuthRepository authRepository = AuthRepository(apiConsumer);
+  final apiConsumer = DioConsumer(dio);
+  final authRepository = AuthRepository(apiConsumer);
 
-  final signalRService = AppSignalRService(CacheHelper.getAccessToken() ?? "");
+  /// SignalR (من غير ما يبدأ اتصال دلوقتي)
+  final signalRService =
+      AppSignalRService(CacheHelper.getAccessToken() ?? "");
 
   runApp(
-    MultiBlocProvider(
+    MyApp(
+      apiConsumer: apiConsumer,
+      authRepository: authRepository,
+      signalRService: signalRService,
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  final ApiConsumer apiConsumer;
+  final AuthRepository authRepository;
+  final AppSignalRService signalRService;
+
+  const MyApp({
+    super.key,
+    required this.apiConsumer,
+    required this.authRepository,
+    required this.signalRService,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
       providers: [
+
+        /// Auth
         BlocProvider(
-          create: (context) =>
-              AddressStoreCubit(Orderrepo(apiConsumer: DioConsumer(Dio())))
-                ..getaddress()
-                ..getstore(),
+          create: (_) => AuthBloc(authRepository),
         ),
 
-        BlocProvider(create: (context) => AuthBloc(authRepository)),
-
+        /// Order
         BlocProvider(
-          create: (context) =>
-              OrderCubit(Orderrepo(apiConsumer: DioConsumer(Dio()))),
-        ), //orderid =>Null
+          create: (_) =>
+              OrderCubit(Orderrepo(apiConsumer: apiConsumer)),
+        ),
 
-        BlocProvider<CartCubit>(
-          lazy: false,
-          create: (context) => CartCubit(
-            cartrepo: Cartrepo(apiConsumer: DioConsumer(Dio())),
+        /// Address (من غير API call عند البداية)
+        BlocProvider(
+          create: (_) =>
+              AddressStoreCubit(Orderrepo(apiConsumer: apiConsumer)),
+        ),
+
+        /// Cart
+        BlocProvider(
+          create: (_) => CartCubit(
+            cartrepo: Cartrepo(apiConsumer: apiConsumer),
             signalRService: signalRService,
           ),
         ),
 
-        BlocProvider<CartSignalRCubit>(
-          lazy: false,
+        /// Cart SignalR (lazy default = true)
+        BlocProvider(
           create: (ctx) => CartSignalRCubit(
             signalRService: signalRService,
             cartCubit: ctx.read<CartCubit>(),
           ),
         ),
 
+        /// Favourite (تحميل يحصل جوه الشاشة مش هنا)
         BlocProvider(
-          create: (context) =>
-              FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
-                ..loadFavouriteItems(),
-        ),
-        BlocProvider(
-          create: (context) => SignalrdetialsCubit(
-            DetailsSignalRService(CacheHelper.getAccessToken()!),
-          )..initGlobalListener(),
+          create: (_) =>
+              FavouriteCubit(DetaisProductRepo(api: apiConsumer)),
         ),
       ],
-      child: const SmartCare(),
-    ),
-  );
-}
-
-class SmartCare extends StatelessWidget {
-  const SmartCare({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'Smart Care',
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: AppThemes.lightTheme,
-      home: AppStartView(),
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: "Smart Care",
+        theme: AppThemes.lightTheme,
+        themeMode: ThemeMode.system,
+        home: const AppStartView(),
+      ),
     );
   }
 }

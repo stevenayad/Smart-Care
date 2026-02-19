@@ -78,7 +78,6 @@ class _DeliverySelectionState extends State<DeliverySelection> {
                       state: state,
                       onStoreSelect: (storeId) {
                         setState(() => selectedStoreId = storeId);
-
                         if (widget.onStoreSelected != null) {
                           widget.onStoreSelected!(storeId);
                         }

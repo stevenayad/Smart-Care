@@ -24,7 +24,7 @@ class DelvieryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
+    //final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
     String? selectedStoreId;
     String? selectedAddressId;
     int selectedTab = 0;
