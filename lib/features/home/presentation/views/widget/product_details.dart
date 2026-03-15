@@ -8,13 +8,13 @@ import 'package:smartcare/features/check%20availability/presentation/views/scree
     show CheckAvailabilityScreen;
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
 import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/widget/build_info_section.dart';
 import 'package:smartcare/features/home/presentation/views/widget/check_store.dart';
 import 'package:smartcare/features/home/presentation/views/widget/produbt_intgredients.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_descrption.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_tags.dart';
 
 import 'package:smartcare/features/home/presentation/views/widget/rate_view.dart';
+import 'package:smartcare/features/home/presentation/views/widget/similar_products_section.dart';
 
 class ProductDetails extends StatelessWidget {
   final DetailsProductModel detialsProductModel;
@@ -108,7 +108,10 @@ class ProductDetails extends StatelessWidget {
           ProductTags(detailsProductModel: detialsProductModel),
           const SizedBox(height: 10),
           ProductIngredients(detailsProductModel: detialsProductModel),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
+          Divider(thickness: 0.5),
+          SimilarProductsSection(),
+           const SizedBox(height: 10),
           ActionButton(
             title: "Check Availability in Store",
             icon: Icons.location_on,

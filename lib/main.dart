@@ -16,12 +16,16 @@ import 'package:smartcare/features/cart/data/cart_signalr.dart';
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
+import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
+import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
+import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
+import 'package:smartcare/features/profile/presentation/views/semantic_search_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -40,19 +44,18 @@ Future<void> main() async {
 
   /// Global Dio instance
   final dio = Dio();
-  (dio.httpClientAdapter as DefaultHttpClientAdapter)
-      .onHttpClientCreate = (HttpClient client) {
-    client.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-    return client;
-  };
+  (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+      (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
 
   final apiConsumer = DioConsumer(dio);
   final authRepository = AuthRepository(apiConsumer);
 
   /// SignalR (من غير ما يبدأ اتصال دلوقتي)
-  final signalRService =
-      AppSignalRService(CacheHelper.getAccessToken() ?? "");
+  final signalRService = AppSignalRService(CacheHelper.getAccessToken() ?? "");
 
   runApp(
     MyApp(
@@ -79,22 +82,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => SignalrdetialsCubit(
+            DetailsSignalRService(CacheHelper.getAccessToken()!),
+          )..initGlobalListener(),
+        ),
 
         /// Auth
-        BlocProvider(
-          create: (_) => AuthBloc(authRepository),
-        ),
+        BlocProvider(create: (_) => AuthBloc(authRepository)),
 
         /// Order
         BlocProvider(
-          create: (_) =>
-              OrderCubit(Orderrepo(apiConsumer: apiConsumer)),
+          create: (_) => OrderCubit(Orderrepo(apiConsumer: apiConsumer)),
         ),
 
         /// Address (من غير API call عند البداية)
         BlocProvider(
-          create: (_) =>
-              AddressStoreCubit(Orderrepo(apiConsumer: apiConsumer)),
+          create: (_) => AddressStoreCubit(Orderrepo(apiConsumer: apiConsumer)),
         ),
 
         /// Cart
@@ -115,8 +119,7 @@ class MyApp extends StatelessWidget {
 
         /// Favourite (تحميل يحصل جوه الشاشة مش هنا)
         BlocProvider(
-          create: (_) =>
-              FavouriteCubit(DetaisProductRepo(api: apiConsumer)),
+          create: (_) => FavouriteCubit(DetaisProductRepo(api: apiConsumer)),
         ),
       ],
       child: MaterialApp(

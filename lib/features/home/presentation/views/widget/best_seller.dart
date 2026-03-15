@@ -31,17 +31,20 @@ class BestSellerView extends StatelessWidget {
           return BestSellerSection(
             title: 'Best Sellers',
             items: items
-                .map((item) => GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            DetailsScreen(Productid: item.productId!),
-                      ),
-                    );
-                  },
-                  child: BestsellerFavouriteitem(model: item)))
+                .map(
+                  (item) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              DetailsScreen(Productid: item.productId!),
+                        ),
+                      );
+                    },
+                    child: BestsellerFavouriteitem(model: item),
+                  ),
+                )
                 .toList(),
           );
         }

@@ -13,6 +13,8 @@ import 'package:smartcare/features/home/presentation/cubits/signalr_details/sign
 import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/rate/rate_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/details_body.dart';
+import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_cubit.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.Productid});
@@ -54,12 +56,12 @@ class DetailsScreen extends StatelessWidget {
                       ..loadUserRate(Productid),
               ),
 
-              BlocProvider.value(value: context.read<CartCubit>()),
-              // BlocProvider(
-              //   create: (context) => SignalrdetialsCubit(
-              //     DetailsSignalRService(CacheHelper.getAccessToken()!),
-              //   )..initListener(Productid),
-              // ),
+              BlocProvider(
+                create: (context) => SimilarProductsCubit(
+                  SemanticSearchRepositoy(api: DioConsumer(Dio())),
+                )..getSimilarProducts(Productid),
+              ),
+              //BlocProvider.value(value: context.read<CartCubit>()),
             ],
             child: DetailsBody(),
           ),

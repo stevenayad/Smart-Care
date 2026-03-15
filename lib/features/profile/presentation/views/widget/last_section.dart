@@ -12,6 +12,7 @@ import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/add
 import 'package:smartcare/features/profile/presentation/views/address_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/change_password_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/edit_profile_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/semantic_search_screen.dart';
 
 import 'package:smartcare/features/profile/presentation/views/widget/build_navagationtitle.dart';
 import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
@@ -35,6 +36,18 @@ class LastSection extends StatelessWidget {
       ),
       child: Column(
         children: [
+          buildNavagationtitle(
+            context,
+            'Search Medicine',
+            Icons.search,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SemanticSearchScreen()),
+              );
+            },
+          ),
+          Divider(thickness: 0.5),
           buildNavagationtitle(
             context,
             'Edit Profile',

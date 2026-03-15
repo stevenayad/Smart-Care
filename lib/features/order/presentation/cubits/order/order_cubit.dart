@@ -33,7 +33,7 @@ class OrderCubit extends Cubit<OrderState> {
         orderid = model.data!.id;
         print('Order id  in Cubit---${orderid}');
         emit(PickupSucess(pickupOrderModel: model));
-          emit(OrderHasActive());
+        emit(OrderHasActive());
       },
     );
   }
@@ -46,7 +46,7 @@ class OrderCubit extends Cubit<OrderState> {
       (model) {
         orderid = model.data!.id;
         emit(CreateorderSucess(createOrderModel: model));
-          emit(OrderHasActive());
+        emit(OrderHasActive());
       },
     );
   }
@@ -59,7 +59,7 @@ class OrderCubit extends Cubit<OrderState> {
       (model) {
         orderid = model.data!.id;
         emit(UpdateorderSucess(updateordermodel: model));
-          emit(OrderHasActive());
+        emit(OrderHasActive());
       },
     );
   }
@@ -73,10 +73,9 @@ class OrderCubit extends Cubit<OrderState> {
     );
   }
 
- void resetorderid() {
-  orderid = null;
-  print('order id = null "print" ');
-  emit(OrderInitial());
-}
-
+  void resetorderid() {
+    orderid = null;
+    print('order id = null "print" ');
+    emit(OrderInitial());
+  }
 }
