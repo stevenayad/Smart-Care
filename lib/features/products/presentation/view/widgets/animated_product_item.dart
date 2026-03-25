@@ -48,7 +48,7 @@ class _AnimatedProductItemState extends State<AnimatedProductItem> {
                     );
                   },
                   child: ProductItem(
-                    imageUrl: widget.product.primaryImageUrl,
+                    imageUrl: _getSafeImage(), // 🔹 هنا استخدمنا الصورة الآمنة
                     title: widget.product.nameEn,
                     brand: widget.product.activeIngredients,
                     rating: widget.product.averageRating,
@@ -56,7 +56,6 @@ class _AnimatedProductItemState extends State<AnimatedProductItem> {
                     onAdd: () {
                       final cubit = context.read<CartCubit>();
                       final cartId = cubit.cartId ?? '';
-
                       cubit.PutItem(
                         RequestAddItemModel(
                           cartId: cartId,
@@ -65,7 +64,6 @@ class _AnimatedProductItemState extends State<AnimatedProductItem> {
                         ),
                       );
                     },
-
                     onFavorite: () {},
                   ),
                 ),
@@ -76,5 +74,19 @@ class _AnimatedProductItemState extends State<AnimatedProductItem> {
                 duration: const Duration(milliseconds: 700),
               ),
     );
+  }
+
+  String _getSafeImage() {
+    final product = widget.product;
+
+    if (product.images.isNotEmpty && product.images.first.url.isNotEmpty) {
+      return product.images.first.url;
+    }
+
+    if (product.mainImageUrl.isNotEmpty) {
+      return product.mainImageUrl;
+    }
+
+    return "https://via.placeholder.com/150";
   }
 }

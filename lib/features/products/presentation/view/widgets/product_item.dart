@@ -25,7 +25,9 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
+    final safeImage = (imageUrl.isNotEmpty)
+        ? imageUrl
+        : "https://via.placeholder.com/150";
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
@@ -48,7 +50,7 @@ class ProductItem extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
-                    imageUrl,
+                    safeImage,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
                       color: Colors.grey.shade200,
