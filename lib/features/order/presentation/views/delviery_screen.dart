@@ -24,7 +24,7 @@ class DelvieryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
+    //final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
     String? selectedStoreId;
     String? selectedAddressId;
     int selectedTab = 0;
@@ -104,7 +104,7 @@ class DelvieryScreen extends StatelessWidget {
                               final cartCubit = context.read<CartCubit>();
                               final cartId = cartCubit.cartId;
                               final orderCubit = context.read<OrderCubit>();
-                            final hasOrder = state is OrderHasActive;
+                              final hasOrder = state is OrderHasActive;
                               print('orderID----${orderCubit.orderid}');
                               print('CartID----${cartId}');
                               print('has order ${hasOrder} ');

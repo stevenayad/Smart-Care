@@ -13,8 +13,6 @@ class PaymentRepo {
 
   PaymentRepo({required this.apiConsumer});
 
-  
-
   Future<Either<Failure, IntentpaymentModel>> PaymentIntentOrder(
     String idorder,
   ) async {

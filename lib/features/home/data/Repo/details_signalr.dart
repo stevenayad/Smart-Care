@@ -67,10 +67,8 @@ class DetailsSignalRService {
     log("⚡ LISTENER STARTED Detials");
     hubConnection.on("ProductStockStatusChanged", (data) {
       if (data == null || data.isEmpty) return;
-
       final first = data.first;
       if (first is! Map<String, dynamic>) return;
-
       final model = ProductAvailability.fromJson(first);
       log("🔥 Event Triggered Details: productId=${model.productId}");
       _handler?.call(model);

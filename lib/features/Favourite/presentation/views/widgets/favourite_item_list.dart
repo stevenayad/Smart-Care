@@ -43,7 +43,8 @@ class FavouriteItemList extends StatelessWidget {
                       ),
                     );
                   },
-                  child: FavouriteItem(favouriteItem: items[index])),
+                  child: FavouriteItem(favouriteItem: items[index]),
+                ),
                 childCount: items.length,
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

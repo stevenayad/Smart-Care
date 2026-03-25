@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-
 import 'package:smartcare/core/app_color.dart';
-
 import 'package:smartcare/core/api/dio_consumer.dart';
-
 import 'package:smartcare/features/products/data/repositories/products_repository_impl.dart';
-
 import 'package:smartcare/features/products/presentation/bloc/products/products_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
 import 'package:smartcare/features/products/presentation/bloc/products/products_state.dart';
-
 import 'package:smartcare/features/products/presentation/bloc/category/category_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/category/category_event.dart';
-
 import 'package:smartcare/features/products/presentation/bloc/companies/companies_bloc.dart';
 import 'package:smartcare/features/products/presentation/bloc/companies/companies_event.dart';
-
 import 'package:smartcare/features/products/presentation/view/widgets/products_body.dart';
 
 class ProductsScreen extends StatefulWidget {

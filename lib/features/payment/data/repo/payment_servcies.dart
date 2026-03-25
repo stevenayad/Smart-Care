@@ -8,7 +8,7 @@ class PaymentServcies {
         merchantDisplayName: 'Smart Care',
       ),
     );
-      print('init Payment Complted');
+    print('init Payment Complted');
     await Stripe.instance.presentPaymentSheet();
     print('Payment Complted');
   }

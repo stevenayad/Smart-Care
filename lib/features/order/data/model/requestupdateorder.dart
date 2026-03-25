@@ -18,7 +18,7 @@ class RequestUpdateOrder {
       "orderId": orderId,
       "cartId": cartId,
       "updatedOrderType": updatedOrderType,
-      "storeId": storeId, 
+      "storeId": storeId,
       "shippingAddressId": shippingAddressId,
     };
   }

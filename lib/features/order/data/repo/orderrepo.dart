@@ -120,7 +120,6 @@ class Orderrepo {
     }
   }
 
-   
   Future<Either<Failure, Updateorder>> updateorder(
     RequestUpdateOrder request,
   ) async {
@@ -142,7 +141,6 @@ class Orderrepo {
       return Left(servivefailure("Unexpected error, please try again"));
     }
   }
-
 
   Future<Either<Failure, OrderDetails>> fetchOrderDetails(String id) async {
     try {

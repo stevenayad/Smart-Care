@@ -23,21 +23,20 @@ class UpdateDataModel {
     this.reservedUntil,
   });
 
-factory UpdateDataModel.fromJson(Map<String, dynamic> json) =>
-    UpdateDataModel(
-      id: json['id'] as String?,
-      productId: json['productId'] as String?,
-      productName: json['productName'] as String?,
-      mainImageUrl: json['mainImageUrl'] as String?,
-      quantity: (json['quantity'] as num?)?.toInt(),
-      unitPrice: (json['unitPrice'] as num?)?.toInt(),
-      totalPrice: (json['totalPrice'] as num?)?.toInt(),
-      reservationId: json['reservationId'] as String?,
-      reservedUntil: json['reservedUntil'] == null
-          ? null
-          : DateTime.parse(json['reservedUntil']),
-    );
-
+  factory UpdateDataModel.fromJson(Map<String, dynamic> json) =>
+      UpdateDataModel(
+        id: json['id'] as String?,
+        productId: json['productId'] as String?,
+        productName: json['productName'] as String?,
+        mainImageUrl: json['mainImageUrl'] as String?,
+        quantity: (json['quantity'] as num?)?.toInt(),
+        unitPrice: (json['unitPrice'] as num?)?.toInt(),
+        totalPrice: (json['totalPrice'] as num?)?.toInt(),
+        reservationId: json['reservationId'] as String?,
+        reservedUntil: json['reservedUntil'] == null
+            ? null
+            : DateTime.parse(json['reservedUntil']),
+      );
 
   Map<String, dynamic> toJson() => {
     'id': id,

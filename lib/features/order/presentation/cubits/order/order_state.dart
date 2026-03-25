@@ -27,7 +27,6 @@ class UpdateorderSucess extends OrderState {
   UpdateorderSucess({required this.updateordermodel});
 }
 
-
 class orderdetailssuccess extends OrderState {
   final OrderDetails orderDetails;
 
@@ -47,4 +46,5 @@ class OrderOutofStock extends OrderState {
 }
 
 class OrderLoading extends OrderState {}
+
 class OrderHasActive extends OrderState {}
