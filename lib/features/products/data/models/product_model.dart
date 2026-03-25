@@ -55,12 +55,22 @@ class ProductModel extends Equatable {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-    // Parse image list
+    // Parse image list safely (supports List<String> or List<Map>)
     var imagesJson = <ProductImageModel>[];
     if (json['images'] is List) {
       imagesJson = (json['images'] as List)
           .where((e) => e != null)
-          .map((e) => ProductImageModel.fromJson(Map<String, dynamic>.from(e)))
+          .map((e) {
+            if (e is String) {
+              // إذا الـ API رجع URL مباشرة
+              return ProductImageModel(id: '', url: e, isPrimary: false);
+            } else if (e is Map) {
+              return ProductImageModel.fromJson(Map<String, dynamic>.from(e));
+            } else {
+              return null;
+            }
+          })
+          .whereType<ProductImageModel>()
           .toList();
     }
 
@@ -97,7 +107,6 @@ class ProductModel extends Equatable {
     );
   }
 
-  /// ✅ Returns a valid image URL (prefers primary image, then mainImageUrl)
   String get primaryImageUrl {
     if (images.isNotEmpty && images.first.url.isNotEmpty) {
       return images.first.url;
@@ -107,10 +116,10 @@ class ProductModel extends Equatable {
 
   @override
   List<Object?> get props => [
-    productId,
-    nameEn,
-    description,
-    price,
-    mainImageUrl,
-  ];
+        productId,
+        nameEn,
+        description,
+        price,
+        mainImageUrl,
+      ];
 }
