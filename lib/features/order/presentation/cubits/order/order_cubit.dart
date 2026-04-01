@@ -18,6 +18,7 @@ class OrderCubit extends Cubit<OrderState> {
 
   String? orderid;
   final Orderrepo orderrepo;
+
   Future<void> pickorder(RequestPickup request) async {
     emit(OrderLoading());
     final result = await orderrepo.pickuporder(request);
@@ -45,6 +46,7 @@ class OrderCubit extends Cubit<OrderState> {
       (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
       (model) {
         orderid = model.data!.id;
+
         emit(CreateorderSucess(createOrderModel: model));
         emit(OrderHasActive());
       },

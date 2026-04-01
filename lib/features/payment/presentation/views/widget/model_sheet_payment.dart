@@ -27,23 +27,30 @@ class PaymentBottomSheet extends StatefulWidget {
 class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   int selectedIndex = 0;
 
-  final List<PaymentMethod> methods = [
-    PaymentMethod(
-      name: "Mastercard •••• 8888",
-      subtitle: "Expires 06/26",
-      icon: Icons.credit_card,
-    ),
-    PaymentMethod(
-      name: "Cash on Delivery",
-      subtitle: "Pay when you receive",
-      image: 'https://cdn-icons-png.flaticon.com/512/3523/3523887.png',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
+    //final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
+    final provider = context.read<PaymentCubit>().getPaymentProvider();
 
+    final List<PaymentMethod> methods = [
+      provider == 0
+          ? PaymentMethod(
+              name: "Pay with Card (Stripe)",
+              subtitle: "Visa / MasterCard",
+              image: 'https://cdn-icons-png.flaticon.com/512/6963/6963703.png',
+            )
+          : PaymentMethod(
+              name: "Pay with Paymob",
+              subtitle: "All payment methods",
+              icon: Icons.credit_card,
+            ),
+
+      PaymentMethod(
+        name: "Cash on Delivery",
+        subtitle: "Pay when you receive",
+        image: 'https://cdn-icons-png.flaticon.com/512/3523/3523887.png',
+      ),
+    ];
     return Container(
       padding: const EdgeInsets.all(16),
       height: MediaQuery.of(context).size.height * 0.55,
@@ -87,15 +94,22 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               listener: (context, state) async {
                 if (state is PaymentIntentReady) {
                   try {
-                    await PaymentServcies.payOrder(state.clientSecret);
-                    print('Payment Success');
-                    context.read<CartCubit>().clearCart();
-                    context.read<OrderCubit>().resetorderid();
+                    if (provider == 0) {
+                      await StripeServices.payWithStripe(state.clientSecret);
+                      context.read<CartCubit>().clearCart();
+                      context.read<OrderCubit>().resetorderid();
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const MainScreenView()),
-                    );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MainScreenView(),
+                        ),
+                      );
+                    } else if (provider == 1) {
+                      await PaymobRedirectService.startPayment(
+                        clientSecret: state.clientSecret,
+                      );
+                    }
                   } on StripeException catch (e) {
                     print('Stripe cancelled: ${e.error.localizedMessage}');
                     OrderDialog.showFailed(context, "Payment was cancelled");
@@ -127,13 +141,16 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               },
               child: ElevatedButton(
                 onPressed: () async {
-                  final paymentSignalRCubit = PaymentSignalRCubit(
-                    signalRService: signalRService,
-                  );
+                  // final paymentSignalRCubit = PaymentSignalRCubit(
+                  //   signalRService: signalRService,
+                  // );
                   // await paymentSignalRCubit.startPaymentSession();
+
+                  print('provider ======>{$provider}');
                   if (selectedIndex == 0) {
                     context.read<PaymentCubit>().ConfrimOrderIntent(
                       widget.orderid,
+                      provider,
                     );
                   } else if (selectedIndex == 1) {
                     context.read<PaymentCubit>().ConfrimOrderCash(

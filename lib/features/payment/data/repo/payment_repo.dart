@@ -14,11 +14,12 @@ class PaymentRepo {
   PaymentRepo({required this.apiConsumer});
 
   Future<Either<Failure, IntentpaymentModel>> PaymentIntentOrder(
+    int provider,
     String idorder,
   ) async {
     try {
       final response = await apiConsumer.post(
-        "api/payments/intent/${idorder}",
+        "api/payments/${provider}/Purchase/${idorder}",
         null,
         false,
       );
