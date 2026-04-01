@@ -2,13 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
-import 'package:smartcare/core/api/services/app_signalr_services.dart';
-import 'package:smartcare/core/api/services/cache_helper.dart';
-import 'package:smartcare/features/cart/data/cart_signalr.dart';
-import 'package:smartcare/features/cart/data/cartrepo.dart';
-import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
-import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
+import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/rate/rate_cubit.dart';
@@ -22,20 +17,8 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cartCubit = context.read<CartCubit>();
-      if (cartCubit.cartId == null) {
-        cartCubit.makecart();
-      }
-    });*/
-    // final signalRService = DetailsSignalRService(
-    //   CacheHelper.getAccessToken() ?? "",
-    // );
-    // signalRService.joinProductGroup(Productid);
-
     return BlocBuilder<SignalrdetialsCubit, SignalrdetialsState>(
       buildWhen: (previous, current) {
-        // أول build بس
         return previous is SignalrdetialsInitial;
       },
       builder: (context, state) {
@@ -44,6 +27,11 @@ class DetailsScreen extends StatelessWidget {
         return Scaffold(
           body: MultiBlocProvider(
             providers: [
+              BlocProvider(
+                create: (_) => FavouriteCubit(
+                  DetaisProductRepo(api: DioConsumer(Dio())),
+                )..loadFavouriteItems(),
+              ),
               BlocProvider(
                 create: (context) => DetailsproductCubit(
                   DetaisProductRepo(api: DioConsumer(Dio())),
@@ -61,7 +49,6 @@ class DetailsScreen extends StatelessWidget {
                   SemanticSearchRepositoy(api: DioConsumer(Dio())),
                 )..getSimilarProducts(Productid),
               ),
-              //BlocProvider.value(value: context.read<CartCubit>()),
             ],
             child: DetailsBody(),
           ),

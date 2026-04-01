@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/cart/data/model/create_cart_model.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
 import 'package:smartcare/features/order/data/model/order_details/order_details..dart';
 import 'package:smartcare/features/order/data/model/pickup_order_model/outof_stock.dart';
@@ -18,6 +17,48 @@ class OrderCubit extends Cubit<OrderState> {
 
   String? orderid;
   final Orderrepo orderrepo;
+
+  Future<void> createDeliveryOrder({
+    required String cartId,
+    required String addressId,
+  }) {
+    return createorder(
+      RequestCreateoreder(
+        cartId: cartId,
+        deliveryAddressId: addressId,
+      ),
+    );
+  }
+
+  Future<void> createPickupOrder({
+    required String cartId,
+    required String storeId,
+  }) {
+    return pickorder(
+      RequestPickup(
+        cartId: cartId,
+        storeId: storeId,
+      ),
+    );
+  }
+
+  Future<void> updateOrderFromSelection({
+    required String cartId,
+    required int updatedOrderType,
+    required String? storeId,
+    required String? shippingAddressId,
+    String? orderId,
+  }) {
+    return updateorder(
+      RequestUpdateOrder(
+        orderId: orderId ?? orderid,
+        cartId: cartId,
+        updatedOrderType: updatedOrderType,
+        storeId: storeId,
+        shippingAddressId: shippingAddressId,
+      ),
+    );
+  }
 
   Future<void> pickorder(RequestPickup request) async {
     emit(OrderLoading());
