@@ -17,9 +17,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    
+
 
     // --- Load Google Maps API key securely from local.properties ---
     val localProperties = Properties()

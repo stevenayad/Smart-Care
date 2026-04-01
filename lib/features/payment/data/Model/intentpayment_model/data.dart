@@ -1,19 +1,23 @@
 class Data {
-  String? clientSecret;
-  String? paymentIntentId;
-  double? amount;
+  String? clientPaymentToken;
+  String? providerReferenceId;
+  int? provider;
 
-  Data({this.clientSecret, this.paymentIntentId, this.amount});
+  Data({
+    this.clientPaymentToken,
+    this.providerReferenceId,
+    this.provider,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    clientSecret: json['clientSecret'] as String?,
-    paymentIntentId: json['paymentIntentId'] as String?,
-    amount: (json['amount'] as num?)?.toDouble(),
-  );
+        clientPaymentToken: json['clientPaymentToken'] as String?,
+        providerReferenceId: json['providerReferenceId'] as String?,
+        provider: json['provider'] as int?,
+      );
 
   Map<String, dynamic> toJson() => {
-    'clientSecret': clientSecret,
-    'paymentIntentId': paymentIntentId,
-    'amount': amount,
-  };
+        'clientPaymentToken': clientPaymentToken,
+        'providerReferenceId': providerReferenceId,
+        'provider': provider,
+      };
 }
