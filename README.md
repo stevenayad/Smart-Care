@@ -1,16 +1,58 @@
-# smartcare
+# 🛒 E-Commerce Graduation Project
 
-A new Flutter project.
+A full-featured e-commerce mobile application built with Flutter as a graduation project. The app delivers a complete shopping experience including authentication, product browsing, cart management, order processing, and secure online payments.
 
-## Getting Started
+This project was developed using the **MVVM architecture** and integrated with a **.NET backend team** through RESTful APIs.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 🔐 User Authentication (Login / Register)
+- 🏠 Home & Product Browsing
+- 🛍️ Cart Management
+- ❤️ Favorites System
+- 📦 Order Management
+- 💳 Online Payment Integration (Paymob / Stripe)
+- 🔍 Semantic Search & Similar Products
+- 👤 User Profile
+- 🚀 Onboarding Experience
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🧠 Architecture
+
+- MVVM (Model - View - ViewModel)
+- Feature-based Structure
+- State Management using Cubit (Bloc)
+
+---
+
+## 🤝 Team Collaboration
+
+- Worked as part of a team in a graduation project
+- Integrated with a **.NET Backend**
+- Consumed RESTful APIs for:
+  - Authentication
+  - Products
+  - Orders
+  - Payments
+
+---
+
+## 🛠️ Tech Stack
+
+- Flutter & Dart
+- Cubit (Bloc)
+- REST APIs
+- .NET Backend Integration
+- Paymob / Stripe Payment
+
+---
+
+## 📸 Demo
+
+👉 [View Demo](https://drive.google.com/file/d/1fxfL9JR3CVH8P2480QnwxEa2Zm3vzP7R/view?usp=drive_link)
+
+---
+
