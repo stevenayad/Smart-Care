@@ -30,20 +30,19 @@ This project was developed using the **MVVM architecture** and integrated with a
 
 ## 🤝 Team Collaboration
 
-- Worked as part of a team in a graduation project
-- Integrated with a **.NET Backend**
--Consumed RESTful APIs for:
- - Authentication
- - Products
- - Orders
- - Payments
- - Cart Management
- - Favorites (Wishlist)
- - User Profile
- - Stores & Categories
- - Product Availability Check
- - Search & Filtering (including Semantic Search)
-
+- Worked as part of a team on a graduation project
+- Integrated with a .NET backend
+- Consumed RESTful APIs for:
+  - Authentication
+  - Products & Categories
+  - Cart Management
+  - Favorites (Wishlist)
+  - Orders & Order Tracking
+  - Payments
+  - User Profile
+  - Stores
+  - Product Availability Check
+  - Search & Filtering (including Semantic Search)
 ---
 
 ## 🛠️ Tech Stack
