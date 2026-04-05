@@ -32,11 +32,17 @@ This project was developed using the **MVVM architecture** and integrated with a
 
 - Worked as part of a team in a graduation project
 - Integrated with a **.NET Backend**
-- Consumed RESTful APIs for:
-  - Authentication
-  - Products
-  - Orders
-  - Payments
+-Consumed RESTful APIs for:
+ - Authentication
+ - Products
+ - Orders
+ - Payments
+ - Cart Management
+ - Favorites (Wishlist)
+ - User Profile
+ - Stores & Categories
+ - Product Availability Check
+ - Search & Filtering (including Semantic Search)
 
 ---
 
