@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
-import 'package:smartcare/features/products/presentation/bloc/category/category_state.dart';
 
 class CategoryProductGridview extends StatefulWidget {
   final String categoryId;

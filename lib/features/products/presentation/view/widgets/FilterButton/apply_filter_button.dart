@@ -22,56 +22,26 @@ class ApplyFilterButton extends StatelessWidget {
     required this.onClose,
   });
 
-  void _apply(BuildContext context) {
-    bool? orderByName;
-    bool? orderByPrice;
-    bool? orderByRate;
-
-    switch (selectedSort) {
-      case 'Name A to Z':
-        orderByName = true;
-        break;
-      case 'Name Z to A':
-        orderByName = false;
-        break;
-      case 'Price: Low to High':
-        orderByPrice = true;
-        break;
-      case 'Price: High to Low':
-        orderByPrice = false;
-        break;
-      case 'Rate: Low to High':
-        orderByRate = true;
-        break;
-      case 'Rate: High to Low':
-        orderByRate = false;
-        break;
-    }
-
-    context.read<ProductsBloc>().add(
-      FilterProducts(
-        orderByName: orderByName,
-        orderByPrice: orderByPrice,
-        orderByRate: orderByRate,
-        fromPrice: double.tryParse(fromPrice.text),
-        toPrice: double.tryParse(toPrice.text),
-        fromRate: double.tryParse(fromRate.text),
-        toRate: double.tryParse(toRate.text),
-      ),
-    );
-
-    onClose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: SmallGradientButton(
-        text: "Apply Filter",
+        text: 'Apply Filter',
         icon: Icons.check_rounded,
         iconSize: 22,
-        onTap: () => _apply(context),
+        onTap: () {
+          context.read<ProductsBloc>().add(
+            ApplyProductFiltersSubmitted(
+              sortLabel: selectedSort,
+              fromPriceText: fromPrice.text,
+              toPriceText: toPrice.text,
+              fromRateText: fromRate.text,
+              toRateText: toRate.text,
+            ),
+          );
+          onClose();
+        },
       ),
     );
   }

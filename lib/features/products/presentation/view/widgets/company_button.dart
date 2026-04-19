@@ -1,84 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/products/presentation/bloc/products/products_event.dart';
+import 'package:smartcare/features/products/presentation/bloc/product_ui/product_ui_bloc.dart';
+import 'package:smartcare/features/products/presentation/bloc/product_ui/product_ui_event.dart';
 import 'package:smartcare/features/products/presentation/view/widgets/custom/gradient_button.dart';
-import '../../bloc/companies/companies_bloc.dart';
-import '../../bloc/companies/companies_event.dart';
-import '../../bloc/companies/companies_state.dart';
-import '../../bloc/products/products_bloc.dart';
-import 'company_bottom_sheet.dart';
 
-class CompanyButton extends StatefulWidget {
-  final VoidCallback onResetPage;
-  const CompanyButton({super.key, required this.onResetPage});
+class CompanyButton extends StatelessWidget {
+  final String label;
 
-  @override
-  State<CompanyButton> createState() => _CompanyButtonState();
-}
-
-class _CompanyButtonState extends State<CompanyButton> {
-  String selectedCompany = 'All';
-
-  void _openCompanySheet(BuildContext context, List companies) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) {
-        return FractionallySizedBox(
-          heightFactor: 0.55,
-          child: CompanyBottomSheet(
-            selectedCompany: selectedCompany,
-            companies: companies,
-            onCompanySelected: (companyName, companyId) {
-              setState(
-                () => selectedCompany = companyName,
-              ); // ممكن تتلغة كنت بجرب
-
-              if (companyId == 'all') {
-                widget.onResetPage();
-                context.read<ProductsBloc>().add(const LoadProducts());
-              } else {
-                context.read<ProductsBloc>().add(
-                  LoadProductsByCompany(companyId, 1, 10),
-                );
-              }
-
-              Navigator.pop(context);
-            },
-          ),
-        );
-      },
-    );
-  }
+  const CompanyButton({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompaniesBloc, CompaniesState>(
-      builder: (context, state) {
-        if (state is CompaniesLoading) {
-          return SmallGradientButton(text: 'Loading...', onTap: () {});
-        } else if (state is CompaniesLoaded) {
-          return SmallGradientButton(
-            text: 'Company',
-            onTap: () {
-              _openCompanySheet(context, state.companies);
-            },
-          );
-        } else if (state is CompaniesError) {
-          return SmallGradientButton(
-            text: 'Retry Companies',
-            onTap: () => context.read<CompaniesBloc>().add(LoadCompanies()),
-          );
-        } else {
-          return SmallGradientButton(
-            text: 'Company',
-            onTap: () => context.read<CompaniesBloc>().add(LoadCompanies()),
-          );
-        }
-      },
+    return SmallGradientButton(
+      text: label,
+      onTap: () => context.read<ProductUiBloc>().add(const CompanyToolbarTapped()),
     );
   }
 }

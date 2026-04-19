@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/products/domain/repositories/products_repository.dart';
 import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_state.dart';
 
