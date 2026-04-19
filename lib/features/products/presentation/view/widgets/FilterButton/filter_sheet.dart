@@ -71,10 +71,8 @@ class _FilterSheetState extends State<FilterSheet> {
                   selectedValue: selectedSort,
                   onChanged: (value) => setState(() => selectedSort = value),
                 ),
-
                 const SizedBox(height: 20),
                 PriceRangeSection(fromPrice: fromPrice, toPrice: toPrice),
-
                 const SizedBox(height: 20),
                 RateRangeSection(fromRate: fromRate, toRate: toRate),
                 const SizedBox(height: 30),

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:smartcare/features/products/presentation/bloc/products/products_state.dart';
 
 abstract class ProductsEvent extends Equatable {
   const ProductsEvent();
@@ -7,94 +8,105 @@ abstract class ProductsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadProducts extends ProductsEvent {
-  final int pageNumber;
-  final int pageSize;
-
-  const LoadProducts({this.pageNumber = 1, this.pageSize = 10});
+class ProductsStarted extends ProductsEvent {
+  const ProductsStarted();
 }
 
-class LoadProductsByCompany extends ProductsEvent {
-  final String companyId;
-  final int pageNumber;
-  final int pageSize;
-  const LoadProductsByCompany(this.companyId, this.pageNumber, this.pageSize);
+class ProductsCategoriesReloadRequested extends ProductsEvent {
+  const ProductsCategoriesReloadRequested();
 }
 
-class SearchProducts extends ProductsEvent {
-  final String query;
-  final int pageNumber;
-  final int pageSize;
-  const SearchProducts(this.query, this.pageNumber, this.pageSize);
+class ProductsCompaniesReloadRequested extends ProductsEvent {
+  const ProductsCompaniesReloadRequested();
 }
 
-class SearchProductsByCompanyName extends ProductsEvent {
-  final String companyName;
-  final int pageNumber;
-  final int pageSize;
-  const SearchProductsByCompanyName(
-    this.companyName,
-    this.pageNumber,
-    this.pageSize,
-  );
-}
-
-class SearchProductsByCategoryName extends ProductsEvent {
-  final String categoryName;
-  final int pageNumber;
-  final int pageSize;
-  const SearchProductsByCategoryName(
-    this.categoryName,
-    this.pageNumber,
-    this.pageSize,
-  );
-}
-
-class SearchProductsByDescription extends ProductsEvent {
-  final String description;
-  final int pageNumber;
-  final int pageSize;
-  const SearchProductsByDescription(
-    this.description,
-    this.pageNumber,
-    this.pageSize,
-  );
-}
-
-class LoadProductsByCategoryId extends ProductsEvent {
+class ProductCategorySelected extends ProductsEvent {
+  final String displayName;
   final String categoryId;
-  final int pageNumber;
-  final int pageSize;
-  const LoadProductsByCategoryId(
-    this.categoryId,
-    this.pageNumber,
-    this.pageSize,
-  );
+
+  const ProductCategorySelected({
+    required this.displayName,
+    required this.categoryId,
+  });
 
   @override
-  List<Object?> get props => [categoryId];
+  List<Object?> get props => [displayName, categoryId];
 }
 
-class FilterProducts extends ProductsEvent {
-  final bool? orderByName;
-  final bool? orderByPrice;
-  final bool? orderByRate;
-  final double? fromRate;
-  final double? toRate;
-  final double? fromPrice;
-  final double? toPrice;
-  final int pageNumber;
-  final int pageSize;
+class ProductCompanySelected extends ProductsEvent {
+  final String displayName;
+  final String companyId;
 
-  const FilterProducts({
-    this.orderByName,
-    this.orderByPrice,
-    this.orderByRate,
-    this.fromRate,
-    this.toRate,
-    this.fromPrice,
-    this.toPrice,
-    this.pageNumber = 1,
-    this.pageSize = 10,
+  const ProductCompanySelected({
+    required this.displayName,
+    required this.companyId,
   });
+
+  @override
+  List<Object?> get props => [displayName, companyId];
+}
+
+class ProductSearchAxisChanged extends ProductsEvent {
+  final ProductsSearchAxis axis;
+
+  const ProductSearchAxisChanged(this.axis);
+
+  @override
+  List<Object?> get props => [axis];
+}
+
+class ProductSearchInputChanged extends ProductsEvent {
+  final String text;
+
+  const ProductSearchInputChanged(this.text);
+
+  @override
+  List<Object?> get props => [text];
+}
+
+class ProductSearchCommitted extends ProductsEvent {
+  final String trimmedQuery;
+
+  const ProductSearchCommitted(this.trimmedQuery);
+
+  @override
+  List<Object?> get props => [trimmedQuery];
+}
+
+class ProductPageRequested extends ProductsEvent {
+  final int page;
+
+  const ProductPageRequested(this.page);
+
+  @override
+  List<Object?> get props => [page];
+}
+
+class ProductsRefreshRequested extends ProductsEvent {
+  const ProductsRefreshRequested();
+}
+
+class ApplyProductFiltersSubmitted extends ProductsEvent {
+  final String sortLabel;
+  final String fromPriceText;
+  final String toPriceText;
+  final String fromRateText;
+  final String toRateText;
+
+  const ApplyProductFiltersSubmitted({
+    required this.sortLabel,
+    required this.fromPriceText,
+    required this.toPriceText,
+    required this.fromRateText,
+    required this.toRateText,
+  });
+
+  @override
+  List<Object?> get props => [
+    sortLabel,
+    fromPriceText,
+    toPriceText,
+    fromRateText,
+    toRateText,
+  ];
 }
