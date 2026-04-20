@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
-import 'package:smartcare/core/faluire.dart';
+import 'package:smartcare/core/token_storage.dart';
 import 'api_consumer.dart';
 
 class DioConsumer implements ApiConsumer {
   final Dio dio;
-
+ final storage = TokenStorage();
   DioConsumer(this.dio) {
     dio.options = BaseOptions(
       baseUrl: 'https://smartcarepharmacy.tryasp.net/',
@@ -18,7 +18,8 @@ class DioConsumer implements ApiConsumer {
       sendTimeout: const Duration(seconds: 60),
     );
 
-    dio.interceptors.add(InterceptorsConsumer(dio: dio));
+   
+    dio.interceptors.add(InterceptorsConsumer(dio: dio, storage: storage));
 
     dio.interceptors.add(
       LogInterceptor(

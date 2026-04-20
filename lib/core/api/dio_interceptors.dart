@@ -1,102 +1,83 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
-import 'package:smartcare/core/api/dio_consumer.dart';
-import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/token_storage.dart';
 
 class InterceptorsConsumer extends Interceptor {
   final Dio dio;
+  final TokenStorage storage;
 
-  InterceptorsConsumer({required this.dio});
+  bool isRefreshing = false;
+
+  InterceptorsConsumer({
+    required this.dio,
+    required this.storage,
+  });
+
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final token = CacheHelper.getAccessToken();
-    print("🧩 Access Token from Cache: $token");
-    final userId = CacheHelper.getUserId();
-    print("🧩 ID from Cache: $userId");
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final token = await storage.getAccessToken();
 
-    if (token != null && token.isNotEmpty) {
+    print("🧩 Access Token: $token");
+
+
+    if (token != null &&
+        token.isNotEmpty &&
+        !options.path.contains('/login') &&
+        !options.path.contains('/refresh-token')) {
       options.headers['Authorization'] = 'Bearer $token';
       print("✅ Token Attached");
-    } else {
-      print("❌ Token Missing");
     }
 
-    /* print('''
-➡️ [REQUEST] -------------------------------
-METHOD: ${options.method}
-URL: ${options.uri}
-HEADERS: ${options.headers}
-DATA: ${options.data}
-QUERY: ${options.queryParameters}
-PATH: ${options.path}
---------------------------------------------
-''');*/
-
-    super.onRequest(options, handler);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print('''
-✅ [RESPONSE] -------------------------------
-STATUS: ${response.statusCode}
-URL: ${response.requestOptions.uri}
-DATA: ${response.data}
---------------------------------------------
-''');
-
-    super.onResponse(response, handler);
+    return handler.next(options); 
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401) {
-      try {
-        final refreshToken = await CacheHelper.getRefreashToken();
-        final accessToken = await CacheHelper.getAccessToken();
+    print("❌ Error: ${err.response?.statusCode}");
 
-        if (refreshToken == null) {
-          return handler.next(err);
+ 
+    if (err.response?.statusCode == 401 && !isRefreshing) {
+      isRefreshing = true;
+
+      final refreshToken = await storage.getRefreshToken();
+      final accessToken = await storage.getAccessToken();
+
+      if (refreshToken != null && refreshToken.isNotEmpty) {
+        try {
+          final response = await dio.post(
+            '/api/auth/refresh-token',
+            data: {
+              'accessToken': accessToken,
+              'refreshToken': refreshToken,
+            },
+          );
+
+          final newAccess = response.data['accessToken'];
+          final newRefresh = response.data['refreshToken'];
+
+          await storage.saveTokens(
+            access: newAccess,
+            refresh: newRefresh,
+          );
+
+          isRefreshing = false;
+
+          /// 🔁 إعادة نفس الريكوست
+          final requestOptions = err.requestOptions;
+          requestOptions.headers['Authorization'] = 'Bearer $newAccess';
+
+          final cloneResponse = await dio.fetch(requestOptions);
+
+          return handler.resolve(cloneResponse); 
+        } catch (e) {
+          isRefreshing = false;
+
+          await storage.clear(); // logout
+
+          return handler.reject(err); 
         }
-
-        // نطلب تحديث التوكن
-        final res = await Dio().post(
-          "https://smartcarepharmacy.tryasp.net/api/auth/refresh-token",
-          data: {"accessToken": accessToken, "refreshToken": refreshToken},
-        );
-
-        final newAccess = res.data['data']["accessToken"];
-        final newRefresh = res.data['data']["refreshToken"];
-
-        await CacheHelper.saveAccessToken(newAccess);
-        await CacheHelper.saveRefreashToken(newRefresh);
-
-        final newResponse = await _retryRequest(err.requestOptions);
-
-        return handler.resolve(newResponse);
-      } catch (e) {
-        return handler.next(err);
       }
     }
 
     return handler.next(err);
-  }
-
-  Future<Response> _retryRequest(RequestOptions requestOptions) async {
-    final newToken = await CacheHelper.getAccessToken();
-
-    return dio.request(
-      requestOptions.path,
-      data: requestOptions.data,
-      queryParameters: requestOptions.queryParameters,
-      options: Options(
-        method: requestOptions.method,
-        headers: {
-          ...requestOptions.headers,
-          "Authorization": "Bearer $newToken",
-        },
-      ),
-    );
   }
 }
