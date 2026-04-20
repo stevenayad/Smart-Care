@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:smartcare/core/api/dio_interceptors.dart';
 import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/core/token_storage.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/data/Model/auth_model.dart';
 import 'package:smartcare/features/auth/data/Model/base_bool_response.dart';
@@ -45,6 +46,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (accessToken != null) {
         await CacheHelper.saveAccessToken(accessToken);
         await CacheHelper.saveRefreashToken(refreashToken ?? "");
+
+        await TokenStorage().saveTokens(
+          access: loginResponse.data?.accessToken??"",
+          refresh: loginResponse.data?.refreshToken??"",
+        );
+
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         final String userId =
             decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
