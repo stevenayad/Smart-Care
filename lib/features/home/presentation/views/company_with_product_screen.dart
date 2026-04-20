@@ -6,19 +6,13 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 import 'package:smartcare/features/home/presentation/cubits/company/company_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/paginted_company/paginated_company_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/widget/company_product_gridview.dart';
-import 'package:smartcare/features/home/presentation/views/widget/company_listview.dart';
+import 'package:smartcare/features/home/presentation/cubits/selection/company_selection_cubit.dart';
+import 'package:smartcare/features/home/presentation/cubits/selection/company_selection_state.dart';
+import 'package:smartcare/features/home/presentation/views/widget/company_list_view.dart';
+import 'package:smartcare/features/home/presentation/views/widget/company_products_section.dart';
 
-class CompanyWithProductsScreen extends StatefulWidget {
+class CompanyWithProductsScreen extends StatelessWidget {
   const CompanyWithProductsScreen({super.key});
-
-  @override
-  State<CompanyWithProductsScreen> createState() =>
-      _CompanyWithProductsScreenState();
-}
-
-class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
-  String? selectedCompanyId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,39 +25,43 @@ class _CompanyWithProductsScreenState extends State<CompanyWithProductsScreen> {
               PaginatedCompanyCubit(homeRepo)..fetchPaginatedCompany(),
         ),
         BlocProvider(create: (_) => CompanyCubit(homeRepo)),
+        BlocProvider(create: (_) => CompanySelectionCubit()),
       ],
       child: Scaffold(
         appBar: AppThemes.customAppBar(
           title: 'Companies & Products',
           showBackButton: true,
         ),
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: CompanyListView(
-                selectedCompanyId: selectedCompanyId,
-                onCompanySelected: (id) {
-                  setState(() {
-                    selectedCompanyId = id;
-                  });
-                },
-              ),
-            ),
-            const SliverToBoxAdapter(child: Divider(thickness: 1)),
-            if (selectedCompanyId != null)
+        body: BlocListener<CompanySelectionCubit, CompanySelectionState>(
+          listenWhen: (previous, current) =>
+              previous.selectedCompanyId != current.selectedCompanyId,
+          listener: (context, state) {
+            final id = state.selectedCompanyId;
+            if (id == null) return;
+            context.read<CompanyCubit>().loadFirstPage(id);
+          },
+          child: CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(child: CompanyListView()),
+              const SliverToBoxAdapter(child: Divider(thickness: 1)),
               SliverFillRemaining(
-                child: CompanyProductGridview(companyId: selectedCompanyId!),
-              )
-            else
-              const SliverFillRemaining(
-                child: Center(
-                  child: Text(
-                    "Select a company to view products",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
+                child:
+                    BlocBuilder<CompanySelectionCubit, CompanySelectionState>(
+                      builder: (context, selectionState) {
+                        if (selectionState.selectedCompanyId == null) {
+                          return const Center(
+                            child: Text(
+                              'Select a company to view products',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          );
+                        }
+                        return const CompanyProductsSection();
+                      },
+                    ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );

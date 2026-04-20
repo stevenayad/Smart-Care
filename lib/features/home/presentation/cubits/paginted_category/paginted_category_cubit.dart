@@ -19,20 +19,16 @@ class PagintedCategoryCubit extends Cubit<PaginatedCategoryState> {
     if (isRefresh) {
       page = 1;
       hasMore = true;
-      emit(
-        const PaginatedCategoryLoading(oldCompanies: [], isFirstFetch: true),
-      );
+      emit(const PaginatedCategoryLoading(oldCategory: [], isFirstFetch: true));
     } else if (state is PaginatedCategorySuccess) {
       emit(
         PaginatedCategoryLoading(
-          oldCompanies: (state as PaginatedCategorySuccess).category,
+          oldCategory: (state as PaginatedCategorySuccess).category,
           isFirstFetch: false,
         ),
       );
     } else {
-      emit(
-        const PaginatedCategoryLoading(oldCompanies: [], isFirstFetch: true),
-      );
+      emit(const PaginatedCategoryLoading(oldCategory: [], isFirstFetch: true));
     }
 
     final result = await homeRepo.getPaginatedCategroory(page);
@@ -50,7 +46,7 @@ class PagintedCategoryCubit extends Cubit<PaginatedCategoryState> {
           ...(state is PaginatedCategorySuccess
               ? (state as PaginatedCategorySuccess).category
               : (state is PaginatedCategoryLoading
-                    ? (state as PaginatedCategoryLoading).oldCompanies
+                    ? (state as PaginatedCategoryLoading).oldCategory
                     : <GategoryItem>[])),
           ...newCompanies,
         ];

@@ -13,16 +13,16 @@ abstract class PaginatedCategoryState extends Equatable {
 class PaginatedCompanyInitial extends PaginatedCategoryState {}
 
 class PaginatedCategoryLoading extends PaginatedCategoryState {
-  final List<GategoryItem> oldCompanies;
+  final List<GategoryItem> oldCategory;
   final bool isFirstFetch;
 
   const PaginatedCategoryLoading({
-    required this.oldCompanies,
+    required this.oldCategory,
     required this.isFirstFetch,
   });
 
   @override
-  List<Object?> get props => [oldCompanies, isFirstFetch];
+  List<Object?> get props => [oldCategory, isFirstFetch];
 }
 
 class PaginatedCategorySuccess extends PaginatedCategoryState {

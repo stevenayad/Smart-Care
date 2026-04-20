@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/home/data/Model/company_model/company_model.dart';
 import 'package:smartcare/features/home/data/Model/company_paginted_model/paginted_model.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/item.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/productforcompany.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
-import 'package:smartcare/features/products/presentation/view/widgets/product_item.dart';
 
 part 'company_state.dart';
 
@@ -13,6 +11,10 @@ class CompanyCubit extends Cubit<CompanyState> {
   CompanyCubit(this.homeRepo) : super(CompanyInitial());
 
   final HomeRepo homeRepo;
+
+  String? _activeCompanyId;
+  int currentPage = 1;
+  int totalPages = 1;
 
   Future<void> fetchcomapy() async {
     emit(Companyloading());
@@ -50,6 +52,7 @@ class CompanyCubit extends Cubit<CompanyState> {
   }) async {
     if (isLoading) return;
     isLoading = true;
+    _activeCompanyId = idCompany;
     emit(Companyloading());
 
     final result = await homeRepo.loadproductforcompany(pageNumber, idCompany);
@@ -60,6 +63,8 @@ class CompanyCubit extends Cubit<CompanyState> {
       },
       (model) {
         page = pageNumber;
+        currentPage = pageNumber;
+        totalPages = model.data?.totalPages ?? 1;
 
         emit(ProductCompanySuccess(productforcompany: model));
       },
@@ -68,9 +73,32 @@ class CompanyCubit extends Cubit<CompanyState> {
     isLoading = false;
   }
 
+  Future<void> loadFirstPage(String companyId) async {
+    currentPage = 1;
+    totalPages = 1;
+    await getProductForCompany(companyId, pageNumber: 1);
+  }
+
+  Future<void> nextPage() async {
+    final id = _activeCompanyId;
+    if (id == null) return;
+    if (currentPage >= totalPages) return;
+    await getProductForCompany(id, pageNumber: currentPage + 1);
+  }
+
+  Future<void> previousPage() async {
+    final id = _activeCompanyId;
+    if (id == null) return;
+    if (currentPage <= 1) return;
+    await getProductForCompany(id, pageNumber: currentPage - 1);
+  }
+
   void resetProducts() {
     allCompanies.clear();
     page = 0;
+    _activeCompanyId = null;
+    currentPage = 1;
+    totalPages = 1;
     emit(CompanyInitial());
   }
 }
