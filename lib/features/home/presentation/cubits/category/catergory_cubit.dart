@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/home/data/Model/category_paginted_model/category_paginted_model.dart';
-import 'package:smartcare/features/home/data/Model/catergory_model/catergory_model.dart';
 import 'package:smartcare/features/home/data/Model/productfor_gategory/productfor_gategory.dart';
 import 'package:smartcare/features/home/data/Model/productforcompany/item.dart';
-import 'package:smartcare/features/home/data/Model/productforcompany/productforcompany.dart';
 import 'package:smartcare/features/home/data/Repo/home_repo.dart';
 
 part 'catergory_state.dart';
@@ -12,6 +9,10 @@ part 'catergory_state.dart';
 class CatergoryCubit extends Cubit<GatergoryState> {
   CatergoryCubit(this.homerepo) : super(GatergoryInitial());
   final HomeRepo homerepo;
+
+  String? _activeCategoryId;
+  int currentPage = 1;
+  int totalPages = 1;
 
   Future<void> fetchGategory() async {
     emit(GatergroyLoading());
@@ -49,6 +50,7 @@ class CatergoryCubit extends Cubit<GatergoryState> {
   }) async {
     if (isLoading) return;
     isLoading = true;
+    _activeCategoryId = idCompany;
     emit(GatergroyLoading());
 
     final result = await homerepo.loadproductforcategory(pageNumber, idCompany);
@@ -59,6 +61,8 @@ class CatergoryCubit extends Cubit<GatergoryState> {
       },
       (model) {
         page = pageNumber;
+        currentPage = pageNumber;
+        totalPages = model.data?.totalPages ?? 1;
 
         emit(GategoryCompanySuccess(productforcategory: model));
       },
@@ -67,9 +71,32 @@ class CatergoryCubit extends Cubit<GatergoryState> {
     isLoading = false;
   }
 
+  Future<void> loadFirstPage(String categoryId) async {
+    currentPage = 1;
+    totalPages = 1;
+    await getProductForCatagory(categoryId, pageNumber: 1);
+  }
+
+  Future<void> nextPage() async {
+    final id = _activeCategoryId;
+    if (id == null) return;
+    if (currentPage >= totalPages) return;
+    await getProductForCatagory(id, pageNumber: currentPage + 1);
+  }
+
+  Future<void> previousPage() async {
+    final id = _activeCategoryId;
+    if (id == null) return;
+    if (currentPage <= 1) return;
+    await getProductForCatagory(id, pageNumber: currentPage - 1);
+  }
+
   void resetProducts() {
     allCompanies.clear();
     page = 0;
+    _activeCategoryId = null;
+    currentPage = 1;
+    totalPages = 1;
     emit(GatergoryInitial());
   }
 }
