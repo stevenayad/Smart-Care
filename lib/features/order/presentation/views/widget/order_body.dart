@@ -10,6 +10,8 @@ import 'package:smartcare/features/order/presentation/views/widget/order_summary
 import 'package:smartcare/features/payment/data/repo/payment_repo.dart';
 import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
+import 'package:smartcare/features/payment/presentation/views/paymentscreen.dart'
+    show PaymentScreen;
 import 'package:smartcare/features/payment/presentation/views/widget/model_sheet_payment.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 
@@ -19,8 +21,6 @@ class OrderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -30,32 +30,10 @@ class OrderBody extends StatelessWidget {
             child: EvalutedButton(
               text: 'Processing Payment',
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(24),
-                    ),
-                  ),
-                  builder: (_) => MultiBlocProvider(
-                    providers: [
-                      BlocProvider(
-                        create: (_) => PaymentCubit(
-                          PaymentRepo(apiConsumer: DioConsumer(Dio())),
-                        ),
-                      ),
-                      BlocProvider(
-                        create: (_) => OrderCubit(
-                          Orderrepo(apiConsumer: DioConsumer(Dio())),
-                        ),
-                      ),
-                      BlocProvider(
-                        create: (_) =>
-                            PaymentSignalRCubit(signalRService: signalRService),
-                      ),
-                    ],
-                    child: PaymentBottomSheet(orderid: orderid),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PaymentScreen(orderId: orderid),
                   ),
                 );
               },

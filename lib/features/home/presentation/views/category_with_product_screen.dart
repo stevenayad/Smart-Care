@@ -8,8 +8,7 @@ import 'package:smartcare/features/home/presentation/views/widget/category_list_
 import 'package:smartcare/features/home/presentation/cubits/category/catergory_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/paginted_category/paginted_category_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/selection/category_selection_cubit.dart';
-import 'package:smartcare/features/home/presentation/views/widget/category_products_section.dart' show CategoryProductsSection;
-
+import 'package:smartcare/features/home/presentation/views/widget/category_products_section.dart';
 
 class CategoryWithProductsScreen extends StatelessWidget {
   const CategoryWithProductsScreen({super.key});

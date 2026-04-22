@@ -13,6 +13,7 @@ import 'package:smartcare/features/app%20start/app_start_view.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Bloc/auth_cubit/authcubit_cubit.dart';
+import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart' show LoginScreen;
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
@@ -93,7 +94,7 @@ class SmartCare extends StatelessWidget {
         title: "Smart Care",
         theme: AppThemes.lightTheme,
         themeMode: ThemeMode.system,
-        home: const AppStartView(),
+        home: const LoginScreen(),
       ),
     );
   }
