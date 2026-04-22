@@ -64,6 +64,7 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   flutter_stripe: ^12.1.1
   flutter_secure_storage: ^10.0.0
+  geocoding: ^4.0.0
  
 
 

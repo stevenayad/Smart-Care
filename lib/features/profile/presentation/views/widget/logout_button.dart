@@ -135,6 +135,7 @@ class LogoutDialog extends StatelessWidget {
             await BlocProvider.of<AuthCubit>(context).logout(); //Refreash Token
             cubit.Logout();
             await CacheHelper.removeAccessToken();
+            Navigator.pop(context);
           },
           child: const Text(
             "Logout",

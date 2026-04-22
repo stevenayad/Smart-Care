@@ -9,27 +9,32 @@ sealed class PaymentState extends Equatable {
 
 final class PaymentInitial extends PaymentState {}
 
-class PaymentSuccess extends PaymentState {
-  final IntentpaymentModel paymentModel;
+class PaymentStripeSuccess extends PaymentState {}
 
-  PaymentSuccess({required this.paymentModel});
-}
-
-class PaymentIntentReady extends PaymentState {
-  final String clientSecret;
-  PaymentIntentReady(this.clientSecret);
-}
+class PaymentPaymobSuccess extends PaymentState {}
 
 class PaymentCashSuccess extends PaymentState {
   final PaymentCashModel paymentModel;
 
-  PaymentCashSuccess({required this.paymentModel});
+  const PaymentCashSuccess({required this.paymentModel});
 }
 
 class PaymentFlaiure extends PaymentState {
   final String errmessage;
 
-  PaymentFlaiure({required this.errmessage});
+  const PaymentFlaiure({required this.errmessage});
 }
 
 class PaymentLoading extends PaymentState {}
+
+class PaymentMethodChanged extends PaymentState {
+  final int index;
+
+  const PaymentMethodChanged(this.index);
+}
+
+class LoadProviderDone extends PaymentState {
+  final int provider;
+
+  LoadProviderDone({required this.provider});
+}
