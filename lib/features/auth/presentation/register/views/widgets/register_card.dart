@@ -3,13 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/logic_register_cubit/logic_register_cubit.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card_content.dart';
 
 class register_card extends StatelessWidget {
-  const register_card({super.key, required this.isLoading});
-
-  final bool isLoading;
+  const register_card({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +33,8 @@ class register_card extends StatelessWidget {
           // Move Padding inside the gradient Container
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
           child: BlocProvider(
-            create: (context) => StepsBloc(),
-            child: RegisterCardContent(isLoading: isLoading),
+            create: (context) => RegisterCubit(authBloc: context.read<AuthBloc>()),
+            child: const RegisterCardContent(),
           ),
         ),
       ),

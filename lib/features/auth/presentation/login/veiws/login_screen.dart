@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_theme.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/bottom_widget.dart';
+import 'package:smartcare/features/auth/presentation/login/veiws/widgets/custom/login_card.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/line_with_or.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_card_content.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/widgets/login_card_painter.dart';
@@ -55,30 +56,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   const Header(),
                   const SizedBox(height: 40),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      double cardWidth = constraints.maxWidth;
-                      double cardHeight = 380.0;
-
-                      return SizedBox(
-                        width: cardWidth,
-                        height: cardHeight,
-                        child: CustomPaint(
-                          painter: LoginCardPainter(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40.0,
-                            ),
-                            child: LoginCardContent(isLoading: isLoading),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  // const LineWithOr(),
-                  // const SizedBox(height: 20),
-                  // const SocialIconButton(),
+                  LoginCard(),
                   const SizedBox(height: 20),
                   const BottomWidget(),
                 ],
