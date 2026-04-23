@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_cubit/authcubit_cubit.dart';
+import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:smartcare/features/onboarding/presentation/onboardingview.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 
 class AppStartView extends StatelessWidget {
   const AppStartView({super.key});

@@ -1,4 +1,4 @@
-part of 'auth_bloc.dart';
+part of 'request_bloc.dart';
 
 @immutable
 abstract class AuthState {}

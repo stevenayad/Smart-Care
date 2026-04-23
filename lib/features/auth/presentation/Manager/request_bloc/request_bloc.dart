@@ -14,8 +14,8 @@ import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/data/Model/auth_model.dart';
 import 'package:smartcare/features/auth/data/Model/base_bool_response.dart';
 
-part 'auth_event.dart';
-part 'auth_state.dart';
+part 'request_event.dart';
+part 'request_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;

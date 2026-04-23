@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_bloc/auth_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/bottom_widget.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_card.dart';
@@ -63,12 +63,10 @@ class RegisterScreen extends StatelessWidget {
                         .fadeIn(duration: 900.ms, delay: 200.ms)
                         .slideY(begin: -0.2, end: 0),
                     const SizedBox(height: 10),
-
-                    register_card(isLoading: isLoading)
+                    const register_card()
                         .animate()
                         .fadeIn(duration: 900.ms, delay: 400.ms)
                         .slideY(begin: 0.2, end: 0),
-
                     const SizedBox(height: 30),
                     const BottomWidget()
                         .animate()

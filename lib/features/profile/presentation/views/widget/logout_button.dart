@@ -5,7 +5,7 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/token_storage.dart';
 import 'package:smartcare/core/widget/evluted_button.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/auth_cubit/authcubit_cubit.dart';
+import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';

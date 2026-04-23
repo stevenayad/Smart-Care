@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/auth/presentation/Bloc/steps_bloc/steps_bloc.dart';
+import 'package:smartcare/features/auth/presentation/Manager/logic_register_cubit/logic_register_cubit.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/step_navigator.dart';
 
 class RegisterFormLayout extends StatelessWidget {
-  final StepsState state;
-  final bool isLoading;
-  final VoidCallback onNext;
-  final VoidCallback onBack;
-  final VoidCallback onRegister;
+  final RegisterState state;
   final Widget stepContent; // The widget for the current step
 
   const RegisterFormLayout({
     super.key,
     required this.state,
-    required this.isLoading,
-    required this.onNext,
-    required this.onBack,
-    required this.onRegister,
     required this.stepContent,
   });
 
@@ -112,16 +104,9 @@ class RegisterFormLayout extends StatelessWidget {
         ),
 
         // Navigator Buttons
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: StepNavigator(
-            currentStep: state.currentStep,
-            totalSteps: 3,
-            onNext: onNext,
-            onBack: onBack,
-            onRegister: onRegister,
-            isLoading: isLoading,
-          ),
+        const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: StepNavigator(),
         ),
       ],
     );
