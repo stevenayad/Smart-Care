@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/profile/data/Model/change_password_model.dart';
 import 'package:smartcare/features/profile/data/Model/input_model/change_password_request.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';

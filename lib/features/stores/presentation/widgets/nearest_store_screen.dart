@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/stores/domain/entities/store_entity.dart';
+import 'package:smartcare/features/Orders/data/models/store_model.dart';
+
 import 'package:smartcare/features/stores/presentation/bloc/store_bloc.dart';
 import 'package:smartcare/features/stores/presentation/bloc/store_event.dart';
 import 'package:smartcare/features/stores/presentation/widgets/store_card.dart';
 
 class NearestStoreScreen extends StatelessWidget {
-  final StoreEntity store;
+  final StoreModel store;
 
   const NearestStoreScreen({super.key, required this.store});
 

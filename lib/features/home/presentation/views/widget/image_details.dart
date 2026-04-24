@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/data/Model/details_product_model/details_product_model.dart';
 import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
 class ImageDetails extends StatefulWidget {
   final DetailsProductModel detialsProductModel;
@@ -70,7 +71,7 @@ class _ImageDetailsState extends State<ImageDetails> {
                 final isFav = cubit.isFavourite(
                   widget.detialsProductModel.data?.productId ?? '',
                 );
-
+                
                 return GestureDetector(
                   onTap: () {
                     cubit.toggleFavItem(

@@ -3,7 +3,7 @@ class StoreModel {
   bool? succeeded;
   String? message;
   dynamic errorsBag;
-  List<Data>? data;
+  List<storeData>? data;
 
   StoreModel({
     this.statusCode,
@@ -19,9 +19,9 @@ class StoreModel {
     message = json['message'];
     errorsBag = json['errorsBag'];
     if (json['data'] is List) {
-      data = (json['data'] as List).map((v) => Data.fromJson(v)).toList();
+      data = (json['data'] as List).map((v) => storeData.fromJson(v)).toList();
     } else if (json['data'] is Map<String, dynamic>) {
-      data = [Data.fromJson(json['data'])];
+      data = [storeData.fromJson(json['data'])];
     } else {
       data = [];
     }
@@ -38,7 +38,7 @@ class StoreModel {
   }
 }
 
-class Data {
+class storeData {
   String? id;
   String? name;
   String? address;
@@ -46,7 +46,7 @@ class Data {
   double? longitude;
   String? phone;
 
-  Data({
+  storeData({
     this.id,
     this.name,
     this.address,
@@ -55,7 +55,7 @@ class Data {
     this.phone,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  storeData.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     name = json['name'];
     address = json['address'];

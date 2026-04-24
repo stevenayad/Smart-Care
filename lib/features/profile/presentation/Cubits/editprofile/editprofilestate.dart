@@ -42,3 +42,7 @@ class EditProfileImageUploadFailure extends EditProfilestate {
   final String errMessage;
   EditProfileImageUploadFailure({required this.errMessage});
 }
+
+class EditProfileInitialized extends EditProfilestate {
+  EditProfileInitialized();
+}

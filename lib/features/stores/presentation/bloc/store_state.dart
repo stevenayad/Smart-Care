@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/features/stores/domain/entities/store_entity.dart';
+import 'package:smartcare/features/Orders/data/models/store_model.dart';
+import 'package:smartcare/features/stores/data/models/store_model.dart';
+
 
 abstract class StoreState extends Equatable {
   const StoreState();
@@ -13,7 +15,7 @@ class StoreInitial extends StoreState {}
 class StoreLoading extends StoreState {}
 
 class StoreLoaded extends StoreState {
-  final List<StoreEntity> stores;
+  final List<storeData> stores;
   const StoreLoaded(this.stores);
 
   @override
@@ -29,7 +31,7 @@ class StoreError extends StoreState {
 }
 
 class NearestStoreLoaded extends StoreState {
-  final StoreEntity store;
+  final storeData store;
   const NearestStoreLoaded(this.store);
 }
 

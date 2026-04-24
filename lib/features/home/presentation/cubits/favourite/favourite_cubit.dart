@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/home/data/Model/favourite_model.dart';
 import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
 part 'favourite_state.dart';
 
@@ -13,7 +14,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   Future<void> AddFavItem(String id) async {
     emit(Favouriteloading());
     final result = await detaisProductRepo.addfavourite(id);
-
+     
     result.fold(
       (failure) {
         emit(FavouriteFailure(errmessage: failure.errMessage));

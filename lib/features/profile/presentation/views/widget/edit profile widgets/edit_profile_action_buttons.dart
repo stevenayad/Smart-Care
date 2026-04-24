@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilecubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilestate.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
@@ -31,7 +32,7 @@ class EditProfileActionButtons extends StatelessWidget {
           );
           Navigator.of(
             context,
-          ).pushReplacement(MaterialPageRoute(builder: (_) => ProfileScreen()));
+          ).pushReplacement(MaterialPageRoute(builder: (_) => MainScreenView()));
         }
 
         if (state is EditProfileFailure) {

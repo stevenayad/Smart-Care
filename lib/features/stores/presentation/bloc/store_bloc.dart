@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcare/features/stores/domain/entities/store_entity.dart';
-import 'package:smartcare/features/stores/domain/repositories/store_repository.dart';
+import 'package:smartcare/features/Orders/data/models/store_model.dart';
+import 'package:smartcare/features/stores/data/models/store_model.dart';
+
+import 'package:smartcare/features/stores/data/repositories/store_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'store_event.dart';
 import 'store_state.dart';
@@ -8,7 +10,7 @@ import 'store_state.dart';
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
   final StoreRepository repository;
 
-  List<StoreEntity> _allStores = [];
+  List<storeData> _allStores = [];
   StoreBloc(this.repository) : super(StoreInitial()) {
     on<FetchStoresEvent>(_onFetchStores);
     on<SearchStores>(_onSearchStores);
@@ -40,9 +42,9 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     }
 
     final filteredStores = _allStores.where((store) {
-      return store.name.toLowerCase().contains(query) ||
-          store.address.toLowerCase().contains(query) ||
-          store.phone.toLowerCase().contains(query);
+      return store.name!.toLowerCase().contains(query) ||
+          store.address!.toLowerCase().contains(query) ||
+          store.phone!.toLowerCase().contains(query);
     }).toList();
 
     emit(StoreLoaded(filteredStores));

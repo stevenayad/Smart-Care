@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/stores/data/models/store_model.dart';
-import 'package:smartcare/features/stores/domain/entities/store_entity.dart';
+
 import 'package:smartcare/features/stores/presentation/widgets/search_field.dart';
 import 'package:smartcare/features/stores/presentation/widgets/store_card.dart';
 
@@ -10,7 +10,7 @@ class scroll_view extends StatelessWidget {
   const scroll_view({super.key, required this.textTheme, required this.stores});
 
   final TextTheme textTheme;
-  final List<StoreEntity> stores;
+  final List<storeData> stores;
 
   @override
   Widget build(BuildContext context) {
