@@ -10,7 +10,8 @@ import 'package:smartcare/core/token_storage.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart' show LoginScreen;
+import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart'
+    show LoginScreen;
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
@@ -19,6 +20,8 @@ import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart'
 import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
+import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -80,10 +83,15 @@ class SmartCare extends StatelessWidget {
             cartCubit: ctx.read<CartCubit>(),
           ),
         ),
+
+        /// Profile (Global to allow real-time cross-app updates)
         BlocProvider(
           create: (_) =>
-              AuthCubit(TokenStorage())..checkAuth(),
+              Profilecubit(ProfileRepoimplemtation(api: apiConsumer))
+              
         ),
+
+        BlocProvider(create: (_) => AuthCubit(TokenStorage())..checkAuth()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

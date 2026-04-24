@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
-import '../../bloc/orders_event.dart';
-import '../../bloc/orders_bloc.dart';
-import 'order_status_helper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/features/Orders/presentation/bloc/orders_bloc.dart';
+import 'package:smartcare/features/Orders/presentation/bloc/orders_event.dart';
+import 'package:smartcare/features/Orders/presentation/view/widget/order_status_helper.dart';
+
 
 class OrderStatusFilter extends StatelessWidget {
-  final String clientId;
-  final OrdersBloc ordersBloc;
-
-  const OrderStatusFilter({
-    super.key,
-    required this.clientId,
-    required this.ordersBloc,
-  });
+  const OrderStatusFilter({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ordersBloc = context.read<OrdersBloc>();
+    final clientId = CacheHelper.getUserId().toString().trim();
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: DropdownButtonFormField<int?>(
         decoration: InputDecoration(
           labelText: 'Filter by Status',
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 10,
@@ -28,7 +29,10 @@ class OrderStatusFilter extends StatelessWidget {
         ),
         value: null,
         items: [
-          const DropdownMenuItem<int?>(value: null, child: Text('All')),
+          const DropdownMenuItem<int?>(
+            value: null,
+            child: Text('All'),
+          ),
           ...List.generate(10, (index) {
             return DropdownMenuItem<int?>(
               value: index,
@@ -46,7 +50,9 @@ class OrderStatusFilter extends StatelessWidget {
           if (value == null) {
             ordersBloc.add(FetchOrdersByCustomer());
           } else {
-            ordersBloc.add(FetchOrdersByCustomerAndStatus(clientId, value));
+            ordersBloc.add(
+              FetchOrdersByCustomerAndStatus(clientId, value),
+            );
           }
         },
       ),

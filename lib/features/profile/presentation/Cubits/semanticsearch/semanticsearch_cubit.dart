@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/profile/data/Model/semantic_model/semantic_model.dart';
 import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
 

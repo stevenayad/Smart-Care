@@ -10,6 +10,7 @@ import 'package:smartcare/features/home/presentation/cubits/rate/rate_cubit.dart
 import 'package:smartcare/features/home/presentation/views/widget/details_body.dart';
 import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_cubit.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.Productid});
@@ -50,7 +51,15 @@ class DetailsScreen extends StatelessWidget {
                 )..getSimilarProducts(Productid),
               ),
             ],
-            child: DetailsBody(),
+            child: BlocListener<FavouriteCubit, FavouriteState>(
+              listener: (context, favState) {
+                if (favState is FavouriteSuccess) {
+                  // Real-time update for favorites count in profile
+                  context.read<Profilecubit>().fetchProfiledata();
+                }
+              },
+              child: DetailsBody(),
+            ),
           ),
         );
       },

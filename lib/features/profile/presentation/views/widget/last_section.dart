@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/features/Favourite/presentation/views/favourites_screen.dart';
+import 'package:smartcare/features/Orders/presentation/view/screen/orders_screen.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/orders_bloc_provider.dart';
 import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
 import 'package:smartcare/features/profile/data/repo/addresses_repository_impl.dart';
@@ -80,7 +81,7 @@ class LastSection extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => buildOrdersBlocScreen(),
+                  builder: (context) => OrdersScreen(),
                 ),
               );
             },

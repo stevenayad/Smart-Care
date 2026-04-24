@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/order.dart';
+import '../../data/models/order_model.dart';
 
 abstract class OrdersState extends Equatable {
   @override
@@ -11,7 +11,7 @@ class OrdersInitial extends OrdersState {}
 class OrdersLoading extends OrdersState {}
 
 class OrderLoaded extends OrdersState {
-  final Orderr order;
+  final OrderModel order;
   OrderLoaded(this.order);
 
   @override
@@ -19,7 +19,7 @@ class OrderLoaded extends OrdersState {
 }
 
 class OrdersListLoaded extends OrdersState {
-  final List<Orderr> orders;
+  final List<OrderModel> orders;
   OrdersListLoaded(this.orders);
 
   @override
@@ -27,7 +27,7 @@ class OrdersListLoaded extends OrdersState {
 }
 
 class OrderCreated extends OrdersState {
-  final Orderr order;
+  final OrderModel order;
   OrderCreated(this.order);
 
   @override

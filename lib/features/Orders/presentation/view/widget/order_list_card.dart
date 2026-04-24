@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/Orders/domain/entities/order.dart';
+import 'package:smartcare/features/Orders/data/models/order_model.dart';
 import 'order_status_badge.dart';
 
 class OrderListCard extends StatelessWidget {
-  final Orderr order;
+  final OrderModel order;
   final VoidCallback? onTap;
 
   const OrderListCard({super.key, required this.order, this.onTap});

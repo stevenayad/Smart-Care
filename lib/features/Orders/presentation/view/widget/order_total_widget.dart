@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/Orders/domain/entities/order.dart';
+import 'package:smartcare/features/Orders/data/models/order_model.dart' show OrderModel;
+
 
 class OrderTotalWidget extends StatelessWidget {
-  final Orderr order;
+  final OrderModel order;
 
   const OrderTotalWidget({super.key, required this.order});
 

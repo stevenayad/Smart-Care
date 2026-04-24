@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/favorite_item_model.dart';
 import 'package:smartcare/features/Favourite/data/favrepoimplemtaion.dart';
-import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
-import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 
 part 'favoutie_state.dart';
 
