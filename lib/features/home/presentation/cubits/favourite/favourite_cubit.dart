@@ -14,7 +14,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   Future<void> AddFavItem(String id) async {
     emit(Favouriteloading());
     final result = await detaisProductRepo.addfavourite(id);
-     
+
     result.fold(
       (failure) {
         emit(FavouriteFailure(errmessage: failure.errMessage));

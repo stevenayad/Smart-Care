@@ -71,7 +71,7 @@ class _ImageDetailsState extends State<ImageDetails> {
                 final isFav = cubit.isFavourite(
                   widget.detialsProductModel.data?.productId ?? '',
                 );
-                
+
                 return GestureDetector(
                   onTap: () {
                     cubit.toggleFavItem(

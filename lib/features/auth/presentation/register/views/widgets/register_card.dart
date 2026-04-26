@@ -33,7 +33,8 @@ class register_card extends StatelessWidget {
           // Move Padding inside the gradient Container
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
           child: BlocProvider(
-            create: (context) => RegisterCubit(authBloc: context.read<AuthBloc>()),
+            create: (context) =>
+                RegisterCubit(authBloc: context.read<AuthBloc>()),
             child: const RegisterCardContent(),
           ),
         ),

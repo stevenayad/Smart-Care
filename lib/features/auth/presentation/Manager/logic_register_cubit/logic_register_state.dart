@@ -32,7 +32,9 @@ class RegisterState {
       gender: gender ?? this.gender,
       isPrimaryAddress: isPrimaryAddress ?? this.isPrimaryAddress,
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+      errorMessage: clearErrorMessage
+          ? null
+          : (errorMessage ?? this.errorMessage),
     );
   }
 }

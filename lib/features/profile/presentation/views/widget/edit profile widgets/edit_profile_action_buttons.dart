@@ -30,9 +30,9 @@ class EditProfileActionButtons extends StatelessWidget {
               behavior: SnackBarBehavior.floating,
             ),
           );
-          Navigator.of(
-            context,
-          ).pushReplacement(MaterialPageRoute(builder: (_) => MainScreenView()));
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => MainScreenView()),
+          );
         }
 
         if (state is EditProfileFailure) {

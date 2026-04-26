@@ -23,10 +23,7 @@ class OrderCubit extends Cubit<OrderState> {
     required String addressId,
   }) {
     return createorder(
-      RequestCreateoreder(
-        cartId: cartId,
-        deliveryAddressId: addressId,
-      ),
+      RequestCreateoreder(cartId: cartId, deliveryAddressId: addressId),
     );
   }
 
@@ -34,12 +31,7 @@ class OrderCubit extends Cubit<OrderState> {
     required String cartId,
     required String storeId,
   }) {
-    return pickorder(
-      RequestPickup(
-        cartId: cartId,
-        storeId: storeId,
-      ),
-    );
+    return pickorder(RequestPickup(cartId: cartId, storeId: storeId));
   }
 
   Future<void> updateOrderFromSelection({

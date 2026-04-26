@@ -21,4 +21,3 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     emit(state.copyWith(selectedAddressId: id));
   }
 }
-

@@ -22,9 +22,7 @@ class OrderItemsList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: OrderItemWidget(
-              item: order.orderItems![index],
-            ),
+            child: OrderItemWidget(item: order.orderItems![index]),
           );
         },
       ),

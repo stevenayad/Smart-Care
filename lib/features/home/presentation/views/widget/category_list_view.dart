@@ -4,7 +4,6 @@ import 'package:smartcare/features/home/presentation/cubits/paginted_category/pa
 import 'package:smartcare/features/home/presentation/cubits/paginted_category/paginted_category_state.dart';
 import 'package:smartcare/features/home/presentation/cubits/selection/category_selection_cubit.dart';
 
-
 import 'category_item.dart';
 
 class CategoryListView extends StatelessWidget {

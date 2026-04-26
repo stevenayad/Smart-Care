@@ -32,7 +32,9 @@ class StepNavigator extends StatelessWidget {
                 : CustomElevatedButton(
                     isFullWidth: false,
                     text: currentStep == totalSteps - 1 ? 'Register' : 'Next',
-                    onPressed: currentStep == totalSteps - 1 ? cubit.onRegister : cubit.onNextPressed,
+                    onPressed: currentStep == totalSteps - 1
+                        ? cubit.onRegister
+                        : cubit.onNextPressed,
                   ),
           ],
         );
@@ -40,4 +42,3 @@ class StepNavigator extends StatelessWidget {
     );
   }
 }
-

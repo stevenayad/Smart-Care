@@ -95,7 +95,9 @@ class ProductsState extends Equatable {
     return ProductsState(
       productsStatus: productsStatus ?? this.productsStatus,
       products: products ?? this.products,
-      productsError: clearProductsError ? null : (productsError ?? this.productsError),
+      productsError: clearProductsError
+          ? null
+          : (productsError ?? this.productsError),
       categoriesStatus: categoriesStatus ?? this.categoriesStatus,
       categories: categories ?? this.categories,
       categoriesError: clearCategoriesError

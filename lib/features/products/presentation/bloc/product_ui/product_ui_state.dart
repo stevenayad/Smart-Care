@@ -19,10 +19,7 @@ class CompanySheetSnap extends Equatable {
   final List<CompanyModel> companies;
   final String selectedName;
 
-  const CompanySheetSnap({
-    required this.companies,
-    required this.selectedName,
-  });
+  const CompanySheetSnap({required this.companies, required this.selectedName});
 
   @override
   List<Object?> get props => [companies, selectedName];

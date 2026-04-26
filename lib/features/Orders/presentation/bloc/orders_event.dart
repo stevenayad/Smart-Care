@@ -36,6 +36,7 @@ class FetchOrdersByCustomerAndStatus extends OrdersEvent {
   @override
   List<Object?> get props => [clientId, status];
 }
+
 class RestoreOrdersList extends OrdersEvent {
   @override
   List<Object?> get props => [];

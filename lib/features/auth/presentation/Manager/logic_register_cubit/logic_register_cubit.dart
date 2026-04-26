@@ -28,11 +28,13 @@ class RegisterCubit extends Cubit<RegisterState> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController addressLabelController = TextEditingController();
-  final TextEditingController addressAdditionalInfoController = TextEditingController();
+  final TextEditingController addressAdditionalInfoController =
+      TextEditingController();
   final TextEditingController latitudeController = TextEditingController();
   final TextEditingController longitudeController = TextEditingController();
 
@@ -108,14 +110,24 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(state.copyWith(errorMessage: errorMessage));
     } else {
       if (state.currentStep < 2) {
-        emit(state.copyWith(currentStep: state.currentStep + 1, clearErrorMessage: true));
+        emit(
+          state.copyWith(
+            currentStep: state.currentStep + 1,
+            clearErrorMessage: true,
+          ),
+        );
       }
     }
   }
 
   void onBackPressed() {
     if (state.currentStep > 0) {
-      emit(state.copyWith(currentStep: state.currentStep - 1, clearErrorMessage: true));
+      emit(
+        state.copyWith(
+          currentStep: state.currentStep - 1,
+          clearErrorMessage: true,
+        ),
+      );
     }
   }
 

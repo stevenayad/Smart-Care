@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart' as product show id;
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/cart/data/model/request_add_item_model.dart';
@@ -111,11 +109,10 @@ class ProductDetails extends StatelessWidget {
           const SizedBox(height: 5),
           Divider(thickness: 0.5),
           SimilarProductsSection(),
-           const SizedBox(height: 10),
+          const SizedBox(height: 10),
           ActionButton(
             title: "Check Availability in Store",
             icon: Icons.location_on,
-
             backgroundColor: const Color(0xFFF9E79F),
             textColor: Colors.black,
             onPressed: () {
@@ -159,7 +156,6 @@ class ProductDetails extends StatelessWidget {
               onPressed: () {
                 final cubit = context.read<CartCubit>();
                 final cartId = cubit.cartId ?? '';
-
                 cubit.PutItem(
                   RequestAddItemModel(
                     cartId: cartId,

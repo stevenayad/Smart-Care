@@ -51,8 +51,7 @@ class ProductsBody extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           IconButton(
-                            onPressed:
-                                state.products.length == state.pageSize
+                            onPressed: state.products.length == state.pageSize
                                 ? () => context.read<ProductsBloc>().add(
                                     ProductPageRequested(state.currentPage + 1),
                                   )

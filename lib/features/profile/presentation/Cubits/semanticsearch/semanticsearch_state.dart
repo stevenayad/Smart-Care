@@ -20,3 +20,13 @@ final class SemanticsearchFailure extends SemanticsearchState {
   final String errMessage;
   SemanticsearchFailure({required this.errMessage});
 }
+
+final class VoiceSemanticsearchSuccess extends SemanticsearchState {
+  final List<VoiceSemanticDatum> voiceSemanticSearch;
+  VoiceSemanticsearchSuccess({required this.voiceSemanticSearch});
+}
+
+final class VoiceSemanticsearchFailure extends SemanticsearchState {
+  final String errMessage;
+  VoiceSemanticsearchFailure({required this.errMessage});
+}

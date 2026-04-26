@@ -15,7 +15,12 @@ class LoginCubit extends Cubit<LoginState> {
       if (authState is AuthLoading) {
         emit(state.copyWith(isLoading: true, clearErrorMessage: true));
       } else if (authState is AuthFailure) {
-        emit(state.copyWith(isLoading: false, errorMessage: authState.errorMessage));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: authState.errorMessage,
+          ),
+        );
       } else if (authState is LoginSuccess) {
         emit(state.copyWith(isLoading: false, clearErrorMessage: true));
       } else {

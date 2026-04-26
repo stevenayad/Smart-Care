@@ -15,7 +15,8 @@ class FilterButton extends StatelessWidget {
         text: 'Filter',
         icon: Icons.filter_alt_rounded,
         iconSize: 20,
-        onTap: () => context.read<ProductUiBloc>().add(const FilterToolbarTapped()),
+        onTap: () =>
+            context.read<ProductUiBloc>().add(const FilterToolbarTapped()),
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smartcare/core/token_storage.dart';
 
-
 part 'authcubit_state.dart';
 
 class AuthCubit extends Cubit<AuthcubitState> {

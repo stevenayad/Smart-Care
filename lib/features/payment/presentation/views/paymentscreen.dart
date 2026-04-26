@@ -17,27 +17,22 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signalRService =
-        AppSignalRService(CacheHelper.getAccessToken()!);
+    final signalRService = AppSignalRService(CacheHelper.getAccessToken()!);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => PaymentCubit(
-            PaymentRepo(apiConsumer: DioConsumer(Dio())),
-          ),
-        ),
-        BlocProvider(
-          create: (_) => OrderCubit(
-            Orderrepo(apiConsumer: DioConsumer(Dio())),
-          ),
-        ),
-        BlocProvider(
           create: (_) =>
-              PaymentSignalRCubit(signalRService: signalRService),
+              PaymentCubit(PaymentRepo(apiConsumer: DioConsumer(Dio()))),
+        ),
+        BlocProvider(
+          create: (_) => OrderCubit(Orderrepo(apiConsumer: DioConsumer(Dio()))),
+        ),
+        BlocProvider(
+          create: (_) => PaymentSignalRCubit(signalRService: signalRService),
         ),
       ],
-      child: PaymentView(orderId: orderId,),
+      child: PaymentView(orderId: orderId),
     );
   }
 }

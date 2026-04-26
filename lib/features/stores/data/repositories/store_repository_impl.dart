@@ -4,6 +4,7 @@ import 'package:smartcare/core/faluire.dart';
 import 'package:smartcare/features/stores/data/models/store_model.dart';
 import 'package:smartcare/features/stores/data/repositories/store_repository.dart';
 import 'package:smartcare/core/api/api_consumer.dart';
+
 class StoreRepositoryImpl implements StoreRepository {
   final ApiConsumer apiConsumer;
 
@@ -30,13 +31,10 @@ class StoreRepositoryImpl implements StoreRepository {
     required double longitude,
   }) async {
     try {
-      final response = await apiConsumer.get(
-        '/api/stores/nearest',
-        {
-          'Latitude': latitude,
-          'Longitude': longitude,
-        },
-      );
+      final response = await apiConsumer.get('/api/stores/nearest', {
+        'Latitude': latitude,
+        'Longitude': longitude,
+      });
 
       final model = StoreModel.fromJson(response);
 

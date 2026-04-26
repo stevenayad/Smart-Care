@@ -285,7 +285,11 @@ class ProductRepositoryImpl implements ProductRepository {
         if (data is List) {
           return Right(
             data
-                .map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e as Map)))
+                .map(
+                  (e) => CompanyModel.fromJson(
+                    Map<String, dynamic>.from(e as Map),
+                  ),
+                )
                 .toList(),
           );
         }
@@ -293,7 +297,11 @@ class ProductRepositoryImpl implements ProductRepository {
           final items = data['items'] as List;
           return Right(
             items
-                .map((e) => CompanyModel.fromJson(Map<String, dynamic>.from(e as Map)))
+                .map(
+                  (e) => CompanyModel.fromJson(
+                    Map<String, dynamic>.from(e as Map),
+                  ),
+                )
                 .toList(),
           );
         }
@@ -321,7 +329,11 @@ class ProductRepositoryImpl implements ProductRepository {
         if (data is List) {
           return Right(
             data
-                .map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e as Map)))
+                .map(
+                  (e) => CategoryModel.fromJson(
+                    Map<String, dynamic>.from(e as Map),
+                  ),
+                )
                 .toList(),
           );
         }
@@ -329,7 +341,11 @@ class ProductRepositoryImpl implements ProductRepository {
           final items = data['items'] as List;
           return Right(
             items
-                .map((e) => CategoryModel.fromJson(Map<String, dynamic>.from(e as Map)))
+                .map(
+                  (e) => CategoryModel.fromJson(
+                    Map<String, dynamic>.from(e as Map),
+                  ),
+                )
                 .toList(),
           );
         }

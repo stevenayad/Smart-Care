@@ -60,54 +60,54 @@ class CompanyListView extends StatelessWidget {
                 },
                 child:
                     BlocBuilder<CompanySelectionCubit, CompanySelectionState>(
-                  builder: (context, selectionState) {
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: isLoadingMore
-                          ? companies.length + 3
-                          : companies.length,
-                      itemBuilder: (context, index) {
-                        // 🔹 Loading more skeleton
-                        if (index >= companies.length) {
-                          return Container(
-                            width: 100,
-                            margin: const EdgeInsets.symmetric(horizontal: 6),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                          );
-                        }
+                      builder: (context, selectionState) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: isLoadingMore
+                              ? companies.length + 3
+                              : companies.length,
+                          itemBuilder: (context, index) {
+                            // 🔹 Loading more skeleton
+                            if (index >= companies.length) {
+                              return Container(
+                                width: 100,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                              );
+                            }
 
-                        final company = companies[index];
-                        final companyId = (company.id ?? '').trim();
+                            final company = companies[index];
+                            final companyId = (company.id ?? '').trim();
 
-                        final isSelected =
-                            selectionState.selectedCompanyId == companyId;
+                            final isSelected =
+                                selectionState.selectedCompanyId == companyId;
 
-                        return CompanyItem(
-                          label: company.name ?? 'Unknown',
-                          isSelected: isSelected,
-                          onTap: () => context
-                              .read<CompanySelectionCubit>()
-                              .selectCompany(companyId),
+                            return CompanyItem(
+                              label: company.name ?? 'Unknown',
+                              isSelected: isSelected,
+                              onTap: () => context
+                                  .read<CompanySelectionCubit>()
+                                  .selectCompany(companyId),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                ),
+                    ),
               ),
             ),
           );
         }
 
-
         if (state is PaginatedCompanyError) {
           return Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
             child: Text(
               state.errMessage,
               style: const TextStyle(color: Colors.red),

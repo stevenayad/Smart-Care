@@ -32,4 +32,3 @@ class DeliveryState extends Equatable {
 }
 
 const Object _sentinel = Object();
-

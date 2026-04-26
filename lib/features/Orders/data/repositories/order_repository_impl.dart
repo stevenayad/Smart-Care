@@ -45,9 +45,7 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await apiConsumer.get('/api/me/orders', null);
       final list = response['data'] as List<dynamic>;
-      return Right(
-        list.map((e) => OrderModel.fromJson(e)).toList(),
-      );
+      return Right(list.map((e) => OrderModel.fromJson(e)).toList());
     } catch (e) {
       return Left(_handleError(e));
     }
@@ -64,9 +62,7 @@ class OrderRepositoryImpl implements OrderRepository {
         {'clientId': clientId, 'status': status},
       );
       final list = response['data'] as List<dynamic>;
-      return Right(
-        list.map((e) => OrderModel.fromJson(e)).toList(),
-      );
+      return Right(list.map((e) => OrderModel.fromJson(e)).toList());
     } catch (e) {
       return Left(_handleError(e));
     }

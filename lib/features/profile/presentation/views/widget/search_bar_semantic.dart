@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/semanticsearch/semanticsearch_cubit.dart';
+import 'package:smartcare/features/profile/presentation/views/widget/voice_record.dart';
 
 class SearchBarSemantic extends StatelessWidget {
   const SearchBarSemantic({super.key});
@@ -36,7 +37,14 @@ class SearchBarSemantic extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.mic_none, color: Colors.black54),
+            VoiceRecorderWidget(
+              onAudioRecorded: (path) {
+                context.read<SemanticsearchCubit>().getitemsbyvoice(path);
+              },
+              onTextRecognized: (text) {
+                context.read<SemanticsearchCubit>().getitems(text);
+              },
+            ),
           ],
         ),
       ),

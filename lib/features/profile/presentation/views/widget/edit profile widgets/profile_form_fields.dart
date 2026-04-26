@@ -8,6 +8,7 @@ import 'package:smartcare/features/profile/presentation/views/widget/edit%20prof
 import 'package:smartcare/features/profile/presentation/views/widget/edit%20profile%20widgets/edit_profile_text_field.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/edit%20profile%20widgets/edit_profile_shimmer_loader.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/edit_profile_gender_selection.dart';
+
 class ProfileFormFields extends StatelessWidget {
   const ProfileFormFields({super.key});
 
@@ -18,7 +19,6 @@ class ProfileFormFields extends StatelessWidget {
     return BlocBuilder<Profilecubit, Profilestate>(
       builder: (context, state) {
         if (state is ProfileSuccess) {
-       
           WidgetsBinding.instance.addPostFrameCallback((_) {
             cubit.initializeFromProfile(state);
           });
@@ -33,10 +33,9 @@ class ProfileFormFields extends StatelessWidget {
                 EditProfileTextField(
                   label: 'First Name',
                   controller: cubit.firstNameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty
-                          ? 'First name required'
-                          : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'First name required'
+                      : null,
                 ),
 
                 const SizedBox(height: 15),
@@ -44,10 +43,9 @@ class ProfileFormFields extends StatelessWidget {
                 EditProfileTextField(
                   label: 'Last Name',
                   controller: cubit.lastNameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty
-                          ? 'Last name required'
-                          : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Last name required'
+                      : null,
                 ),
 
                 const SizedBox(height: 15),
@@ -55,10 +53,9 @@ class ProfileFormFields extends StatelessWidget {
                 EditProfileTextField(
                   label: 'User Name',
                   controller: cubit.usernameController,
-                  validator: (value) =>
-                      value == null || value.isEmpty
-                          ? 'User name required'
-                          : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'User name required'
+                      : null,
                 ),
 
                 const SizedBox(height: 15),
@@ -71,8 +68,7 @@ class ProfileFormFields extends StatelessWidget {
                     if (value == null || value.isEmpty)
                       return 'Phone number required';
 
-                    final phoneRegex =
-                        RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
+                    final phoneRegex = RegExp(r'^\+?\d[\d\s\-\(\)]{7,}$');
 
                     return phoneRegex.hasMatch(value)
                         ? null
@@ -100,10 +96,9 @@ class ProfileFormFields extends StatelessWidget {
                           '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
                     }
                   },
-                  validator: (value) =>
-                      value == null || value.isEmpty
-                          ? 'Date of birth required'
-                          : null,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Date of birth required'
+                      : null,
                 ),
 
                 const SizedBox(height: 20),

@@ -13,17 +13,19 @@ class PaymentCubit extends Cubit<PaymentState> {
   final PaymentRepo paymentRepo;
 
   int selectedIndex = 0;
- int paymentProvider = 0;
+  int paymentProvider = 0;
   void selectPaymentMethod(int index) {
     selectedIndex = index;
     emit(PaymentMethodChanged(index));
   }
 
   Future<void> processIntentPayment(String orderid) async {
-    
     emit(PaymentLoading());
 
-    final result = await paymentRepo.PaymentIntentOrder(paymentProvider, orderid);
+    final result = await paymentRepo.PaymentIntentOrder(
+      paymentProvider,
+      orderid,
+    );
     await result.fold(
       (failure) async => emit(PaymentFlaiure(errmessage: failure.errMessage)),
       (model) async {
@@ -61,18 +63,15 @@ class PaymentCubit extends Cubit<PaymentState> {
     );
   }
 
- 
-Future<void> loadPaymentProvider() async {
-  
+  Future<void> loadPaymentProvider() async {
+    print('🚀 Detecting country in Cubit ...');
 
-  print('🚀 Detecting country in Cubit ...');
+    emit(PaymentLoading());
 
-  emit(PaymentLoading());
+    final countryCode = await detectCountryByIP();
 
-  final countryCode = await detectCountryByIP();
+    paymentProvider = countryCode == "EG" ? 1 : 0;
 
-  paymentProvider = countryCode == "EG" ? 1 : 0;
-
-  emit(LoadProviderDone(provider: paymentProvider));
-}
+    emit(LoadProviderDone(provider: paymentProvider));
+  }
 }

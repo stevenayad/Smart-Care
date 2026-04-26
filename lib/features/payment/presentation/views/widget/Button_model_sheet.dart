@@ -46,7 +46,7 @@ class ButtonModelSheet extends StatelessWidget {
             final selectedIndex = context.read<PaymentCubit>().selectedIndex;
             if (selectedIndex == 0) {
               context.read<PaymentCubit>().processIntentPayment(orderid);
-            }else{
+            } else {
               context.read<PaymentCubit>().processCashPayment(orderid);
             }
           },

@@ -13,7 +13,8 @@ class CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmallGradientButton(
       text: label,
-      onTap: () => context.read<ProductUiBloc>().add(const CategoryToolbarTapped()),
+      onTap: () =>
+          context.read<ProductUiBloc>().add(const CategoryToolbarTapped()),
     );
   }
 }
