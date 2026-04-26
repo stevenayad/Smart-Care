@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
@@ -22,13 +21,12 @@ class _PaymentViewState extends State<PaymentView> {
         context: context,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         builder: (_) => BlocProvider.value(
           value: context.read<PaymentCubit>(),
-          child: PaymentBottomSheet(orderid: widget.orderId)),
+          child: PaymentBottomSheet(orderid: widget.orderId),
+        ),
       );
     });
   }

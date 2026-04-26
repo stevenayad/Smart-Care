@@ -64,7 +64,6 @@ class CompanyProductsSection extends StatelessWidget {
                           ),
                         );
                       },
-                     
                     );
                   },
                 ),

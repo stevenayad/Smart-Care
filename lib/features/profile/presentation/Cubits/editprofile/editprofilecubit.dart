@@ -7,6 +7,7 @@ import 'package:smartcare/features/profile/data/Model/input_model/edit_profile_r
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/editprofile/editprofilestate.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilestate.dart';
+
 class Editprofilecubit extends Cubit<EditProfilestate> {
   Editprofilecubit(this.repo) : super(EditProfileIntial());
 
@@ -25,7 +26,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
 
   bool isInitialized = false;
 
- 
   int mapGender(String? gender) {
     switch (gender) {
       case 'Male':
@@ -48,7 +48,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
     }
   }
 
-
   void initializeFromProfile(ProfileSuccess state) {
     if (isInitialized) return;
 
@@ -68,7 +67,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
     emit(EditProfileInitialized());
   }
 
-
   void setGender(int value) {
     gender = value;
     emit(EditProfileGenderChanged(gender));
@@ -79,7 +77,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
     emit(EditProfileAccountTypeChanged(accountType));
   }
 
- 
   DateTime getInitialDOB() {
     try {
       if (dobController.text.isNotEmpty) {
@@ -94,7 +91,6 @@ class Editprofilecubit extends Cubit<EditProfilestate> {
 
     return DateTime(1990, 1, 1);
   }
-
 
   Future<void> editprofile(EditProfileRequest editprofrile) async {
     emit(EditProfilloading());

@@ -97,4 +97,3 @@ class LoginCardContent extends StatelessWidget {
     );
   }
 }
-

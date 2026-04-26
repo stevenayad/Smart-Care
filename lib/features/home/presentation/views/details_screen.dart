@@ -8,7 +8,9 @@ import 'package:smartcare/features/home/presentation/cubits/signalr_details/sign
 import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
 import 'package:smartcare/features/home/presentation/cubits/rate/rate_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/details_body.dart';
+import 'package:smartcare/features/home/presentation/views/widget/show_dialog_alret.dart';
 import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/condracation/contradication_cubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_cubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
@@ -29,9 +31,9 @@ class DetailsScreen extends StatelessWidget {
           body: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (_) => FavouriteCubit(
-                  DetaisProductRepo(api: DioConsumer(Dio())),
-                )..loadFavouriteItems(),
+                create: (_) =>
+                    FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+                      ..loadFavouriteItems(),
               ),
               BlocProvider(
                 create: (context) => DetailsproductCubit(
@@ -50,14 +52,44 @@ class DetailsScreen extends StatelessWidget {
                   SemanticSearchRepositoy(api: DioConsumer(Dio())),
                 )..getSimilarProducts(Productid),
               ),
+              BlocProvider(
+                create: (context) => ContradicationCubit(
+                  repositoy: SemanticSearchRepositoy(api: DioConsumer(Dio())),
+                )..getcondrationitem(id: Productid),
+              ),
             ],
-            child: BlocListener<FavouriteCubit, FavouriteState>(
-              listener: (context, favState) {
-                if (favState is FavouriteSuccess) {
-                  // Real-time update for favorites count in profile
-                  context.read<Profilecubit>().fetchProfiledata();
-                }
-              },
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<FavouriteCubit, FavouriteState>(
+                  listener: (context, favState) {
+                    if (favState is FavouriteSuccess) {
+                      context.read<Profilecubit>().fetchProfiledata();
+                    }
+                  },
+                ),
+                BlocListener<ContradicationCubit, ContradicationState>(
+                  listener: (context, state) {
+                    if (state is ContradicationSuccess &&
+                        state.medicalWarningResponse.data.isNotEmpty) {
+                      final message = state.medicalWarningResponse.data
+                          .map((e) {
+                            return "${e.ingredientA} + ${e.ingredientB}\n${e.reason}";
+                          })
+                          .join("\n\n");
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) => ShowDialogAlret(
+                          icon: Icons.warning_amber_rounded,
+                          iconColor: Colors.orange,
+                          title: "Medical Warning",
+                          message: message,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
               child: DetailsBody(),
             ),
           ),

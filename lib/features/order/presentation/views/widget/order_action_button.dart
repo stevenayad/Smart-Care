@@ -29,11 +29,8 @@ class OrderActionButton extends StatelessWidget {
 
             return EvalutedButton(
               text: hasOrder ? 'Update Order' : 'Confirm Order',
-              onTap: () => _onTap(
-                context: context,
-                cartId: cartId,
-                hasOrder: hasOrder,
-              ),
+              onTap: () =>
+                  _onTap(context: context, cartId: cartId, hasOrder: hasOrder),
             );
           },
         );
@@ -67,16 +64,13 @@ class OrderActionButton extends StatelessWidget {
           cartId: cartId,
           addressId: selectedAddressId!,
         );
-        
+
         return;
       }
 
       if (selectedTab == 1) {
-        orderCubit.createPickupOrder(
-          cartId: cartId,
-          storeId: selectedStoreId!,
-        );
-    
+        orderCubit.createPickupOrder(cartId: cartId, storeId: selectedStoreId!);
+
         return;
       }
 
@@ -84,11 +78,11 @@ class OrderActionButton extends StatelessWidget {
     }
 
     context.read<OrderCubit>().updateOrderFromSelection(
-          cartId: cartId,
-          updatedOrderType: selectedTab,
-          storeId: selectedTab == 1 ? selectedStoreId : null,
-          shippingAddressId: selectedTab == 0 ? selectedAddressId : null,
-        );
+      cartId: cartId,
+      updatedOrderType: selectedTab,
+      storeId: selectedTab == 1 ? selectedStoreId : null,
+      shippingAddressId: selectedTab == 0 ? selectedAddressId : null,
+    );
   }
 
   bool _validateSelection({
@@ -111,9 +105,8 @@ class OrderActionButton extends StatelessWidget {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }
-

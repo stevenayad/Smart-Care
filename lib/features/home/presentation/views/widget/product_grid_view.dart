@@ -25,4 +25,3 @@ class ProductGridView extends StatelessWidget {
     );
   }
 }
-

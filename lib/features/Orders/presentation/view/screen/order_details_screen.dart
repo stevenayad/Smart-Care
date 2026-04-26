@@ -87,9 +87,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
           // Fallback UI for any other state (like OrdersInitial or OrdersListLoaded)
           // which might happen if navigation is very fast or state hasn't changed yet
-          return const Center(
-            child: LoadingWidget(),
-          );
+          return const Center(child: LoadingWidget());
         },
       ),
     );

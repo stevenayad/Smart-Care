@@ -12,4 +12,3 @@ class CategorySelectionCubit extends Cubit<CategorySelectionState> {
     emit(CategorySelectionState(selectedCategoryId: trimmed));
   }
 }
-

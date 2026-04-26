@@ -4,11 +4,7 @@ class SectionTitle extends StatelessWidget {
   final String title;
   final bool isError;
 
-  const SectionTitle({
-    super.key,
-    required this.title,
-    this.isError = false,
-  });
+  const SectionTitle({super.key, required this.title, this.isError = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +13,9 @@ class SectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isError ? Colors.red : null,
-            ),
+          fontWeight: FontWeight.bold,
+          color: isError ? Colors.red : null,
+        ),
       ),
     );
   }

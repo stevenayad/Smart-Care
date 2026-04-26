@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:smartcare/features/Orders/data/models/store_model.dart';
 import 'package:smartcare/features/stores/data/models/store_model.dart';
 
-
 abstract class StoreState extends Equatable {
   const StoreState();
 

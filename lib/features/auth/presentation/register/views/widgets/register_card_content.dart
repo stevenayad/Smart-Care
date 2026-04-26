@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Manager/logic_register_cubit/logic_register_cubit.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/build_current_step.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_form_layout.dart';
+
 class RegisterCardContent extends StatelessWidget {
   const RegisterCardContent({super.key});
 

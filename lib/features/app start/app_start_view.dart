@@ -16,7 +16,6 @@ class AppStartView extends StatelessWidget {
       create: (context) => OnboardingBloc()..add(CheckOnboardingEvent()),
       child: BlocBuilder<OnboardingBloc, OnboardingState>(
         builder: (context, onboardingState) {
-
           /// 🟡 لو لسه Onboarding
           if (onboardingState is OnboardingShow) {
             return const Onboardingview();
@@ -26,7 +25,6 @@ class AppStartView extends StatelessWidget {
           if (onboardingState is OnboardingFinished) {
             return BlocBuilder<AuthCubit, AuthcubitState>(
               builder: (context, authState) {
-
                 if (authState is Authenticated) {
                   return const MainScreenView(); // 👈 المستخدم داخل
                 }

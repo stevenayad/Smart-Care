@@ -29,7 +29,9 @@ class AddressSection extends StatelessWidget {
 
     final selectedIndex = selectedAddressId == null
         ? -1
-        : addresses.indexWhere((address) => (address.id ?? '') == selectedAddressId);
+        : addresses.indexWhere(
+            (address) => (address.id ?? '') == selectedAddressId,
+          );
 
     return ListView.separated(
       shrinkWrap: true,
@@ -43,9 +45,7 @@ class AddressSection extends StatelessWidget {
           selectedValue: selectedIndex,
           addressDatum: address,
           onSelect: (_) {
-            context
-                .read<DeliveryCubit>()
-                .selectAddress(address.id??"");
+            context.read<DeliveryCubit>().selectAddress(address.id ?? "");
           },
         );
       },

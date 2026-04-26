@@ -9,16 +9,15 @@ import 'api_consumer.dart';
 
 class DioConsumer implements ApiConsumer {
   final Dio dio;
- final storage = TokenStorage();
+  final storage = TokenStorage();
   DioConsumer(this.dio) {
     dio.options = BaseOptions(
       baseUrl: 'https://smartcarepharmacy.tryasp.net/',
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      sendTimeout: const Duration(seconds: 60),
+      connectTimeout: const Duration(seconds: 120),
+      receiveTimeout: const Duration(seconds: 120),
+      sendTimeout: const Duration(seconds: 120),
     );
 
-   
     dio.interceptors.add(InterceptorsConsumer(dio: dio, storage: storage));
 
     dio.interceptors.add(

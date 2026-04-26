@@ -19,12 +19,11 @@ class ProductsScreen extends StatelessWidget {
     return RepositoryProvider<ProductRepository>(
       create: (_) => ProductRepositoryImpl(DioConsumer(Dio())),
       child: BlocProvider(
-        create: (context) => ProductsBloc(
-          RepositoryProvider.of<ProductRepository>(context),
-        )..add(const ProductsStarted()),
+        create: (context) =>
+            ProductsBloc(RepositoryProvider.of<ProductRepository>(context))
+              ..add(const ProductsStarted()),
         child: BlocProvider(
-          create: (context) =>
-              ProductUiBloc(context.read<ProductsBloc>()),
+          create: (context) => ProductUiBloc(context.read<ProductsBloc>()),
           child: ProductUiSheetHost(
             child: Container(
               decoration: BoxDecoration(

@@ -40,7 +40,7 @@ class StoreSection extends StatelessWidget {
           store: store,
           onSelect: (value) {
             if (store.id != null) {
-              context.read<DeliveryCubit>().selectStore(store.id??"");
+              context.read<DeliveryCubit>().selectStore(store.id ?? "");
             }
           },
         );

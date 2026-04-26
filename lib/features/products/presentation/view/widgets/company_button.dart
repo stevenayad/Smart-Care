@@ -13,7 +13,8 @@ class CompanyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmallGradientButton(
       text: label,
-      onTap: () => context.read<ProductUiBloc>().add(const CompanyToolbarTapped()),
+      onTap: () =>
+          context.read<ProductUiBloc>().add(const CompanyToolbarTapped()),
     );
   }
 }

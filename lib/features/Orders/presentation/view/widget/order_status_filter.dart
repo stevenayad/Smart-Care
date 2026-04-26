@@ -5,7 +5,6 @@ import 'package:smartcare/features/Orders/presentation/bloc/orders_bloc.dart';
 import 'package:smartcare/features/Orders/presentation/bloc/orders_event.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/order_status_helper.dart';
 
-
 class OrderStatusFilter extends StatelessWidget {
   const OrderStatusFilter({super.key});
 
@@ -19,9 +18,7 @@ class OrderStatusFilter extends StatelessWidget {
       child: DropdownButtonFormField<int?>(
         decoration: InputDecoration(
           labelText: 'Filter by Status',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 10,
@@ -29,10 +26,7 @@ class OrderStatusFilter extends StatelessWidget {
         ),
         value: null,
         items: [
-          const DropdownMenuItem<int?>(
-            value: null,
-            child: Text('All'),
-          ),
+          const DropdownMenuItem<int?>(value: null, child: Text('All')),
           ...List.generate(10, (index) {
             return DropdownMenuItem<int?>(
               value: index,
@@ -50,9 +44,7 @@ class OrderStatusFilter extends StatelessWidget {
           if (value == null) {
             ordersBloc.add(FetchOrdersByCustomer());
           } else {
-            ordersBloc.add(
-              FetchOrdersByCustomerAndStatus(clientId, value),
-            );
+            ordersBloc.add(FetchOrdersByCustomerAndStatus(clientId, value));
           }
         },
       ),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/home/presentation/cubits/detailsproduct/detailsproduct_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/image_details.dart';
 import 'package:smartcare/features/home/presentation/views/widget/product_details.dart';
-import 'package:smartcare/features/home/presentation/views/widget/check_store.dart';
 
 class DetailsBody extends StatelessWidget {
   const DetailsBody({super.key});

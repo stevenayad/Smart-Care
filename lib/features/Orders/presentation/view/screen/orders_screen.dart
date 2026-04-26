@@ -22,7 +22,8 @@ class OrdersScreen extends StatelessWidget {
     final apiConsumer = DioConsumer(dio);
     final repository = OrderRepositoryImpl(apiConsumer: apiConsumer);
     return BlocProvider(
-      create:(context) => OrdersBloc(repository: repository)..add(FetchOrdersByCustomer()) ,
+      create: (context) =>
+          OrdersBloc(repository: repository)..add(FetchOrdersByCustomer()),
       child: Scaffold(
         backgroundColor: AppColors.lightGrey,
         appBar: AppThemes.customAppBar(
@@ -31,7 +32,7 @@ class OrdersScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            const OrderStatusFilter(), 
+            const OrderStatusFilter(),
             Expanded(
               child: BlocBuilder<OrdersBloc, OrdersState>(
                 builder: (context, state) {
@@ -41,17 +42,17 @@ class OrdersScreen extends StatelessWidget {
                     return Center(child: Text(state.message));
                   } else if (state is OrdersListLoaded) {
                     final orders = state.orders;
-      
+
                     if (orders.isEmpty) {
                       return const Center(child: Text('No orders found.'));
                     }
-      
+
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       itemCount: orders.length,
                       itemBuilder: (context, index) {
                         final order = orders[index];
-      
+
                         return OrderListCard(
                           order: order,
                           onTap: () {
@@ -63,10 +64,10 @@ class OrdersScreen extends StatelessWidget {
                               );
                               return;
                             }
-                            
+
                             final ordersBloc = context.read<OrdersBloc>();
                             ordersBloc.add(FetchOrderDetails(order.id));
-                            
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -83,7 +84,7 @@ class OrdersScreen extends StatelessWidget {
                       },
                     );
                   }
-      
+
                   return const SizedBox.shrink();
                 },
               ),

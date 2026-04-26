@@ -7,17 +7,16 @@ class InterceptorsConsumer extends Interceptor {
 
   bool isRefreshing = false;
 
-  InterceptorsConsumer({
-    required this.dio,
-    required this.storage,
-  });
+  InterceptorsConsumer({required this.dio, required this.storage});
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await storage.getAccessToken();
 
     print("🧩 Access Token: $token");
-
 
     if (token != null &&
         token.isNotEmpty &&
@@ -27,14 +26,13 @@ class InterceptorsConsumer extends Interceptor {
       print("✅ Token Attached");
     }
 
-    return handler.next(options); 
+    return handler.next(options);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     print("❌ Error: ${err.response?.statusCode}");
 
- 
     if (err.response?.statusCode == 401 && !isRefreshing) {
       isRefreshing = true;
 
@@ -45,19 +43,13 @@ class InterceptorsConsumer extends Interceptor {
         try {
           final response = await dio.post(
             '/api/auth/refresh-token',
-            data: {
-              'accessToken': accessToken,
-              'refreshToken': refreshToken,
-            },
+            data: {'accessToken': accessToken, 'refreshToken': refreshToken},
           );
 
           final newAccess = response.data['accessToken'];
           final newRefresh = response.data['refreshToken'];
 
-          await storage.saveTokens(
-            access: newAccess,
-            refresh: newRefresh,
-          );
+          await storage.saveTokens(access: newAccess, refresh: newRefresh);
 
           isRefreshing = false;
 
@@ -67,13 +59,13 @@ class InterceptorsConsumer extends Interceptor {
 
           final cloneResponse = await dio.fetch(requestOptions);
 
-          return handler.resolve(cloneResponse); 
+          return handler.resolve(cloneResponse);
         } catch (e) {
           isRefreshing = false;
 
           await storage.clear(); // logout
 
-          return handler.reject(err); 
+          return handler.reject(err);
         }
       }
     }

@@ -19,7 +19,7 @@ class PaymentBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ListViewModelSheet(),
-          ButtonModelSheet(orderid: orderid,)
+          ButtonModelSheet(orderid: orderid),
         ],
       ),
     );

@@ -67,14 +67,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     emit(OrdersLoading());
     try {
       final result = await repository.getOrdersByCustomer();
-      result.fold(
-        (failure) => emit(OrdersError(failure.errMessage)),
-        (orders) {
-          _cachedOrders = orders;
-          _hasFetchedList = true;
-          emit(OrdersListLoaded(orders));
-        },
-      );
+      result.fold((failure) => emit(OrdersError(failure.errMessage)), (orders) {
+        _cachedOrders = orders;
+        _hasFetchedList = true;
+        emit(OrdersListLoaded(orders));
+      });
     } catch (e) {
       emit(OrdersError(e.toString()));
     }
@@ -90,17 +87,13 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         event.clientId,
         event.status,
       );
-      result.fold(
-        (failure) => emit(OrdersError(failure.errMessage)),
-        (orders) {
-          _cachedOrders = orders;
-          _hasFetchedList = true;
-          emit(OrdersListLoaded(orders));
-        },
-      );
+      result.fold((failure) => emit(OrdersError(failure.errMessage)), (orders) {
+        _cachedOrders = orders;
+        _hasFetchedList = true;
+        emit(OrdersListLoaded(orders));
+      });
     } catch (e) {
       emit(OrdersError(e.toString()));
     }
   }
 }
-

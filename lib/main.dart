@@ -87,8 +87,7 @@ class SmartCare extends StatelessWidget {
         /// Profile (Global to allow real-time cross-app updates)
         BlocProvider(
           create: (_) =>
-              Profilecubit(ProfileRepoimplemtation(api: apiConsumer))
-              
+              Profilecubit(ProfileRepoimplemtation(api: apiConsumer)),
         ),
 
         BlocProvider(create: (_) => AuthCubit(TokenStorage())..checkAuth()),

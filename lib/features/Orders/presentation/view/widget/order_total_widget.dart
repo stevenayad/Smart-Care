@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartcare/core/app_color.dart';
-import 'package:smartcare/features/Orders/data/models/order_model.dart' show OrderModel;
-
+import 'package:smartcare/features/Orders/data/models/order_model.dart'
+    show OrderModel;
 
 class OrderTotalWidget extends StatelessWidget {
   final OrderModel order;

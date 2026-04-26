@@ -3,18 +3,19 @@ import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.d
 import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_state.dart';
 
 class SimilarProductsCubit extends Cubit<SimilarProductsState> {
-  final SemanticSearchRepositoy  repo;
+  final SemanticSearchRepositoy repo;
 
   SimilarProductsCubit(this.repo) : super(SimilarProductsInitial());
 
   Future<void> getSimilarProducts(String productId) async {
+    if (isClosed) return;
     emit(SimilarProductsLoading());
 
     final result = await repo.getsimillaritem(productId);
-
-    result.fold(
-      (failure) => emit(SimilarProductsFailure(failure.errMessage)),
-      (products) => emit(SimilarProductsSuccess(products.data)),
-    );
+    if (isClosed) return;
+    result.fold((failure) {
+      emit(SimilarProductsFailure(failure.errMessage));
+      emit(SimilarProductsSuccess([]));
+    }, (products) => emit(SimilarProductsSuccess(products.data)));
   }
 }

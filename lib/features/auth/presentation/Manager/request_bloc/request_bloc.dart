@@ -48,8 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await CacheHelper.saveRefreashToken(refreashToken ?? "");
 
         await TokenStorage().saveTokens(
-          access: loginResponse.data?.accessToken??"",
-          refresh: loginResponse.data?.refreshToken??"",
+          access: loginResponse.data?.accessToken ?? "",
+          refresh: loginResponse.data?.refreshToken ?? "",
         );
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);

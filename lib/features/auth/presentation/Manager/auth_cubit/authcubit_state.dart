@@ -8,5 +8,7 @@ sealed class AuthcubitState extends Equatable {
 }
 
 final class AuthcubitInitial extends AuthcubitState {}
-class Authenticated extends AuthcubitState{}
-class Unauthenticated extends AuthcubitState{}
+
+class Authenticated extends AuthcubitState {}
+
+class Unauthenticated extends AuthcubitState {}

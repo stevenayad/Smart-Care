@@ -8,4 +8,3 @@ class CategorySelectionState extends Equatable {
   @override
   List<Object?> get props => [selectedCategoryId];
 }
-
