@@ -68,7 +68,6 @@ dependencies:
   record: ^6.2.0
   audio_waveforms: ^2.0.2
   speech_to_text: ^7.3.0
- 
 
 
   

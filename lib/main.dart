@@ -7,6 +7,7 @@ import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/token_storage.dart';
+import 'package:smartcare/features/app%20start/app_start_view.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
 import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
@@ -46,11 +47,24 @@ class SmartCare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 1. Initialize SignalR Service
     final signalRService = AppSignalRService(
       CacheHelper.getAccessToken() ?? "",
     );
 
-    final apiConsumer = DioConsumer(Dio());
+    // 2. Initialize AuthCubit (uses Singleton TokenStorage internally)
+    final authCubit = AuthCubit()..checkAuth();
+
+    // 3. Initialize Single Dio instance and Consumer
+    final dio = Dio();
+    final apiConsumer = DioConsumer(dio);
+
+    // 4. Wire up callbacks for Auth and SignalR synchronization
+    apiConsumer.onUnauthorized = () => authCubit.forceLogout();
+    apiConsumer.onTokenRefreshed = (newToken) {
+      print("🔄 Main: Token refreshed, updating SignalR...");
+      signalRService.updateTokenAndReconnect(newToken);
+    };
 
     return MultiBlocProvider(
       providers: [
@@ -90,15 +104,25 @@ class SmartCare extends StatelessWidget {
               Profilecubit(ProfileRepoimplemtation(api: apiConsumer)),
         ),
 
-        BlocProvider(create: (_) => AuthCubit(TokenStorage())..checkAuth()),
+        BlocProvider.value(value: authCubit),
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        debugShowCheckedModeBanner: false,
-        title: "Smart Care",
-        theme: AppThemes.lightTheme,
-        themeMode: ThemeMode.system,
-        home: const LoginScreen(),
+      child: BlocListener<AuthCubit, AuthcubitState>(
+        listener: (context, state) {
+          if (state is Unauthenticated) {
+            navigatorKey.currentState?.pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              (route) => false,
+            );
+          }
+        },
+        child: MaterialApp(
+          navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          title: "Smart Care",
+          theme: AppThemes.lightTheme,
+          themeMode: ThemeMode.system,
+          home: const AppStartView(),
+        ),
       ),
     );
   }

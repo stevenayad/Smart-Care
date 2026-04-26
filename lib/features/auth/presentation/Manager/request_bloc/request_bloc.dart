@@ -50,6 +50,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await TokenStorage().saveTokens(
           access: loginResponse.data?.accessToken ?? "",
           refresh: loginResponse.data?.refreshToken ?? "",
+          accessExpires: loginResponse.data?.accessTokenExpiresAt ?? "",
+          refreshExpires: loginResponse.data?.refreshTokenExpiresAt ?? "",
         );
 
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);

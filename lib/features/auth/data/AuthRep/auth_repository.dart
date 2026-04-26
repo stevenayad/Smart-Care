@@ -201,4 +201,22 @@ class AuthRepository {
       return Left(servivefailure(e.toString()));
     }
   }
+
+  Future<Either<Failure, LoginResponseModel>> refreshToken(
+    String accessToken,
+    String refreshToken,
+  ) async {
+    try {
+      final data = await api.post("/api/auth/refresh-token", {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      }, false);
+
+      return Right(LoginResponseModel.fromJson(data));
+    } on DioError catch (e) {
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      return Left(servivefailure(e.toString()));
+    }
+  }
 }
