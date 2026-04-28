@@ -69,9 +69,9 @@ class PaymentCubit extends Cubit<PaymentState> {
     emit(PaymentLoading());
 
     final countryCode = await detectCountryByIP();
-
+    print("Country Code $countryCode");
     paymentProvider = countryCode == "EG" ? 1 : 0;
-
+    print("Country Code 2 $countryCode");
     emit(LoadProviderDone(provider: paymentProvider));
   }
 }

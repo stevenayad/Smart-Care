@@ -7,7 +7,7 @@ class VoiceSemanticDatum {
   String? description;
   int? averageRating;
   int? totalRatings;
- double? price;
+  double? price;
   bool? isAvailable;
   String? activeIngredients;
   String? tags;
@@ -29,21 +29,22 @@ class VoiceSemanticDatum {
     this.discountPercentage,
   });
 
-  factory VoiceSemanticDatum.fromJson(Map<String, dynamic> json) => VoiceSemanticDatum(
-    productId: json['productId'] as String?,
-    mainImageUrl: json['mainImageUrl'] as String?,
-    images: json['images'] as List<dynamic>?,
-    nameEn: json['nameEn'] as String?,
-    companyName: json['companyName'] as String?,
-    description: json['description'] as String?,
-    averageRating: json['averageRating'] as int?,
-    totalRatings: json['totalRatings'] as int?,
-    price: (json['price'] as num?)?.toDouble(),
-    isAvailable: json['isAvailable'] as bool?,
-    activeIngredients: json['activeIngredients'] as String?,
-    tags: json['tags'] as String?,
-    discountPercentage: (json['discountPercentage'] as num?)?.toInt(),
-  );
+  factory VoiceSemanticDatum.fromJson(Map<String, dynamic> json) =>
+      VoiceSemanticDatum(
+        productId: json['productId'] as String?,
+        mainImageUrl: json['mainImageUrl'] as String?,
+        images: json['images'] as List<dynamic>?,
+        nameEn: json['nameEn'] as String?,
+        companyName: json['companyName'] as String?,
+        description: json['description'] as String?,
+        averageRating: json['averageRating'] as int?,
+        totalRatings: json['totalRatings'] as int?,
+        price: (json['price'] as num?)?.toDouble(),
+        isAvailable: json['isAvailable'] as bool?,
+        activeIngredients: json['activeIngredients'] as String?,
+        tags: json['tags'] as String?,
+        discountPercentage: (json['discountPercentage'] as num?)?.toInt(),
+      );
 
   Map<String, dynamic> toJson() => {
     'productId': productId,

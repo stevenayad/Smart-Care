@@ -71,7 +71,6 @@ class LoginData {
     refreshToken = json['refreshToken'];
     tokenType = json['tokenType'];
     accessTokenExpiresAt = json['accessTokenExpiresAt'];
-    refreshTokenExpiresAt =
-        json['efreshTokenExpiresAt']; // Typo in API doc? Assuming 'refreshTokenExpiresAt'
+    refreshTokenExpiresAt = json['refreshTokenExpiresAt'];
   }
 }

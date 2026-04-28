@@ -13,10 +13,11 @@ class ButtonModelSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PaymentCubit, PaymentState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is PaymentStripeSuccess || state is PaymentPaymobSuccess) {
           context.read<CartCubit>().clearCart();
           context.read<OrderCubit>().resetorderid();
+          await Future.delayed(Duration(seconds: 2));
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const MainScreenView()),

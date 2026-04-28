@@ -1,22 +1,28 @@
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
 
 /// 🔐 Check + Request Permission
 Future<bool> checkLocationPermission() async {
-  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  Location location = Location();
+
+  bool serviceEnabled = await location.serviceEnabled();
   if (!serviceEnabled) {
-    return false;
+    serviceEnabled = await location.requestService();
+    if (!serviceEnabled) {
+      return false;
+    }
   }
 
-  LocationPermission permission = await Geolocator.checkPermission();
-
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
+  PermissionStatus permissionGranted = await location.hasPermission();
+  if (permissionGranted == PermissionStatus.denied) {
+    permissionGranted = await location.requestPermission();
+    if (permissionGranted != PermissionStatus.granted) {
+      return false;
+    }
   }
 
-  if (permission == LocationPermission.deniedForever ||
-      permission == LocationPermission.denied) {
+  if (permissionGranted == PermissionStatus.deniedForever) {
     return false;
   }
 
@@ -24,15 +30,14 @@ Future<bool> checkLocationPermission() async {
 }
 
 /// 📍 Get current location safely
-Future<Position?> getLocation() async {
+Future<LocationData?> getLocation() async {
   final hasPermission = await checkLocationPermission();
 
   if (!hasPermission) return null;
 
   try {
-    return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+    Location location = Location();
+    return await location.getLocation();
   } catch (e) {
     return null;
   }
@@ -40,14 +45,17 @@ Future<Position?> getLocation() async {
 
 /// 🌍 Detect country safely
 Future<String?> detectCountry() async {
-  final position = await getLocation();
+  final locationData = await getLocation();
 
-  if (position == null) return null;
+  if (locationData == null ||
+      locationData.latitude == null ||
+      locationData.longitude == null)
+    return null;
 
   try {
     final placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
+      locationData.latitude!,
+      locationData.longitude!,
     );
     print("Country ${placemarks.first.isoCountryCode}");
     return placemarks.first.isoCountryCode;
@@ -57,12 +65,28 @@ Future<String?> detectCountry() async {
 }
 
 Future<String?> detectCountryByIP() async {
-  try {
-    print('Being Request For Detect Country');
-    final response = await Dio().get('https://ipapi.co/json/');
-    print("Country ${response.data['country_code']}");
-    return response.data['country_code']; // زي EG / US
-  } catch (e) {
-    return null;
+ try {
+  print('Being Request For Detect Country');
+
+  final response = await Dio().get('https://ipapi.co/json/');
+
+  print(response.data.runtimeType);
+  print("Country ${response.data['country_code']}");
+
+  return response.data['country_code'];
+
+} on DioException catch (e) {
+  print("❌ Dio Error: ${e.message}");
+
+  if (e.response != null) {
+    print("Status Code: ${e.response?.statusCode}");
+    print("Response Data: ${e.response?.data}");
   }
+
+  return null;
+
+} catch (e) {
+  print("❌ Unknown Error: $e");
+  return null;
+}
 }

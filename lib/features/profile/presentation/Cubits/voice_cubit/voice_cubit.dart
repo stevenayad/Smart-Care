@@ -21,7 +21,8 @@ class VoiceCubit extends Cubit<VoiceState> {
       }
 
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+      final path =
+          '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
 
       await recorderController.record(path: path);
       _seconds = 0;
@@ -70,7 +71,7 @@ class VoiceCubit extends Cubit<VoiceState> {
     // Implement sending logic here (e.g., upload to server)
     // For now, we'll just emit success with the path
     emit(VoiceSuccess(path: path));
-    
+
     // Optionally reset to initial after a short delay or stay in success
     // emit(VoiceInitial());
   }

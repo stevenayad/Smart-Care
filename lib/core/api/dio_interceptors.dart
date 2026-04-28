@@ -1,75 +1,164 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smartcare/core/token_storage.dart';
 
 class InterceptorsConsumer extends Interceptor {
   final Dio dio;
-  final TokenStorage storage;
+  final TokenStorage storage = TokenStorage();
+  final VoidCallback onUnauthorized;
+  final Function(String)? onTokenRefreshed;
 
-  bool isRefreshing = false;
+  InterceptorsConsumer({
+    required this.dio,
+    required this.onUnauthorized,
+    this.onTokenRefreshed,
+  });
 
-  InterceptorsConsumer({required this.dio, required this.storage});
+  Completer<String?>? _refreshCompleter;
+  bool _isLoggingOut = false;
+
+  void _safeLogout() async {
+    if (_isLoggingOut) return;
+    _isLoggingOut = true;
+
+    await storage.clear();
+    onUnauthorized();
+  }
+
+  bool _isAuthEndpoint(String path) {
+    return path.contains('/login') ||
+        path.contains('/refresh-token') ||
+        path.contains('/sign-up');
+  }
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = await storage.getAccessToken();
-
-    print("🧩 Access Token: $token");
-
-    if (token != null &&
-        token.isNotEmpty &&
-        !options.path.contains('/login') &&
-        !options.path.contains('/refresh-token')) {
-      options.headers['Authorization'] = 'Bearer $token';
-      print("✅ Token Attached");
+    if (_isAuthEndpoint(options.path)) {
+      return handler.next(options);
     }
 
-    return handler.next(options);
+    try {
+      final isExpired = await storage.isAccessTokenExpired();
+
+      // 🔥 Proactive Refresh
+      if (isExpired) {
+        debugPrint("🕒 Proactive refresh");
+
+        final newToken = await _refreshToken();
+
+        if (newToken == null) {
+          _safeLogout();
+          return handler.reject(
+            DioException(
+              requestOptions: options,
+              error: 'Session expired',
+              type: DioExceptionType.cancel,
+            ),
+          );
+        }
+
+        options.headers['Authorization'] = 'Bearer $newToken';
+        return handler.next(options);
+      }
+
+      final token = await storage.getAccessToken();
+
+      if (token != null && token.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+
+      handler.next(options);
+    } catch (e) {
+      handler.next(options);
+    }
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    print("❌ Error: ${err.response?.statusCode}");
+    if (err.response?.statusCode == 401 &&
+        !_isAuthEndpoint(err.requestOptions.path)) {
+      debugPrint("❌ 401 → Reactive refresh");
 
-    if (err.response?.statusCode == 401 && !isRefreshing) {
-      isRefreshing = true;
+      final newToken = await _refreshToken();
 
-      final refreshToken = await storage.getRefreshToken();
-      final accessToken = await storage.getAccessToken();
+      if (newToken != null) {
+        final options = err.requestOptions;
 
-      if (refreshToken != null && refreshToken.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer $newToken';
+
         try {
-          final response = await dio.post(
-            '/api/auth/refresh-token',
-            data: {'accessToken': accessToken, 'refreshToken': refreshToken},
-          );
-
-          final newAccess = response.data['accessToken'];
-          final newRefresh = response.data['refreshToken'];
-
-          await storage.saveTokens(access: newAccess, refresh: newRefresh);
-
-          isRefreshing = false;
-
-          /// 🔁 إعادة نفس الريكوست
-          final requestOptions = err.requestOptions;
-          requestOptions.headers['Authorization'] = 'Bearer $newAccess';
-
-          final cloneResponse = await dio.fetch(requestOptions);
-
-          return handler.resolve(cloneResponse);
+          final response = await dio.fetch(options);
+          return handler.resolve(response);
         } catch (e) {
-          isRefreshing = false;
-
-          await storage.clear(); // logout
-
-          return handler.reject(err);
+          return handler.next(err);
         }
+      } else {
+        _safeLogout();
       }
     }
 
-    return handler.next(err);
+    handler.next(err);
+  }
+
+  Future<String?> _refreshToken() async {
+    if (_refreshCompleter != null && !_refreshCompleter!.isCompleted) {
+      debugPrint("⏳ Waiting for refresh...");
+      return _refreshCompleter!.future;
+    }
+
+    _refreshCompleter = Completer<String?>();
+
+    try {
+      if (await storage.isRefreshTokenExpired()) {
+        debugPrint("🚨 Refresh token expired");
+        _refreshCompleter!.complete(null);
+        return null;
+      }
+
+      final access = await storage.getAccessToken();
+      final refresh = await storage.getRefreshToken();
+
+      if (refresh == null || refresh.isEmpty) {
+        _refreshCompleter!.complete(null);
+        return null;
+      }
+
+      final response = await dio.post(
+        '/api/auth/refresh-token',
+        data: {'accessToken': access, 'refreshToken': refresh},
+      );
+
+      if (response.statusCode == 200 && response.data['succeeded'] == true) {
+        final data = response.data['data'];
+
+        final newAccess = data['accessToken'];
+        final newRefresh = data['refreshToken'];
+
+        await storage.saveTokens(
+          access: newAccess,
+          refresh: newRefresh,
+          accessExpires: data['accessTokenExpiresAt'],
+          refreshExpires: data['refreshTokenExpiresAt'],
+        );
+
+        debugPrint("✅ Token refreshed");
+
+        onTokenRefreshed?.call(newAccess);
+
+        _refreshCompleter!.complete(newAccess);
+        return newAccess;
+      }
+
+      _refreshCompleter!.complete(null);
+      return null;
+    } catch (e) {
+      debugPrint("🔥 Refresh error: $e");
+      _refreshCompleter!.complete(null);
+      return null;
+    }
   }
 }

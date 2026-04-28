@@ -13,7 +13,8 @@ class AppSignalRService {
 
   AppSignalRService._internal(this._token);
 
-  final String? _token;
+  final String _url = "https://smartcarepharmacy.tryasp.net/hubs/users";
+  String? _token;
   late HubConnection hubConnection;
 
   bool _connected = false;
@@ -22,10 +23,24 @@ class AppSignalRService {
   void Function(ReservationExpiredModel)? onCartReservationExpired;
   void Function(OrderResponse)? onPaymentStatusChanged;
 
+  /// Updates the token and reconnects if necessary.
+  /// This ensures SignalR always uses the latest access token.
+  Future<void> updateTokenAndReconnect(String newToken) async {
+    if (_token == newToken && _connected) return;
+
+    _token = newToken;
+    log("🔄 SignalR: Token updated, reconnecting...");
+
+    await disconnect();
+    await init();
+  }
+
   Future<void> init() async {
+    _listenersRegistered =
+        false; // Reset to ensure new connection gets listeners
     hubConnection = HubConnectionBuilder()
         .withUrl(
-          "https://smartcarepharmacy.tryasp.net/hubs/users",
+          _url,
           options: HttpConnectionOptions(
             accessTokenFactory: () async => _token ?? "",
           ),
@@ -42,22 +57,27 @@ class AppSignalRService {
   }
 
   Future<void> connect() async {
-    if (!_connected && hubConnection.state == HubConnectionState.Disconnected) {
+    if (hubConnection.state == HubConnectionState.Disconnected) {
       try {
         await hubConnection.start();
         _connected = true;
         log("✅ SignalR Connected");
       } catch (e) {
+        _connected = false;
         log("❌ SignalR Connect Error: $e");
       }
     }
   }
 
   Future<void> disconnect() async {
-    if (_connected) {
-      await hubConnection.stop();
-      _connected = false;
-      log("❌ SignalR Disconnected");
+    if (hubConnection.state != HubConnectionState.Disconnected) {
+      try {
+        await hubConnection.stop();
+        _connected = false;
+        log("❌ SignalR Disconnected");
+      } catch (e) {
+        log("⚠️ SignalR Disconnect Error: $e");
+      }
     }
   }
 
