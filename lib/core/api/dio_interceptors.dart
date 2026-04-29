@@ -3,11 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:smartcare/core/token_storage.dart';
 
-/// [InterceptorsConsumer] handles authentication headers, proactive token refresh,
-/// 401 retries, and concurrency control for token renewal.
 class InterceptorsConsumer extends Interceptor {
   final Dio dio;
-  final TokenStorage storage = TokenStorage(); // Singleton
+  final TokenStorage storage = TokenStorage();
   final VoidCallback onUnauthorized;
   final Function(String)? onTokenRefreshed;
 
@@ -17,19 +15,21 @@ class InterceptorsConsumer extends Interceptor {
     this.onTokenRefreshed,
   });
 
-  /// Completer to handle concurrent refresh calls.
-  /// Only one refresh request will be made at a time.
   Completer<String?>? _refreshCompleter;
-
-  /// Guard to ensure logout logic (e.g., navigation) only happens once.
   bool _isLoggingOut = false;
 
   void _safeLogout() async {
     if (_isLoggingOut) return;
     _isLoggingOut = true;
-    
+
     await storage.clear();
     onUnauthorized();
+  }
+
+  bool _isAuthEndpoint(String path) {
+    return path.contains('/login') ||
+        path.contains('/refresh-token') ||
+        path.contains('/sign-up');
   }
 
   @override
@@ -37,90 +37,84 @@ class InterceptorsConsumer extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Skip intercepting login and refresh-token endpoints.
-    if (options.path.contains('/login') ||
-        options.path.contains('/refresh-token') ||
-        options.path.contains('/sign-up')) {
+    if (_isAuthEndpoint(options.path)) {
       return handler.next(options);
     }
 
-    // 1. Proactive Refresh Logic: Check if token is expired (or nearly expired) BEFORE request.
-    final isExpired = await storage.isAccessTokenExpired();
-    
-    if (isExpired) {
-      print("🕒 Token expired or near expiry → Proactive refresh starting");
-      
-      final newToken = await _refreshToken();
+    try {
+      final isExpired = await storage.isAccessTokenExpired();
 
-      if (newToken != null) {
+      // 🔥 Proactive Refresh
+      if (isExpired) {
+        debugPrint("🕒 Proactive refresh");
+
+        final newToken = await _refreshToken();
+
+        if (newToken == null) {
+          _safeLogout();
+          return handler.reject(
+            DioException(
+              requestOptions: options,
+              error: 'Session expired',
+              type: DioExceptionType.cancel,
+            ),
+          );
+        }
+
         options.headers['Authorization'] = 'Bearer $newToken';
         return handler.next(options);
-      } else {
-        // If refresh failed, reject the request and logout.
-        _safeLogout();
-        return handler.reject(
-          DioException(
-            requestOptions: options,
-            error: 'Session expired',
-            type: DioExceptionType.cancel,
-          ),
-        );
       }
-    }
 
-    // 2. Normal Request: Attach Authorization header if token exists.
-    final token = await storage.getAccessToken();
-    if (token != null && token.isNotEmpty) {
-      options.headers['Authorization'] = 'Bearer $token';
-    }
+      final token = await storage.getAccessToken();
 
-    return handler.next(options);
+      if (token != null && token.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+
+      handler.next(options);
+    } catch (e) {
+      handler.next(options);
+    }
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // 3. Reactive Refresh: Handle 401 Unauthorized errors.
     if (err.response?.statusCode == 401 &&
-        !err.requestOptions.path.contains('/login') &&
-        !err.requestOptions.path.contains('/refresh-token')) {
-      
-      print("❌ 401 Unauthorized → Attempting reactive refresh");
+        !_isAuthEndpoint(err.requestOptions.path)) {
+      debugPrint("❌ 401 → Reactive refresh");
 
       final newToken = await _refreshToken();
 
       if (newToken != null) {
-        // Retry the failed request with the new token.
         final options = err.requestOptions;
+
         options.headers['Authorization'] = 'Bearer $newToken';
 
         try {
           final response = await dio.fetch(options);
           return handler.resolve(response);
-        } on DioException catch (retryError) {
-          return handler.next(retryError);
+        } catch (e) {
+          return handler.next(err);
         }
       } else {
         _safeLogout();
       }
     }
 
-    return handler.next(err);
+    handler.next(err);
   }
 
-  /// Refreshes the access token with concurrency control.
   Future<String?> _refreshToken() async {
-    // ✅ Concurrency Control: Avoid multiple refresh calls at the same time.
     if (_refreshCompleter != null && !_refreshCompleter!.isCompleted) {
-      print("⏳ Refresh already in progress → waiting for result");
+      debugPrint("⏳ Waiting for refresh...");
       return _refreshCompleter!.future;
     }
 
     _refreshCompleter = Completer<String?>();
 
     try {
-      // ✅ Guard: If refresh token itself is expired, clear storage and logout.
       if (await storage.isRefreshTokenExpired()) {
-        print("🚨 Refresh Token expired → Permanent logout");
+        debugPrint("🚨 Refresh token expired");
         _refreshCompleter!.complete(null);
         return null;
       }
@@ -133,8 +127,6 @@ class InterceptorsConsumer extends Interceptor {
         return null;
       }
 
-      // Use a clean Dio instance or the same one but ensure no interceptor loop.
-      // Since we skip '/refresh-token' in onRequest, we can use the same dio instance.
       final response = await dio.post(
         '/api/auth/refresh-token',
         data: {'accessToken': access, 'refreshToken': refresh},
@@ -145,32 +137,26 @@ class InterceptorsConsumer extends Interceptor {
 
         final newAccess = data['accessToken'];
         final newRefresh = data['refreshToken'];
-        final newAccessExpiry = data['accessTokenExpiresAt'];
-        final newRefreshExpiry = data['refreshTokenExpiresAt'];
 
-        // Always parse token expiry values correctly using DateTime.parse (handled in TokenStorage)
         await storage.saveTokens(
           access: newAccess,
           refresh: newRefresh,
-          accessExpires: newAccessExpiry,
-          refreshExpires: newRefreshExpiry,
+          accessExpires: data['accessTokenExpiresAt'],
+          refreshExpires: data['refreshTokenExpiresAt'],
         );
 
-        print("✅ Token refreshed successfully");
+        debugPrint("✅ Token refreshed");
 
-        // Notify that the token was refreshed (e.g., for SignalR update)
         onTokenRefreshed?.call(newAccess);
 
         _refreshCompleter!.complete(newAccess);
         return newAccess;
-      } else {
-        print("⚠️ Refresh failed: Invalid response");
-        _refreshCompleter!.complete(null);
-        return null;
       }
+
+      _refreshCompleter!.complete(null);
+      return null;
     } catch (e) {
-      // Handle all edge cases: Network failure during refresh, invalid tokens, etc.
-      print("🔥 Refresh Error (Network/Server): $e");
+      debugPrint("🔥 Refresh error: $e");
       _refreshCompleter!.complete(null);
       return null;
     }

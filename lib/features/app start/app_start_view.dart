@@ -34,17 +34,13 @@ class AppStartView extends StatelessWidget {
                 }
 
                 /// loading
-                return const Scaffold(
-                  body: Center(child: CircularProgressIndicator()),
-                );
+                return const Scaffold(body: Center(child: Text('')));
               },
             );
           }
 
           /// loading مبدئي
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const Scaffold(body: Center(child: Text('')));
         },
       ),
     );

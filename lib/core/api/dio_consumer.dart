@@ -57,11 +57,8 @@ class DioConsumer implements ApiConsumer {
     try {
       // ✅ CLEANUP: Removed manual token injection. Interceptor handles it.
       print('📡 GET => ${dio.options.baseUrl}$endpoint');
-      
-      final response = await dio.get(
-        endpoint,
-        queryParameters: query,
-      );
+
+      final response = await dio.get(endpoint, queryParameters: query);
 
       return response.data;
     } on DioException catch (e) {
@@ -81,10 +78,7 @@ class DioConsumer implements ApiConsumer {
     try {
       print('📤 POST => ${dio.options.baseUrl}$endpoint');
 
-      final response = await dio.post(
-        endpoint,
-        data: body,
-      );
+      final response = await dio.post(endpoint, data: body);
 
       return response.data;
     } on DioException catch (e) {
@@ -108,10 +102,7 @@ class DioConsumer implements ApiConsumer {
     try {
       print('📝 PUT => ${dio.options.baseUrl}$endpoint');
 
-      final response = await dio.put(
-        endpoint,
-        data: body,
-      );
+      final response = await dio.put(endpoint, data: body);
 
       return response.data;
     } on DioException catch (e) {
@@ -131,10 +122,7 @@ class DioConsumer implements ApiConsumer {
     try {
       print('🗑️ DELETE => ${dio.options.baseUrl}$endpoint');
 
-      final response = await dio.delete(
-        endpoint,
-        data: body,
-      );
+      final response = await dio.delete(endpoint, data: body);
 
       return response.data;
     } on DioException catch (e) {
@@ -151,10 +139,7 @@ class DioConsumer implements ApiConsumer {
     try {
       print('🛠️ PATCH => ${dio.options.baseUrl}$endpoint');
 
-      final response = await dio.patch(
-        endpoint,
-        data: body,
-      );
+      final response = await dio.patch(endpoint, data: body);
 
       return response.data;
     } on DioException catch (e) {

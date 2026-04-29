@@ -4,14 +4,33 @@ import 'package:signalr_netcore/hub_connection_builder.dart';
 import 'package:signalr_netcore/http_connection_options.dart';
 
 class DetailsSignalRService {
+  static DetailsSignalRService? _instance;
+
+  factory DetailsSignalRService(String token) {
+    _instance ??= DetailsSignalRService._internal(token);
+    return _instance!;
+  }
+
+  DetailsSignalRService._internal(this._token) {
+    init();
+  }
+
   String? _token;
   late HubConnection hubConnection;
   void Function(ProductAvailability)? _handler;
   bool _listenerRegistered = false;
 
-  DetailsSignalRService(String token) {
-    _token = token;
-    init();
+  Future<void> updateTokenAndReconnect(String newToken) async {
+    if (_token == newToken &&
+        hubConnection.state == HubConnectionState.Connected)
+      return;
+
+    _token = newToken;
+    log("🔄 SignalR Details: Token updated, reconnecting...");
+
+    await disconnect();
+    await init();
+    await connect();
   }
 
   Future<void> init() async {
@@ -24,6 +43,22 @@ class DetailsSignalRService {
         )
         .withAutomaticReconnect()
         .build();
+
+    if (_handler != null) {
+      _listenerRegistered = false;
+      listenReservationExpired(_handler!);
+    }
+  }
+
+  Future<void> disconnect() async {
+    if (hubConnection.state != HubConnectionState.Disconnected) {
+      try {
+        await hubConnection.stop();
+        log("❌ SignalR Details Disconnected");
+      } catch (e) {
+        log("⚠️ SignalR Details Disconnect Error: $e");
+      }
+    }
   }
 
   Future<void> connect() async {

@@ -23,21 +23,23 @@ class TokenStorage {
   }) async {
     await _storage.write(key: _keyAccess, value: access);
     await _storage.write(key: _keyRefresh, value: refresh);
-    
+
     // Always parse token expiry values correctly using DateTime.parse
     // and store them as ISO8601 strings for consistency.
     await _storage.write(
-      key: _keyAccessExpires, 
+      key: _keyAccessExpires,
       value: DateTime.parse(accessExpires).toIso8601String(),
     );
     await _storage.write(
-      key: _keyRefreshExpires, 
+      key: _keyRefreshExpires,
       value: DateTime.parse(refreshExpires).toIso8601String(),
     );
   }
 
-  Future<String?> getAccessToken() async => await _storage.read(key: _keyAccess);
-  Future<String?> getRefreshToken() async => await _storage.read(key: _keyRefresh);
+  Future<String?> getAccessToken() async =>
+      await _storage.read(key: _keyAccess);
+  Future<String?> getRefreshToken() async =>
+      await _storage.read(key: _keyRefresh);
 
   Future<DateTime?> getAccessTokenExpiresAt() async {
     final expiry = await _storage.read(key: _keyAccessExpires);
@@ -50,7 +52,9 @@ class TokenStorage {
   }
 
   /// Checks if the access token is expired or will expire within the given [buffer].
-  Future<bool> isAccessTokenExpired({Duration buffer = const Duration(seconds: 30)}) async {
+  Future<bool> isAccessTokenExpired({
+    Duration buffer = const Duration(seconds: 30),
+  }) async {
     final expiry = await getAccessTokenExpiresAt();
     if (expiry == null) return true;
     return DateTime.now().isAfter(expiry.subtract(buffer));

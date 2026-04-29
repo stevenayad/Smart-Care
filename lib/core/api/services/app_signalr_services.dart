@@ -11,6 +11,8 @@ class AppSignalRService {
     return _instance!;
   }
 
+  AppSignalRService._internal(this._token);
+
   final String _url = "https://smartcarepharmacy.tryasp.net/hubs/users";
   String? _token;
   late HubConnection hubConnection;
@@ -25,20 +27,21 @@ class AppSignalRService {
   /// This ensures SignalR always uses the latest access token.
   Future<void> updateTokenAndReconnect(String newToken) async {
     if (_token == newToken && _connected) return;
-    
+
     _token = newToken;
     log("🔄 SignalR: Token updated, reconnecting...");
-    
+
     await disconnect();
     await init();
   }
 
   Future<void> init() async {
+    _listenersRegistered =
+        false; // Reset to ensure new connection gets listeners
     hubConnection = HubConnectionBuilder()
         .withUrl(
           _url,
           options: HttpConnectionOptions(
-            // ✅ FIX: Always use the latest token via the factory
             accessTokenFactory: () async => _token ?? "",
           ),
         )

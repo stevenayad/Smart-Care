@@ -47,8 +47,11 @@ class SmartCare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Initialize SignalR Service
+    // 1. Initialize SignalR Services
     final signalRService = AppSignalRService(
+      CacheHelper.getAccessToken() ?? "",
+    );
+    final detailsSignalRService = DetailsSignalRService(
       CacheHelper.getAccessToken() ?? "",
     );
 
@@ -61,17 +64,17 @@ class SmartCare extends StatelessWidget {
 
     // 4. Wire up callbacks for Auth and SignalR synchronization
     apiConsumer.onUnauthorized = () => authCubit.forceLogout();
+
     apiConsumer.onTokenRefreshed = (newToken) {
       print("🔄 Main: Token refreshed, updating SignalR...");
-      signalRService.updateTokenAndReconnect(newToken);
+      detailsSignalRService.updateTokenAndReconnect(newToken);
     };
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SignalrdetialsCubit(
-            DetailsSignalRService(CacheHelper.getAccessToken()!),
-          )..initGlobalListener(),
+          create: (context) =>
+              SignalrdetialsCubit(detailsSignalRService)..initGlobalListener(),
         ),
 
         /// Auth
