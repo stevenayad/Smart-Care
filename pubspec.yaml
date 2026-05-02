@@ -70,6 +70,9 @@ dependencies:
   location: ^8.0.1
   geolocator: ^14.0.2
   package_info_plus: ^8.0.0
+  bloc_test: ^10.0.0
+  mocktail: ^1.0.5
+
 
 
   
