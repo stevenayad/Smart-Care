@@ -1,0 +1,59 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:smartcare/core/api/api_consumer.dart';
+import 'package:smartcare/core/api/failure.dart';
+import 'package:smartcare/features/payment/data/Model/intentpayment_model/intentpayment_model.dart';
+import 'package:smartcare/features/payment/data/Model/payment_cash_model.dart';
+import 'package:smartcare/features/payment/data/repo/payment_repo.dart';
+class PaymentRepoImpl implements PaymentRepo {
+  final ApiConsumer apiConsumer;
+
+  PaymentRepoImpl({required this.apiConsumer});
+
+  Future<Either<Failure, IntentpaymentModel>> PaymentIntentOrder(
+    int provider,
+    String idorder,
+  ) async {
+    try {
+      final response = await apiConsumer.post(
+        "api/payments/${provider}/Purchase/${idorder}",
+        null,
+        false,
+      );
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final parsedModel = IntentpaymentModel.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
+
+  Future<Either<Failure, PaymentCashModel>> PaymentCashOrder(
+    String idorder,
+  ) async {
+    try {
+      final response = await apiConsumer.post(
+        "api/payments/mark-as-cash-payment/${idorder}",
+        null,
+        false,
+      );
+      if (response == null || response is! Map<String, dynamic>) {
+        return Left(servivefailure("Invalid server response"));
+      }
+      final parsedModel = PaymentCashModel.fromJson(response);
+      return Right(parsedModel);
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      return Left(servivefailure.fromDioError(e));
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      return Left(servivefailure("Unexpected error, please try again"));
+    }
+  }
+}

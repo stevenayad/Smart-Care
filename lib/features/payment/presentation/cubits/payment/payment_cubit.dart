@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:smartcare/features/payment/data/Model/payment_cash_model.dart';
 import 'package:smartcare/features/payment/data/paymentmethod/payment_strategy.dart';
-import 'package:smartcare/features/payment/data/repo/location_services.dart';
+import 'package:smartcare/features/payment/data/services/location_services.dart';
 import 'package:smartcare/features/payment/data/repo/payment_repo.dart';
 part 'payment_state.dart';
 
