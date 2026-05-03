@@ -9,7 +9,7 @@ class DisplayFavoutieCubit extends Cubit<DisplayFavoutieState> {
   DisplayFavoutieCubit(this.favrepoimplemtaion) : super(FavoutieInitial());
 
   final Favrepoimplemtaion favrepoimplemtaion;
-  final List<String> favouriteItems = [];
+ 
   Future<void> getitmfav() async {
     emit(FavoutieLoading());
     final result = await favrepoimplemtaion.getfavitem();

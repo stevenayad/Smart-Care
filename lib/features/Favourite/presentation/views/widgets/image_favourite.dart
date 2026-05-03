@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/Favourite/data/Models/favorite_item_model/datum.dart';
+import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 
 class ImageFavourite extends StatelessWidget {
   const ImageFavourite({super.key, required this.favouriteItem});
@@ -52,7 +54,13 @@ class ImageFavourite extends StatelessWidget {
                 color: Colors.redAccent,
                 size: 20,
               ),
-              onPressed: () {},
+              onPressed: () {
+                if (favouriteItem.productId != null) {
+                  context.read<FavouriteCubit>().toggleFavItem(
+                    favouriteItem.productId!,
+                  );
+                }
+              },
             ),
           ),
         ),

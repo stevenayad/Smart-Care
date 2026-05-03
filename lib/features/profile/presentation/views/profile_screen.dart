@@ -6,16 +6,22 @@ import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.da
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/profile_body.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<Profilecubit>().fetchProfiledata();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          Profilecubit(ProfileRepoimplemtation(api: DioConsumer(Dio())))
-            ..fetchProfiledata(),
-      child: Scaffold(body: ProfileBody()),
-    );
+    return const Scaffold(body: ProfileBody());
   }
 }

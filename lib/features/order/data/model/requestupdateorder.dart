@@ -14,12 +14,12 @@ class RequestUpdateOrder {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      "orderId": orderId,
-      "cartId": cartId,
-      "updatedOrderType": updatedOrderType,
-      "storeId": storeId,
-      "shippingAddressId": shippingAddressId,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (orderId != null) data['orderId'] = orderId;
+    if (cartId != null) data['cartId'] = cartId;
+    if (updatedOrderType != null) data['updatedOrderType'] = updatedOrderType;
+    if (storeId != null) data['storeId'] = storeId;
+    if (shippingAddressId != null) data['shippingAddressId'] = shippingAddressId;
+    return data;
   }
 }

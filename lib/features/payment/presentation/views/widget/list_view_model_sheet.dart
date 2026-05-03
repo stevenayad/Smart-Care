@@ -48,7 +48,7 @@ class _ListViewModelSheetState extends State<ListViewModelSheet> {
                     icon: Icons.credit_card,
                   ),
             PaymentMethod(
-              name: "Cash on Delivery",
+              name: "Cash",
               subtitle: "Pay when you receive",
               image: 'https://cdn-icons-png.flaticon.com/512/3523/3523887.png',
             ),

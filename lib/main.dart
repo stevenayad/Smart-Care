@@ -9,6 +9,8 @@ import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/core/token_storage.dart';
 import 'package:smartcare/features/app%20start/app_start_view.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
+import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
+import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
 import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart'
@@ -19,6 +21,7 @@ import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_sig
 import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
+import 'package:smartcare/features/order/data/repo/order_repo_implementation.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/profile/data/repo/profile_repoimplemtation.dart';
@@ -72,6 +75,7 @@ class SmartCare extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+        //SignalR Global
         BlocProvider(
           create: (context) =>
               SignalrdetialsCubit(detailsSignalRService)..initGlobalListener(),
@@ -82,7 +86,7 @@ class SmartCare extends StatelessWidget {
 
         /// Order
         BlocProvider(
-          create: (_) => OrderCubit(Orderrepo(apiConsumer: apiConsumer)),
+          create: (_) => OrderCubit(OrderRepoImplementation(apiConsumer: apiConsumer)),
         ),
 
         /// Cart
@@ -100,32 +104,24 @@ class SmartCare extends StatelessWidget {
             cartCubit: ctx.read<CartCubit>(),
           ),
         ),
-
-        /// Profile (Global to allow real-time cross-app updates)
+        
+       //allow update in all app
         BlocProvider(
           create: (_) =>
               Profilecubit(ProfileRepoimplemtation(api: apiConsumer)),
         ),
 
+       
+
         BlocProvider.value(value: authCubit),
       ],
-      child: BlocListener<AuthCubit, AuthcubitState>(
-        listener: (context, state) {
-          if (state is Unauthenticated) {
-            navigatorKey.currentState?.pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-              (route) => false,
-            );
-          }
-        },
-        child: MaterialApp(
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          title: "Smart Care",
-          theme: AppThemes.lightTheme,
-          themeMode: ThemeMode.system,
-          home: const AppStartView(),
-        ),
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: "Smart Care",
+        theme: AppThemes.lightTheme,
+        themeMode: ThemeMode.system,
+        home: const AppStartView(),
       ),
     );
   }

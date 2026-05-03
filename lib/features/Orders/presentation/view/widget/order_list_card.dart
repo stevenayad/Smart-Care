@@ -18,7 +18,6 @@ class OrderListCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-
       child: Material(
         color: AppColors.primaryblue.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
@@ -59,7 +58,6 @@ class OrderListCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

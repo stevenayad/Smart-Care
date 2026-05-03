@@ -131,12 +131,19 @@ class LogoutDialog extends StatelessWidget {
             elevation: 3,
           ),
           onPressed: () async {
-            final cubit = BlocProvider.of<Profilecubit>(parentContext);
-            await BlocProvider.of<AuthCubit>(context).logout(); //Refreash Token
-            cubit.Logout();
-            await CacheHelper.removeAccessToken();
+            final authCubit = BlocProvider.of<AuthCubit>(context);
+            final profileCubit = BlocProvider.of<Profilecubit>(parentContext);
+
             Navigator.pop(context);
+            
+            try {
+              await profileCubit.Logout();
+            } catch (_) {}
+           
+            await authCubit.logout();
           },
+
+
           child: const Text(
             "Logout",
             style: TextStyle(

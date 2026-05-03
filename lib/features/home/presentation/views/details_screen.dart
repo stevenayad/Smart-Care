@@ -14,87 +14,88 @@ import 'package:smartcare/features/profile/presentation/Cubits/condracation/cont
 import 'package:smartcare/features/profile/presentation/Cubits/simillar/simillarproduct_cubit.dart';
 import 'package:smartcare/features/profile/presentation/Cubits/profile/profilecubit.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key, required this.Productid});
   final String Productid;
 
   @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Join SignalR product group once when the screen is initialized
+    context.read<SignalrdetialsCubit>().joinProduct(widget.Productid);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignalrdetialsCubit, SignalrdetialsState>(
-      buildWhen: (previous, current) {
-        return previous is SignalrdetialsInitial;
-      },
-      builder: (context, state) {
-        context.read<SignalrdetialsCubit>().joinProduct(Productid);
+    return Scaffold(
+      body: MultiBlocProvider(
+        providers: [
 
-        return Scaffold(
-          body: MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) =>
-                    FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
-                      ..loadFavouriteItems(),
-              ),
-              BlocProvider(
-                create: (context) => DetailsproductCubit(
-                  DetaisProductRepo(api: DioConsumer(Dio())),
-                )..getproductdetails(Productid),
-              ),
-
-              BlocProvider(
-                create: (context) =>
-                    RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))
-                      ..loadUserRate(Productid),
-              ),
-
-              BlocProvider(
-                create: (context) => SimilarProductsCubit(
-                  SemanticSearchRepositoy(api: DioConsumer(Dio())),
-                )..getSimilarProducts(Productid),
-              ),
-              BlocProvider(
-                create: (context) => ContradicationCubit(
-                  repositoy: SemanticSearchRepositoy(api: DioConsumer(Dio())),
-                )..getcondrationitem(id: Productid),
-              ),
-            ],
-            child: MultiBlocListener(
-              listeners: [
-                BlocListener<FavouriteCubit, FavouriteState>(
-                  listener: (context, favState) {
-                    if (favState is FavouriteSuccess) {
-                      context.read<Profilecubit>().fetchProfiledata();
-                    }
-                  },
-                ),
-                BlocListener<ContradicationCubit, ContradicationState>(
-                  listener: (context, state) {
-                    if (state is ContradicationSuccess &&
-                        state.medicalWarningResponse.data.isNotEmpty) {
-                      final message = state.medicalWarningResponse.data
-                          .map((e) {
-                            return "${e.ingredientA} + ${e.ingredientB}\n${e.reason}";
-                          })
-                          .join("\n\n");
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (_) => ShowDialogAlret(
-                          icon: Icons.warning_amber_rounded,
-                          iconColor: Colors.orange,
-                          title: "Medical Warning",
-                          message: message,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-              child: DetailsBody(),
-            ),
+           BlocProvider(
+          create: (_) => FavouriteCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+            ..loadFavouriteItems(),
+        ),
+          BlocProvider(
+            create: (context) => DetailsproductCubit(
+              DetaisProductRepo(api: DioConsumer(Dio())),
+            )..getproductdetails(widget.Productid),
           ),
-        );
-      },
+          BlocProvider(
+            create: (context) =>
+                RateCubit(DetaisProductRepo(api: DioConsumer(Dio())))
+                  ..loadUserRate(widget.Productid),
+          ),
+          BlocProvider(
+            create: (context) => SimilarProductsCubit(
+              SemanticSearchRepositoy(api: DioConsumer(Dio())),
+            )..getSimilarProducts(widget.Productid),
+          ),
+          BlocProvider(
+            create: (context) => ContradicationCubit(
+              repositoy: SemanticSearchRepositoy(api: DioConsumer(Dio())),
+            )..getcondrationitem(id: widget.Productid),
+          ),
+        ],
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<FavouriteCubit, FavouriteState>(
+              listener: (context, favState) {
+                if (favState is FavouriteSuccess) {
+                  context.read<Profilecubit>().fetchProfiledata();
+                }
+              },
+            ),
+            BlocListener<ContradicationCubit, ContradicationState>(
+              listener: (context, state) {
+                if (state is ContradicationSuccess &&
+                    state.medicalWarningResponse.data.isNotEmpty) {
+                  final message = state.medicalWarningResponse.data
+                      .map((e) {
+                        return "${e.ingredientA} + ${e.ingredientB}\n${e.reason}";
+                      })
+                      .join("\n\n");
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => ShowDialogAlret(
+                      icon: Icons.warning_amber_rounded,
+                      iconColor: Colors.orange,
+                      title: "Medical Warning",
+                      message: message,
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+          child: DetailsBody(),
+        ),
+      ),
     );
   }
 }
