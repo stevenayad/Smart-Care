@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/widget/show_dailog_payment.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
-import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_state.dart';
+import 'package:smartcare/features/payment/presentation/cubits/signalr/signalr_state.dart';
 import 'package:smartcare/main.dart';
 
 class PaymentSignalRCubit extends Cubit<PaymentSignalRState> {

@@ -7,7 +7,8 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/payment/data/repo/payment_repo.dart';
-import 'package:smartcare/features/payment/presentation/cubits/cubit/signalr_cubit.dart';
+import 'package:smartcare/features/payment/data/repo/payment_repo_implementation.dart';
+import 'package:smartcare/features/payment/presentation/cubits/signalr/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 import 'package:smartcare/features/payment/presentation/views/widget/model_sheet_payment.dart';
 
@@ -35,7 +36,7 @@ void showPaymentSheet(BuildContext context, String orderId) {
         providers: [
           BlocProvider(
             create: (_) => PaymentCubit(
-              PaymentRepo(apiConsumer: DioConsumer(Dio())),
+              PaymentRepoImpl(apiConsumer: DioConsumer(Dio())),
             ),
           ),
           BlocProvider(
