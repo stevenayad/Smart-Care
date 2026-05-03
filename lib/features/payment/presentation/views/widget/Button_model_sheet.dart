@@ -4,6 +4,7 @@ import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart'
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/payment_factoty.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 
 class ButtonModelSheet extends StatelessWidget {
@@ -14,7 +15,7 @@ class ButtonModelSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PaymentCubit, PaymentState>(
       listener: (context, state) async {
-        if (state is PaymentStripeSuccess || state is PaymentPaymobSuccess) {
+        if (state is PaymentSuccess) {
           context.read<CartCubit>().clearCart();
           context.read<OrderCubit>().resetorderid();
           await Future.delayed(Duration(seconds: 2));
@@ -44,12 +45,18 @@ class ButtonModelSheet extends StatelessWidget {
         height: 55,
         child: ElevatedButton(
           onPressed: () {
-            final selectedIndex = context.read<PaymentCubit>().selectedIndex;
-            if (selectedIndex == 0) {
-              context.read<PaymentCubit>().processIntentPayment(orderid);
-            } else {
-              context.read<PaymentCubit>().processCashPayment(orderid);
+            final cubit = context.read<PaymentCubit>();
+            final selectedIndex = cubit.selectedIndex;
+            final paymentProvider = cubit.paymentProvider;
+
+            if (selectedIndex == 1) {
+              cubit.processCashPayment(orderid);
+              return;
             }
+
+            final strategy = PaymentFactory.getStrategy(paymentProvider);
+            cubit.setPaymentStrategy(strategy);
+            cubit.processIntentPayment(orderid);
           },
           child: const Text("Payment"),
         ),

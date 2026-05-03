@@ -1,4 +1,4 @@
-import 'data.dart';
+import 'MedicalAssistantChatData.dart';
 
 class MedicalAssistantChat {
   int? statusCode;

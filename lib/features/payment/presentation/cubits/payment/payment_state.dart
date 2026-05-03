@@ -9,9 +9,7 @@ sealed class PaymentState extends Equatable {
 
 final class PaymentInitial extends PaymentState {}
 
-class PaymentStripeSuccess extends PaymentState {}
-
-class PaymentPaymobSuccess extends PaymentState {}
+class PaymentSuccess extends PaymentState {}
 
 class PaymentCashSuccess extends PaymentState {
   final PaymentCashModel paymentModel;
