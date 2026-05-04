@@ -37,13 +37,13 @@ class OrderCubit extends Cubit<OrderState> {
   Future<void> updateOrderFromSelection({
     required String cartId,
     required int updatedOrderType,
-    required String? storeId,
-    required String? shippingAddressId,
-    String? orderId,
+     String? storeId,
+     String? shippingAddressId,
+    required String orderId,
   }) {
     return updateorder(
       RequestUpdateOrder(
-        orderId: orderId ?? orderid,
+        orderId: orderId ,
         cartId: cartId,
         updatedOrderType: updatedOrderType,
         storeId: storeId,

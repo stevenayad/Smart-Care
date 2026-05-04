@@ -29,8 +29,10 @@ class InterceptorsConsumer extends Interceptor {
   bool _isAuthEndpoint(String path) {
     return path.contains('/login') ||
         path.contains('/refresh-token') ||
-        path.contains('/sign-up');
+        path.contains('/sign-up') ||
+        path.contains('/logout');
   }
+
 
   @override
   void onRequest(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/widget/build_shimmer_box.dart';
 import 'package:smartcare/features/order/presentation/cubits/address_store/address_store_cubit.dart';
-import 'package:smartcare/features/order/presentation/cubits/delivery/delivery_cubit.dart';
+import 'package:smartcare/features/order/presentation/cubits/delivery/checkout_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/store_cart.dart';
 
 class StoreSection extends StatelessWidget {
@@ -38,9 +38,10 @@ class StoreSection extends StatelessWidget {
           index: index,
           selectedValue: selectedIndex,
           store: store,
-          onSelect: (value) {
+          onSelect: (index) {
             if (store.id != null) {
-              context.read<DeliveryCubit>().selectStore(store.id ?? "");
+              final selectedStore = stores[index];
+              context.read<CheckoutCubit>().selectStore(selectedStore.id ?? "");
             }
           },
         );

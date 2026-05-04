@@ -55,7 +55,7 @@ class ProfileRepoimplemtation {
 
       final profile = Profiledata.fromJson(response);
       return Right(profile);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure("Unexpected error, please try again"));
@@ -80,7 +80,7 @@ class ProfileRepoimplemtation {
 
       final profile = Profiledata.fromJson(response);
       return Right(profile);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure("Unexpected error, please try again"));
@@ -99,7 +99,7 @@ class ProfileRepoimplemtation {
 
       final profile = ChangePasswordModel.fromJson(response);
       return Right(profile);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure("Unexpected error, please try again"));
@@ -112,7 +112,7 @@ class ProfileRepoimplemtation {
 
       final profile = LogoutModel.fromJson(response);
       return Right(profile);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure("Unexpected error, please try again"));

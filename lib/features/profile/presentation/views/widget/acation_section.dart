@@ -61,11 +61,6 @@ class AcationSection extends StatelessWidget {
                   number: profile.data?.favoritesCount ?? 0,
                   icon: Icons.favorite_border,
                 ),
-                ActionItem(
-                  text: 'Reviews',
-                  number: profile.data?.ratesCount ?? 0,
-                  icon: Icons.rate_review,
-                ),
               ],
             );
           }
