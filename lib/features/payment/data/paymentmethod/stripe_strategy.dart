@@ -6,6 +6,9 @@ class StripePaymentStrategy implements PaymentStrategy {
   Future<void> pay(String clientSecret) async {
     await StripeServices.payWithStripe(clientSecret);
   }
+  
+  @override
+  String get providerName => "Stripe";
 }
 
 

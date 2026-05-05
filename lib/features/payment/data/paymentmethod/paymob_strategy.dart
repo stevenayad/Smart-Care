@@ -8,4 +8,7 @@ class PaymobPaymentStrategy implements PaymentStrategy {
       clientSecret: clientSecret,
     );
   }
+  
+  @override
+  String get providerName => "Paymob";
 }
