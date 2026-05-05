@@ -7,6 +7,9 @@ import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/features/order/data/repo/order_repo_implementation.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/payment_services.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/paymob_strategy.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/stripe_strategy.dart';
 import 'package:smartcare/features/payment/data/repo/payment_repo_implementation.dart';
 import 'package:smartcare/features/payment/presentation/cubits/signalr/signalr_cubit.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
@@ -16,9 +19,9 @@ void showPaymentSheet(BuildContext context, String orderId) {
   final token = CacheHelper.getAccessToken();
 
   if (token == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Token not found")),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Token not found")));
     return;
   }
 
@@ -37,15 +40,21 @@ void showPaymentSheet(BuildContext context, String orderId) {
           BlocProvider(
             create: (_) => PaymentCubit(
               PaymentRepoImpl(apiConsumer: DioConsumer(Dio())),
+              paymentService: PaymentService(
+                strategies: {
+                  0: StripePaymentStrategy(),
+                  1: PaymobPaymentStrategy(),
+                },
+              ),
             ),
           ),
           BlocProvider(
-            create: (_) =>
-                OrderCubit(OrderRepoImplementation(apiConsumer: DioConsumer(Dio()))),
+            create: (_) => OrderCubit(
+              OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
+            ),
           ),
           BlocProvider(
-            create: (_) =>
-                PaymentSignalRCubit(signalRService: signalRService),
+            create: (_) => PaymentSignalRCubit(signalRService: signalRService),
           ),
         ],
         child: PaymentBottomSheet(orderid: orderId),

@@ -2,35 +2,33 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:smartcare/features/payment/data/Model/payment_cash_model.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/payment_services.dart';
 import 'package:smartcare/features/payment/data/paymentmethod/payment_strategy.dart';
 import 'package:smartcare/features/payment/data/services/location_services.dart';
 import 'package:smartcare/features/payment/data/repo/payment_repo.dart';
 part 'payment_state.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
-  PaymentCubit(this.paymentRepo) : super(PaymentInitial());
+  PaymentCubit(this.paymentRepo, {required this.paymentService})
+    : super(PaymentInitial());
 
   final PaymentRepo paymentRepo;
+  final PaymentService paymentService;
 
   int selectedIndex = 0;
-  int paymentProvider = 0;
-
-  PaymentStrategy? _strategy;
+  int? paymentProvider;
 
   void selectPaymentMethod(int index) {
     selectedIndex = index;
     emit(PaymentMethodChanged(index));
   }
 
-  void setPaymentStrategy(PaymentStrategy strategy) {
-    _strategy = strategy;
-  }
-
+  
   Future<void> processIntentPayment(String orderid) async {
     emit(PaymentLoading());
 
     final result = await paymentRepo.PaymentIntentOrder(
-      paymentProvider,
+      paymentProvider!,
       orderid,
     );
 
@@ -44,13 +42,9 @@ class PaymentCubit extends Cubit<PaymentState> {
           return;
         }
 
-        if (_strategy == null) {
-          emit(PaymentFlaiure(errmessage: "Payment method not selected"));
-          return;
-        }
 
         try {
-          await _strategy!.pay(secret);
+          await paymentService.pay(secret,paymentProvider!);
           emit(PaymentSuccess());
         } on StripeException catch (e) {
           print('Stripe cancelled: ${e.error.localizedMessage}');
@@ -81,6 +75,14 @@ class PaymentCubit extends Cubit<PaymentState> {
 
     paymentProvider = countryCode == "EG" ? 1 : 0;
 
-    emit(LoadProviderDone(provider: paymentProvider));
+    emit(LoadProviderDone(provider: paymentProvider!));
+  }
+
+   Future<void> processPayment(String orderId) async {
+    if (selectedIndex == 1) {
+      await processCashPayment(orderId);
+      return;
+    }
+    await processIntentPayment(orderId);
   }
 }

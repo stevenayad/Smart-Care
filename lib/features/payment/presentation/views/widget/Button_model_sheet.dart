@@ -4,7 +4,7 @@ import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart'
 import 'package:smartcare/features/home/presentation/views/main_screen_view.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/show_daliog.dart';
-import 'package:smartcare/features/payment/data/paymentmethod/payment_factoty.dart';
+import 'package:smartcare/features/payment/data/paymentmethod/payment_services.dart';
 import 'package:smartcare/features/payment/presentation/cubits/payment/payment_cubit.dart';
 
 class ButtonModelSheet extends StatelessWidget {
@@ -46,17 +46,7 @@ class ButtonModelSheet extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             final cubit = context.read<PaymentCubit>();
-            final selectedIndex = cubit.selectedIndex;
-            final paymentProvider = cubit.paymentProvider;
-
-            if (selectedIndex == 1) {
-              cubit.processCashPayment(orderid);
-              return;
-            }
-
-            final strategy = PaymentFactory.getStrategy(paymentProvider);
-            cubit.setPaymentStrategy(strategy);
-            cubit.processIntentPayment(orderid);
+            cubit.processPayment(orderid);
           },
           child: const Text("Payment"),
         ),
