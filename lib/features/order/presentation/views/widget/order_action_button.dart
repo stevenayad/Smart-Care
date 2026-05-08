@@ -36,11 +36,11 @@ class OrderActionButton extends StatelessWidget {
               onTap: isDisabled
                   ? null
                   : () => _onTap(
-                        context: context,
-                        cartId: cartId,
-                        orderId: orderId,
-                        hasOrder: hasOrder,
-                      ),
+                      context: context,
+                      cartId: cartId,
+                      orderId: orderId,
+                      hasOrder: hasOrder,
+                    ),
             );
           },
         );
@@ -59,38 +59,30 @@ class OrderActionButton extends StatelessWidget {
     final selectedStoreId = deliveryState.selectedStoreId;
     final selectedAddressId = deliveryState.selectedAddressId;
 
-
-    final strategy = OrderStrategyFactory.getStrategy(
-      tab: selectedTab,
-      storeId: selectedStoreId,
-      addressId: selectedAddressId,
-    );
-
-  
-    if (!strategy.validate(context)) return;
-
-    
     if (!hasOrder) {
-      await strategy.execute(
-        cubit: context.read<OrderCubit>(),
+      await context.read<OrderCubit>().createOrderFromSelection(
+        context: context,
+        tab: selectedTab,
         cartId: cartId,
+        addressId: selectedAddressId,
+        storeId: selectedStoreId,
       );
       return;
     }
 
-  
     if (orderId == null) {
-       ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Order id is null')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Order id is null')));
       return;
     }
 
     await context.read<OrderCubit>().updateOrderFromSelection(
-          orderId: orderId,
-          cartId: cartId,
-          updatedOrderType: selectedTab,
-          shippingAddressId: selectedAddressId,
-          storeId: selectedStoreId,
-        );
+      orderId: orderId,
+      cartId: cartId,
+      updatedOrderType: selectedTab,
+      shippingAddressId: selectedAddressId,
+      storeId: selectedStoreId,
+    );
   }
 }

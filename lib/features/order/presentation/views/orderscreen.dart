@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/app_theme.dart';
+import 'package:smartcare/features/order/data/orderstrategy/delivery_strategy.dart';
+import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
+import 'package:smartcare/features/order/data/orderstrategy/pickup_strategy.dart';
 import 'package:smartcare/features/order/data/repo/order_repo_implementation.dart';
-import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/order_body.dart';
 
@@ -15,7 +17,15 @@ class Orderscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        final cubit = OrderCubit(OrderRepoImplementation(apiConsumer: DioConsumer(Dio())));
+        final cubit = OrderCubit(
+          OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
+          orderService: OrderService(
+            strategies: {
+              0: ({addressId, storeId}) => DeliveryStrategy(addressId),
+              1: ({addressId, storeId}) => PickupStrategy(storeId),
+            },
+          ),
+        );
         cubit.getorderdetails(orderId);
 
         return cubit;

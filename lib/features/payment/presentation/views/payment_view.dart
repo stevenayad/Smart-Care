@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
+import 'package:smartcare/features/order/data/orderstrategy/delivery_strategy.dart';
+import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
+import 'package:smartcare/features/order/data/orderstrategy/pickup_strategy.dart';
 import 'package:smartcare/features/order/data/repo/order_repo_implementation.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
@@ -51,6 +54,12 @@ void showPaymentSheet(BuildContext context, String orderId) {
           BlocProvider(
             create: (_) => OrderCubit(
               OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
+              orderService: OrderService(
+                strategies: {
+                  0: ({addressId, storeId}) => DeliveryStrategy(addressId),
+                  1: ({addressId, storeId}) => PickupStrategy(storeId),
+                },
+              ),
             ),
           ),
           BlocProvider(

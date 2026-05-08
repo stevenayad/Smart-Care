@@ -21,6 +21,9 @@ import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_sig
 import 'package:smartcare/features/home/data/Repo/details_signalr.dart';
 import 'package:smartcare/features/home/presentation/cubits/Simple_obsrver.dart';
 import 'package:smartcare/features/home/presentation/cubits/signalr_details/signalrdetials_cubit.dart';
+import 'package:smartcare/features/order/data/orderstrategy/delivery_strategy.dart';
+import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
+import 'package:smartcare/features/order/data/orderstrategy/pickup_strategy.dart';
 import 'package:smartcare/features/order/data/repo/order_repo_implementation.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
@@ -86,7 +89,15 @@ class SmartCare extends StatelessWidget {
 
         /// Order
         BlocProvider(
-          create: (_) => OrderCubit(OrderRepoImplementation(apiConsumer: apiConsumer)),
+          create: (_) => OrderCubit(
+            OrderRepoImplementation(apiConsumer: apiConsumer),
+            orderService: OrderService(
+              strategies: {
+                0: ({addressId, storeId}) => DeliveryStrategy(addressId),
+                1: ({addressId, storeId}) => PickupStrategy(storeId),
+              },
+            ),
+          ),
         ),
 
         /// Cart
@@ -104,14 +115,12 @@ class SmartCare extends StatelessWidget {
             cartCubit: ctx.read<CartCubit>(),
           ),
         ),
-        
-       //allow update in all app
+
+        //allow update in all app
         BlocProvider(
           create: (_) =>
               Profilecubit(ProfileRepoimplemtation(api: apiConsumer)),
         ),
-
-       
 
         BlocProvider.value(value: authCubit),
       ],
