@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
 import 'package:smartcare/features/order/data/model/order_details/order_details..dart';
 import 'package:smartcare/features/order/data/model/pickup_order_model/outof_stock.dart';
@@ -8,15 +9,34 @@ import 'package:smartcare/features/order/data/model/request_createoreder.dart';
 import 'package:smartcare/features/order/data/model/request_pickup.dart';
 import 'package:smartcare/features/order/data/model/requestupdateorder.dart';
 import 'package:smartcare/features/order/data/model/udateorder/udateorder.dart';
+import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit(this.orderrepo) : super(OrderInitial());
-
+  OrderCubit(this.orderrepo, {required this.orderService})
+    : super(OrderInitial());
+  final OrderService orderService;
   String? orderid;
   final Orderrepo orderrepo;
+
+  Future<void> createOrderFromSelection({
+    required BuildContext context,
+    required int tab,
+    required String cartId,
+    String? addressId,
+    String? storeId,
+  }) async {
+    await orderService.process(
+      context: context,
+      tab: tab,
+      cubit: this,
+      cartId: cartId,
+      addressId: addressId,
+      storeId: storeId,
+    );
+  }
 
   Future<void> createDeliveryOrder({
     required String cartId,
@@ -37,13 +57,13 @@ class OrderCubit extends Cubit<OrderState> {
   Future<void> updateOrderFromSelection({
     required String cartId,
     required int updatedOrderType,
-     String? storeId,
-     String? shippingAddressId,
+    String? storeId,
+    String? shippingAddressId,
     required String orderId,
   }) {
     return updateorder(
       RequestUpdateOrder(
-        orderId: orderId ,
+        orderId: orderId,
         cartId: cartId,
         updatedOrderType: updatedOrderType,
         storeId: storeId,

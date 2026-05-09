@@ -6,6 +6,9 @@ import 'package:smartcare/core/api/failure.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/create_order_model.dart';
 import 'package:smartcare/features/order/data/model/create_order_model/data.dart';
 import 'package:smartcare/features/order/data/model/request_createoreder.dart';
+import 'package:smartcare/features/order/data/orderstrategy/delivery_strategy.dart';
+import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
+import 'package:smartcare/features/order/data/orderstrategy/pickup_strategy.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 
@@ -17,7 +20,15 @@ void main() {
 
   setUp(() {
     mockRepo = MockOrderRepo();
-    cubit = OrderCubit(mockRepo);
+    cubit = OrderCubit(
+      mockRepo,
+      orderService: OrderService(
+        strategies: {
+          0: ({addressId, storeId}) => DeliveryStrategy(addressId),
+          1: ({addressId, storeId}) => PickupStrategy(storeId),
+        },
+      ),
+    );
   });
   setUpAll(() {
     registerFallbackValue(
