@@ -1,3 +1,4 @@
+import 'package:smartcare/core/api/services/date_time_extensions.dart';
 import 'package:smartcare/features/Orders/data/models/store_model.dart';
 
 import 'address_model.dart';
@@ -53,7 +54,7 @@ class OrderModel {
                 ? int.tryParse(json['status'].toString())
                 : null),
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
+          ? parseUtcOrderDate(json['createdAt'] as String)
           : null,
       orderItems: json['orderItems'] != null
           ? List<Map<String, dynamic>>.from(

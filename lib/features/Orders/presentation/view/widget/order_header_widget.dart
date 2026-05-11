@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:smartcare/core/api/services/date_time_extensions.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/features/Orders/data/models/order_model.dart';
 
@@ -60,7 +61,8 @@ class OrderHeaderWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  DateFormat('MMM dd, yyyy • hh:mm a').format(order.createdAt!),
+                  DateFormat('MMM dd, yyyy • hh:mm a').format(order.createdAt!.egyptTime),
+                  
                   style: Theme.of(
                     context,
                   ).textTheme.bodySmall?.copyWith(color: AppColors.mediumGrey),
