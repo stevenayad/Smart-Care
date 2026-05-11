@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
+
 abstract class PaymentStrategy {
     String get providerName; 
-  Future<void> pay(String clientSecret);
+  Future<void> pay(BuildContext context,String clientSecret);
 }

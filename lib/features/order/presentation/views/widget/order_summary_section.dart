@@ -11,21 +11,26 @@ class OrderSummarySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderCubit, OrderState>(
       builder: (context, state) {
-        if (state is OrderLoading) {
-          return const Center(child: CircularProgressIndicator());
+        if (state.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
-        if (state is OrderFailure) {
+        if (state.errmessage != null) {
           return Center(
             child: Text(
-              state.errmessage,
-              style: const TextStyle(color: Colors.red, fontSize: 18),
+              state.errmessage!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 18,
+              ),
             ),
           );
         }
 
-        if (state is orderdetailssuccess) {
-          final details = state.orderDetails;
+        if (state.orderDetails != null) {
+          final details = state.orderDetails!;
           final orderItems = details.data?.orderItems ?? [];
 
           return Container(

@@ -18,15 +18,20 @@ class ButtonModelSheet extends StatelessWidget {
         if (state is PaymentSuccess) {
           context.read<CartCubit>().clearCart();
           context.read<OrderCubit>().resetorderid();
-          await Future.delayed(Duration(seconds: 2));
-          Navigator.pushReplacement(
+          OrderDialog.showSuccess(
             context,
-            MaterialPageRoute(builder: (_) => const MainScreenView()),
+            'Your order has been placed successfully.\nCheck your email to view your received order ID.',
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const MainScreenView()),
+              );
+            },
           );
         } else if (state is PaymentCashSuccess) {
           OrderDialog.showSuccess(
             context,
-            'Order Successful',
+            'Your order has been placed successfully.\nCheck your email to view your received order ID.',
             onPressed: () {
               context.read<CartCubit>().clearCart();
               context.read<OrderCubit>().resetorderid();
@@ -46,7 +51,7 @@ class ButtonModelSheet extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             final cubit = context.read<PaymentCubit>();
-            cubit.processPayment(orderid);
+            cubit.processPayment(context, orderid);
           },
           child: const Text("Payment"),
         ),

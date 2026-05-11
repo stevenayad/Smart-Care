@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:smartcare/features/payment/data/Model/payment_cash_model.dart';
 import 'package:smartcare/features/payment/data/paymentmethod/payment_services.dart';
@@ -16,7 +17,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   final PaymentService paymentService;
 
   int selectedIndex = 0;
-  int? paymentProvider;
+  //int? paymentProvider;
 
   void selectPaymentMethod(int index) {
     selectedIndex = index;
@@ -24,11 +25,11 @@ class PaymentCubit extends Cubit<PaymentState> {
   }
 
   
-  Future<void> processIntentPayment(String orderid) async {
+  Future<void> processIntentPayment(BuildContext context,String orderid) async {
     emit(PaymentLoading());
 
     final result = await paymentRepo.PaymentIntentOrder(
-      paymentProvider!,
+      0,
       orderid,
     );
 
@@ -44,7 +45,7 @@ class PaymentCubit extends Cubit<PaymentState> {
 
 
         try {
-          await paymentService.pay(secret,paymentProvider!);
+          await paymentService.pay(context ,secret,0);
           emit(PaymentSuccess());
         } on StripeException catch (e) {
           print('Stripe cancelled: ${e.error.localizedMessage}');
@@ -68,7 +69,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     );
   }
 
-  Future<void> loadPaymentProvider() async {
+  /*Future<void> loadPaymentProvider() async {
     emit(PaymentLoading());
 
     final countryCode = await detectCountry();
@@ -76,13 +77,13 @@ class PaymentCubit extends Cubit<PaymentState> {
     paymentProvider = countryCode == "EG" ? 1 : 0;
 
     emit(LoadProviderDone(provider: paymentProvider!));
-  }
+  }*/
 
-   Future<void> processPayment(String orderId) async {
+   Future<void> processPayment(BuildContext  context,  String orderId) async {
     if (selectedIndex == 1) {
       await processCashPayment(orderId);
       return;
     }
-    await processIntentPayment(orderId);
+    await processIntentPayment(context,orderId);
   }
 }

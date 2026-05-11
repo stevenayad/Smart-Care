@@ -155,6 +155,7 @@ class AppThemes {
   );
   static AppBar customAppBar({
     required String title,
+    VoidCallback? onBack,
     bool showBackButton = false,
     bool isDarkMode = false,
   }) {
@@ -178,7 +179,7 @@ class AppThemes {
       leading: showBackButton
           ? IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(navigatorKey.currentContext!).pop(),
+              onPressed: onBack ?? () => Navigator.of(navigatorKey.currentContext!).pop(),
             )
           : null,
       flexibleSpace: Container(
