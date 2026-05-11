@@ -18,6 +18,7 @@ class ButtonModelSheet extends StatelessWidget {
         if (state is PaymentSuccess) {
           context.read<CartCubit>().clearCart();
           context.read<OrderCubit>().resetorderid();
+          print('Payment Success Clear');
           OrderDialog.showSuccess(
             context,
             'Your order has been placed successfully.\nCheck your email to view your received order ID.',
@@ -29,12 +30,13 @@ class ButtonModelSheet extends StatelessWidget {
             },
           );
         } else if (state is PaymentCashSuccess) {
+          context.read<CartCubit>().clearCart();
+          context.read<OrderCubit>().resetorderid();
+           print('Payment Success Clear');
           OrderDialog.showSuccess(
             context,
             'Your order has been placed successfully.\nCheck your email to view your received order ID.',
             onPressed: () {
-              context.read<CartCubit>().clearCart();
-              context.read<OrderCubit>().resetorderid();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const MainScreenView()),

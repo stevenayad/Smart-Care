@@ -21,27 +21,38 @@ class OrderState extends Equatable {
     this.outodstock,
   });
 
-  OrderState copyWith({
-    bool? hasActiveOrder,
-    bool? isLoading,
-    String? errmessage,
-    PickupOrderModel? pickupOrderModel,
-    CreateOrderModel? createOrderModel,
-    Updateorder? updateordermodel,
-    OrderDetails? orderDetails,
-    List<OutOfStock>? outodstock,
-  }) {
-    return OrderState(
-      hasActiveOrder: hasActiveOrder ?? this.hasActiveOrder,
-      isLoading: isLoading ?? this.isLoading,
-      errmessage: errmessage,
-      pickupOrderModel: pickupOrderModel ?? this.pickupOrderModel,
-      createOrderModel: createOrderModel ?? this.createOrderModel,
-      updateordermodel: updateordermodel ?? this.updateordermodel,
-      orderDetails: orderDetails ?? this.orderDetails,
-      outodstock: outodstock ?? this.outodstock,
-    );
-  }
+ OrderState copyWith({
+  bool? hasActiveOrder,
+  bool? isLoading,
+  String? errmessage,
+  PickupOrderModel? pickupOrderModel,
+  CreateOrderModel? createOrderModel,
+  Updateorder? updateordermodel,
+  OrderDetails? orderDetails,
+  List<OutOfStock>? outodstock,
+  bool clearModels = false,
+}) {
+  return OrderState(
+    hasActiveOrder: hasActiveOrder ?? this.hasActiveOrder,
+    isLoading: isLoading ?? this.isLoading,
+    errmessage: errmessage,
+
+    pickupOrderModel:
+        clearModels ? null : (pickupOrderModel ?? this.pickupOrderModel),
+
+    createOrderModel:
+        clearModels ? null : (createOrderModel ?? this.createOrderModel),
+
+    updateordermodel:
+        clearModels ? null : (updateordermodel ?? this.updateordermodel),
+
+    orderDetails:
+        clearModels ? null : (orderDetails ?? this.orderDetails),
+
+    outodstock:
+        clearModels ? null : (outodstock ?? this.outodstock),
+  );
+}
 
   @override
   List<Object?> get props => [

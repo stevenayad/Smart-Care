@@ -23,24 +23,22 @@ class OrderActionButton extends StatelessWidget {
             final orderCubit = context.read<OrderCubit>();
             final orderId = orderCubit.orderid;
 
-            final hasOrder = orderState.hasActiveOrder;
+            print('orderId $orderId');
+            print('CartId $cartId');
+            final hasOrder = orderId != null;
 
             if (cartId == null || cartState is CartInitial) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final isDisabled = hasOrder && orderId == null;
-
             return EvalutedButton(
               text: hasOrder ? 'Update Order' : 'Confirm Order',
-              onTap: isDisabled
-                  ? null
-                  : () => _onTap(
-                      context: context,
-                      cartId: cartId,
-                      orderId: orderId,
-                      hasOrder: hasOrder,
-                    ),
+              onTap: () => _onTap(
+                context: context,
+                cartId: cartId,
+                orderId: orderId,
+                hasOrder: hasOrder,
+              ),
             );
           },
         );
@@ -55,6 +53,7 @@ class OrderActionButton extends StatelessWidget {
     required bool hasOrder,
   }) async {
     final deliveryState = context.read<CheckoutCubit>().state;
+
     final selectedTab = deliveryState.selectedTab;
     final selectedStoreId = deliveryState.selectedStoreId;
     final selectedAddressId = deliveryState.selectedAddressId;
@@ -67,13 +66,15 @@ class OrderActionButton extends StatelessWidget {
         addressId: selectedAddressId,
         storeId: selectedStoreId,
       );
+
       return;
     }
 
     if (orderId == null) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Order id is null')));
+      ).showSnackBar(const SnackBar(content: Text('Order id is null')));
+
       return;
     }
 

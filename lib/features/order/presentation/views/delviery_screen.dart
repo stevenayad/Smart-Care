@@ -24,7 +24,9 @@ class DelvieryScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              AddressStoreCubit(OrderRepoImplementation(apiConsumer: DioConsumer(Dio())))
+              AddressStoreCubit(
+                  OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
+                )
                 ..getaddress()
                 ..getstore(),
         ),
