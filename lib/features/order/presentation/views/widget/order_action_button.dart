@@ -23,7 +23,7 @@ class OrderActionButton extends StatelessWidget {
             final orderCubit = context.read<OrderCubit>();
             final orderId = orderCubit.orderid;
 
-            final hasOrder = orderState is OrderHasActive;
+            final hasOrder = orderState.hasActiveOrder;
 
             if (cartId == null || cartState is CartInitial) {
               return const Center(child: CircularProgressIndicator());

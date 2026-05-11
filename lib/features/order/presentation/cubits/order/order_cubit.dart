@@ -11,15 +11,17 @@ import 'package:smartcare/features/order/data/model/requestupdateorder.dart';
 import 'package:smartcare/features/order/data/model/udateorder/udateorder.dart';
 import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
-
 part 'order_state.dart';
-
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit(this.orderrepo, {required this.orderService})
-    : super(OrderInitial());
+  OrderCubit(
+    this.orderrepo, {
+    required this.orderService,
+  }) : super(const OrderState());
+
   final OrderService orderService;
-  String? orderid;
   final Orderrepo orderrepo;
+
+  String? orderid;
 
   Future<void> createOrderFromSelection({
     required BuildContext context,
@@ -43,7 +45,10 @@ class OrderCubit extends Cubit<OrderState> {
     required String addressId,
   }) {
     return createorder(
-      RequestCreateoreder(cartId: cartId, deliveryAddressId: addressId),
+      RequestCreateoreder(
+        cartId: cartId,
+        deliveryAddressId: addressId,
+      ),
     );
   }
 
@@ -51,7 +56,12 @@ class OrderCubit extends Cubit<OrderState> {
     required String cartId,
     required String storeId,
   }) {
-    return pickorder(RequestPickup(cartId: cartId, storeId: storeId));
+    return pickorder(
+      RequestPickup(
+        cartId: cartId,
+        storeId: storeId,
+      ),
+    );
   }
 
   Future<void> updateOrderFromSelection({
@@ -73,64 +83,159 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> pickorder(RequestPickup request) async {
-    emit(OrderLoading());
+    emit(
+      state.copyWith(
+        isLoading: true,
+        errmessage: null,
+      ),
+    );
+
     final result = await orderrepo.pickuporder(request);
+
     result.fold(
       (failure) {
-        if (failure.outOfStocks != null && failure.outOfStocks!.isNotEmpty) {
-          emit(OrderOutofStock(outodstock: failure.outOfStocks!));
+        if (failure.outOfStocks != null &&
+            failure.outOfStocks!.isNotEmpty) {
+          emit(
+            state.copyWith(
+              isLoading: false,
+              outodstock: failure.outOfStocks,
+            ),
+          );
         } else {
-          emit(OrderFailure(errmessage: failure.errMessage));
+          emit(
+            state.copyWith(
+              isLoading: false,
+              errmessage: failure.errMessage,
+            ),
+          );
         }
       },
       (model) {
         orderid = model.data!.id;
-        print('Order id  in Cubit---${orderid}');
-        emit(PickupSucess(pickupOrderModel: model));
-        emit(OrderHasActive());
+
+        emit(
+          state.copyWith(
+            isLoading: false,
+            hasActiveOrder: true,
+            pickupOrderModel: model,
+            outodstock: [],
+          ),
+        );
       },
     );
   }
 
   Future<void> createorder(RequestCreateoreder request) async {
-    emit(OrderLoading());
+    emit(
+      state.copyWith(
+        isLoading: true,
+        errmessage: null,
+      ),
+    );
+
     final result = await orderrepo.createorder(request);
+
     result.fold(
-      (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errmessage: failure.errMessage,
+          ),
+        );
+      },
       (model) {
         orderid = model.data!.id;
 
-        emit(CreateorderSucess(createOrderModel: model));
-        emit(OrderHasActive());
+        emit(
+          state.copyWith(
+            isLoading: false,
+            hasActiveOrder: true,
+            createOrderModel: model,
+          ),
+        );
       },
     );
   }
 
   Future<void> updateorder(RequestUpdateOrder request) async {
-    emit(OrderLoading());
+    emit(
+      state.copyWith(
+        isLoading: true,
+        errmessage: null,
+      ),
+    );
+
     final result = await orderrepo.updateorder(request);
+
     result.fold(
-      (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errmessage: failure.errMessage,
+          ),
+        );
+      },
       (model) {
         orderid = model.data!.id;
-        emit(UpdateorderSucess(updateordermodel: model));
-        emit(OrderHasActive());
+
+        emit(
+          state.copyWith(
+            isLoading: false,
+            hasActiveOrder: true,
+            updateordermodel: model,
+          ),
+        );
       },
     );
   }
 
   Future<void> getorderdetails(String id) async {
-    emit(OrderLoading());
+    emit(
+      state.copyWith(
+        isLoading: true,
+        errmessage: null,
+      ),
+    );
+
     final result = await orderrepo.fetchOrderDetails(id);
+
     result.fold(
-      (failure) => emit(OrderFailure(errmessage: failure.errMessage)),
-      (model) => emit(orderdetailssuccess(orderDetails: model)),
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errmessage: failure.errMessage,
+          ),
+        );
+      },
+      (model) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            orderDetails: model,
+          ),
+        );
+      },
     );
   }
 
   void resetorderid() {
     orderid = null;
-    print('order id = null "print" ');
-    emit(OrderInitial());
+
+    emit(
+      state.copyWith(
+        hasActiveOrder: false,
+        pickupOrderModel: null,
+        createOrderModel: null,
+        updateordermodel: null,
+        orderDetails: null,
+        outodstock: null,
+        errmessage: null,
+        isLoading: false,
+      ),
+    );
   }
 }

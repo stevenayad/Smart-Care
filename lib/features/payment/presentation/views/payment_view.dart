@@ -46,7 +46,6 @@ void showPaymentSheet(BuildContext context, String orderId) {
               paymentService: PaymentService(
                 strategies: {
                   0: StripePaymentStrategy(),
-                  1: PaymobPaymentStrategy(),
                 },
               ),
             ),
