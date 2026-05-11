@@ -68,7 +68,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     try {
       final result = await repository.getOrdersByCustomer();
       result.fold((failure) => emit(OrdersError(failure.errMessage)), (orders) {
-        orders.sort((a, b) => (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
+        orders.sort(
+          (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
+            a.createdAt ?? DateTime(0),
+          ),
+        );
         _cachedOrders = orders;
         _hasFetchedList = true;
         emit(OrdersListLoaded(orders));
@@ -89,7 +93,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         event.status,
       );
       result.fold((failure) => emit(OrdersError(failure.errMessage)), (orders) {
-        orders.sort((a, b) => (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
+        orders.sort(
+          (a, b) => (b.createdAt ?? DateTime(0)).compareTo(
+            a.createdAt ?? DateTime(0),
+          ),
+        );
         _cachedOrders = orders;
         _hasFetchedList = true;
         emit(OrdersListLoaded(orders));
