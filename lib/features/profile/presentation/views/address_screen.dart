@@ -5,6 +5,7 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/profile/data/repo/addresses_repository_impl.dart';
 import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/addresses_bloc.dart';
+import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/addresses_event.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/address_body.dart';
 
 class AddressScreen extends StatelessWidget {
@@ -14,13 +15,14 @@ class AddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AddressesBloc(AddressesRepositoryImpl(DioConsumer(Dio()))),
+          AddressesBloc(AddressesRepositoryImpl(DioConsumer(Dio())))
+            ..add(GetAddressesEvent()),
       child: Scaffold(
         appBar: AppThemes.customAppBar(
           title: 'My Addresses',
           showBackButton: true,
         ),
-        body: AddressBody(),
+        body: const AddressBody(),
       ),
     );
   }
