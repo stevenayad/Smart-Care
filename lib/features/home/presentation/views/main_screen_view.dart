@@ -9,6 +9,7 @@ import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart'
 import 'package:smartcare/features/home/presentation/cubits/navgatie/navigationcubit%20.dart';
 import 'package:smartcare/features/home/presentation/views/home_screen.dart';
 import 'package:smartcare/features/products/presentation/view/products_screen.dart';
+import 'package:smartcare/features/profile/presentation/views/medical_assistant_screen.dart';
 import 'package:smartcare/features/stores/presentation/screens/store_screen.dart';
 import 'package:smartcare/features/profile/presentation/views/profile_screen.dart';
 import 'package:smartcare/core/app_color.dart';
@@ -20,12 +21,14 @@ class MainScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final cartCubit = context.read<CartCubit>();
+
       if (cartCubit.cartId == null) {
         cartCubit.makecart();
-      } else if (cartCubit.cartId != null) {
+      } else {
         cartCubit.GetITem(cartCubit.cartId ?? "");
       }
     });
+
     // final signalRService = AppSignalRService(
     //   CacheHelper.getAccessToken() ?? "",
     // );
@@ -44,6 +47,7 @@ class MainScreenView extends StatelessWidget {
         builder: (context, currentIndex) {
           return Scaffold(
             body: IndexedStack(index: currentIndex, children: _screens),
+
             bottomNavigationBar: ConvexAppBar(
               style: TabStyle.reactCircle,
               backgroundColor: AppColors.primaryblue,
@@ -52,14 +56,15 @@ class MainScreenView extends StatelessWidget {
               curveSize: 90,
               height: 65,
               initialActiveIndex: currentIndex,
-              onTap: (index) =>
-                  context.read<NavigationCubit>().changeIndex(index),
               activeColor: Colors.white,
               gradient: LinearGradient(
                 colors: [AppColors.accentGreen, AppColors.primaryLightColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
+              onTap: (index) {
+                context.read<NavigationCubit>().changeIndex(index);
+              },
               items: const [
                 TabItem(icon: LineIcons.home, title: 'Home'),
                 TabItem(icon: LineIcons.boxOpen, title: 'Products'),
@@ -67,6 +72,31 @@ class MainScreenView extends StatelessWidget {
                 TabItem(icon: LineIcons.userAlt, title: 'Profile'),
               ],
             ),
+
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(right: 8, bottom: 12),
+              child: FloatingActionButton(
+                heroTag: "medical_assistant_fab",
+                backgroundColor: AppColors.accentGreen,
+                elevation: 8,
+                shape: const CircleBorder(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const MedicalAssistantScreen(),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  LineIcons.robot,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+            ),
+
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         },
       ),

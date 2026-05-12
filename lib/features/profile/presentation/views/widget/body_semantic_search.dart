@@ -3,14 +3,15 @@ import 'package:smartcare/features/profile/presentation/views/widget/item_list_v
 import 'package:smartcare/features/profile/presentation/views/widget/search_bar_semantic.dart';
 
 class BodySemanticSearch extends StatelessWidget {
-  const BodySemanticSearch();
+  const BodySemanticSearch({required this.initialQuery});
+  final String initialQuery;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
+      children:  [
         SizedBox(height: 12),
-        SearchBarSemantic(),
+        SearchBarSemantic(initialQuery: initialQuery,),
         SizedBox(height: 16),
         Expanded(child: ItemListViewSemantic()),
       ],

@@ -9,21 +9,30 @@ import 'package:smartcare/features/profile/presentation/Cubits/semanticsearch/se
 import 'package:smartcare/features/profile/presentation/views/widget/body_semantic_search.dart';
 
 class SemanticSearchScreen extends StatelessWidget {
-  const SemanticSearchScreen({super.key});
+  const SemanticSearchScreen({super.key, required this.initialQuery});
+  final String initialQuery;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SemanticsearchCubit(
-        searchRepositoy: SemanticSearchRepositoy(api: DioConsumer(Dio())),
-      ),
+      create: (context) {
+        final cubit = SemanticsearchCubit(
+          searchRepositoy: SemanticSearchRepositoy(api: DioConsumer(Dio())),
+        );
+
+        if (initialQuery.trim().isNotEmpty) {
+          cubit.getitems(initialQuery);
+        }
+
+        return cubit;
+      },
       child: Scaffold(
         appBar: AppThemes.customAppBar(
           title: 'Find Your Medicine',
           showBackButton: true,
         ),
         backgroundColor: const Color(0xFFF8F9EC),
-        body: const SafeArea(child: BodySemanticSearch()),
+        body: SafeArea(child: BodySemanticSearch(initialQuery: initialQuery)),
       ),
     );
   }

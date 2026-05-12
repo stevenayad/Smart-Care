@@ -13,13 +13,13 @@ class ProfileBody extends StatelessWidget {
       child: Column(
         children: [
           TopSection(),
-          AcationSection(),
+          //AcationSection(),
           Listener(
             behavior: HitTestBehavior.translucent,
             onPointerDown: (_) => print('pointer down on LastSection'),
             child: LastSection(),
           ),
-          LogoutButton(),
+          //LogoutButton(),
         ],
       ),
     );

@@ -38,20 +38,7 @@ class LastSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          buildNavagationtitle(
-            context,
-            ' Medical Assistant',
-            Icons.medical_services_outlined,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MedicalAssistantScreen(),
-                ),
-              );
-            },
-          ),
-          Divider(thickness: 0.5),
+     
           buildNavagationtitle(
             context,
             'Search Medicine',
@@ -59,7 +46,7 @@ class LastSection extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SemanticSearchScreen()),
+                MaterialPageRoute(builder: (context) => SemanticSearchScreen(initialQuery: '',)),
               );
             },
           ),

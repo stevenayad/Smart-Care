@@ -11,6 +11,7 @@ class NearestStoreFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: "nearest_store_fab",
       child: const Icon(Icons.location_searching),
       onPressed: () {
         _showLocationOptions(context);

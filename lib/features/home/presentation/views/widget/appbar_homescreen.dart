@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smartcare/core/app_color.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcare/features/cart/presentation/views/cart_screen.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/semanticsearch/semanticsearch_cubit.dart';
+import 'package:smartcare/features/profile/presentation/views/semantic_search_screen.dart';
 import 'package:smartcare/features/settings/presentation/views/setting_screen.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -9,8 +11,9 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final searchController = TextEditingController();
     return Container(
-      // color: theme.primaryColor,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -26,8 +29,21 @@ class HomeHeader extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  controller: searchController,
+                  onSubmitted: (value) {
+                    if (value.trim().isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SemanticSearchScreen(initialQuery: value.trim()),
+                        ),
+                      );
+                      searchController.clear();
+                    }
+                  },
                   decoration: InputDecoration(
-                    hintText: "Search",
+                    hintText: "Search for medicine",
                     hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: theme.colorScheme.surface,

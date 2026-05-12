@@ -9,6 +9,8 @@ import 'package:smartcare/features/home/presentation/cubits/company/company_cubi
     show CompanyCubit;
 import 'package:smartcare/features/home/presentation/cubits/best_seller/best_seller_cubit.dart';
 import 'package:smartcare/features/home/presentation/views/widget/home_body.dart';
+import 'package:smartcare/features/profile/data/repo/semantic_search_repositoy.dart';
+import 'package:smartcare/features/profile/presentation/Cubits/semanticsearch/semanticsearch_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,6 +35,13 @@ class HomeScreen extends StatelessWidget {
               BlocProvider<BestSellerCubit>(
                 create: (context) =>
                     BestSellerCubit(gategoryrepo)..fetchBestSeller(),
+              ),
+              BlocProvider(
+                create: (context) => SemanticsearchCubit(
+                  searchRepositoy: SemanticSearchRepositoy(
+                    api: DioConsumer(Dio()),
+                  ),
+                ),
               ),
             ],
             child: HomeBody(),
