@@ -40,24 +40,12 @@ void showPaymentSheet(BuildContext context, String orderId) {
     builder: (_) {
       return MultiBlocProvider(
         providers: [
+          BlocProvider.value(value: context.read<OrderCubit>()),
           BlocProvider(
             create: (_) => PaymentCubit(
               PaymentRepoImpl(apiConsumer: DioConsumer(Dio())),
               paymentService: PaymentService(
-                strategies: {
-                  0: StripePaymentStrategy(),
-                },
-              ),
-            ),
-          ),
-          BlocProvider(
-            create: (_) => OrderCubit(
-              OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
-              orderService: OrderService(
-                strategies: {
-                  0: ({addressId, storeId}) => DeliveryStrategy(addressId),
-                  1: ({addressId, storeId}) => PickupStrategy(storeId),
-                },
+                strategies: {0: StripePaymentStrategy()},
               ),
             ),
           ),

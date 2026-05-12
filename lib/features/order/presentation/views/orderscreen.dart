@@ -10,30 +10,38 @@ import 'package:smartcare/features/order/data/repo/order_repo_implementation.dar
 import 'package:smartcare/features/order/presentation/cubits/order/order_cubit.dart';
 import 'package:smartcare/features/order/presentation/views/widget/order_body.dart';
 
-class Orderscreen extends StatelessWidget {
+class Orderscreen extends StatefulWidget {
   const Orderscreen({super.key, required this.orderId});
   final String orderId;
+
+  @override
+  State<Orderscreen> createState() => _OrderscreenState();
+}
+
+class _OrderscreenState extends State<Orderscreen> {
+@override
+void initState() {
+  super.initState();
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (!mounted) return;
+
+    final cubit = context.read<OrderCubit>();
+
+    final currentOrderId =
+        cubit.state.orderDetails?.data?.id;
+
+    if (currentOrderId != widget.orderId) {
+      cubit.getorderdetails(widget.orderId);
+    }
+  });
+}
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final cubit = OrderCubit(
-          OrderRepoImplementation(apiConsumer: DioConsumer(Dio())),
-          orderService: OrderService(
-            strategies: {
-              0: ({addressId, storeId}) => DeliveryStrategy(addressId),
-              1: ({addressId, storeId}) => PickupStrategy(storeId),
-            },
-          ),
-        );
-        cubit.getorderdetails(orderId);
-
-        return cubit;
-      },
-      child: Scaffold(
-        appBar: AppThemes.customAppBar(title: 'Order', showBackButton: true),
-        body: OrderBody(orderid: orderId),
-      ),
+    return Scaffold(
+      appBar: AppThemes.customAppBar(title: 'Order', showBackButton: true),
+      body: OrderBody(orderid: widget.orderId),
     );
   }
 }

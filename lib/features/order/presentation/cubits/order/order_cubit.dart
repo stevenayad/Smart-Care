@@ -12,11 +12,10 @@ import 'package:smartcare/features/order/data/model/udateorder/udateorder.dart';
 import 'package:smartcare/features/order/data/orderstrategy/order_strategy_factory.dart';
 import 'package:smartcare/features/order/data/repo/orderrepo.dart';
 part 'order_state.dart';
+
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit(
-    this.orderrepo, {
-    required this.orderService,
-  }) : super(const OrderState());
+  OrderCubit(this.orderrepo, {required this.orderService})
+    : super(const OrderState());
 
   final OrderService orderService;
   final Orderrepo orderrepo;
@@ -45,10 +44,7 @@ class OrderCubit extends Cubit<OrderState> {
     required String addressId,
   }) {
     return createorder(
-      RequestCreateoreder(
-        cartId: cartId,
-        deliveryAddressId: addressId,
-      ),
+      RequestCreateoreder(cartId: cartId, deliveryAddressId: addressId),
     );
   }
 
@@ -56,12 +52,7 @@ class OrderCubit extends Cubit<OrderState> {
     required String cartId,
     required String storeId,
   }) {
-    return pickorder(
-      RequestPickup(
-        cartId: cartId,
-        storeId: storeId,
-      ),
-    );
+    return pickorder(RequestPickup(cartId: cartId, storeId: storeId));
   }
 
   Future<void> updateOrderFromSelection({
@@ -83,36 +74,26 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> pickorder(RequestPickup request) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        errmessage: null,
-      ),
-    );
+    emit(state.copyWith(isLoading: true, errmessage: null));
 
     final result = await orderrepo.pickuporder(request);
 
     result.fold(
       (failure) {
-        if (failure.outOfStocks != null &&
-            failure.outOfStocks!.isNotEmpty) {
+        if (failure.outOfStocks != null && failure.outOfStocks!.isNotEmpty) {
           emit(
-            state.copyWith(
-              isLoading: false,
-              outodstock: failure.outOfStocks,
-            ),
+            state.copyWith(isLoading: false, outodstock: failure.outOfStocks),
           );
         } else {
           emit(
-            state.copyWith(
-              isLoading: false,
-              errmessage: failure.errMessage,
-            ),
+            state.copyWith(isLoading: false, errmessage: failure.errMessage),
           );
         }
       },
       (model) {
-        orderid = model.data!.id;
+        if (model.data != null) {
+          orderid = model.data!.id;
+        }
 
         emit(
           state.copyWith(
@@ -127,26 +108,19 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> createorder(RequestCreateoreder request) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        errmessage: null,
-      ),
-    );
+    emit(state.copyWith(isLoading: true, errmessage: null));
 
     final result = await orderrepo.createorder(request);
 
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            errmessage: failure.errMessage,
-          ),
-        );
+        emit(state.copyWith(isLoading: false, errmessage: failure.errMessage));
       },
       (model) {
-        orderid = model.data!.id;
+        if (model.data != null) {
+          orderid = model.data!.id;
+          print('model.data!.id ${orderid}');
+        }
 
         emit(
           state.copyWith(
@@ -160,26 +134,18 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> updateorder(RequestUpdateOrder request) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        errmessage: null,
-      ),
-    );
+    emit(state.copyWith(isLoading: true, errmessage: null));
 
     final result = await orderrepo.updateorder(request);
 
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            errmessage: failure.errMessage,
-          ),
-        );
+        emit(state.copyWith(isLoading: false, errmessage: failure.errMessage));
       },
       (model) {
-        orderid = model.data!.id;
+        if (model.data != null) {
+          orderid = model.data!.id;
+        }
 
         emit(
           state.copyWith(
@@ -193,49 +159,42 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> getorderdetails(String id) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        errmessage: null,
-      ),
-    );
+    emit(state.copyWith(isLoading: true, errmessage: null));
 
     final result = await orderrepo.fetchOrderDetails(id);
 
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            errmessage: failure.errMessage,
-          ),
-        );
+        emit(state.copyWith(isLoading: false, errmessage: failure.errMessage));
       },
       (model) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            orderDetails: model,
-          ),
-        );
+        emit(state.copyWith(isLoading: false, orderDetails: model));
       },
     );
   }
 
   void resetorderid() {
+    print("========== RESET ORDER ==========");
+
+    print("OLD ORDER ID => $orderid");
+
     orderid = null;
 
-    emit(
-      state.copyWith(
-        hasActiveOrder: false,
-        pickupOrderModel: null,
-        createOrderModel: null,
-        updateordermodel: null,
-        orderDetails: null,
-        outodstock: null,
-        errmessage: null,
-        isLoading: false,
-      ),
-    );
+    emit(const OrderState());
+
+    print("NEW ORDER ID => $orderid");
+    print("STATE RESET DONE");
+    /*emit(
+    state.copyWith(
+      hasActiveOrder: false,
+      errmessage: null,
+      outodstock: null,
+      isLoading: false,
+      pickupOrderModel: state.pickupOrderModel,
+      createOrderModel: state.createOrderModel,
+      updateordermodel: state.updateordermodel,
+      orderDetails: state.orderDetails,
+    ),
+  );*/
   }
 }
