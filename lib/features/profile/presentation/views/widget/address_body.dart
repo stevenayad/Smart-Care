@@ -6,30 +6,17 @@ import 'package:smartcare/features/profile/presentation/blocs/Address%20Bloc/add
 import 'package:smartcare/features/profile/presentation/views/widget/address_button.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/address_list.dart';
 
-class AddressBody extends StatefulWidget {
+class AddressBody extends StatelessWidget {
   const AddressBody({super.key});
-
-  @override
-  State<AddressBody> createState() => _AddressBodyState();
-}
-
-class _AddressBodyState extends State<AddressBody> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AddressesBloc>().add(GetAddressesEvent());
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           const SizedBox(height: 8),
-          AddAddressButton(),
+          const AddAddressButton(),
           Expanded(
             child: BlocBuilder<AddressesBloc, AddressesState>(
               builder: (context, state) {

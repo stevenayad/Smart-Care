@@ -6,15 +6,10 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/api/services/app_signalr_services.dart';
 import 'package:smartcare/core/api/services/cache_helper.dart';
 import 'package:smartcare/core/app_theme.dart';
-import 'package:smartcare/core/token_storage.dart';
 import 'package:smartcare/features/app%20start/app_start_view.dart';
 import 'package:smartcare/features/auth/data/AuthRep/auth_repository.dart';
-import 'package:smartcare/features/home/data/Repo/detais_product_repo.dart';
-import 'package:smartcare/features/home/presentation/cubits/favourite/favourite_cubit.dart';
 import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
 import 'package:smartcare/features/auth/presentation/Manager/auth_cubit/authcubit_cubit.dart';
-import 'package:smartcare/features/auth/presentation/login/veiws/login_screen.dart'
-    show LoginScreen;
 import 'package:smartcare/features/cart/data/cartrepo.dart';
 import 'package:smartcare/features/cart/presentation/cubit/cart/cart_cubit.dart';
 import 'package:smartcare/features/cart/presentation/cubit/signalrcubit/cart_signalr_cubit.dart';
