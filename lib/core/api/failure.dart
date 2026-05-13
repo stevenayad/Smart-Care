@@ -6,100 +6,158 @@ import 'package:smartcare/features/order/data/model/pickup_order_model/outof_sto
 abstract class Failure {
   final String errMessage;
   final List<OutOfStock>? outOfStocks;
+
   const Failure(this.errMessage, this.outOfStocks);
 }
 
 class servivefailure extends Failure {
-  servivefailure(String errMessage, {List<OutOfStock>? outOfStocks})
-    : super(errMessage, outOfStocks);
+  servivefailure(
+    String errMessage, {
+    List<OutOfStock>? outOfStocks,
+  }) : super(errMessage, outOfStocks);
 
-  factory servivefailure.fromDioError(DioError dioerror) {
+  factory servivefailure.fromDioError(DioException dioerror) {
     switch (dioerror.type) {
       case DioExceptionType.connectionTimeout:
-        return servivefailure("Connection timeout With Apiserver");
+        return servivefailure(
+          "Connection timeout with API server",
+        );
+
       case DioExceptionType.sendTimeout:
-        return servivefailure("Send timeout With Apiserver");
+        return servivefailure(
+          "Send timeout with API server",
+        );
+
       case DioExceptionType.receiveTimeout:
-        return servivefailure("Recive timeout With Apiserver");
+        return servivefailure(
+          "Receive timeout with API server",
+        );
+
       case DioExceptionType.badCertificate:
-        return servivefailure("lk");
+        return servivefailure(
+          "Bad certificate error",
+        );
+
       case DioExceptionType.badResponse:
         return servivefailure.badResponse(
-          dioerror.response!.statusCode!,
-          dioerror.response!.data,
+          dioerror.response?.statusCode ?? 0,
+          dioerror.response?.data,
         );
+
       case DioExceptionType.cancel:
-        return servivefailure("Request with api server was cancled");
+        return servivefailure(
+          "Request was cancelled",
+        );
+
       case DioExceptionType.connectionError:
-        return servivefailure("Connection error");
+        return servivefailure(
+          "Connection error",
+        );
+
       case DioExceptionType.unknown:
-        if (dioerror.message!.contains("SocketException")) {
-          return servivefailure("No Internet Connection");
+        if (dioerror.message != null &&
+            dioerror.message!.contains("SocketException")) {
+          return servivefailure(
+            "No Internet Connection",
+          );
         }
-        return servivefailure("Un Expected error , please try again");
+
+        return servivefailure(
+          "Unexpected error, please try again",
+        );
 
       default:
-        return servivefailure("Opps error");
+        return servivefailure(
+          "Oops! Something went wrong",
+        );
     }
   }
 
-  factory servivefailure.badResponse(int statusCode, dynamic response) {
-  String errorMessage = "An unknown error occurred.";
-  List<OutOfStock>? outOfStocks;
+  factory servivefailure.badResponse(
+    int statusCode,
+    dynamic response,
+  ) {
+    String errorMessage = "An unknown error occurred.";
+    List<OutOfStock>? outOfStocks;
 
-  if (response is String) {
     try {
-      response = jsonDecode(response);
-    } catch (_) {}
-  }
-
-  if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-    if (response is Map<String, dynamic>) {
-
-   
-      if (response.containsKey('data') &&
-          response['data'] is Map<String, dynamic> &&
-          response['data'].containsKey('outOfStocks')) {
-        final stockData = response['data']['outOfStocks'];
-
-        if (stockData is List) {
-          outOfStocks =
-              stockData.map((e) => OutOfStock.fromJson(e)).toList();
-        }
+      if (response is String) {
+        response = jsonDecode(response);
       }
 
-      
-      if (response.containsKey('errorsBag') &&
-          response['errorsBag'] is Map<String, dynamic>) {
-        final errors = response['errorsBag'] as Map<String, dynamic>;
+      if (response is Map<String, dynamic>) {
+        // =========================
+        // Handle Out Of Stock
+        // =========================
+        final data = response['data'];
 
-        List<String> allErrors = [];
+        if (data is Map<String, dynamic>) {
+          final stockData = data['outOfStocks'];
 
-        errors.forEach((key, value) {
-          if (value is List) {
-            allErrors.addAll(value.map((e) => e.toString()));
+          if (stockData is List) {
+            outOfStocks = stockData
+                .map((e) => OutOfStock.fromJson(e))
+                .toList();
           }
-        });
+        }
 
-        if (allErrors.isNotEmpty) {
-          errorMessage = allErrors.join('\n');
+        // =========================
+        // Handle Validation Errors
+        // =========================
+        final errorsBag = response['errorsBag'];
+
+        if (errorsBag is Map<String, dynamic> &&
+            errorsBag.isNotEmpty) {
+          List<String> errors = [];
+
+          errorsBag.forEach((key, value) {
+            if (value is List) {
+              errors.addAll(
+                value.map((e) => e.toString()),
+              );
+            }
+          });
+
+          if (errors.isNotEmpty) {
+            errorMessage = errors.join('\n');
+          }
+        }
+
+        // =========================
+        // Handle Normal Message
+        // =========================
+        else if (response['message'] != null &&
+            response['message'].toString().isNotEmpty) {
+          errorMessage = response['message'].toString();
         }
       }
-    
-      else if (response.containsKey('message')) {
-        errorMessage = response['message'];
-      }
+    } catch (e) {
+      errorMessage = "Unexpected server error";
     }
 
-    return servivefailure(errorMessage, outOfStocks: outOfStocks);
-  }
+    switch (statusCode) {
+      case 400:
+      case 401:
+      case 403:
+        return servivefailure(
+          errorMessage,
+          outOfStocks: outOfStocks,
+        );
 
-  if (statusCode == 404) {
-    return servivefailure("Your request was not found, please try again.");
-  } else if (statusCode == 500) {
-    return servivefailure("Server Busy, please try again later.");
-  } else {
-    return servivefailure("Oops, something went wrong!");
+      case 404:
+        return servivefailure(
+          "Your request was not found, please try again.",
+        );
+
+      case 500:
+        return servivefailure(
+          "Server Busy, please try again later.",
+        );
+
+      default:
+        return servivefailure(
+          "Oops! Something went wrong.",
+        );
+    }
   }
-}
 }
