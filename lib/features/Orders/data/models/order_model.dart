@@ -12,6 +12,7 @@ class OrderModel {
   final AddressModel? address;
   final StoreModel? store; // <-- unified
   final double? totalPrice;
+  final double? deliveryFees;
   final int? status;
   final DateTime? createdAt;
   final List<OrderItemModel>? orderItems;
@@ -24,6 +25,7 @@ class OrderModel {
     this.address,
     this.store,
     this.totalPrice,
+    this.deliveryFees,
     this.status,
     this.createdAt,
     this.orderItems,
@@ -47,6 +49,9 @@ class OrderModel {
           : null,
       totalPrice: json['totalPrice'] != null
           ? (json['totalPrice'] as num).toDouble()
+          : null,
+      deliveryFees: json['deliveryFees'] != null
+          ? (json['deliveryFees'] as num).toDouble()
           : null,
       status: json['status'] is int
           ? json['status'] as int
@@ -77,6 +82,7 @@ class OrderModel {
       'address': address?.toJson(),
       'store': store?.toJson(),
       'totalPrice': totalPrice,
+      'deliveryFees': deliveryFees,
       'status': status,
       'createdAt': createdAt?.toIso8601String(),
       'orderItems': orderItems?.map((e) => e.toJson()).toList(),

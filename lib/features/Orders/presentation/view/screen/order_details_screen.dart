@@ -5,7 +5,9 @@ import 'package:smartcare/core/api/dio_consumer.dart';
 import 'package:smartcare/core/app_color.dart';
 import 'package:smartcare/core/app_theme.dart';
 import 'package:smartcare/features/Orders/data/repositories/order_repository_impl.dart';
+import 'package:smartcare/features/Orders/presentation/view/widget/delivery_price_widget.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/order_item_list.dart';
+import 'package:smartcare/features/Orders/presentation/view/widget/original_price_widget.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/section_title.dart';
 import 'package:smartcare/features/Orders/presentation/view/widget/store_details.dart';
 import '../../bloc/orders_bloc.dart';
@@ -76,7 +78,14 @@ class OrderDetailsScreen extends StatelessWidget {
                   const SectionTitle(title: "Items"),
                   OrderItemsList(order: order),
                   const SizedBox(height: 20),
-
+                  
+                  /// Delivery
+                  if (order.deliveryFees != null) ...[    
+                    OriginalPriceWidget(order: order),
+                    const SizedBox(height: 20),                
+                    DeliveryPriceWidget(order: order),
+                    const SizedBox(height: 20),
+                  ],
                   /// Total
                   OrderTotalWidget(order: order),
                   const SizedBox(height: 30),
