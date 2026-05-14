@@ -1,6 +1,5 @@
 import 'address..dart';
 import 'order_item..dart';
-
 class Data {
   String? id;
   String? clientId;
@@ -8,9 +7,11 @@ class Data {
   Address? address;
   dynamic store;
   double? totalPrice;
+  double? deliveryFees;
   int? status;
   DateTime? createdAt;
   List<OrderItem>? orderItems;
+ 
 
   Data({
     this.id,
@@ -19,38 +20,42 @@ class Data {
     this.address,
     this.store,
     this.totalPrice,
+    this.deliveryFees,
     this.status,
     this.createdAt,
     this.orderItems,
+  
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json['id'] as String?,
-    clientId: json['clientId'] as String?,
-    paymentId: json['paymentId'] as int?,
-    address: json['address'] == null
-        ? null
-        : Address.fromJson(json['address'] as Map<String, dynamic>),
-    store: json['store'] as dynamic,
-    totalPrice: (json['totalPrice'] as num?)?.toDouble(),
-    status: json['status'] as int?,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
-    orderItems: (json['orderItems'] as List<dynamic>?)
-        ?.map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
+        id: json['id'] as String?,
+        clientId: json['clientId'] as String?,
+        paymentId: json['paymentId'] as int?,
+        address: json['address'] == null
+            ? null
+            : Address.fromJson(json['address'] as Map<String, dynamic>),
+        store: json['store'],
+        totalPrice: (json['totalPrice'] as num?)?.toDouble(),
+        deliveryFees: (json['deliveryFees'] as num?)?.toDouble(),
+        status: json['status'] as int?,
+        createdAt: json['createdAt'] == null
+            ? null
+            : DateTime.parse(json['createdAt']),
+        orderItems: (json['orderItems'] as List<dynamic>?)
+            ?.map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'clientId': clientId,
-    'paymentId': paymentId,
-    'address': address?.toJson(),
-    'store': store,
-    'totalPrice': totalPrice,
-    'status': status,
-    'createdAt': createdAt?.toIso8601String(),
-    'orderItems': orderItems?.map((e) => e.toJson()).toList(),
-  };
+        'id': id,
+        'clientId': clientId,
+        'paymentId': paymentId,
+        'address': address?.toJson(),
+        'store': store,
+        'totalPrice': totalPrice,
+        'deliveryFees': deliveryFees,
+        'status': status,
+        'createdAt': createdAt?.toIso8601String(),
+        'orderItems': orderItems?.map((e) => e.toJson()).toList(),
+      };
 }
