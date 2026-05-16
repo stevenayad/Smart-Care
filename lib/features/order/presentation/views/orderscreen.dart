@@ -13,23 +13,11 @@ class Orderscreen extends StatefulWidget {
 }
 
 class _OrderscreenState extends State<Orderscreen> {
-@override
-void initState() {
-  super.initState();
-
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!mounted) return;
-
-    final cubit = context.read<OrderCubit>();
-
-    final currentOrderId =
-        cubit.state.orderDetails?.data?.id;
-
-    if (currentOrderId != widget.orderId) {
-      cubit.getorderdetails(widget.orderId);
-    }
-  });
-}
+  @override
+  void initState() {
+    super.initState();
+    context.read<OrderCubit>().getorderdetails(widget.orderId);
+  }
 
   @override
   Widget build(BuildContext context) {

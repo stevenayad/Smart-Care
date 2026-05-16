@@ -48,6 +48,15 @@ class DelvieryScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: BlocListener<OrderCubit, OrderState>(
+                      listenWhen: (previous, current) {
+                        final newPickup = previous.pickupOrderModel != current.pickupOrderModel && current.pickupOrderModel != null;
+                        final newCreate = previous.createOrderModel != current.createOrderModel && current.createOrderModel != null;
+                        final newUpdate = previous.updateordermodel != current.updateordermodel && current.updateordermodel != null;
+                        final newError = previous.errmessage != current.errmessage && current.errmessage != null;
+                        final newOutOfStock = previous.outodstock != current.outodstock && current.outodstock != null && current.outodstock!.isNotEmpty;
+                        
+                        return newPickup || newCreate || newUpdate || newError || newOutOfStock;
+                      },
                       listener: OrderUiHandler.handleOrderState,
                       child: const OrderActionButton(),
                     ),
