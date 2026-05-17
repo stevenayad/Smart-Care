@@ -74,7 +74,7 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> pickorder(RequestPickup request) async {
-    emit(state.copyWith(isLoading: true, errmessage: null));
+    emit(state.copyWith(isLoading: true, errmessage: null, clearModels: true));
 
     final result = await orderrepo.pickuporder(request);
 
@@ -108,7 +108,7 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> createorder(RequestCreateoreder request) async {
-    emit(state.copyWith(isLoading: true, errmessage: null));
+    emit(state.copyWith(isLoading: true, errmessage: null, clearModels: true));
 
     final result = await orderrepo.createorder(request);
 
@@ -134,7 +134,7 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> updateorder(RequestUpdateOrder request) async {
-    emit(state.copyWith(isLoading: true, errmessage: null));
+    emit(state.copyWith(isLoading: true, errmessage: null, clearModels: true));
 
     final result = await orderrepo.updateorder(request);
 
@@ -156,11 +156,15 @@ class OrderCubit extends Cubit<OrderState> {
         );
       },
     );
+    if (orderid != null) {
+      await getorderdetails(orderid ?? "");
+    }
   }
 
   Future<void> getorderdetails(String id) async {
-    emit(state.copyWith(isLoading: true, errmessage: null));
-
+    if (state.isLoading) return;
+    if (state.orderDetails?.data?.id == id) return;
+    emit(state.copyWith(isLoading: true, errmessage: null, clearModels: true));
     final result = await orderrepo.fetchOrderDetails(id);
 
     result.fold(
