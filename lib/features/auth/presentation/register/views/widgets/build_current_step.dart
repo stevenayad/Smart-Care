@@ -8,7 +8,7 @@ Widget buildCurrentStep(int step, RegisterCubit cubit, RegisterState state) {
   switch (step) {
     case 0:
       return Step1PersonalInfo(
-        formKey: GlobalKey<FormState>(), // Dummy key
+        formKey: cubit.formKeyStep1,
         profileImage: state.profileImage,
         onPickImage: cubit.pickImage,
         firstNameController: cubit.firstNameController,
@@ -19,7 +19,7 @@ Widget buildCurrentStep(int step, RegisterCubit cubit, RegisterState state) {
       );
     case 1:
       return Step2Details(
-        formKey: GlobalKey<FormState>(), // Dummy key
+        formKey: cubit.formKeyStep2,
         passwordController: cubit.passwordController,
         confirmPasswordController: cubit.confirmPasswordController,
         birthDateController: cubit.birthDateController,
@@ -29,7 +29,7 @@ Widget buildCurrentStep(int step, RegisterCubit cubit, RegisterState state) {
     case 2:
     default:
       return Step3Address(
-        formKey: GlobalKey<FormState>(), // Dummy key
+        formKey: cubit.formKeyStep3,
         addressController: cubit.addressController,
         addressLabelController: cubit.addressLabelController,
         latitudeController: cubit.latitudeController,
@@ -38,6 +38,8 @@ Widget buildCurrentStep(int step, RegisterCubit cubit, RegisterState state) {
         addressAdditionalInfoController: cubit.addressAdditionalInfoController,
         onPrimaryAddressChanged: (val) =>
             cubit.updatePrimaryAddress(val ?? true),
+        locationMethod: state.locationMethod,
+        onLocationMethodChanged: (val) => cubit.updateLocationMethod(val),
       );
   }
 }

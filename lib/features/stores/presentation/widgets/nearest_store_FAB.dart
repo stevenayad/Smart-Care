@@ -35,7 +35,7 @@ class NearestStoreFAB extends StatelessWidget {
                 title: const Text("Use My Current Location"),
                 onTap: () async {
                   Navigator.pop(context);
-                  final pos = await LocationService.getCurrentLocation();
+                  final pos = await LocationServiceGelcator.getCurrentLocation();
                   if (pos == null) return;
 
                   context.read<StoreBloc>().add(

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPickerScreen extends StatefulWidget {
-  const MapPickerScreen({super.key});
+  final LatLng? initialPosition;
+  const MapPickerScreen({super.key, this.initialPosition});
 
   @override
   State<MapPickerScreen> createState() => _MapPickerScreenState();
@@ -19,8 +20,8 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
       body: Stack(
         children: [
           GoogleMap(
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(30.0444, 31.2357),
+            initialCameraPosition: CameraPosition(
+              target: widget.initialPosition ?? const LatLng(30.0444, 31.2357),
               zoom: 14,
             ),
             onMapCreated: (controller) => mapController = controller,

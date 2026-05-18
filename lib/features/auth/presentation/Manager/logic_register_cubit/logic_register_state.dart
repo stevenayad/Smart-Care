@@ -7,6 +7,7 @@ class RegisterState {
   final bool isPrimaryAddress;
   final bool isLoading;
   final String? errorMessage;
+  final LocationMethod? locationMethod;
 
   RegisterState({
     this.currentStep = 0,
@@ -15,6 +16,7 @@ class RegisterState {
     this.isPrimaryAddress = true,
     this.isLoading = false,
     this.errorMessage,
+    this.locationMethod,
   });
 
   RegisterState copyWith({
@@ -24,7 +26,9 @@ class RegisterState {
     bool? isPrimaryAddress,
     bool? isLoading,
     String? errorMessage,
+    LocationMethod? locationMethod,
     bool clearErrorMessage = false,
+    bool clearLocationMethod = false,
   }) {
     return RegisterState(
       currentStep: currentStep ?? this.currentStep,
@@ -35,6 +39,9 @@ class RegisterState {
       errorMessage: clearErrorMessage
           ? null
           : (errorMessage ?? this.errorMessage),
+      locationMethod: clearLocationMethod
+          ? null
+          : (locationMethod ?? this.locationMethod),
     );
   }
 }

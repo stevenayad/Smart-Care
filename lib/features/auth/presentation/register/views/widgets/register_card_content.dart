@@ -23,6 +23,7 @@ class RegisterCardContent extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        debugPrint("RegisterCardContent build: state.locationMethod = ${state.locationMethod}");
         final cubit = context.read<RegisterCubit>();
         return RegisterFormLayout(
           state: state,
