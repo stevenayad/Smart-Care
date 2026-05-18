@@ -4,6 +4,7 @@ import 'package:smartcare/features/home/presentation/views/details_screen.dart';
 import 'package:smartcare/features/profile/data/Model/semantic_model/datum.dart'
     show SemanticDatum;
 import 'package:smartcare/features/profile/presentation/Cubits/semanticsearch/semanticsearch_cubit.dart';
+import 'package:smartcare/features/profile/presentation/views/widget/build_error_widget.dart';
 import 'package:smartcare/features/profile/presentation/views/widget/item_card_semantic.dart';
 
 class ItemListViewSemantic extends StatelessWidget {
@@ -54,10 +55,10 @@ class ItemListViewSemantic extends StatelessWidget {
           );
         }
         if (state is SemanticsearchFailure) {
-          return Center(child: Text(state.errMessage));
+           return buildErrorWidget(state.errMessage);
         }
         if (state is VoiceSemanticsearchFailure) {
-          return Center(child: Text(state.errMessage));
+          return buildErrorWidget(state.errMessage);
         }
         return Center(child: Text("Search something"));
       },

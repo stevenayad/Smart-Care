@@ -76,7 +76,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     state.medicalWarningResponse.data.isNotEmpty) {
                   final message = state.medicalWarningResponse.data
                       .map((e) {
-                        return "${e.ingredientA} + ${e.ingredientB}\n${e.reason}";
+                        return "${e.productName} + \n${e.reason}";
                       })
                       .join("\n\n");
                   showDialog(

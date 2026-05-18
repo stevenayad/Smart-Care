@@ -84,7 +84,7 @@ class HomeHeader extends StatelessWidget {
                 child: _iconCircle(context, Icons.shopping_cart_outlined),
               ),
               const SizedBox(width: 10),
-              GestureDetector(
+              /*GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -92,7 +92,7 @@ class HomeHeader extends StatelessWidget {
                   );
                 },
                 child: _iconCircle(context, Icons.settings),
-              ),
+              ),*/
             ],
           ),
 

@@ -22,6 +22,19 @@ class SemanticSearchRepositoy {
       final items = SemanticModel.fromJson(response);
       return Right(items);
     } on DioException catch (e) {
+      final data = e.response?.data;
+      
+      if (data != null &&
+          data["errorsBag"] != null &&
+          data["errorsBag"]["AiCoreValidation"] != null) {
+        final fullMessage = data["errorsBag"]["AiCoreValidation"][0].toString();
+
+        final cleanMessage = fullMessage.split(":").last.trim();
+
+        return Left(servivefailure(cleanMessage));
+      }
+
+ 
       return Left(servivefailure.fromDioError(e));
     } catch (e) {
       return Left(servivefailure("Unexpected error, please try again"));

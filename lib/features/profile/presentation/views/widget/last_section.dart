@@ -123,7 +123,7 @@ class LastSection extends StatelessWidget {
             },
           ),
           Divider(thickness: 0.5),
-          buildNavagationtitle(
+        /*buildNavagationtitle(
             context,
             'Settings',
             Icons.settings,
@@ -133,7 +133,7 @@ class LastSection extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => SettingScreen()),
               );
             },
-          ),
+          ),*/
         ],
       ),
     );
