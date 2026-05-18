@@ -15,6 +15,8 @@ class Step3Address extends StatelessWidget {
 
   final bool isPrimaryAddress;
   final ValueChanged<bool?> onPrimaryAddressChanged;
+  final LocationMethod? locationMethod;
+  final ValueChanged<LocationMethod?> onLocationMethodChanged;
 
   const Step3Address({
     super.key,
@@ -26,6 +28,8 @@ class Step3Address extends StatelessWidget {
     required this.isPrimaryAddress,
     required this.onPrimaryAddressChanged,
     required this.addressAdditionalInfoController,
+    required this.locationMethod,
+    required this.onLocationMethodChanged,
   });
 
   @override
@@ -69,6 +73,8 @@ class Step3Address extends StatelessWidget {
           LocationPickerRadio(
             latitudeController: latitudeController,
             longitudeController: longitudeController,
+            selectedMethod: locationMethod,
+            onMethodChanged: onLocationMethodChanged,
           ),
         ],
       ),

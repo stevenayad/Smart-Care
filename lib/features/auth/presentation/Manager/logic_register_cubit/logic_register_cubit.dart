@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smartcare/features/auth/presentation/Manager/request_bloc/request_bloc.dart';
+import 'package:smartcare/features/auth/presentation/register/views/widgets/location_picker_radio.dart';
 import 'package:smartcare/features/auth/presentation/register/views/widgets/register_validator.dart';
 
 part 'logic_register_state.dart';
@@ -38,6 +39,10 @@ class RegisterCubit extends Cubit<RegisterState> {
   final TextEditingController latitudeController = TextEditingController();
   final TextEditingController longitudeController = TextEditingController();
 
+  final formKeyStep1 = GlobalKey<FormState>();
+  final formKeyStep2 = GlobalKey<FormState>();
+  final formKeyStep3 = GlobalKey<FormState>();
+
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -65,6 +70,15 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void updatePrimaryAddress(bool isPrimary) {
     emit(state.copyWith(isPrimaryAddress: isPrimary));
+  }
+
+  void updateLocationMethod(LocationMethod? method) {
+    debugPrint("RegisterCubit updateLocationMethod called with: $method");
+    emit(state.copyWith(
+      locationMethod: method,
+      clearLocationMethod: method == null,
+    ));
+    debugPrint("RegisterCubit emitted state with locationMethod: ${state.locationMethod}");
   }
 
   void clearErrorMessage() {
